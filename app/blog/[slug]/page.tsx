@@ -7,8 +7,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { supabase, type BlogPost } from '@/lib/supabase'
 import { formatDate } from '@/lib/utils'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { renderMarkdown } from '@/lib/markdown'
 
 export const revalidate = 60
 
@@ -117,11 +116,10 @@ export default async function BlogPostPage({
 
         {/* Content */}
         <article className="max-w-3xl mx-auto px-6">
-          <div className="prose-dark">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {post.content}
-            </ReactMarkdown>
-          </div>
+          <div
+            className="prose-dark"
+            dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
+          />
         </article>
 
         {/* Footer nav */}
