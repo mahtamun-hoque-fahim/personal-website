@@ -175,6 +175,59 @@ Default password (set via `ADMIN_PASSWORD` env var): `fahim2024admin`
 
 ---
 
+## Deploy to Cloudflare Pages
+
+This project supports both **Vercel** (default) and **Cloudflare Pages** via [`@cloudflare/next-on-pages`](https://github.com/cloudflare/next-on-pages).
+
+### Setup in Cloudflare Dashboard
+
+1. Go to [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
+2. Select `mahtamun-hoque-fahim/personal-website`
+3. Set these build settings:
+
+| Setting | Value |
+|---------|-------|
+| Framework preset | `Next.js` |
+| Build command | `npx @cloudflare/next-on-pages` |
+| Build output directory | `.vercel/output/static` |
+| Node.js version | `20` |
+
+4. Add environment variables (same as Vercel):
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `ADMIN_PASSWORD`
+   - `CF_PAGES` = `1` *(enables Cloudflare-specific image config)*
+
+5. Click **Save and Deploy**
+
+### How it works
+
+- All pages export `export const runtime = 'edge'` — this tells Next.js to use Edge Runtime, which Cloudflare Workers supports natively
+- `wrangler.toml` configures the Cloudflare project name and compatibility flags
+- `CF_PAGES=1` disables Next.js image optimisation (Cloudflare doesn't have an image server, but you can add Cloudflare Images later)
+- Supabase works fine on Edge — it uses the `fetch` API, which Edge supports natively
+
+### Local preview with Wrangler
+
+```bash
+npm run build:cf       # builds with next-on-pages
+npm run preview:cf     # runs locally with Wrangler
+```
+
+### Vercel vs Cloudflare Pages — which to use?
+
+| | Vercel | Cloudflare Pages |
+|---|---|---|
+| Speed | Fast (Edge Network) | Very fast (300+ PoPs) |
+| Cold starts | ~0ms | ~0ms (Workers) |
+| Free tier | 100GB bandwidth | Unlimited requests |
+| Image optimisation | ✅ Built-in | ❌ Need Cloudflare Images add-on |
+| Best for | Default, easiest | Global speed, free bandwidth |
+
+Both work — you can have the same repo deploying to both simultaneously.
+
+---
+
 ## License
 
 Personal portfolio — all rights reserved.  

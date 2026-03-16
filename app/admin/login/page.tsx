@@ -1,3 +1,5 @@
+export const runtime = 'edge'
+
 import { loginAction } from '../actions'
 
 export default function LoginPage({

@@ -1,3 +1,5 @@
+export const runtime = 'edge'
+
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import PostEditor from '../PostEditor'
