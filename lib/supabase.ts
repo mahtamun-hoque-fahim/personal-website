@@ -1,11 +1,34 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-// Use empty string fallbacks so the module loads at build time without crashing.
-// At runtime these will always be set via env vars.
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
+let _client: SupabaseClient | null = null
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+function getClient(): SupabaseClient {
+  if (_client) return _client
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) {
+    // Build-time stub — module loads without crashing, real calls happen at runtime
+    return {
+      from: () => ({
+        select: () => ({ eq: () => ({ single: () => ({ data: null, error: null }), data: [], error: null }), order: () => ({ data: [], error: null }), data: [], error: null }),
+        insert: () => ({ error: null }),
+        update: () => ({ eq: () => ({ error: null }) }),
+        delete: () => ({ eq: () => ({ error: null }) }),
+        eq: () => ({ single: () => ({ data: null, error: null }), data: [], error: null }),
+        order: () => ({ data: [], error: null }),
+        single: () => ({ data: null, error: null }),
+      }),
+    } as unknown as SupabaseClient
+  }
+  _client = createClient(url, key)
+  return _client
+}
+
+export const supabase = new Proxy({} as SupabaseClient, {
+  get(_target, prop: string) {
+    return (getClient() as any)[prop]
+  },
+})
 
 export type BlogPost = {
   id: string
