@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getSupabase, type BlogPost } from '@/lib/supabase'
+import ProjectCard from '@/components/ProjectCard'
 
 const services = [
   { num: '01', title: 'Graphic Design', desc: 'Brand identities, print, visual systems — design that speaks before words do.' },
@@ -352,77 +353,7 @@ export default async function HomePage() {
                 repo: 'https://github.com/mahtamun-hoque-fahim/claudia',
               },
             ].map((project) => (
-              <div
-                key={project.name}
-                className="bg-[#0a0a0a] p-8 group hover:bg-[#0f0f0f] transition-colors duration-300 flex flex-col justify-between min-h-[280px]"
-              >
-                <div>
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <span
-                        className="text-[#2a2a2a] text-xs tracking-[0.15em] uppercase block mb-1 group-hover:text-[#00e676] transition-colors duration-300"
-                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
-                      >
-                        {project.type}
-                      </span>
-                      <h3
-                        className="text-2xl font-bold text-[#f0ede6]"
-                        style={{ fontFamily: "'Syne', sans-serif" }}
-                      >
-                        {project.name}
-                      </h3>
-                    </div>
-                  </div>
-                  <p
-                    className="text-[#00e676] text-sm mb-3 italic"
-                    style={{ fontFamily: "'Onest', sans-serif" }}
-                  >
-                    {project.tagline}
-                  </p>
-                  <p
-                    className="text-[#8a8a8a] text-sm leading-relaxed"
-                    style={{ fontFamily: "'Onest', sans-serif" }}
-                  >
-                    {project.desc}
-                  </p>
-                </div>
-
-                <div className="mt-6 pt-6 border-t border-[#1f1f1f]">
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-2 py-0.5 border border-[#1f1f1f] text-[#8a8a8a] rounded"
-                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-4">
-                    {project.live && (
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#00e676] text-sm hover:underline"
-                        style={{ fontFamily: "'Onest', sans-serif" }}
-                      >
-                        Live ↗
-                      </a>
-                    )}
-                    <a
-                      href={project.repo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#8a8a8a] text-sm hover:text-[#f0ede6] transition-colors"
-                      style={{ fontFamily: "'Onest', sans-serif" }}
-                    >
-                      GitHub →
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <ProjectCard key={project.name} project={project} />
             ))}
           </div>
         </section>
