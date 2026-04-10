@@ -67,16 +67,7 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
-            <a
-              href="https://mahtamundesigns.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm px-4 py-1.5 border border-[#00e676] text-[#00e676] rounded-full
-                         hover:bg-[#00e676] hover:text-black transition-all duration-200"
-              style={{ fontFamily: "'Onest', sans-serif" }}
-            >
-              Portfolio ↗
-            </a>
+
           </div>
 
           {/* Mobile hamburger */}
@@ -131,15 +122,7 @@ export default function Navbar() {
             {link.label}
           </Link>
         ))}
-        <a
-          href="https://mahtamundesigns.vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[#00e676] text-lg"
-          style={{ fontFamily: "'Onest', sans-serif" }}
-        >
-          Portfolio ↗
-        </a>
+
       </div>
     </>
   )
