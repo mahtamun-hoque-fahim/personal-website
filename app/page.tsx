@@ -27,7 +27,7 @@ export default async function HomePage() {
     .order('created_at', { ascending: false })
     .limit(3)
 
-  const recentPosts: BlogPost[] = posts ?? []
+  const recentPosts = (posts ?? []) as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'reading_time' | 'created_at'>[]
   return (
     <>
       <Navbar />
