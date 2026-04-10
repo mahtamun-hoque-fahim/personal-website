@@ -3,6 +3,7 @@ export const runtime = 'edge'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import { getSupabase, type BlogPost } from '@/lib/supabase'
 
 const services = [
   { num: '01', title: 'Graphic Design', desc: 'Brand identities, print, visual systems — design that speaks before words do.' },
@@ -17,7 +18,16 @@ const skills = [
 
 const ticker = [...skills, ...skills]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = getSupabase()
+  const { data: posts } = await supabase
+    .from('blog_posts')
+    .select('id, title, slug, excerpt, tags, reading_time, created_at')
+    .eq('published', true)
+    .order('created_at', { ascending: false })
+    .limit(3)
+
+  const recentPosts: BlogPost[] = posts ?? []
   return (
     <>
       <Navbar />
@@ -293,21 +303,90 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="border border-[#1f1f1f] rounded-xl p-8 text-center">
-            <p
-              className="text-[#8a8a8a] text-sm"
-              style={{ fontFamily: "'Onest', sans-serif" }}
-            >
-              Writing about design, process & building on the web — coming soon.
-            </p>
-            <Link
-              href="/blog"
-              className="inline-block mt-4 text-[#00e676] text-sm hover:underline"
-              style={{ fontFamily: "'Onest', sans-serif" }}
-            >
-              Visit the blog →
-            </Link>
-          </div>
+          {recentPosts.length === 0 ? (
+            <div className="border border-[#1f1f1f] rounded-xl p-16 text-center">
+              <p
+                className="text-[#8a8a8a] text-sm"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
+                Writing about design, process & building on the web — coming soon.
+              </p>
+              <Link
+                href="/blog"
+                className="inline-block mt-4 text-[#00e676] text-sm hover:underline"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
+                Visit the blog →
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1f1f1f]">
+              {recentPosts.map((post, i) => (
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className="bg-[#0a0a0a] p-8 flex flex-col justify-between group hover:bg-[#0f0f0f] transition-colors duration-300 min-h-[260px]"
+                >
+                  <div>
+                    {post.tags?.length > 0 && (
+                      <span
+                        className="text-[#00e676] text-xs tracking-[0.15em] uppercase mb-4 block"
+                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                      >
+                        {post.tags[0]}
+                      </span>
+                    )}
+                    <h3
+                      className="text-lg font-semibold text-[#f0ede6] mb-3 leading-snug group-hover:text-[#00e676] transition-colors duration-300"
+                      style={{ fontFamily: "'Syne', sans-serif" }}
+                    >
+                      {post.title}
+                    </h3>
+                    {post.excerpt && (
+                      <p
+                        className="text-[#8a8a8a] text-sm leading-relaxed line-clamp-3"
+                        style={{ fontFamily: "'Onest', sans-serif" }}
+                      >
+                        {post.excerpt}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#1f1f1f]">
+                    <span
+                      className="text-[#2a2a2a] text-xs"
+                      style={{ fontFamily: "'Onest', sans-serif" }}
+                    >
+                      {new Date(post.created_at).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </span>
+                    <span
+                      className="text-[#2a2a2a] text-xs"
+                      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    >
+                      {post.reading_time} min
+                    </span>
+                  </div>
+                </Link>
+              ))}
+              {/* Fill remaining slots to keep grid full when < 3 posts */}
+              {recentPosts.length < 3 && Array.from({ length: 3 - recentPosts.length }).map((_, i) => (
+                <div
+                  key={`empty-${i}`}
+                  className="bg-[#0a0a0a] p-8 min-h-[260px] flex items-center justify-center"
+                >
+                  <span
+                    className="text-[#1f1f1f] text-xs tracking-widest uppercase"
+                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  >
+                    more coming
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* ── CTA ── */}
