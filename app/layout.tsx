@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://fahim.dev',
+    url: 'https://mahtamunhoquefahim.pages.dev',
     siteName: 'Mahtamun Hoque Fahim',
     title: 'Mahtamun Hoque Fahim — Designer & Developer',
     description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
@@ -46,6 +46,25 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontFamily: "'Onest', sans-serif" }}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Mahtamun Hoque Fahim',
+              url: 'https://mahtamunhoquefahim.pages.dev',
+              jobTitle: 'Graphic Designer & Full-Stack Developer',
+              description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
+              nationality: 'Bangladeshi',
+              sameAs: [
+                'https://github.com/mahtamun-hoque-fahim',
+                'https://linkedin.com/in/mahtamun-hoque-fahim',
+              ],
+              knowsAbout: ['Graphic Design', 'UI/UX Design', 'Next.js', 'React', 'TypeScript', 'Brand Identity'],
+            }),
+          }}
+        />
         {children}
       </body>
     </html>
