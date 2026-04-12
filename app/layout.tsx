@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
   },
   verification: {
-    google: 'googlebbc855cc658d6673',
+    google: '8PIgBrmXnVMSgvDYawTHZ__GpsAuaihf-ZrNx2hfMoA',
   },
 }
 
