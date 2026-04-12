@@ -3,7 +3,7 @@ export const runtime = 'edge'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { supabase } from '@/lib/supabase'
-import { formatDate } from '@/lib/utils'
+import { formatDateTime } from '@/lib/utils'
 import MarkReadButton from './MarkReadButton'
 
 const ADMIN_COOKIE = 'fahim_admin_session'
@@ -15,6 +15,7 @@ type Message = {
   subject: string
   message: string
   read: boolean
+  country: string | null
   created_at: string
 }
 
@@ -85,12 +86,30 @@ export default async function AdminMessagesPage() {
                     >
                       {msg.email}
                     </a>
-                    <span
-                      className="text-[#2a2a2a] text-xs ml-auto"
-                      style={{ fontFamily: "'JetBrains Mono', monospace" }}
-                    >
-                      {formatDate(msg.created_at)}
-                    </span>
+                    <div className="ml-auto flex items-center gap-3">
+                      {msg.country && (
+                        <span
+                          className="text-xs px-2 py-0.5 border border-[#1f1f1f] text-[#8a8a8a] rounded"
+                          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                        >
+                          📍 {msg.country}
+                        </span>
+                      )}
+                      <div className="text-right">
+                        <p
+                          className="text-[#2a2a2a] text-xs"
+                          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                        >
+                          {formatDateTime(msg.created_at).date}
+                        </p>
+                        <p
+                          className="text-[#2a2a2a] text-xs"
+                          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                        >
+                          {formatDateTime(msg.created_at).time}
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
                   {msg.subject && (

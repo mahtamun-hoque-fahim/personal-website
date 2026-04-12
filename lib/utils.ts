@@ -14,6 +14,22 @@ export function formatDate(dateString: string): string {
   })
 }
 
+export function formatDateTime(dateString: string): { date: string; time: string } {
+  const date = new Date(dateString)
+  return {
+    date: date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }),
+    time: date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    }),
+  }
+}
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()

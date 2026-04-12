@@ -19,11 +19,22 @@ export default function ContactForm() {
     setError('')
     setState('loading')
 
+    // Fetch country from IP
+    let country: string | null = null
+    try {
+      const geo = await fetch('https://ipapi.co/json/')
+      const geoData = await geo.json()
+      country = geoData.country_name ?? null
+    } catch {
+      // silently fail — country is optional
+    }
+
     const { error: dbError } = await supabase.from('contact_messages').insert({
       name: form.name,
       email: form.email,
       subject: form.subject,
       message: form.message,
+      ...(country ? { country } : {}),
     })
 
     if (dbError) {
