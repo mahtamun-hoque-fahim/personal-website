@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     title: 'Mahtamun Hoque Fahim',
     description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
   },
+  verification: {
+    google: 'googlebbc855cc658d6673',
+  },
 }
 
 export default function RootLayout({
