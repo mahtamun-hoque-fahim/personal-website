@@ -120,31 +120,70 @@ body::before {
   text-underline-offset: 3px;
 }
 
-.prose-dark code {
-  background: var(--surface);
-  border: 1px solid var(--border);
+.prose-dark code,
+.prose-dark .hl-inline {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
   border-radius: 4px;
-  padding: 0.1em 0.4em;
-  font-family: var(--font-jetbrains);
-  font-size: 0.875em;
-  color: var(--accent);
+  padding: 0.15em 0.45em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82em;
+  color: #00e676;
+  font-style: normal;
+  font-weight: normal;
 }
 
-.prose-dark pre {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.25rem;
-  overflow-x: auto;
-  margin-bottom: 1.25rem;
+.prose-dark pre,
+.prose-dark .hl-pre {
+  position: relative;
+  background: #0f0f0f;
+  border: 1px solid #222;
+  border-radius: 10px;
+  padding: 1.25rem 1.25rem 1.25rem 1.25rem;
+  margin: 1.5rem 0;
+  overflow-x: hidden;
 }
 
-.prose-dark pre code {
+.prose-dark pre code,
+.prose-dark .hl-pre .hl-code {
   background: none;
   border: none;
   padding: 0;
   color: #c8c4bc;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  font-style: normal;
+  font-weight: normal;
+  display: block;
 }
+
+/* Language label badge */
+.prose-dark .hl-lang-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Syntax highlight tokens ── */
+.hl-keyword  { color: #c792ea; }
+.hl-string   { color: #c3e88d; }
+.hl-number   { color: #f78c6c; }
+.hl-comment  { color: #546e7a; font-style: italic; }
+.hl-function { color: #82aaff; }
+.hl-variable { color: #f07178; }
+.hl-tag      { color: #89ddff; }
+.hl-tag-name { color: #f07178; }
+.hl-attr     { color: #ffcb6b; }
+.hl-property { color: #80cbc4; }
+.hl-selector { color: #c792ea; }
 
 .prose-dark blockquote {
   border-left: 3px solid var(--accent);
