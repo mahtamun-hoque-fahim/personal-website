@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase, type BlogPost } from '@/lib/supabase'
 import { slugify, estimateReadingTime } from '@/lib/utils'
+import { renderMarkdown } from '@/lib/markdown'
 
 type Props = {
   post?: BlogPost
@@ -191,7 +192,7 @@ export default function PostEditor({ post }: Props) {
         ) : (
           <div
             className="min-h-[480px] bg-[#141414] border border-[#1f1f1f] rounded-lg p-6 prose-dark"
-            dangerouslySetInnerHTML={{ __html: content || '<p style="color:#2a2a2a">Nothing to preview yet.</p>' }}
+            dangerouslySetInnerHTML={{ __html: content ? renderMarkdown(content) : '<p style="color:#2a2a2a">Nothing to preview yet.</p>' }}
           />
         )}
       </div>
