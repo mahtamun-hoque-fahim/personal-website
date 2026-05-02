@@ -43,6 +43,28 @@ export function renderMarkdown(md: string): string {
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
   html = html.replace(/\*(.+?)\*/g, '<em>$1</em>')
 
+  // Tables — GFM pipe tables
+  html = html.replace(/(^\|.+\|\s*\n)+/gm, (block) => {
+    const rows = block.trim().split('\n')
+    if (rows.length < 2) return block
+
+    const isSeparator = (row: string) => /^\|\s*[-:]+[-| :]*\|\s*$/.test(row)
+    if (!isSeparator(rows[1])) return block
+
+    const parseRow = (row: string) =>
+      row.replace(/^\|/, '').replace(/\|$/, '').split('|').map((cell) => cell.trim())
+
+    const headers = parseRow(rows[0])
+    const dataRows = rows.slice(2)
+
+    const thead = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join('')}</tr></thead>`
+    const tbody = `<tbody>${dataRows
+      .map((row) => `<tr>${parseRow(row).map((cell) => `<td>${cell}</td>`).join('')}</tr>`)
+      .join('')}</tbody>`
+
+    return `<table>${thead}${tbody}</table>\n`
+  })
+
   // Unordered lists — group consecutive - lines
   html = html.replace(/(^- .+(\n|$))+/gm, (block) => {
     const items = block
@@ -64,7 +86,7 @@ export function renderMarkdown(md: string): string {
   })
 
   // Paragraphs — wrap lines that aren't already wrapped in a block tag
-  const blockTags = /^<(h[1-6]|ul|ol|li|pre|blockquote|hr|img)/
+  const blockTags = /^<(h[1-6]|ul|ol|li|pre|blockquote|hr|img|table)/
   html = html
     .split('\n\n')
     .map((block) => {

@@ -182,3 +182,42 @@ body::before {
   color: var(--text);
   font-weight: 600;
 }
+
+.prose-dark table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  overflow-x: auto;
+  display: block;
+}
+
+.prose-dark th {
+  background: #1a1a1a;
+  color: #00e676;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.625rem 1rem;
+  border: 1px solid #2a2a2a;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.prose-dark td {
+  padding: 0.625rem 1rem;
+  border: 1px solid #1f1f1f;
+  color: #c0bdb6;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.prose-dark tr:nth-child(even) td {
+  background: #111111;
+}
+
+.prose-dark tr:hover td {
+  background: #161616;
+}
