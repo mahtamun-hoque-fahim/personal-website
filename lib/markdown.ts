@@ -93,7 +93,7 @@ export function renderMarkdown(md: string): string {
       ? `<span class="hl-lang-label">${language}</span>`
       : ''
 
-    const block = `<pre class="hl-pre" data-lang="${language}">${label}<code class="hl-code">${highlighted}</code></pre>`
+    const block = `<pre class="hl-pre" data-lang="${language}">${label}<button class="hl-copy-btn" aria-label="Copy code">Copy</button><code class="hl-code">${highlighted}</code></pre>`
     codeBlocks.push(block)
     return `\x00CODE${codeBlocks.length - 1}\x00`
   })

@@ -161,6 +161,36 @@ body::before {
   display: block;
 }
 
+/* Copy button */
+.prose-dark .hl-copy-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  border-radius: 5px;
+  color: #555;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  line-height: 1.4;
+}
+
+.prose-dark .hl-copy-btn:hover {
+  color: #00e676;
+  border-color: #00e676;
+  background: #0f1f17;
+}
+
+.prose-dark .hl-copy-btn--copied {
+  color: #00e676;
+  border-color: #00e676;
+  background: #0f1f17;
+}
+
 /* Language label badge */
 .prose-dark .hl-lang-label {
   display: block;

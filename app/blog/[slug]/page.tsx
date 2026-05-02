@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { supabase, type BlogPost } from '@/lib/supabase'
 import { formatDate } from '@/lib/utils'
 import { renderMarkdown } from '@/lib/markdown'
+import CopyCodeInit from '@/components/CopyCodeInit'
 
 export const revalidate = 60
 
@@ -116,6 +117,7 @@ export default async function BlogPostPage({
 
         {/* Content */}
         <article className="max-w-3xl mx-auto px-6">
+          <CopyCodeInit />
           <div
             className="prose-dark"
             dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
