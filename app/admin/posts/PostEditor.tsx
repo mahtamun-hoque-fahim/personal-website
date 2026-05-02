@@ -191,11 +191,13 @@ export default function PostEditor({ post }: Props) {
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           />
         ) : (
-          <div
-            className="min-h-[480px] bg-[#141414] border border-[#1f1f1f] rounded-lg p-6 prose-dark"
-            dangerouslySetInnerHTML={{ __html: content ? renderMarkdown(content) : '<p style="color:#2a2a2a">Nothing to preview yet.</p>' }}
-          />
-          <CopyCodeInit />
+          <>
+            <div
+              className="min-h-[480px] bg-[#141414] border border-[#1f1f1f] rounded-lg p-6 prose-dark"
+              dangerouslySetInnerHTML={{ __html: content ? renderMarkdown(content) : '<p style="color:#2a2a2a">Nothing to preview yet.</p>' }}
+            />
+            <CopyCodeInit />
+          </>
         )}
       </div>
 
