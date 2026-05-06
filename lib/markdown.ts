@@ -14,66 +14,106 @@ function escapeHtml(str: string): string {
 function highlightCode(code: string, lang: string): string {
   const escaped = escapeHtml(code)
 
+  // ── Placeholder-based highlighter ─────────────────────────────────────────
+  // Stash strings + comments FIRST so keyword/number/function regexes never
+  // match text that lives inside a string literal or comment.
+  const tokens: string[] = []
+  const stash = (span: string): string => {
+    tokens.push(span)
+    return `\x01T${tokens.length - 1}\x01`
+  }
+  const restore = (s: string) =>
+    s.replace(/\x01T(\d+)\x01/g, (_, i) => tokens[+i])
+
   const JS_KEYWORDS = /\b(const|let|var|function|return|if|else|for|while|do|switch|case|break|continue|new|this|typeof|instanceof|import|export|default|from|class|extends|async|await|try|catch|finally|throw|in|of|true|false|null|undefined|void|delete|yield|static|get|set|super|type|interface|enum|as|declare|namespace|module|require)\b/g
-  const PY_KEYWORDS  = /\b(def|class|return|if|elif|else|for|while|in|not|and|or|import|from|as|with|try|except|finally|raise|pass|break|continue|lambda|yield|global|nonlocal|del|assert|True|False|None|print|len|range|self|super)\b/g
-  const CSS_KEYWORDS = /\b(px|em|rem|vh|vw|%|auto|none|flex|grid|block|inline|absolute|relative|fixed|sticky|center|left|right|top|bottom|bold|normal|hidden|visible|solid|dashed|dotted|transparent|inherit|initial|unset)\b/g
+  const PY_KEYWORDS = /\b(def|class|return|if|elif|else|for|while|in|not|and|or|import|from|as|with|try|except|finally|raise|pass|break|continue|lambda|yield|global|nonlocal|del|assert|True|False|None|print|len|range|self|super)\b/g
+  const BASH_CMDS   = /\b(echo|cd|ls|mkdir|rm|mv|cp|git|npm|npx|pnpm|yarn|node|curl|wget|chmod|sudo|export|source|cat|grep|find|sed|awk|touch)\b/g
 
-  const STRING  = /(["'`])((?:\\.|(?!\1)[^\\])*)\1/g
-  const COMMENT_LINE = /(\/\/[^\n]*|#[^\n]*)/g
-  const COMMENT_BLOCK = /(\/\*[\s\S]*?\*\/)/g
-  const NUMBER  = /\b(\d+\.?\d*)\b/g
-  const FUNC    = /\b([a-zA-Z_$][\w$]*)\s*(?=\()/g
-  const CSS_PROP = /^(\s*)([\w-]+)(\s*:)/gm
-  const CSS_SEL  = /^([.#]?[\w-]+(?:\s*[,>+~]\s*[\w.#-]+)*)\s*\{/gm
-  const HTML_TAG = /(&lt;\/?)([\w-]+)((?:\s+[\w:-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*))?)*\s*\/?)(&gt;)/g
+  const STRING_DQ  = /"(?:\\.|[^"\\])*"/g
+  const STRING_SQ  = /'(?:\\.|[^'\\])*'/g
+  const STRING_BT  = /`(?:\\.|[^`\\])*`/g
+  const COMMENT_BL = /\/\*[\s\S]*?\*\//g
+  const COMMENT_LN = /\/\/[^\n]*/g
+  const HASH_CMT   = /#[^\n]*/g
+  const NUMBER     = /\b\d+\.?\d*\b/g
+  const FUNC       = /\b([a-zA-Z_$][\w$]*)\s*(?=\()/g
+  const HTML_TAG   = /(&lt;\/?)([\w-]+)((?:\s+[\w:-]+(?:\s*=\s*(?:&quot;[^&]*&quot;|'[^']*'|[^\s&>]*))?)*\s*\/?)(&gt;)/g
 
+  // ── HTML / XML ─────────────────────────────────────────────────────────────
   if (lang === 'html' || lang === 'xml' || lang === 'jsx' || lang === 'tsx') {
     return escaped
+      .replace(COMMENT_BL, (m) => stash(`<span class="hl-comment">${m}</span>`))
       .replace(HTML_TAG, (_, open, tag, attrs, close) =>
         `<span class="hl-tag">${open}<span class="hl-tag-name">${tag}</span>${attrs
-          .replace(/([\w:-]+)(\s*=\s*)(["'][^"']*["'])/g,
+          .replace(/([\w:-]+)(\s*=\s*)(&quot;[^&]*&quot;|'[^']*')/g,
             (_: string, attr: string, eq: string, val: string) =>
               `<span class="hl-attr">${attr}</span>${eq}<span class="hl-string">${val}</span>`)
         }${close}</span>`)
-      .replace(COMMENT_BLOCK, '<span class="hl-comment">$1</span>')
+      .replace(/\x01T(\d+)\x01/g, (_, i) => tokens[+i])
   }
 
+  // ── CSS / SCSS ─────────────────────────────────────────────────────────────
   if (lang === 'css' || lang === 'scss') {
-    return escaped
-      .replace(COMMENT_BLOCK, '<span class="hl-comment">$1</span>')
-      .replace(CSS_SEL, (m, sel) => `<span class="hl-selector">${m}</span>`)
-      .replace(CSS_PROP, (_, ws, prop, colon) => `${ws}<span class="hl-property">${prop}</span>${colon}`)
-      .replace(STRING, '<span class="hl-string">$1$2$1</span>')
-      .replace(NUMBER, '<span class="hl-number">$1</span>')
-      .replace(CSS_KEYWORDS, '<span class="hl-keyword">$&</span>')
+    let s = escaped
+    s = s.replace(COMMENT_BL, (m) => stash(`<span class="hl-comment">${m}</span>`))
+    s = s.replace(STRING_DQ, (m) => stash(`<span class="hl-string">${m}</span>`))
+    s = s.replace(STRING_SQ, (m) => stash(`<span class="hl-string">${m}</span>`))
+    s = s.replace(/^([.#:]?[\w-]+(?:\s*[,>+~]\s*[\w.#:-]+)*)\s*\{/gm,
+      (m) => stash(`<span class="hl-selector">${m}</span>`))
+    s = s.replace(/^(\s*)([\w-]+)(\s*:)/gm,
+      (_, ws, prop, colon) => `${ws}${stash(`<span class="hl-property">${prop}</span>`)}${colon}`)
+    s = s.replace(NUMBER, (m) => stash(`<span class="hl-number">${m}</span>`))
+    return restore(s)
   }
 
+  // ── Python ─────────────────────────────────────────────────────────────────
   if (lang === 'python' || lang === 'py') {
-    return escaped
-      .replace(COMMENT_LINE, '<span class="hl-comment">$1</span>')
-      .replace(STRING, '<span class="hl-string">$1$2$1</span>')
-      .replace(PY_KEYWORDS, '<span class="hl-keyword">$&</span>')
-      .replace(FUNC, '<span class="hl-function">$1</span>')
-      .replace(NUMBER, '<span class="hl-number">$1</span>')
+    let s = escaped
+    s = s.replace(HASH_CMT,  (m) => stash(`<span class="hl-comment">${m}</span>`))
+    s = s.replace(STRING_DQ, (m) => stash(`<span class="hl-string">${m}</span>`))
+    s = s.replace(STRING_SQ, (m) => stash(`<span class="hl-string">${m}</span>`))
+    s = s.replace(PY_KEYWORDS, (m) => stash(`<span class="hl-keyword">${m}</span>`))
+    s = s.replace(FUNC, (_, fn) => stash(`<span class="hl-function">${fn}</span>`) + '(')
+    s = s.replace(NUMBER, (m) => stash(`<span class="hl-number">${m}</span>`))
+    return restore(s)
   }
 
+  // ── Bash / Shell ───────────────────────────────────────────────────────────
   if (lang === 'bash' || lang === 'sh' || lang === 'shell' || lang === 'zsh') {
-    return escaped
-      .replace(COMMENT_LINE, '<span class="hl-comment">$1</span>')
-      .replace(STRING, '<span class="hl-string">$1$2$1</span>')
-      .replace(/\b(echo|cd|ls|mkdir|rm|mv|cp|git|npm|npx|pnpm|yarn|node|curl|wget|chmod|sudo|export|source|cat|grep|find|sed|awk|touch)\b/g,
-        '<span class="hl-keyword">$&</span>')
-      .replace(/(\$[\w{][^}\s]*)/g, '<span class="hl-variable">$1</span>')
+    let s = escaped
+    s = s.replace(HASH_CMT,  (m) => stash(`<span class="hl-comment">${m}</span>`))
+    s = s.replace(STRING_DQ, (m) => stash(`<span class="hl-string">${m}</span>`))
+    s = s.replace(STRING_SQ, (m) => stash(`<span class="hl-string">${m}</span>`))
+    s = s.replace(BASH_CMDS, (m) => stash(`<span class="hl-keyword">${m}</span>`))
+    s = s.replace(/\$[\w{][^}\s]*/g, (m) => stash(`<span class="hl-variable">${m}</span>`))
+    return restore(s)
   }
 
-  // JS / TS / default
-  return escaped
-    .replace(COMMENT_BLOCK, '<span class="hl-comment">$1</span>')
-    .replace(COMMENT_LINE, '<span class="hl-comment">$1</span>')
-    .replace(STRING, '<span class="hl-string">$1$2$1</span>')
-    .replace(JS_KEYWORDS, '<span class="hl-keyword">$&</span>')
-    .replace(FUNC, '<span class="hl-function">$1</span>')
-    .replace(NUMBER, '<span class="hl-number">$1</span>')
+  // ── JSON ───────────────────────────────────────────────────────────────────
+  if (lang === 'json') {
+    let s = escaped
+    // Keys: "key":
+    s = s.replace(/"([^"\\]|\\.)*"(?=\s*:)/g,
+      (m) => stash(`<span class="hl-property">${m}</span>`))
+    // String values
+    s = s.replace(STRING_DQ, (m) => stash(`<span class="hl-string">${m}</span>`))
+    s = s.replace(/\b(true|false|null)\b/g, (m) => stash(`<span class="hl-keyword">${m}</span>`))
+    s = s.replace(NUMBER, (m) => stash(`<span class="hl-number">${m}</span>`))
+    return restore(s)
+  }
+
+  // ── JS / TS (default) ─────────────────────────────────────────────────────
+  let s = escaped
+  s = s.replace(COMMENT_BL, (m) => stash(`<span class="hl-comment">${m}</span>`))
+  s = s.replace(COMMENT_LN, (m) => stash(`<span class="hl-comment">${m}</span>`))
+  s = s.replace(STRING_DQ,  (m) => stash(`<span class="hl-string">${m}</span>`))
+  s = s.replace(STRING_SQ,  (m) => stash(`<span class="hl-string">${m}</span>`))
+  s = s.replace(STRING_BT,  (m) => stash(`<span class="hl-string">${m}</span>`))
+  // Now run keyword / func / number — strings are safely stashed
+  s = s.replace(JS_KEYWORDS, (m) => stash(`<span class="hl-keyword">${m}</span>`))
+  s = s.replace(FUNC, (_, fn) => stash(`<span class="hl-function">${fn}</span>`) + '(')
+  s = s.replace(NUMBER, (m) => stash(`<span class="hl-number">${m}</span>`))
+  return restore(s)
 }
 
 // ── Main renderer ────────────────────────────────────────────────────────────
