@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
+    "@paralleldrive/cuid2": "^3.3.0",
+    "@react-email/render": "^2.0.8",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.39.0",
     "@uiw/react-md-editor": "^4.0.4",
@@ -19,6 +21,8 @@
     "better-auth": "^1.6.11",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "drizzle-kit": "^0.31.10",
+    "drizzle-orm": "^0.45.2",
     "framer-motion": "^11.18.2",
     "lucide-react": "^0.344.0",
     "next": "14.2.29",

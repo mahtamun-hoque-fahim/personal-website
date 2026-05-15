@@ -1,13 +1,10 @@
 import { betterAuth } from "better-auth"
-import { neonAdapter } from "better-auth/adapters/neon"
-import { neon } from "@neondatabase/serverless"
+import { drizzleAdapter } from "better-auth/adapters/drizzle"
+import { db } from "@/lib/drizzle/db"
 import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/email"
 
-// Initialize Neon client
-const client = neon(process.env.DATABASE_URL!)
-
 export const auth = betterAuth({
-  database: neonAdapter(client),
+  database: drizzleAdapter(db),
   secret: process.env.BETTER_AUTH_SECRET,
   basePath: "/api/auth",
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
