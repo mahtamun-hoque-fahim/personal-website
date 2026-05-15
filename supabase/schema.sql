@@ -35,6 +35,24 @@ create table if not exists public.contact_messages (
 
 create index if not exists contact_messages_read_idx on public.contact_messages (read, created_at desc);
 
+-- ── Projects ────────────────────────────────────────────────
+create table if not exists public.projects (
+  id            uuid primary key default gen_random_uuid(),
+  name          text not null unique,
+  tagline       text not null,
+  description   text not null,
+  tags          text[] not null default '{}',
+  type          text not null,
+  live_url      text,
+  repo_url      text not null,
+  featured      boolean not null default false,
+  featured_order integer,
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now()
+);
+
+create index if not exists projects_featured_idx on public.projects (featured, featured_order);
+
 -- ── Row Level Security ───────────────────────────────────────
 -- Blog posts: public can read published posts; anon key can do everything
 -- (For a personal site with simple admin cookie auth, we allow anon full access.
@@ -42,6 +60,7 @@ create index if not exists contact_messages_read_idx on public.contact_messages 
 
 alter table public.blog_posts enable row level security;
 alter table public.contact_messages enable row level security;
+alter table public.projects enable row level security;
 
 -- Allow anyone to read published posts
 create policy "Public can read published posts"
@@ -69,6 +88,19 @@ create policy "Anon full access contact_messages"
   using (true)
   with check (true);
 
+-- Allow anyone to read projects
+create policy "Public can read projects"
+  on public.projects
+  for select
+  using (true);
+
+-- Allow anon key full access to projects (admin)
+create policy "Anon full access projects"
+  on public.projects
+  for all
+  using (true)
+  with check (true);
+
 -- ── Sample seed data (optional) ─────────────────────────────
 insert into public.blog_posts (title, slug, excerpt, content, published, tags, reading_time)
 values (
@@ -80,3 +112,18 @@ values (
   ARRAY['design', 'process', 'code'],
   4
 );
+
+-- Seed projects data
+insert into public.projects (name, tagline, description, tags, type, live_url, repo_url, featured, featured_order)
+values
+  ('Bindu', 'Anonymous messaging platform.', 'Share a link, receive messages from anyone. No account needed to send. Real-time WebSocket updates, anonymous/named voting, rate limiting via Upstash Redis, and optional email notifications via Resend.', ARRAY['Next.js 16', 'NextAuth v5', 'Neon', 'Drizzle', 'Redis'], 'Web App', 'https://bindu.pages.dev', 'https://github.com/mahtamun-hoque-fahim/bindu', true, 1),
+  ('Fontina', 'Font converter. Drop, convert, use.', 'Drop any font file → get web-ready WOFF2 instantly. Server-side conversion using fonttools (Python), beautiful drag-drop UI, batch conversion support, and instant download.', ARRAY['Next.js 16', 'Tailwind CSS', 'Python', 'fonttools'], 'Web Tool', 'https://fontina-convert.vercel.app', 'https://github.com/mahtamun-hoque-fahim/fontina', true, 2),
+  ('LearnDE', 'Interactive Differential Equations learning.', 'Platform for university CSE students to learn differential equations interactively. Student dashboards, staff grading tools, admin controls, email notifications, and rich math rendering.', ARRAY['Next.js 16', 'Better Auth', 'Neon', 'Drizzle', 'Resend'], 'Learning Platform', 'https://learn-differential-equation.vercel.app', 'https://github.com/mahtamun-hoque-fahim/learnDE', false, null),
+  ('Formify', 'Build forms without code.', 'Drag-and-drop form builder with zero coding. Real-time previews, conditional logic, integrations, and form analytics. Share forms via unique links.', ARRAY['Next.js', 'TypeScript', 'Tailwind CSS'], 'Web App', 'https://oneformify.vercel.app', 'https://github.com/mahtamun-hoque-fahim/formify', false, null),
+  ('Notably', 'Notes app with version history.', 'Git Quest XP – collaborative note-taking with version control. Track changes, restore previous versions, collaborate in real-time.', ARRAY['Next.js', 'TypeScript', 'Tailwind CSS'], 'Productivity App', null, 'https://github.com/mahtamun-hoque-fahim/notably', false, null),
+  ('Memoriza', 'Spaced repetition. Memory mastery.', 'Flashcard app powered by spaced repetition algorithm. Create decks, track progress, and master anything through scientifically-proven learning methods.', ARRAY['Next.js', 'TypeScript', 'Tailwind CSS'], 'Learning App', 'https://memorizaa.vercel.app', 'https://github.com/mahtamun-hoque-fahim/memoriza', false, null),
+  ('Sentri', 'Zero-knowledge password manager.', 'AES-256-GCM encryption client-side only. Master Password + Secret Key two-factor key derivation with PBKDF2 (600k iterations). The server never sees your plaintext — not even me.', ARRAY['Next.js 14', 'Clerk', 'Neon', 'Crypto'], 'Security App', 'https://sentri-here.vercel.app', 'https://github.com/mahtamun-hoque-fahim/sentri', true, 3),
+  ('Neura', 'Minimal whiteboard. Zero dependencies.', 'A beautiful drawing canvas in a single HTML file. Pen, highlighter, shapes, arrows, text, undo/redo, PNG export, touch support. No build step, no npm install.', ARRAY['HTML', 'Canvas API', 'Zero deps'], 'Tool', 'https://neura-ashy.vercel.app', 'https://github.com/mahtamun-hoque-fahim/neura', true, 4),
+  ('Raisy', 'Raise your hand.', 'Real-time polls with zero sign-up. Share a link, watch votes roll in live via WebSocket. Supports anonymous/named voting, deadlines, drag-reorder, CSV/JSON export, and QR code sharing.', ARRAY['Next.js 14', 'Ably', 'Neon', 'Drizzle'], 'Web App', 'https://raisy-polling.vercel.app', 'https://github.com/mahtamun-hoque-fahim/Raisy', false, null),
+  ('Claudia', 'Export Claude chats as beautiful PDFs.', 'Chrome extension that exports Claude.ai conversations with dark/light themes, LaTeX via KaTeX, syntax highlighting via Prism.js, and selective message export.', ARRAY['Chrome Extension', 'KaTeX', 'Prism.js'], 'Browser Extension', null, 'https://github.com/mahtamun-hoque-fahim/claudia', false, null)
+on conflict (name) do nothing;

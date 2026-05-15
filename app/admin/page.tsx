@@ -39,8 +39,8 @@ export default async function AdminDashboard() {
   const quickLinks = [
     { label: 'New blog post', href: '/admin/posts/new', icon: '✍️' },
     { label: 'Manage posts', href: '/admin/posts', icon: '📝' },
+    { label: 'Manage projects', href: '/admin/projects', icon: '🎯' },
     { label: 'Read messages', href: '/admin/messages', icon: '📬' },
-    { label: 'View live site', href: '/', icon: '🌐' },
   ]
 
   return (

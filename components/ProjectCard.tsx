@@ -1,16 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-
-type Project = {
-  name: string
-  tagline: string
-  desc: string
-  tags: string[]
-  type: string
-  live: string | null
-  repo: string
-}
+import { Project } from '@/lib/projects'
 
 function BetaModal({
   projectName,
@@ -117,13 +108,13 @@ export default function ProjectCard({ project }: { project: Project }) {
             className="text-[#8a8a8a] text-sm leading-relaxed"
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
-            {project.desc}
+            {project.description}
           </p>
         </div>
 
         <div className="mt-6 pt-6 border-t border-[#1f1f1f]">
           <div className="flex flex-wrap gap-2 mb-4">
-            {project.tags.map((tag) => (
+            {(project.tags || []).map((tag) => (
               <span
                 key={tag}
                 className="text-xs px-2 py-0.5 border border-[#1f1f1f] text-[#8a8a8a] rounded"
@@ -134,7 +125,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             ))}
           </div>
           <div className="flex gap-4">
-            {project.live && (
+            {project.live_url && (
               <button
                 onClick={() => setShowModal(true)}
                 className="text-[#00e676] text-sm hover:underline cursor-pointer"
@@ -144,7 +135,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               </button>
             )}
             <a
-              href={project.repo}
+              href={project.repo_url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#8a8a8a] text-sm hover:text-[#f0ede6] transition-colors"
@@ -156,10 +147,10 @@ export default function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
 
-      {showModal && project.live && (
+      {showModal && project.live_url && (
         <BetaModal
           projectName={project.name}
-          url={project.live}
+          url={project.live_url}
           onClose={() => setShowModal(false)}
         />
       )}

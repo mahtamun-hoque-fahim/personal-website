@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getSupabase, type BlogPost } from '@/lib/supabase'
 import ProjectCard from '@/components/ProjectCard'
-import { featuredProjects } from '@/lib/projects'
+import { getFeaturedProjects } from '@/lib/projects'
 
 const services = [
   { num: '01', title: 'Graphic Design', desc: 'Brand identities, print, visual systems — design that speaks before words do.' },
@@ -22,14 +22,18 @@ const ticker = [...skills, ...skills]
 
 export default async function HomePage() {
   const supabase = getSupabase()
-  const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('id, title, slug, excerpt, tags, reading_time, created_at')
-    .eq('published', true)
-    .order('created_at', { ascending: false })
-    .limit(3)
+  const [postsRes, featuredProjects] = await Promise.all([
+    supabase
+      .from('blog_posts')
+      .select('id, title, slug, excerpt, tags, reading_time, created_at')
+      .eq('published', true)
+      .order('created_at', { ascending: false })
+      .limit(3),
+    getFeaturedProjects(),
+  ])
 
-  const recentPosts = (posts ?? []) as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'reading_time' | 'created_at'>[]
+  const posts = postsRes.data || []
+  const recentPosts = posts as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'reading_time' | 'created_at'>[]
   return (
     <>
       <Navbar />

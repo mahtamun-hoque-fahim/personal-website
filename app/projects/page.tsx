@@ -3,14 +3,15 @@ export const runtime = 'edge'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProjectCard from '@/components/ProjectCard'
-import { allProjects } from '@/lib/projects'
+import { getAllProjects } from '@/lib/projects'
 
 export const metadata = {
   title: 'Projects',
   description: 'All projects by Mahtamun Hoque Fahim — web apps, tools, platforms, and more.',
 }
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const allProjects = await getAllProjects()
   return (
     <>
       <Navbar />
