@@ -218,6 +218,8 @@ CREATE TABLE projects (
 | `BETTER_AUTH_SECRET` | ✅ | Better Auth session secret | `generate-with-openssl-rand-base64-32` |
 | `BETTER_AUTH_URL` | ✅ | Auth callback URL | `http://localhost:3000` or production URL |
 | `NEXT_PUBLIC_APP_URL` | ✅ | Public app URL | `http://localhost:3000` or `https://domain.com` |
+| `RESEND_API_KEY` | ✅ | Resend email API key | `re_...` |
+| `RESEND_FROM_EMAIL` | ✅ | Email sender (verified domain) | `noreply@yourdomain.com` |
 
 > Full setup → see MIGRATION.md and README.md
 
@@ -237,11 +239,11 @@ CREATE TABLE projects (
 
 ## Next Steps
 
-1. **Deploy to Vercel** — Add Neon + Better Auth env vars to Vercel dashboard
-2. **Test email flows locally** — Verify sign up, sign in, forgot password work
-3. **Set up email service** — Add Resend/SendGrid to `auth.ts` for real password reset emails
-4. **Add email verification** — Optional: require email verification on signup
-5. **Monitor auth usage** — Track sessions, password resets in production
+1. **Set up Resend** — Create account, get API key, verify sender domain
+2. **Deploy to Vercel** — Add Neon + Better Auth + Resend env vars to Vercel dashboard
+3. **Test email flows locally** — Verify sign up, sign in, forgot password work with Resend
+4. **Monitor auth usage** — Track sessions, password resets in production
+5. **Add email verification** — Optional: require email verification on signup (already set up, just needs toggling)
 6. **Consider future features** — OAuth providers, 2FA, profile editing, etc.
 
 ---
@@ -250,7 +252,7 @@ CREATE TABLE projects (
 
 - **Auth**: Switched from Supabase to Better Auth for simpler self-hosted auth + easier customization
 - **Google OAuth removed**: Simplified to email/password + forgot password only
-- **Email verification**: Currently logs to console; enable real email service in production
+- **Email service**: Resend handles transactional emails (password reset, verification)
 - **Password hashing**: bcryptjs (10 salt rounds) via Better Auth
 - **Edge Runtime**: All pages run on Edge via `export const runtime = 'edge'` for Cloudflare compatibility
 - **Custom Markdown**: Zero-dependency renderer (no remark/marked) for Edge Runtime support

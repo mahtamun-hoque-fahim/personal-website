@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth"
 import { neonAdapter } from "better-auth/adapters/neon"
 import { neon } from "@neondatabase/serverless"
+import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/email"
 
 // Initialize Neon client
 const client = neon(process.env.DATABASE_URL!)
@@ -20,8 +21,8 @@ export const auth = betterAuth({
   // Email verification and password reset
   emailVerification: {
     sendVerificationEmail: async (user, url) => {
-      // In production, send real email via Resend/SendGrid
-      console.log(`Verify email for ${user.email}: ${url}`)
+      // Send verification email via Resend (optional)
+      await sendVerificationEmail(user.email, url)
     },
     autoSignInAfterVerification: true,
   },
@@ -34,6 +35,14 @@ export const auth = betterAuth({
     verify: async (data, hash) => {
       const bcrypt = await import("bcryptjs")
       return bcrypt.compare(data, hash)
+    },
+  },
+  
+  // Password reset email
+  forgetPassword: {
+    sendResetEmail: async (user, url) => {
+      // Send password reset email via Resend
+      await sendPasswordResetEmail(user.email, url)
     },
   },
   

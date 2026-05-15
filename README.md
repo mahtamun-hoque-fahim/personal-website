@@ -73,7 +73,7 @@ Quick summary:
 ```bash
 git clone https://github.com/mahtamun-hoque-fahim/personal-website.git
 cd personal-website
-npm install better-auth @neondatabase/serverless bcryptjs
+npm install better-auth @neondatabase/serverless bcryptjs resend
 npm install
 ```
 
@@ -93,12 +93,24 @@ DATABASE_URL=postgresql://user:password@host/dbname
 BETTER_AUTH_SECRET=generate-with-openssl-rand-base64-32
 BETTER_AUTH_URL=http://localhost:3000
 NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Resend Email
+RESEND_API_KEY=re_your_api_key_here
+RESEND_FROM_EMAIL=noreply@yourdomain.com
 ```
 
-Generate a secret:
+Generate a Better Auth secret:
 ```bash
 openssl rand -base64 32
 ```
+
+### 2b. Set up Resend (for password reset emails)
+
+1. Go to [resend.com](https://resend.com) and sign up
+2. Create an API key → copy to `RESEND_API_KEY`
+3. Add a verified sender domain → use for `RESEND_FROM_EMAIL`
+   - For testing locally: use `onboarding@resend.dev`
+   - For production: verify your domain in Resend dashboard
 
 ### 3. Set up Neon database
 

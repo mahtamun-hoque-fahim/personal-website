@@ -7,7 +7,7 @@ This guide walks you through migrating your personal portfolio from Supabase to 
 ## Step 1: Install Dependencies
 
 ```bash
-npm install better-auth @neondatabase/serverless bcryptjs
+npm install better-auth @neondatabase/serverless bcryptjs resend
 npm install -D @types/better-auth
 ```
 
@@ -46,12 +46,24 @@ DATABASE_URL="postgresql://user:password@host/dbname"
 BETTER_AUTH_SECRET="generate-with-openssl-rand-base64-32"
 BETTER_AUTH_URL="http://localhost:3000"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+# Resend Email Service
+RESEND_API_KEY="re_your_api_key_here"
+RESEND_FROM_EMAIL="noreply@yourdomain.com"
 ```
 
 Generate secret:
 ```bash
 openssl rand -base64 32
 ```
+
+### Set up Resend (for password reset emails)
+
+1. Go to [resend.com](https://resend.com) and sign up
+2. Create API key → copy to `RESEND_API_KEY`
+3. Add verified sender domain → use for `RESEND_FROM_EMAIL`
+   - For testing: use Resend's test email `onboarding@resend.dev`
+   - For production: verify your domain in Resend dashboard
 
 ---
 
@@ -92,7 +104,7 @@ npm run dev
 
 **"Admin routes redirecting to login"** → Refresh after login, check cookies
 
-**"Password reset not working"** → Update email service in `auth.ts` (currently logs to console)
+**"Password reset not working"** → Check `RESEND_API_KEY` and `RESEND_FROM_EMAIL` in .env.local
 
 ---
 
