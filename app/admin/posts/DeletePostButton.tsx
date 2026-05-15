@@ -1,14 +1,14 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { deletePostAction } from '@/app/admin/actions'
 
 export default function DeletePostButton({ id }: { id: string }) {
   const router = useRouter()
 
   const handleDelete = async () => {
     if (!confirm('Delete this post? This cannot be undone.')) return
-    await supabase.from('blog_posts').delete().eq('id', id)
+    await deletePostAction(id)
     router.refresh()
   }
 

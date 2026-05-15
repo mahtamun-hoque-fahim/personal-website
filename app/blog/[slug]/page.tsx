@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { supabase, type BlogPost } from '@/lib/supabase'
+import { getBlogPosts, getBlogPostBySlug, type BlogPost } from '@/lib/neon'
 import { formatDate } from '@/lib/utils'
 import { renderMarkdown } from '@/lib/markdown'
 import CopyCodeInit from '@/components/CopyCodeInit'
@@ -13,15 +13,7 @@ import CopyCodeInit from '@/components/CopyCodeInit'
 export const revalidate = 60
 
 async function getPost(slug: string): Promise<BlogPost | null> {
-  const { data, error } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .eq('slug', slug)
-    .eq('published', true)
-    .single()
-
-  if (error || !data) return null
-  return data
+  return (await getBlogPostBySlug(slug)) as BlogPost | null
 }
 
 export async function generateMetadata({

@@ -1,16 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { markMessageReadAction } from '@/app/admin/actions'
 
 export default function MarkReadButton({ id }: { id: string }) {
   const router = useRouter()
 
   const handleMarkRead = async () => {
-    await supabase
-      .from('contact_messages')
-      .update({ read: true })
-      .eq('id', id)
+    await markMessageReadAction(id)
     router.refresh()
   }
 

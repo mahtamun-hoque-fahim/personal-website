@@ -3,7 +3,7 @@ export const runtime = 'edge'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { getSupabase, type BlogPost } from '@/lib/supabase'
+import { getBlogPosts, type BlogPost } from '@/lib/neon'
 import ProjectCard from '@/components/ProjectCard'
 import { getFeaturedProjects } from '@/lib/projects'
 
@@ -21,19 +21,12 @@ const skills = [
 const ticker = [...skills, ...skills]
 
 export default async function HomePage() {
-  const supabase = getSupabase()
-  const [postsRes, featuredProjects] = await Promise.all([
-    supabase
-      .from('blog_posts')
-      .select('id, title, slug, excerpt, tags, reading_time, created_at')
-      .eq('published', true)
-      .order('created_at', { ascending: false })
-      .limit(3),
+  const [allPosts, featuredProjects] = await Promise.all([
+    getBlogPosts(true, 3),
     getFeaturedProjects(),
   ])
 
-  const posts = postsRes.data || []
-  const recentPosts = posts as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'reading_time' | 'created_at'>[]
+  const recentPosts = allPosts as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'reading_time' | 'created_at'>[]
   return (
     <>
       <Navbar />

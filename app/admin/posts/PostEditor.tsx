@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase, type BlogPost } from '@/lib/supabase'
+import { type BlogPost } from '@/lib/neon'
+import { saveBlogPostAction } from '@/app/admin/actions'
 import { slugify, estimateReadingTime } from '@/lib/utils'
 import { renderMarkdown } from '@/lib/markdown'
 import CopyCodeInit from '@/components/CopyCodeInit'
@@ -51,23 +52,21 @@ export default function PostEditor({ post }: Props) {
       updated_at: new Date().toISOString(),
     }
 
-    let error
-
-    if (post) {
-      const res = await supabase.from('blog_posts').update(payload).eq('id', post.id)
-      error = res.error
-    } else {
-      const res = await supabase.from('blog_posts').insert({
-        ...payload,
-        created_at: new Date().toISOString(),
-      })
-      error = res.error
+    let error = null
+    try {
+      if (post) {
+        await saveBlogPostAction(payload, post.id)
+      } else {
+        await saveBlogPostAction({ ...payload, created_at: new Date().toISOString() })
+      }
+    } catch (e: any) {
+      error = e
     }
 
     setSaving(false)
 
     if (error) {
-      alert('Error saving: ' + error.message)
+      alert('Error saving: ' + (error as any).message)
       return
     }
 

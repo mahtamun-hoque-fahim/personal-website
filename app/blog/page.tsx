@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { supabase, type BlogPost } from '@/lib/supabase'
+import { getBlogPosts, getBlogPostBySlug, type BlogPost } from '@/lib/neon'
 import { formatDate } from '@/lib/utils'
 
 export const metadata: Metadata = {
@@ -15,17 +15,7 @@ export const metadata: Metadata = {
 export const revalidate = 60
 
 async function getPosts(): Promise<BlogPost[]> {
-  const { data, error } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .eq('published', true)
-    .order('created_at', { ascending: false })
-
-  if (error) {
-    console.error('Error fetching posts:', error)
-    return []
-  }
-  return data || []
+  return (await getBlogPosts(true)) as BlogPost[]
 }
 
 export default async function BlogPage() {
