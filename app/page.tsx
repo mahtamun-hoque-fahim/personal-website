@@ -1,11 +1,13 @@
-export const runtime = 'edge'
+
+
+export const revalidate = 60
 
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { getBlogPosts, type BlogPost } from '@/lib/neon'
+import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
-import { getFeaturedProjects } from '@/lib/projects'
+import { getFeaturedProjects } from '@/lib/db/queries'
 
 const services = [
   { num: '01', title: 'Graphic Design', desc: 'Brand identities, print, visual systems — design that speaks before words do.' },
@@ -22,11 +24,11 @@ const ticker = [...skills, ...skills]
 
 export default async function HomePage() {
   const [allPosts, featuredProjects] = await Promise.all([
-    getBlogPosts(true, 3),
+    getBlogPosts({ publishedOnly: true, limit: 3 }),
     getFeaturedProjects(),
   ])
 
-  const recentPosts = allPosts as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'reading_time' | 'created_at'>[]
+  const recentPosts = allPosts as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'readingTime' | 'createdAt'>[]
   return (
     <>
       <Navbar />
@@ -388,7 +390,7 @@ export default async function HomePage() {
                       className="text-[#2a2a2a] text-xs"
                       style={{ fontFamily: "'Onest', sans-serif" }}
                     >
-                      {new Date(post.created_at).toLocaleDateString('en-US', {
+                      {new Date(post.createdAt).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric',
@@ -398,7 +400,7 @@ export default async function HomePage() {
                       className="text-[#2a2a2a] text-xs"
                       style={{ fontFamily: "'JetBrains Mono', monospace" }}
                     >
-                      {post.reading_time} min
+                      {post.readingTime} min
                     </span>
                   </div>
                 </Link>

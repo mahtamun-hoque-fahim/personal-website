@@ -1,16 +1,17 @@
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
+import { getSession } from '@/lib/auth-utils'
 import { logoutAction } from './actions'
 
-const ADMIN_COOKIE = 'fahim_admin_session'
+export const dynamic = 'force-dynamic'
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const cookieStore = cookies()
-  const session = cookieStore.get(ADMIN_COOKIE)
-  const isAuth = session?.value === 'authenticated'
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const session = await getSession()
+  const isAuth = !!session?.user
 
-  // Allow login page through
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       {isAuth && (

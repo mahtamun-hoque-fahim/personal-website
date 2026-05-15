@@ -1,21 +1,14 @@
-export const runtime = 'edge'
-
 import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth-utils'
-import { getContactMessages } from '@/lib/neon'
+import { getContactMessages } from '@/lib/db/queries'
 import { formatDateTime } from '@/lib/utils'
 import MarkReadButton from './MarkReadButton'
-
-type Message = {
-  id: string; name: string; email: string; subject: string
-  message: string; read: boolean; country: string | null; created_at: string
-}
 
 export default async function AdminMessagesPage() {
   const authenticated = await isAuthenticated()
   if (!authenticated) redirect('/admin/login')
 
-  const messages = (await getContactMessages()) as Message[]
+  const messages = await getContactMessages()
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
@@ -41,10 +34,10 @@ export default async function AdminMessagesPage() {
                     <span className="font-semibold text-[#f0ede6]" style={{ fontFamily: "'Syne', sans-serif" }}>{msg.name}</span>
                     <a href={`mailto:${msg.email}`} className="text-[#8a8a8a] text-sm hover:text-[#00e676] transition-colors" style={{ fontFamily: "'Onest', sans-serif" }}>{msg.email}</a>
                     <div className="ml-auto flex items-center gap-3">
-                      {msg.country && <span className="text-xs px-2 py-0.5 border border-[#1f1f1f] text-[#8a8a8a] rounded" style={{ fontFamily: "'JetBrains Mono', monospace" }}>📍 {msg.country}</span>}
+                      {msg.country && <span className="text-xs px-2 py-0.5 border border-[#1f1f1f] text-[#8a8a8a] rounded" style={{ fontFamily: "'JetBrains Mono', monospace" }}>({msg.country})</span>}
                       <div className="text-right">
-                        <p className="text-[#2a2a2a] text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatDateTime(msg.created_at).date}</p>
-                        <p className="text-[#2a2a2a] text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatDateTime(msg.created_at).time}</p>
+                        <p className="text-[#2a2a2a] text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatDateTime(msg.createdAt).date}</p>
+                        <p className="text-[#2a2a2a] text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatDateTime(msg.createdAt).time}</p>
                       </div>
                     </div>
                   </div>

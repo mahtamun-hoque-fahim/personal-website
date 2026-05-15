@@ -1,11 +1,9 @@
-export const runtime = 'edge'
-
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { getBlogPosts, getBlogPostBySlug, type BlogPost } from '@/lib/neon'
+import { getBlogPostBySlug, type BlogPost } from '@/lib/db/queries'
 import { formatDate } from '@/lib/utils'
 import { renderMarkdown } from '@/lib/markdown'
 import CopyCodeInit from '@/components/CopyCodeInit'
@@ -13,15 +11,16 @@ import CopyCodeInit from '@/components/CopyCodeInit'
 export const revalidate = 60
 
 async function getPost(slug: string): Promise<BlogPost | null> {
-  return (await getBlogPostBySlug(slug)) as BlogPost | null
+  return getBlogPostBySlug(slug)
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const post = await getPost(params.slug)
+  const { slug } = await params
+  const post = await getPost(slug)
   if (!post) return { title: 'Post not found' }
   return {
     title: post.title,
@@ -32,100 +31,61 @@ export async function generateMetadata({
 export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const post = await getPost(params.slug)
+  const { slug } = await params
+  const post = await getPost(slug)
   if (!post) notFound()
 
   return (
     <>
       <Navbar />
-      <main className="pt-32 pb-24">
-        {/* Back */}
-        <div className="max-w-3xl mx-auto px-6 mb-12">
+      <main>
+        <section className="max-w-3xl mx-auto px-6 py-24 pt-32">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-[#8a8a8a] text-sm hover:text-[#00e676] transition-colors"
+            className="inline-block text-[#8a8a8a] text-sm mb-12 hover:text-[#00e676] transition-colors"
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
             ← Back to blog
           </Link>
-        </div>
 
-        {/* Header */}
-        <header className="max-w-3xl mx-auto px-6 mb-12">
-          {post.tags?.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-6">
-              {post.tags.map((tag) => (
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              {post.tags?.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-3 py-1 border border-[#00e676]/30 rounded-full text-[#00e676]"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  className="text-xs px-2 py-1 border border-[#1f1f1f] text-[#8a8a8a] rounded"
+                  style={{ fontFamily: "'JetBrains Mono', monospace" }}
                 >
                   {tag}
                 </span>
               ))}
             </div>
-          )}
 
-          <h1
-            className="text-4xl md:text-6xl font-bold text-[#f0ede6] leading-tight mb-6"
-            style={{ fontFamily: "'Syne', sans-serif" }}
-          >
-            {post.title}
-          </h1>
+            <h1
+              className="text-4xl md:text-5xl font-bold text-[#f0ede6] mb-6 leading-tight"
+              style={{ fontFamily: "'Syne', sans-serif" }}
+            >
+              {post.title}
+            </h1>
 
-          <p
-            className="text-[#8a8a8a] text-lg leading-relaxed mb-8"
-            style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
-          >
-            {post.excerpt}
-          </p>
-
-          <div
-            className="flex items-center gap-6 text-xs text-[#8a8a8a] border-t border-[#1f1f1f] pt-6"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
-          >
-            <span>Mahtamun Hoque Fahim</span>
-            <span className="text-[#2a2a2a]">·</span>
-            <span>{formatDate(post.created_at)}</span>
-            <span className="text-[#2a2a2a]">·</span>
-            <span>{post.reading_time} min read</span>
+            <div
+              className="flex items-center gap-4 text-sm text-[#8a8a8a]"
+              style={{ fontFamily: "'Onest', sans-serif" }}
+            >
+              <span>{formatDate(post.createdAt)}</span>
+              <span>·</span>
+              <span>{post.readingTime} min read</span>
+            </div>
           </div>
-        </header>
 
-        {/* Cover image */}
-        {post.cover_image && (
-          <div className="max-w-4xl mx-auto px-6 mb-12">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={post.cover_image}
-              alt={post.title}
-              className="w-full rounded-xl border border-[#1f1f1f] object-cover"
-              style={{ maxHeight: '480px' }}
-            />
-          </div>
-        )}
-
-        {/* Content */}
-        <article className="max-w-3xl mx-auto px-6">
-          <CopyCodeInit />
-          <div
+          <article
             className="prose-dark"
             dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
           />
-        </article>
-
-        {/* Footer nav */}
-        <div className="max-w-3xl mx-auto px-6 mt-20 pt-8 border-t border-[#1f1f1f]">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-[#8a8a8a] hover:text-[#00e676] transition-colors text-sm"
-            style={{ fontFamily: "'Onest', sans-serif" }}
-          >
-            ← All posts
-          </Link>
-        </div>
+          <CopyCodeInit />
+        </section>
       </main>
       <Footer />
     </>

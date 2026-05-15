@@ -1,9 +1,10 @@
-export const runtime = 'edge'
-
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { isAuthenticated } from '@/lib/auth-utils'
-import { getProjects, getBlogPosts, getContactMessages } from '@/lib/neon'
+import {
+  getBlogPosts,
+  getContactMessages,
+} from '@/lib/db/queries'
 
 async function getStats() {
   const [posts, messages] = await Promise.all([
@@ -13,9 +14,9 @@ async function getStats() {
 
   return {
     totalPosts: posts.length,
-    publishedPosts: posts.filter((p: any) => p.published).length,
+    publishedPosts: posts.filter((p) => p.published).length,
     totalMessages: messages.length,
-    unreadMessages: messages.filter((m: any) => !m.read).length,
+    unreadMessages: messages.filter((m) => !m.read).length,
   }
 }
 
@@ -26,15 +27,27 @@ export default async function AdminDashboard() {
   const stats = await getStats()
 
   const cards = [
-    { label: 'Total Posts', value: stats.totalPosts, sub: `${stats.publishedPosts} published`, href: '/admin/posts', accent: false },
-    { label: 'Contact Messages', value: stats.totalMessages, sub: `${stats.unreadMessages} unread`, href: '/admin/messages', accent: stats.unreadMessages > 0 },
+    {
+      label: 'Total posts',
+      value: stats.totalPosts,
+      sub: `${stats.publishedPosts} published`,
+      href: '/admin/posts',
+      accent: false,
+    },
+    {
+      label: 'Contact messages',
+      value: stats.totalMessages,
+      sub: `${stats.unreadMessages} unread`,
+      href: '/admin/messages',
+      accent: stats.unreadMessages > 0,
+    },
   ]
 
   const quickLinks = [
-    { label: 'New blog post', href: '/admin/posts/new', icon: '✍️' },
-    { label: 'Manage posts', href: '/admin/posts', icon: '📝' },
-    { label: 'Manage projects', href: '/admin/projects', icon: '🎯' },
-    { label: 'Read messages', href: '/admin/messages', icon: '📬' },
+    { label: 'New blog post', href: '/admin/posts/new' },
+    { label: 'Manage posts', href: '/admin/posts' },
+    { label: 'Manage projects', href: '/admin/projects' },
+    { label: 'Read messages', href: '/admin/messages' },
   ]
 
   return (
@@ -50,69 +63,67 @@ export default async function AdminDashboard() {
           className="text-[#8a8a8a] text-sm"
           style={{ fontFamily: "'Onest', sans-serif" }}
         >
-          Welcome back, Fahim.
+          Manage posts, projects, and messages.
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-        {cards.map((c) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+        {cards.map((card) => (
           <Link
-            key={c.label}
-            href={c.href}
-            className="bg-[#141414] border border-[#1f1f1f] rounded-xl p-6 hover:border-[#00e676]/40 transition-colors group"
+            key={card.label}
+            href={card.href}
+            className={`block bg-[#141414] border rounded-xl p-6 transition-colors ${
+              card.accent
+                ? 'border-[#00e676]/30 hover:border-[#00e676]/60'
+                : 'border-[#1f1f1f] hover:border-[#2a2a2a]'
+            }`}
           >
             <p
-              className="text-4xl font-bold mb-1 group-hover:text-[#00e676] transition-colors"
-              style={{
-                fontFamily: "'Syne', sans-serif",
-                color: c.accent ? '#00e676' : '#f0ede6',
-              }}
+              className="text-[#8a8a8a] text-xs tracking-widest uppercase mb-3"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
             >
-              {c.value}
+              {card.label}
             </p>
             <p
-              className="text-[#f0ede6] text-sm font-medium mb-1"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              className="text-4xl font-bold text-[#f0ede6] mb-2"
+              style={{ fontFamily: "'Syne', sans-serif" }}
             >
-              {c.label}
+              {card.value}
             </p>
             <p
-              className="text-[#8a8a8a] text-xs"
+              className={`text-xs ${card.accent ? 'text-[#00e676]' : 'text-[#8a8a8a]'}`}
               style={{ fontFamily: "'Onest', sans-serif" }}
             >
-              {c.sub}
+              {card.sub}
             </p>
           </Link>
         ))}
       </div>
 
-      {/* Quick links */}
-      <div>
-        <h2
-          className="text-lg font-bold text-[#f0ede6] mb-6"
-          style={{ fontFamily: "'Syne', sans-serif" }}
-        >
-          Quick actions
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {quickLinks.map((ql) => (
-            <Link
-              key={ql.label}
-              href={ql.href}
-              className="bg-[#141414] border border-[#1f1f1f] rounded-xl p-5 flex flex-col gap-3
-                         hover:border-[#00e676]/40 hover:bg-[#0f0f0f] transition-all group"
+      <h2
+        className="text-2xl font-bold text-[#f0ede6] mb-6"
+        style={{ fontFamily: "'Syne', sans-serif" }}
+      >
+        Quick actions
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {quickLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="flex items-center justify-between bg-[#141414] border border-[#1f1f1f] rounded-lg px-5 py-4 hover:border-[#00e676]/30 transition-colors group"
+          >
+            <span
+              className="text-[#f0ede6] text-sm font-medium"
+              style={{ fontFamily: "'Onest', sans-serif" }}
             >
-              <span className="text-2xl">{ql.icon}</span>
-              <span
-                className="text-sm text-[#8a8a8a] group-hover:text-[#f0ede6] transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
-              >
-                {ql.label}
-              </span>
-            </Link>
-          ))}
-        </div>
+              {link.label}
+            </span>
+            <span className="text-[#8a8a8a] group-hover:text-[#00e676] transition-colors">
+              →
+            </span>
+          </Link>
+        ))}
       </div>
     </div>
   )

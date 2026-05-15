@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { type BlogPost } from '@/lib/neon'
+import type { BlogPost, NewBlogPost } from '@/lib/db/queries'
 import { saveBlogPostAction } from '@/app/admin/actions'
 import { slugify, estimateReadingTime } from '@/lib/utils'
 import { renderMarkdown } from '@/lib/markdown'
@@ -22,10 +22,10 @@ export default function PostEditor({ post }: Props) {
   const [excerpt, setExcerpt] = useState(post?.excerpt || '')
   const [content, setContent] = useState(post?.content || '')
   const [tags, setTags] = useState(post?.tags?.join(', ') || '')
-  const [coverImage, setCoverImage] = useState(post?.cover_image || '')
+  const [coverImage, setCoverImage] = useState(post?.coverImage || '')
   const [published, setPublished] = useState(post?.published || false)
 
-  // Auto-generate slug from title
+  // Auto-generate slug from title for new posts
   useEffect(() => {
     if (!post) {
       setSlug(slugify(title))
@@ -40,75 +40,83 @@ export default function PostEditor({ post }: Props) {
 
     setSaving(true)
 
-    const payload = {
+    const payload: Partial<NewBlogPost> = {
       title: title.trim(),
       slug: slug.trim(),
       excerpt: excerpt.trim(),
       content: content.trim(),
-      tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
-      cover_image: coverImage.trim() || null,
+      tags: tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean),
+      coverImage: coverImage.trim() || null,
       published,
-      reading_time: estimateReadingTime(content),
-      updated_at: new Date().toISOString(),
+      readingTime: estimateReadingTime(content),
     }
 
-    let error = null
     try {
       if (post) {
         await saveBlogPostAction(payload, post.id)
       } else {
-        await saveBlogPostAction({ ...payload, created_at: new Date().toISOString() })
+        await saveBlogPostAction(payload)
       }
-    } catch (e: any) {
-      error = e
-    }
-
-    setSaving(false)
-
-    if (error) {
-      alert('Error saving: ' + (error as any).message)
+    } catch (e) {
+      setSaving(false)
+      alert('Error saving: ' + (e instanceof Error ? e.message : String(e)))
       return
     }
 
+    setSaving(false)
     router.push('/admin/posts')
     router.refresh()
   }
 
   return (
     <div className="space-y-6">
-      {/* Title */}
-      <div>
-        <label className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-          Title *
-        </label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Post title..."
-          className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-3 text-lg text-[#f0ede6]
-                     placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors font-bold"
-          style={{ fontFamily: "'Syne', sans-serif" }}
-        />
-      </div>
-
-      {/* Slug + Excerpt row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Title + slug */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="md:col-span-2">
+          <label
+            className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
+            Title *
+          </label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Post title"
+            className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm text-[#f0ede6]
+                       placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
+            style={{ fontFamily: "'Onest', sans-serif" }}
+          />
+        </div>
         <div>
-          <label className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+          <label
+            className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
             Slug
           </label>
           <input
             type="text"
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
+            placeholder="post-slug"
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm text-[#f0ede6]
-                       focus:outline-none focus:border-[#00e676] transition-colors"
+                       placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           />
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+          <label
+            className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
             Tags (comma-separated)
           </label>
           <input
@@ -121,11 +129,31 @@ export default function PostEditor({ post }: Props) {
             style={{ fontFamily: "'Onest', sans-serif" }}
           />
         </div>
+        <div>
+          <label
+            className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
+            Cover image URL (optional)
+          </label>
+          <input
+            type="url"
+            value={coverImage}
+            onChange={(e) => setCoverImage(e.target.value)}
+            placeholder="https://..."
+            className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm text-[#f0ede6]
+                       placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
+            style={{ fontFamily: "'Onest', sans-serif" }}
+          />
+        </div>
       </div>
 
       {/* Excerpt */}
       <div>
-        <label className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+        <label
+          className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
           Excerpt
         </label>
         <textarea
@@ -139,26 +167,13 @@ export default function PostEditor({ post }: Props) {
         />
       </div>
 
-      {/* Cover image */}
-      <div>
-        <label className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-          Cover image URL (optional)
-        </label>
-        <input
-          type="url"
-          value={coverImage}
-          onChange={(e) => setCoverImage(e.target.value)}
-          placeholder="https://..."
-          className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm text-[#f0ede6]
-                     placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
-          style={{ fontFamily: "'Onest', sans-serif" }}
-        />
-      </div>
-
       {/* Markdown editor */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs text-[#8a8a8a] tracking-widest uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+          <label
+            className="text-xs text-[#8a8a8a] tracking-widest uppercase"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
             Content * (Markdown)
           </label>
           <div className="flex gap-1">
@@ -184,7 +199,7 @@ export default function PostEditor({ post }: Props) {
             rows={20}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your post in Markdown...&#10;&#10;## Heading&#10;&#10;Some **bold** text and `code`."
+            placeholder={"Write your post in Markdown...\n\n## Heading\n\nSome **bold** text and `code`."}
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-4 text-sm text-[#f0ede6]
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors resize-none leading-relaxed"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
@@ -193,7 +208,11 @@ export default function PostEditor({ post }: Props) {
           <>
             <div
               className="min-h-[480px] bg-[#141414] border border-[#1f1f1f] rounded-lg p-6 prose-dark"
-              dangerouslySetInnerHTML={{ __html: content ? renderMarkdown(content) : '<p style="color:#2a2a2a">Nothing to preview yet.</p>' }}
+              dangerouslySetInnerHTML={{
+                __html: content
+                  ? renderMarkdown(content)
+                  : '<p style="color:#2a2a2a">Nothing to preview yet.</p>',
+              }}
             />
             <CopyCodeInit />
           </>
@@ -215,7 +234,10 @@ export default function PostEditor({ post }: Props) {
               }`}
             />
           </div>
-          <span className="text-sm text-[#8a8a8a] group-hover:text-[#f0ede6] transition-colors" style={{ fontFamily: "'Onest', sans-serif" }}>
+          <span
+            className="text-sm text-[#8a8a8a] group-hover:text-[#f0ede6] transition-colors"
+            style={{ fontFamily: "'Onest', sans-serif" }}
+          >
             {published ? 'Published' : 'Draft'}
           </span>
         </label>

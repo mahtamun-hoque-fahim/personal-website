@@ -1,14 +1,14 @@
 import { MetadataRoute } from 'next'
-import { getBlogPosts } from '@/lib/neon'
+import { getBlogPosts } from '@/lib/db/queries'
 
 const BASE_URL = 'https://mahtamunhoquefahim.pages.dev'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getBlogPosts(true) as any[]
+  const posts = await getBlogPosts({ publishedOnly: true }) as any[]
 
   const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: new Date(post.updated_at),
+    lastModified: new Date(post.updatedAt),
     changeFrequency: 'monthly',
     priority: 0.7,
   }))

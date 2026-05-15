@@ -2,82 +2,38 @@
 
 Personal website of **Mahtamun Hoque Fahim** — Graphic Designer, Full-Stack Developer & UI/UX Designer from Bangladesh.
 
-**Live (Vercel):** [mahtamunhoquefahim.vercel.app](https://mahtamunhoquefahim.vercel.app)  
-**Live (Cloudflare Pages):** [mahtamunhoquefahim.pages.dev](https://mahtamunhoquefahim.pages.dev)  
+**Live:** [mahtamunhoquefahim.vercel.app](https://mahtamunhoquefahim.vercel.app)
 **Design portfolio:** [mahtamundesigns.vercel.app](https://mahtamundesigns.vercel.app)
 
 ---
 
 ## Stack
 
-| Layer       | Tech                                      |
-|-------------|-------------------------------------------|
-| Framework   | Next.js 14 App Router                     |
-| Language    | TypeScript                                |
-| Styling     | Tailwind CSS + CSS custom properties      |
-| Database    | Neon (PostgreSQL)                         |
-| Auth        | Better Auth (email/password + forgot password) |
-| Fonts       | Syne · Onest · JetBrains Mono (Google Fonts) |
-| Hosting     | Vercel (primary) + Cloudflare Pages (secondary) |
-| Runtime     | Edge Runtime — all pages export `runtime = 'edge'` |
+| Layer       | Tech                                       |
+|-------------|--------------------------------------------|
+| Framework   | Next.js 16 (App Router, Turbopack)         |
+| Language    | TypeScript                                 |
+| React       | 19                                         |
+| Styling     | Tailwind CSS + CSS custom properties       |
+| Database    | Neon (Postgres, serverless HTTP)           |
+| ORM         | Drizzle ORM                                |
+| Auth        | Better Auth (email/password + reset)       |
+| Email       | Resend                                     |
+| Hosting     | Vercel                                     |
 
 ---
 
-## Pages
-
-| Route                  | Description                                    |
-|------------------------|------------------------------------------------|
-| `/`                    | Hero, services, personality, featured projects |
-| `/about`               | Timeline, values, tools                        |
-| `/blog`                | Post listing from Neon                         |
-| `/blog/[slug]`         | Post with custom Markdown renderer             |
-| `/projects`            | All 10 projects showcase                       |
-| `/contact`             | Contact info + form → Neon                     |
-| `/admin`               | Dashboard (Better Auth protected)              |
-| `/admin/login`         | Sign up / Sign in                              |
-| `/admin/forgot-password` | Request password reset email                  |
-| `/admin/reset-password` | Reset password via email link                 |
-| `/admin/posts`         | Manage blog posts                              |
-| `/admin/posts/new`     | Write new post (Markdown editor)               |
-| `/admin/posts/[id]`    | Edit existing post                             |
-| `/admin/projects`      | Manage featured projects + reorder             |
-| `/admin/messages`      | View contact form submissions, mark as read    |
-
----
-
-## Design System
-
-See **[DESIGN_GUIDE.md](./DESIGN_GUIDE.md)** for the full reference.
-
-Quick summary:
-
-- **Background:** `#0a0a0a` — near-black
-- **Accent:** `#00e676` — green, used for CTAs, active states, highlights
-- **Text:** `#f0ede6` — warm white (not pure `#fff`)
-- **Surface:** `#141414` — cards, panels
-- **Fonts:** Syne (display/headings), Onest (body), JetBrains Mono (labels, code)
-
----
-
-## Prerequisites
-
-- Node.js 18+ (with npm/yarn)
-- Neon account ([console.neon.tech](https://console.neon.tech))
-
----
-
-## Local Development
+## Setup
 
 ### 1. Clone & install
 
 ```bash
 git clone https://github.com/mahtamun-hoque-fahim/personal-website.git
 cd personal-website
-npm install better-auth @neondatabase/serverless bcryptjs resend
 npm install
 ```
 
-### 2. Set up environment variables
+### 2. Environment variables
 
 ```bash
 cp .env.example .env.local
@@ -85,157 +41,89 @@ cp .env.example .env.local
 
 Fill in `.env.local`:
 
-```env
-# Neon Database
-DATABASE_URL=postgresql://user:password@host/dbname
+| Variable                | Where                                                  |
+|-------------------------|--------------------------------------------------------|
+| `DATABASE_URL`          | Neon → Connection Details → **Pooled** connection      |
+| `DATABASE_URL_UNPOOLED` | Neon → Connection Details → **Direct** connection      |
+| `BETTER_AUTH_SECRET`    | `openssl rand -base64 32`                              |
+| `BETTER_AUTH_URL`       | Your app's base URL (e.g. `http://localhost:3000`)     |
+| `NEXT_PUBLIC_APP_URL`   | Same as `BETTER_AUTH_URL`                              |
+| `RESEND_API_KEY`        | resend.com → API Keys                                  |
+| `RESEND_FROM_EMAIL`     | A verified Resend domain                               |
 
-# Better Auth
-BETTER_AUTH_SECRET=generate-with-openssl-rand-base64-32
-BETTER_AUTH_URL=http://localhost:3000
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-
-# Resend Email
-RESEND_API_KEY=re_your_api_key_here
-RESEND_FROM_EMAIL=noreply@yourdomain.com
-```
-
-Generate a Better Auth secret:
-```bash
-openssl rand -base64 32
-```
-
-### 2b. Set up Resend (for password reset emails)
-
-1. Go to [resend.com](https://resend.com) and sign up
-2. Create an API key → copy to `RESEND_API_KEY`
-3. Add a verified sender domain → use for `RESEND_FROM_EMAIL`
-   - For testing locally: use `onboarding@resend.dev`
-   - For production: verify your domain in Resend dashboard
-
-### 3. Set up Neon database
-
-1. Go to [console.neon.tech](https://console.neon.tech) and create a project
-2. Copy your `DATABASE_URL`
-3. In Neon SQL Editor → run `supabase/schema.sql`
-
-This creates: `blog_posts`, `contact_messages`, `projects` tables + Better Auth tables (auto-created on first auth request)
-
-### 4. Run locally
+### 3. Database
 
 ```bash
-npm run dev
+# Apply migrations (idempotent — safe to re-run)
+npm run db:migrate
+
+# Or sync schema directly (dev)
+npm run db:push
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Tables created: `user`, `session`, `account`, `verification` (Better Auth) plus existing
+`blog_posts`, `contact_messages`, `projects` (preserved with `IF NOT EXISTS`).
 
-**Test admin auth:**
-- Go to `/admin/login`
-- Sign up with email + password (min 8 chars)
-- Explore `/admin` dashboard
+### 4. Run
+
+```bash
+npm run dev          # dev server (Turbopack)
+npm run build        # production build
+npm run start        # serve production build
+npm run lint         # ESLint
+npm run db:studio    # Drizzle Studio (visual DB inspector)
+```
 
 ---
 
-## Deployment
+## Deploy (Vercel)
 
-### Vercel (primary, recommended)
+1. Push to `main`.
+2. Add all env vars from `.env.example` to **Project Settings → Environment Variables**
+   for Production, Preview, and Development.
+3. First deploy after schema changes — run `npm run db:migrate` against your Neon DB
+   (locally with `DATABASE_URL_UNPOOLED` set, or via a one-off Vercel script).
 
-1. Push to GitHub
-2. Go to [vercel.com/new](https://vercel.com/new) and import your repo
-3. Add env vars in Vercel dashboard:
-   - `DATABASE_URL`
-   - `BETTER_AUTH_SECRET`
-   - `BETTER_AUTH_URL` (set to your production domain)
-   - `NEXT_PUBLIC_APP_URL` (set to your production domain)
-4. Deploy
-
-### Cloudflare Pages (secondary)
-
-**Build settings:**
-
-| Setting                | Value                              |
-|------------------------|------------------------------------|
-| Framework preset       | `Next.js`                          |
-| Build command          | `npx @cloudflare/next-on-pages`    |
-| Build output directory | `.vercel/output/static`            |
-| Node.js version        | `20`                               |
-
-Add the same env vars as Vercel, plus `CF_PAGES=1`.
+That's it — Vercel auto-detects Next.js. No `vercel.json` config beyond the framework hint.
 
 ---
 
-## Folder Structure
+## Project structure
 
 ```
 app/
-├── page.tsx                 # Home
-├── about/page.tsx           # About
-├── blog/                    # Blog routes
-├── projects/page.tsx        # All projects
-├── contact/page.tsx         # Contact
-├── admin/                   # Admin dashboard & CRUD
-├── api/auth/[...all]/route.ts # Better Auth routes
-└── globals.css              # CSS variables, base styles
-
-components/
-├── Navbar.tsx
-├── Footer.tsx
-├── ContactForm.tsx
-└── ProjectCard.tsx
-
+├── (public pages: /, /about, /blog, /projects, /contact)
+├── admin/                  — Better Auth-protected dashboard
+│   ├── layout.tsx          — session-gated nav
+│   ├── actions.ts          — server actions
+│   ├── login, forgot-password, reset-password
+│   └── posts, projects, messages
+├── api/auth/[...all]/      — Better Auth route handler (toNextJsHandler)
+└── contact/actions.ts      — contact form server action
+components/                 — Navbar, Footer, ProjectCard, ContactForm, etc.
 lib/
-├── db.ts                    # Neon client
-├── neon.ts                  # Database queries
-├── auth-utils.ts            # Session helpers
-├── auth.ts                  # Better Auth config
-├── markdown.ts              # Custom Markdown renderer
-└── utils.ts                 # Utilities
-
-supabase/
-└── schema.sql               # PostgreSQL schema
+├── auth.ts                 — Better Auth server config
+├── auth-client.ts          — Better Auth React client
+├── auth-utils.ts           — getSession, isAuthenticated helpers
+├── db/
+│   ├── index.ts            — Drizzle client (Neon HTTP)
+│   ├── schema.ts           — Drizzle schema (auth + app tables)
+│   └── queries.ts          — typed data-access functions
+├── email.ts                — Resend templates
+├── markdown.ts             — zero-dep Markdown renderer
+└── utils.ts                — cn, formatDate, slugify, etc.
+drizzle/                    — generated migrations
+drizzle.config.ts
+next.config.ts
+tailwind.config.ts
 ```
 
 ---
 
-## Admin Access
+## Notes
 
-Visit `/admin/login` to sign up or sign in.
-
-- **Sign up:** Create new account with email + password (min 8 characters)
-- **Sign in:** Enter email + password
-- **Forgot password:** Click link on login page → reset via email
-
-### Writing a blog post
-
-1. Go to `/admin/posts/new`
-2. Write in Markdown — live preview included
-3. Set title, slug, excerpt, tags, cover image, reading time
-4. Toggle **Published** when ready
-5. Click **Create post** — appears on `/blog` immediately
-
-### Managing projects
-
-1. Go to `/admin/projects`
-2. See all 10 projects
-3. Toggle featured status + reorder
-4. Changes saved immediately → homepage updates
-
----
-
-## Key Files
-
-| File | Purpose |
-|------|---------|
-| `PLANNER.md` | Full technical blueprint |
-| `DESIGN_GUIDE.md` | Design system spec |
-| `MIGRATION.md` | Setup guide: Supabase → Neon + Better Auth |
-| `supabase/schema.sql` | PostgreSQL schema |
-| `lib/neon.ts` | Database queries |
-| `lib/auth.ts` | Better Auth configuration |
-| `app/admin/actions.ts` | Server Actions |
-
----
-
-## License
-
-Personal portfolio — all rights reserved.  
-Design and code by Mahtamun Hoque Fahim.
+- The whole repo runs on **Node.js runtime** (Vercel default), not Edge. Better Auth
+  and Drizzle work cleanly on Node, with no Cloudflare-edge gymnastics.
+- The Neon HTTP driver (`@neondatabase/serverless`) is still used — it's just being
+  called from Node functions rather than Edge.
+- See **[DESIGN_GUIDE.md](./DESIGN_GUIDE.md)** for color tokens, typography, and component patterns.

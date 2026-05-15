@@ -48,18 +48,18 @@ All colors are defined as CSS variables in `app/globals.css` and extended into `
 | `#0d0d0d`      | —         | Hover bg on list rows (slightly off `--bg`)        |
 | `#c8c4bc`      | —         | Body copy inside `prose-dark` blog content         |
 
-### ⚠️ Critical: Tailwind + CSS Variables
+### WARN: Critical: Tailwind + CSS Variables
 
 **Never use Tailwind color utilities for custom tokens.** Tailwind's JIT engine cannot resolve CSS variables at build time.
 
 ```tsx
-// ❌ WRONG — JIT purges this, color won't apply
+// WRONG — JIT purges this, color won't apply
 <p className="text-accent">Hello</p>
 
-// ✅ CORRECT — inline style with CSS variable
+// CORRECT — inline style with CSS variable
 <p style={{ color: 'var(--accent)' }}>Hello</p>
 
-// ✅ ALSO CORRECT — hardcoded hex is fine for one-offs
+// ALSO CORRECT — hardcoded hex is fine for one-offs
 <p className="text-[#00e676]">Hello</p>
 ```
 

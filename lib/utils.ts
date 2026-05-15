@@ -5,8 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatDate(dateString: string): string {
-  const date = new Date(dateString)
+type DateLike = string | Date | number
+
+export function formatDate(value: DateLike): string {
+  const date = value instanceof Date ? value : new Date(value)
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -14,8 +16,8 @@ export function formatDate(dateString: string): string {
   })
 }
 
-export function formatDateTime(dateString: string): { date: string; time: string } {
-  const date = new Date(dateString)
+export function formatDateTime(value: DateLike): { date: string; time: string } {
+  const date = value instanceof Date ? value : new Date(value)
   return {
     date: date.toLocaleDateString('en-US', {
       year: 'numeric',

@@ -3,11 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { authClient } from '@/lib/auth-client'
 
 export default function AdminLoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [mode, setMode] = useState<'login' | 'signup'>('login')
@@ -18,22 +20,22 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      const endpoint = mode === 'signup' ? '/api/auth/sign-up' : '/api/auth/sign-in/email'
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error?.message || 'Authentication failed')
+      if (mode === 'signup') {
+        const { error } = await authClient.signUp.email({
+          email,
+          password,
+          name: name || email.split('@')[0],
+        })
+        if (error) throw new Error(error.message || 'Sign up failed')
+      } else {
+        const { error } = await authClient.signIn.email({ email, password })
+        if (error) throw new Error(error.message || 'Sign in failed')
       }
 
       router.push('/admin')
       router.refresh()
-    } catch (err: any) {
-      setError(err.message || 'Authentication failed')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Authentication failed')
     } finally {
       setLoading(false)
     }
@@ -42,7 +44,6 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-6 bg-[#0a0a0a]">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <Link href="/" className="inline-block mb-12">
           <div className="flex items-center gap-2">
             <span
@@ -55,31 +56,53 @@ export default function AdminLoginPage() {
           </div>
         </Link>
 
-        {/* Form */}
         <div className="bg-[#141414] border border-[#1f1f1f] rounded-2xl p-8">
           <h1
             className="text-2xl font-bold text-[#f0ede6] mb-2"
             style={{ fontFamily: "'Syne', sans-serif" }}
           >
-            {mode === 'login' ? 'Sign In' : 'Create Account'}
+            {mode === 'signup' ? 'Create account' : 'Welcome back'}
           </h1>
           <p
             className="text-[#8a8a8a] text-sm mb-8"
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
-            {mode === 'login' ? 'Access your admin dashboard' : 'Create your account to manage portfolio'}
+            {mode === 'signup'
+              ? 'Set up an admin account to manage your site.'
+              : 'Sign in to manage posts, projects, and messages.'}
           </p>
 
           {error && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-              <p className="text-red-500 text-sm" style={{ fontFamily: "'Onest', sans-serif" }}>
+              <p
+                className="text-red-500 text-sm"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
                 {error}
               </p>
             </div>
           )}
 
-          {/* Email/Password Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {mode === 'signup' && (
+              <div>
+                <label
+                  className="block text-[#f0ede6] text-sm mb-2 font-medium"
+                  style={{ fontFamily: "'Onest', sans-serif" }}
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg text-[#f0ede6] placeholder-[#8a8a8a] focus:outline-none focus:border-[#00e676] transition-colors"
+                  style={{ fontFamily: "'Onest', sans-serif" }}
+                />
+              </div>
+            )}
+
             <div>
               <label
                 className="block text-[#f0ede6] text-sm mb-2 font-medium"
@@ -118,7 +141,7 @@ export default function AdminLoginPage() {
               {mode === 'login' && (
                 <Link
                   href="/admin/forgot-password"
-                  className="inline-block text-[#8a8a8a] text-xs hover:text-[#00e676] mt-2 transition-colors"
+                  className="inline-block mt-2 text-xs text-[#8a8a8a] hover:text-[#00e676] transition-colors"
                   style={{ fontFamily: "'Onest', sans-serif" }}
                 >
                   Forgot password?
@@ -132,16 +155,19 @@ export default function AdminLoginPage() {
               className="w-full mt-6 px-4 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
               style={{ fontFamily: "'Onest', sans-serif" }}
             >
-              {loading ? 'Please wait...' : mode === 'login' ? 'Sign In' : 'Create Account'}
+              {loading
+                ? 'Please wait...'
+                : mode === 'signup'
+                  ? 'Create account'
+                  : 'Sign in'}
             </button>
           </form>
 
-          {/* Toggle mode */}
           <p
             className="text-[#8a8a8a] text-sm text-center mt-6"
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
-            {mode === 'login' ? "Don't have an account? " : 'Already have an account? '}
+            {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
             <button
               onClick={() => {
                 setMode(mode === 'login' ? 'signup' : 'login')

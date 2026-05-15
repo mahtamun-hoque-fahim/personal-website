@@ -1,9 +1,9 @@
-export const runtime = 'edge'
+
 
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { isAuthenticated } from '@/lib/auth-utils'
-import { getBlogPosts, type BlogPost } from '@/lib/neon'
+import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import { formatDate } from '@/lib/utils'
 import DeletePostButton from './DeletePostButton'
 
@@ -42,7 +42,7 @@ export default async function AdminPostsPage() {
                   <span className={`text-xs px-2 py-0.5 rounded-full ${post.published ? 'bg-[#00e676]/10 text-[#00e676] border border-[#00e676]/20' : 'bg-[#2a2a2a] text-[#8a8a8a] border border-[#1f1f1f]'}`} style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                     {post.published ? 'Published' : 'Draft'}
                   </span>
-                  <span className="text-[#2a2a2a] text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatDate(post.created_at)}</span>
+                  <span className="text-[#2a2a2a] text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{formatDate(post.createdAt)}</span>
                 </div>
                 <h3 className="text-[#f0ede6] font-semibold truncate" style={{ fontFamily: "'Syne', sans-serif" }}>{post.title}</h3>
                 <p className="text-[#8a8a8a] text-xs truncate mt-0.5" style={{ fontFamily: "'Onest', sans-serif" }}>{post.excerpt}</p>

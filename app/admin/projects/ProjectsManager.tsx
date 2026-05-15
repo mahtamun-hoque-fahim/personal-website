@@ -9,8 +9,8 @@ type Project = {
   tagline: string
   type: string
   featured: boolean
-  featured_order: number | null
-  live_url: string | null
+  featuredOrder: number | null
+  liveUrl: string | null
 }
 
 export default function ProjectsManager({ initialProjects }: { initialProjects: Project[] }) {
@@ -18,7 +18,7 @@ export default function ProjectsManager({ initialProjects }: { initialProjects: 
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  const featuredProjects = projects.filter(p => p.featured).sort((a, b) => (a.featured_order || 999) - (b.featured_order || 999))
+  const featuredProjects = projects.filter(p => p.featured).sort((a, b) => (a.featuredOrder || 999) - (b.featuredOrder || 999))
   const unfeaturedProjects = projects.filter(p => !p.featured)
 
   const toggleFeatured = async (projectId: string, currentFeatured: boolean) => {
@@ -28,7 +28,7 @@ export default function ProjectsManager({ initialProjects }: { initialProjects: 
     // Update local state
     setProjects(prev => prev.map(p => 
       p.id === projectId 
-        ? { ...p, featured: newFeatured, featured_order: newFeatured ? Math.max(...featuredProjects.map(fp => fp.featured_order || 0)) + 1 : null }
+        ? { ...p, featured: newFeatured, featuredOrder: newFeatured ? Math.max(...featuredProjects.map(fp => fp.featuredOrder || 0)) + 1 : null }
         : p
     ))
 
@@ -59,7 +59,7 @@ export default function ProjectsManager({ initialProjects }: { initialProjects: 
     const newOrder = newFeatured.map((p, i) => ({ id: p.id, order: i + 1 }))
     setProjects(prev => prev.map(p => ({
       ...p,
-      featured_order: newOrder.find(no => no.id === p.id)?.order || p.featured_order
+      featuredOrder: newOrder.find(no => no.id === p.id)?.order || p.featuredOrder
     })))
 
     setLoading(true)
@@ -194,7 +194,7 @@ export default function ProjectsManager({ initialProjects }: { initialProjects: 
                     >
                       {project.type}
                     </span>
-                    {project.live_url && (
+                    {project.liveUrl && (
                       <span
                         className="text-xs px-2 py-1 bg-[#00e676]/10 text-[#00e676] rounded"
                         style={{ fontFamily: "'JetBrains Mono', monospace" }}

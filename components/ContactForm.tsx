@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { submitContactMessage } from '@/app/contact/actions'
 
 type FormState = 'idle' | 'loading' | 'success' | 'error'
 
@@ -10,7 +10,9 @@ export default function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [error, setError] = useState('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
@@ -19,26 +21,22 @@ export default function ContactForm() {
     setError('')
     setState('loading')
 
-    // Fetch country from IP
+    // Best-effort country lookup; non-blocking on failure.
     let country: string | null = null
     try {
-      const geo = await fetch('https://ipapi.co/json/')
-      const geoData = await geo.json()
-      country = geoData.country_name ?? null
+      const geo = await fetch('https://ipapi.co/json/', { cache: 'no-store' })
+      if (geo.ok) {
+        const geoData = (await geo.json()) as { country_name?: string }
+        country = geoData.country_name ?? null
+      }
     } catch {
-      // silently fail — country is optional
+      // silently ignore — country is optional
     }
 
-    const { error: dbError } = await supabase.from('contact_messages').insert({
-      name: form.name,
-      email: form.email,
-      subject: form.subject,
-      message: form.message,
-      ...(country ? { country } : {}),
-    })
+    const result = await submitContactMessage({ ...form, country })
 
-    if (dbError) {
-      setError('Something went wrong. Please email me directly.')
+    if (!result.ok) {
+      setError(result.error)
       setState('error')
       return
     }
@@ -50,8 +48,22 @@ export default function ContactForm() {
   if (state === 'success') {
     return (
       <div className="flex flex-col items-start justify-center h-full py-12">
-        <div className="w-12 h-12 rounded-full bg-[#00e676]/10 border border-[#00e676]/30 flex items-center justify-center mb-6">
-          <span className="text-[#00e676] text-xl">✓</span>
+        <div
+          className="w-12 h-12 rounded-full bg-[#00e676]/10 border border-[#00e676]/30 flex items-center justify-center mb-6"
+          aria-hidden="true"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#00e676"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
         </div>
         <h3
           className="text-2xl font-bold text-[#f0ede6] mb-3"

@@ -1,4 +1,4 @@
-export const runtime = 'edge'
+
 
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'

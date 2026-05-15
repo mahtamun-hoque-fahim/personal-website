@@ -1,9 +1,11 @@
-export const runtime = 'edge'
+
+
+export const revalidate = 60
 
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProjectCard from '@/components/ProjectCard'
-import { getAllProjects } from '@/lib/projects'
+import { getAllProjects } from '@/lib/db/queries'
 
 export const metadata = {
   title: 'Projects',
@@ -54,7 +56,7 @@ export default async function ProjectsPage() {
                 className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
                 style={{ fontFamily: "'Syne', sans-serif" }}
               >
-                {allProjects.filter(p => p.live).length}
+                {allProjects.filter(p => p.liveUrl).length}
               </p>
               <p
                 className="text-[#8a8a8a] text-sm mt-2"

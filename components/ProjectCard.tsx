@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Project } from '@/lib/projects'
+import type { Project } from '@/lib/db/queries'
 
 function BetaModal({
   projectName,
@@ -17,15 +17,12 @@ function BetaModal({
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
       onClick={onClose}
     >
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
 
-      {/* Modal */}
       <div
         className="relative bg-[#0f0f0f] border border-[#1f1f1f] rounded-2xl p-8 max-w-md w-full"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top accent line */}
         <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#00e676] to-transparent" />
 
         <p
@@ -55,16 +52,14 @@ function BetaModal({
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
-            className="flex-1 text-center px-5 py-2.5 bg-[#00e676] text-black text-sm font-semibold rounded-full
-                       hover:bg-[#00b85a] transition-all duration-200"
+            className="flex-1 text-center px-5 py-2.5 bg-[#00e676] text-black text-sm font-semibold rounded-full hover:bg-[#00b85a] transition-all duration-200"
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
-            Yeah, let's go →
+            Yeah, let&apos;s go →
           </a>
           <button
             onClick={onClose}
-            className="flex-1 px-5 py-2.5 border border-[#1f1f1f] text-[#8a8a8a] text-sm rounded-full
-                       hover:border-[#8a8a8a] hover:text-[#f0ede6] transition-all duration-200"
+            className="flex-1 px-5 py-2.5 border border-[#1f1f1f] text-[#8a8a8a] text-sm rounded-full hover:border-[#8a8a8a] hover:text-[#f0ede6] transition-all duration-200"
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
             Maybe later
@@ -125,7 +120,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             ))}
           </div>
           <div className="flex gap-4">
-            {project.live_url && (
+            {project.liveUrl && (
               <button
                 onClick={() => setShowModal(true)}
                 className="text-[#00e676] text-sm hover:underline cursor-pointer"
@@ -135,7 +130,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               </button>
             )}
             <a
-              href={project.repo_url}
+              href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#8a8a8a] text-sm hover:text-[#f0ede6] transition-colors"
@@ -147,10 +142,10 @@ export default function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
 
-      {showModal && project.live_url && (
+      {showModal && project.liveUrl && (
         <BetaModal
           projectName={project.name}
-          url={project.live_url}
+          url={project.liveUrl}
           onClose={() => setShowModal(false)}
         />
       )}

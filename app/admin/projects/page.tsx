@@ -1,8 +1,8 @@
-export const runtime = 'edge'
+
 
 import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth-utils'
-import { getProjects } from '@/lib/neon'
+import { getAllProjects } from '@/lib/db/queries'
 import ProjectsManager from './ProjectsManager'
 
 export const metadata = { title: 'Manage Projects' }
@@ -11,7 +11,7 @@ export default async function ProjectsAdminPage() {
   const authenticated = await isAuthenticated()
   if (!authenticated) redirect('/admin/login')
 
-  const projects = await getProjects()
+  const projects = await getAllProjects()
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">

@@ -1,11 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { authClient } from '@/lib/auth-client'
 
 export default function ForgotPasswordPage() {
-  const router = useRouter()
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -17,20 +16,14 @@ export default function ForgotPasswordPage() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/auth/forgot-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+      const { error } = await authClient.requestPasswordReset({
+        email,
+        redirectTo: `${window.location.origin}/admin/reset-password`,
       })
-
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error?.message || 'Failed to send reset email')
-      }
-
+      if (error) throw new Error(error.message || 'Failed to send reset email')
       setSuccess(true)
-    } catch (err: any) {
-      setError(err.message || 'An error occurred')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
       setLoading(false)
     }
@@ -53,26 +46,42 @@ export default function ForgotPasswordPage() {
           </Link>
 
           <div className="bg-[#141414] border border-[#1f1f1f] rounded-2xl p-8 text-center">
-            <div className="mb-6 text-4xl">✓</div>
+            <div
+              className="w-12 h-12 rounded-full bg-[#00e676]/10 border border-[#00e676]/30 flex items-center justify-center mx-auto mb-6"
+              aria-hidden="true"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#00e676"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
             <h1
               className="text-2xl font-bold text-[#f0ede6] mb-2"
               style={{ fontFamily: "'Syne', sans-serif" }}
             >
-              Check Your Email
+              Check your email
             </h1>
             <p
               className="text-[#8a8a8a] text-sm mb-8"
               style={{ fontFamily: "'Onest', sans-serif" }}
             >
-              We've sent a password reset link to <strong>{email}</strong>. 
-              Click the link in your email to create a new password.
+              We sent a password reset link to <strong>{email}</strong>. Click the link in
+              your email to create a new password.
             </p>
 
             <p
               className="text-[#8a8a8a] text-xs mb-8"
               style={{ fontFamily: "'Onest', sans-serif" }}
             >
-              Link expires in 24 hours. Check spam folder if you don't see it.
+              The link expires in 24 hours. Check spam if you don&apos;t see it.
             </p>
 
             <Link
@@ -80,7 +89,7 @@ export default function ForgotPasswordPage() {
               className="inline-block px-6 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] transition-colors"
               style={{ fontFamily: "'Onest', sans-serif" }}
             >
-              Back to Sign In
+              Back to sign in
             </Link>
           </div>
         </div>
@@ -108,18 +117,21 @@ export default function ForgotPasswordPage() {
             className="text-2xl font-bold text-[#f0ede6] mb-2"
             style={{ fontFamily: "'Syne', sans-serif" }}
           >
-            Reset Password
+            Reset password
           </h1>
           <p
             className="text-[#8a8a8a] text-sm mb-8"
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
-            Enter your email and we'll send you a link to reset your password.
+            Enter your email and we&apos;ll send you a link to reset your password.
           </p>
 
           {error && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-              <p className="text-red-500 text-sm" style={{ fontFamily: "'Onest', sans-serif" }}>
+              <p
+                className="text-red-500 text-sm"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
                 {error}
               </p>
             </div>
@@ -150,7 +162,7 @@ export default function ForgotPasswordPage() {
               className="w-full mt-6 px-4 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
               style={{ fontFamily: "'Onest', sans-serif" }}
             >
-              {loading ? 'Sending...' : 'Send Reset Link'}
+              {loading ? 'Sending...' : 'Send reset link'}
             </button>
           </form>
 
@@ -159,7 +171,10 @@ export default function ForgotPasswordPage() {
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
             Remember your password?{' '}
-            <Link href="/admin/login" className="text-[#00e676] hover:underline font-medium">
+            <Link
+              href="/admin/login"
+              className="text-[#00e676] hover:underline font-medium"
+            >
               Sign in
             </Link>
           </p>

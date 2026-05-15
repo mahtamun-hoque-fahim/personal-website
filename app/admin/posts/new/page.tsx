@@ -1,4 +1,4 @@
-export const runtime = 'edge'
+
 
 import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth-utils'

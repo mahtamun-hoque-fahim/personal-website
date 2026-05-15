@@ -1,34 +1,24 @@
-import { headers } from "next/headers"
-import { auth } from "@/auth"
+import { headers } from 'next/headers'
+import { auth } from '@/lib/auth'
 
 /**
- * Get the current authenticated session
- * Safe for Edge Runtime
+ * Get the current authenticated session (Server Components, Route Handlers, Server Actions).
  */
 export async function getSession() {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    })
-    return session
+    return await auth.api.getSession({ headers: await headers() })
   } catch (error) {
-    console.error("Error getting session:", error)
+    console.error('getSession error:', error)
     return null
   }
 }
 
-/**
- * Check if user is authenticated
- */
 export async function isAuthenticated() {
   const session = await getSession()
   return !!session?.user
 }
 
-/**
- * Get the current user
- */
 export async function getCurrentUser() {
   const session = await getSession()
-  return session?.user || null
+  return session?.user ?? null
 }

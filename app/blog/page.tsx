@@ -1,10 +1,10 @@
-export const runtime = 'edge'
+
 
 import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { getBlogPosts, getBlogPostBySlug, type BlogPost } from '@/lib/neon'
+import { getBlogPosts, getBlogPostBySlug, type BlogPost } from '@/lib/db/queries'
 import { formatDate } from '@/lib/utils'
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export const revalidate = 60
 
 async function getPosts(): Promise<BlogPost[]> {
-  return (await getBlogPosts(true)) as BlogPost[]
+  return (await getBlogPosts({ publishedOnly: true })) as BlogPost[]
 }
 
 export default async function BlogPage() {
@@ -114,13 +114,13 @@ export default async function BlogPage() {
                     className="text-[#8a8a8a] text-xs"
                     style={{ fontFamily: "'JetBrains Mono', monospace" }}
                   >
-                    {formatDate(post.created_at)}
+                    {formatDate(post.createdAt)}
                   </p>
                   <p
                     className="text-[#2a2a2a] text-xs mt-1"
                     style={{ fontFamily: "'Onest', sans-serif" }}
                   >
-                    {post.reading_time} min read
+                    {post.readingTime} min read
                   </p>
                 </div>
               </Link>
