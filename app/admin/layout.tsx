@@ -53,6 +53,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               Messages
             </Link>
+            <Link
+              href="/admin/projects"
+              className="text-sm text-[#8a8a8a] hover:text-[#f0ede6] transition-colors"
+              style={{ fontFamily: "'Onest', sans-serif" }}
+            >
+              Projects
+            </Link>
             <form action={logoutAction}>
               <button
                 type="submit"
