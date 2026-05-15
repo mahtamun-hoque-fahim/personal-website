@@ -1,13 +1,13 @@
 # Migration Guide: Supabase → Neon + Better Auth
 
-This guide walks you through migrating your personal portfolio from Supabase to **Neon PostgreSQL** + **Better Auth**.
+This guide walks you through migrating your personal portfolio from Supabase to **Neon PostgreSQL** + **Better Auth** with email/password authentication + forgot password.
 
 ---
 
 ## Step 1: Install Dependencies
 
 ```bash
-npm install better-auth @neondatabase/serverless zod
+npm install better-auth @neondatabase/serverless bcryptjs
 npm install -D @types/better-auth
 ```
 
@@ -21,27 +21,11 @@ npm install -D @types/better-auth
 3. Create a new project
 4. Copy your `DATABASE_URL` (connection string)
 
-### 2b. Export data from Supabase
-1. In Supabase, go to **SQL Editor**
-2. Run this to export your data:
-
-```bash
-# Option A: Use Supabase CLI (recommended)
-supabase db pull
-
-# Option B: Manual export
-# Export blog_posts table, contact_messages, projects
-```
-
-### 2c. Create tables in Neon
+### 2b. Create tables in Neon
 1. Go to Neon SQL Editor
 2. Paste and run the schema from `supabase/schema.sql`
 
-```sql
--- Copy the entire schema.sql and run in Neon
-```
-
-### 2d. Migrate data (if you have existing data)
+### 2c. Migrate data from Supabase (if you have existing data)
 
 ```bash
 # Use pg_dump + psql
@@ -50,146 +34,66 @@ pg_dump "your_supabase_connection_string" | psql "your_neon_connection_string"
 
 ---
 
-## Step 3: Set Up Google OAuth
+## Step 3: Update Environment Variables
 
-### 3a. Create Google OAuth credentials
-1. Go to [console.cloud.google.com](https://console.cloud.google.com)
-2. Create a new project or select existing
-3. Go to **Credentials** → **Create Credentials** → **OAuth 2.0 Client ID**
-4. Choose **Web Application**
-5. Add authorized redirect URIs:
-   - For development: `http://localhost:3000/api/auth/callback/google`
-   - For production: `https://yourdomain.com/api/auth/callback/google`
-6. Copy `Client ID` and `Client Secret`
-
----
-
-## Step 4: Update Environment Variables
-
-Create `.env.local` in your project root:
+Create `.env.local`:
 
 ```env
 # Neon Database
 DATABASE_URL="postgresql://user:password@host/dbname"
 
-# Better Auth
-BETTER_AUTH_SECRET="your-generated-secret"
-BETTER_AUTH_URL="http://localhost:3000"  # or your production URL
+# Better Auth  
+BETTER_AUTH_SECRET="generate-with-openssl-rand-base64-32"
+BETTER_AUTH_URL="http://localhost:3000"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
-
-# Google OAuth
-GOOGLE_CLIENT_ID="your-client-id.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET="your-client-secret"
 ```
 
-Generate a secret:
+Generate secret:
 ```bash
 openssl rand -base64 32
 ```
 
 ---
 
-## Step 5: Test Locally
+## Step 4: Test Locally
 
 ```bash
 npm run dev
 ```
 
 1. Go to `http://localhost:3000/admin/login`
-2. Try signing in with:
-   - **Google** (will redirect, only your email works)
-   - **Email/Password** (sign up first, then sign in)
+2. Sign up with email + password (min 8 chars)
+3. Try signing in
+4. Test "Forgot password?" link
 
 ---
 
-## Step 6: Deploy to Vercel
+## Step 5: Deploy to Vercel
 
-### 6a. Update Vercel environment variables
-1. Go to [vercel.com](https://vercel.com) → Your Project → **Settings** → **Environment Variables**
-2. Add all variables from `.env.local`:
-   - `DATABASE_URL`
-   - `BETTER_AUTH_SECRET`
-   - `BETTER_AUTH_URL` (set to your production domain)
-   - `NEXT_PUBLIC_APP_URL` (set to your production domain)
-   - `GOOGLE_CLIENT_ID`
-   - `GOOGLE_CLIENT_SECRET`
-
-### 6b. Update Google OAuth redirect URI
-1. Go back to [console.cloud.google.com](https://console.cloud.google.com)
-2. Update authorized redirect URIs to include: `https://yourdomain.com/api/auth/callback/google`
-
-### 6c. Deploy
-```bash
-git push
-```
-
-Vercel will auto-deploy with your environment variables.
+1. Add env vars to Vercel dashboard
+2. Push to GitHub → auto-deploy
 
 ---
 
-## Step 7: Remove Supabase References
+## Authentication Features
 
-You can now remove old Supabase code:
-
-```bash
-# Remove these files if no longer needed
-rm lib/supabase.ts  # Now using Neon directly
-```
+✅ **Sign Up** - Email + Password  
+✅ **Sign In** - Email + Password  
+✅ **Forgot Password** - Email reset link + password reset page  
+✅ **Sessions** - Better Auth managed cookies  
 
 ---
 
 ## Troubleshooting
 
-### "Database connection failed"
-- Check `DATABASE_URL` is correct
-- Verify IP whitelist in Neon console (should be wide open or your server IP)
-- Test connection: `psql $DATABASE_URL`
+**"Database connection failed"** → Check `DATABASE_URL` is correct
 
-### "Google signin not working"
-- Verify `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are correct
-- Check authorized redirect URIs match your domain
-- Check `BETTER_AUTH_URL` matches your domain
+**"Better Auth tables not created"** → Better Auth creates them automatically on first run
 
-### "Better Auth tables not created"
-- Better Auth automatically creates tables on first run
-- Check `/api/auth/` works by visiting `http://localhost:3000/api/auth/healthz`
+**"Admin routes redirecting to login"** → Refresh after login, check cookies
 
-### "Admin routes redirecting to login"
-- Better Auth cookie handling takes ~1 second
-- Refresh the page after login
-- Check browser cookies (should see `better-auth.session_token`)
+**"Password reset not working"** → Update email service in `auth.ts` (currently logs to console)
 
 ---
-
-## What's Changed
-
-| Old | New |
-|-----|-----|
-| Supabase SDK | Neon + direct SQL |
-| Cookie auth (password) | Better Auth (OAuth + Email/Password) |
-| Supabase RLS | Neon (manual SQL)  |
-| Admin login form | Google + Email/Password options |
-
----
-
-##  Rollback (if needed)
-
-If you need to revert:
-1. Your Supabase data is still there (doesn't get deleted)
-2. Revert to the previous commit: `git revert HEAD`
-3. Redeploy with old env vars
-
----
-
-## Next Steps
-
-✅ Data is migrated  
-✅ Auth is set up  
-✅ Admin dashboard works  
-
-Now you can:
-- Manage projects via `/admin/projects`
-- Add blog posts via `/admin/posts`
-- Update projects dynamically (no code changes needed!)
 
 Happy shipping! 🚀

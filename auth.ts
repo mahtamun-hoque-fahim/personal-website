@@ -14,22 +14,26 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
+    autoSignUpOnSignIn: false, // Require explicit signup
   },
   
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      redirectURL: `${process.env.BETTER_AUTH_URL || "http://localhost:3000"}/api/auth/callback/google`,
-      
-      // Whitelist only your email
-      onBeforeCallback: async (profile) => {
-        const allowedEmail = "mahtamunhoquefahim@gmail.com"
-        if (profile.email !== allowedEmail) {
-          throw new Error(`Only ${allowedEmail} is allowed to sign in with Google`)
-        }
-        return profile
-      },
+  // Email verification and password reset
+  emailVerification: {
+    sendVerificationEmail: async (user, url) => {
+      // In production, send real email via Resend/SendGrid
+      console.log(`Verify email for ${user.email}: ${url}`)
+    },
+    autoSignInAfterVerification: true,
+  },
+  
+  password: {
+    hash: async (password) => {
+      const bcrypt = await import("bcryptjs")
+      return bcrypt.hash(password, 10)
+    },
+    verify: async (data, hash) => {
+      const bcrypt = await import("bcryptjs")
+      return bcrypt.compare(data, hash)
     },
   },
   
@@ -37,3 +41,4 @@ export const auth = betterAuth({
     process.env.BETTER_AUTH_URL || "http://localhost:3000",
   ],
 })
+
