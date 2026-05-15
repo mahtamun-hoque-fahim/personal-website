@@ -1,33 +1,27 @@
 export const runtime = 'edge'
 
 import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
-
-const ADMIN_COOKIE = 'fahim_admin_session'
+import { isAuthenticated } from '@/lib/auth-utils'
+import { getProjects, getBlogPosts, getContactMessages } from '@/lib/neon'
 
 async function getStats() {
-  const [postsRes, messagesRes] = await Promise.all([
-    supabase.from('blog_posts').select('id, published', { count: 'exact' }),
-    supabase.from('contact_messages').select('id, read', { count: 'exact' }),
+  const [posts, messages] = await Promise.all([
+    getBlogPosts(),
+    getContactMessages(),
   ])
-
-  const posts = postsRes.data || []
-  const messages = messagesRes.data || []
 
   return {
     totalPosts: posts.length,
-    publishedPosts: posts.filter((p) => p.published).length,
+    publishedPosts: posts.filter((p: any) => p.published).length,
     totalMessages: messages.length,
-    unreadMessages: messages.filter((m) => !m.read).length,
+    unreadMessages: messages.filter((m: any) => !m.read).length,
   }
 }
 
 export default async function AdminDashboard() {
-  const cookieStore = cookies()
-  const session = cookieStore.get(ADMIN_COOKIE)
-  if (session?.value !== 'authenticated') redirect('/admin/login')
+  const authenticated = await isAuthenticated()
+  if (!authenticated) redirect('/admin/login')
 
   const stats = await getStats()
 
