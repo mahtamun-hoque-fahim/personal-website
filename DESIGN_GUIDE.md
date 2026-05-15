@@ -404,3 +404,4 @@ CF_PAGES=1
 | 2025-01    | Noise texture overlay, custom scrollbar, selection styles added        |
 | 2026-04-04 | Supabase client refactored for Edge safety — no singleton, Realtime disabled, `persistSession: false`. Fixes CF Pages blog crash. |
 | 2026-04-04 | `DESIGN_GUIDE.md` created — consolidated design system documentation   |
+| 2026-05-15 | Better Auth UI added — login, forgot password, reset password pages use existing design tokens (no new colors required) |

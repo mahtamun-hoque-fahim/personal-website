@@ -15,7 +15,8 @@ Personal website of **Mahtamun Hoque Fahim** — Graphic Designer, Full-Stack De
 | Framework   | Next.js 14 App Router                     |
 | Language    | TypeScript                                |
 | Styling     | Tailwind CSS + CSS custom properties      |
-| Database    | Supabase (PostgreSQL)                     |
+| Database    | Neon (PostgreSQL)                         |
+| Auth        | Better Auth (email/password + forgot password) |
 | Fonts       | Syne · Onest · JetBrains Mono (Google Fonts) |
 | Hosting     | Vercel (primary) + Cloudflare Pages (secondary) |
 | Runtime     | Edge Runtime — all pages export `runtime = 'edge'` |
@@ -26,22 +27,27 @@ Personal website of **Mahtamun Hoque Fahim** — Graphic Designer, Full-Stack De
 
 | Route                  | Description                                    |
 |------------------------|------------------------------------------------|
-| `/`                    | Hero, services, personality, writing teaser    |
+| `/`                    | Hero, services, personality, featured projects |
 | `/about`               | Timeline, values, tools                        |
-| `/blog`                | Post listing from Supabase                     |
+| `/blog`                | Post listing from Neon                         |
 | `/blog/[slug]`         | Post with custom Markdown renderer             |
-| `/contact`             | Contact info + form → Supabase                 |
-| `/admin`               | Dashboard (password protected via cookie)      |
+| `/projects`            | All 10 projects showcase                       |
+| `/contact`             | Contact info + form → Neon                     |
+| `/admin`               | Dashboard (Better Auth protected)              |
+| `/admin/login`         | Sign up / Sign in                              |
+| `/admin/forgot-password` | Request password reset email                  |
+| `/admin/reset-password` | Reset password via email link                 |
 | `/admin/posts`         | Manage blog posts                              |
 | `/admin/posts/new`     | Write new post (Markdown editor)               |
 | `/admin/posts/[id]`    | Edit existing post                             |
+| `/admin/projects`      | Manage featured projects + reorder             |
 | `/admin/messages`      | View contact form submissions, mark as read    |
 
 ---
 
 ## Design System
 
-See **[DESIGN_GUIDE.md](./DESIGN_GUIDE.md)** for the full reference — colors, typography, components, spacing, animation, and changelog.
+See **[DESIGN_GUIDE.md](./DESIGN_GUIDE.md)** for the full reference.
 
 Quick summary:
 
@@ -51,7 +57,12 @@ Quick summary:
 - **Surface:** `#141414` — cards, panels
 - **Fonts:** Syne (display/headings), Onest (body), JetBrains Mono (labels, code)
 
-> ⚠️ Custom color tokens must be applied via inline `style={{ color: 'var(--accent)' }}` or hardcoded hex (`text-[#00e676]`), **not** Tailwind utility classes — CSS variables don't resolve at JIT build time.
+---
+
+## Prerequisites
+
+- Node.js 18+ (with npm/yarn)
+- Neon account ([console.neon.tech](https://console.neon.tech))
 
 ---
 
@@ -62,6 +73,7 @@ Quick summary:
 ```bash
 git clone https://github.com/mahtamun-hoque-fahim/personal-website.git
 cd personal-website
+npm install better-auth @neondatabase/serverless bcryptjs
 npm install
 ```
 
@@ -74,18 +86,27 @@ cp .env.example .env.local
 Fill in `.env.local`:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-ADMIN_PASSWORD=your_secure_password
+# Neon Database
+DATABASE_URL=postgresql://user:password@host/dbname
+
+# Better Auth
+BETTER_AUTH_SECRET=generate-with-openssl-rand-base64-32
+BETTER_AUTH_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-### 3. Set up Supabase tables
+Generate a secret:
+```bash
+openssl rand -base64 32
+```
 
-Go to your Supabase project → SQL Editor → run `supabase/schema.sql`.
+### 3. Set up Neon database
 
-This creates:
-- `blog_posts` — title, slug, content (Markdown), tags, published, reading_time
-- `contact_messages` — name, email, subject, message, read flag
+1. Go to [console.neon.tech](https://console.neon.tech) and create a project
+2. Copy your `DATABASE_URL`
+3. In Neon SQL Editor → run `supabase/schema.sql`
+
+This creates: `blog_posts`, `contact_messages`, `projects` tables + Better Auth tables (auto-created on first auth request)
 
 ### 4. Run locally
 
@@ -95,29 +116,29 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
+**Test admin auth:**
+- Go to `/admin/login`
+- Sign up with email + password (min 8 chars)
+- Explore `/admin` dashboard
+
 ---
 
 ## Deployment
 
 ### Vercel (primary, recommended)
 
-```bash
-npm i -g vercel
-vercel login
-vercel
-```
-
-Or push to GitHub and import at [vercel.com/new](https://vercel.com/new). Add these env vars in the Vercel dashboard:
-
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `ADMIN_PASSWORD`
+1. Push to GitHub
+2. Go to [vercel.com/new](https://vercel.com/new) and import your repo
+3. Add env vars in Vercel dashboard:
+   - `DATABASE_URL`
+   - `BETTER_AUTH_SECRET`
+   - `BETTER_AUTH_URL` (set to your production domain)
+   - `NEXT_PUBLIC_APP_URL` (set to your production domain)
+4. Deploy
 
 ### Cloudflare Pages (secondary)
 
-This project is fully compatible with Cloudflare Pages via [`@cloudflare/next-on-pages`](https://github.com/cloudflare/next-on-pages).
-
-**Build settings in Cloudflare dashboard:**
+**Build settings:**
 
 | Setting                | Value                              |
 |------------------------|------------------------------------|
@@ -126,98 +147,79 @@ This project is fully compatible with Cloudflare Pages via [`@cloudflare/next-on
 | Build output directory | `.vercel/output/static`            |
 | Node.js version        | `20`                               |
 
-**Environment variables** (same as Vercel, plus):
+Add the same env vars as Vercel, plus `CF_PAGES=1`.
 
-- `CF_PAGES=1` — disables Next.js image optimization (Cloudflare has no image server)
+---
 
-**Local preview with Wrangler:**
+## Folder Structure
 
-```bash
-npm run build:cf     # builds with next-on-pages
-npm run preview:cf   # runs locally with Wrangler
 ```
+app/
+├── page.tsx                 # Home
+├── about/page.tsx           # About
+├── blog/                    # Blog routes
+├── projects/page.tsx        # All projects
+├── contact/page.tsx         # Contact
+├── admin/                   # Admin dashboard & CRUD
+├── api/auth/[...all]/route.ts # Better Auth routes
+└── globals.css              # CSS variables, base styles
 
-#### Edge Runtime notes
+components/
+├── Navbar.tsx
+├── Footer.tsx
+├── ContactForm.tsx
+└── ProjectCard.tsx
 
-Every page exports `export const runtime = 'edge'` — required for Cloudflare Workers compatibility. Key constraints:
+lib/
+├── db.ts                    # Neon client
+├── neon.ts                  # Database queries
+├── auth-utils.ts            # Session helpers
+├── auth.ts                  # Better Auth config
+├── markdown.ts              # Custom Markdown renderer
+└── utils.ts                 # Utilities
 
-- **No Node.js APIs** (`fs`, `crypto`, `Buffer`, TCP sockets) — use Edge-compatible equivalents only
-- **Supabase client** — created fresh per request (no module-level singleton), Realtime disabled (`eventsPerSecond: -1`), `persistSession: false`. See `lib/supabase.ts` for the full pattern and comments explaining why.
-- **Cookies** — read via `next/headers` in Server Components / Route Handlers only, never in Client Components
-- **Images** — `unoptimized: true` when `CF_PAGES=1` (set in `next.config.js`)
-
-See `cf-edge-notes.md` for a per-file runtime checklist.
+supabase/
+└── schema.sql               # PostgreSQL schema
+```
 
 ---
 
 ## Admin Access
 
-Visit `/admin` — redirects to `/admin/login`.
+Visit `/admin/login` to sign up or sign in.
 
-Authentication uses a simple HTTP-only cookie (`fahim_admin_session`) set by a Server Action against `ADMIN_PASSWORD`. **Change this before deploying** — set a strong value in your deployment dashboard env vars.
+- **Sign up:** Create new account with email + password (min 8 characters)
+- **Sign in:** Enter email + password
+- **Forgot password:** Click link on login page → reset via email
 
 ### Writing a blog post
 
 1. Go to `/admin/posts/new`
 2. Write in Markdown — live preview included
-3. Set tags (comma-separated), excerpt, optional cover image URL
+3. Set title, slug, excerpt, tags, cover image, reading time
 4. Toggle **Published** when ready
-5. Hit **Create post** — it appears on `/blog` immediately
+5. Click **Create post** — appears on `/blog` immediately
 
-Blog content is rendered by a custom zero-dependency Markdown renderer (`lib/markdown.ts`) — no `remark`, no `marked`, works on Edge Runtime.
+### Managing projects
 
----
-
-## Project Structure
-
-```
-app/
-├── page.tsx                 # Home — hero, services, personality, CTA
-├── about/page.tsx           # Timeline, values, tools
-├── blog/
-│   ├── page.tsx             # Post listing
-│   └── [slug]/page.tsx      # Single post
-├── contact/page.tsx         # Contact info + form
-├── admin/
-│   ├── page.tsx             # Dashboard overview
-│   ├── login/page.tsx       # Login form
-│   ├── actions.ts           # Server Actions: login, logout
-│   ├── posts/               # Post CRUD pages
-│   └── messages/            # Messages viewer
-├── layout.tsx               # Root layout, metadata, font loading
-└── globals.css              # CSS variables, base styles, prose-dark, utilities
-
-components/
-├── Navbar.tsx               # Fixed nav, scroll-aware, mobile overlay
-├── Footer.tsx               # Site footer
-└── ContactForm.tsx          # Client-side contact form
-
-lib/
-├── supabase.ts              # Edge-safe Supabase client (getSupabase() + proxy)
-├── markdown.ts              # Custom Markdown → HTML renderer (zero deps)
-├── auth.ts                  # Admin cookie helpers
-└── utils.ts                 # cn(), formatDate()
-
-supabase/
-└── schema.sql               # SQL to create tables + RLS policies
-```
+1. Go to `/admin/projects`
+2. See all 10 projects
+3. Toggle featured status + reorder
+4. Changes saved immediately → homepage updates
 
 ---
 
-## Customising Content
+## Key Files
 
-| What               | Where                                              |
-|--------------------|----------------------------------------------------|
-| Hero text, stats   | `app/page.tsx`                                     |
-| Services           | `app/page.tsx` → `services` array                  |
-| Skills ticker      | `app/page.tsx` → `skills` array                    |
-| About story        | `app/about/page.tsx`                               |
-| Timeline           | `app/about/page.tsx` → `timeline` array            |
-| Values             | `app/about/page.tsx` → `values` array              |
-| Contact links      | `app/contact/page.tsx`                             |
-| Nav links          | `components/Navbar.tsx` → `navLinks` array         |
-| Accent color       | `app/globals.css` → `--accent` variable            |
-| All design tokens  | See `DESIGN_GUIDE.md`                              |
+| File | Purpose |
+|------|---------|
+| `PLANNER.md` | Full technical blueprint |
+| `DESIGN_GUIDE.md` | Design system spec |
+| `MIGRATION.md` | Setup guide: Supabase → Neon + Better Auth |
+| `supabase/schema.sql` | PostgreSQL schema |
+| `lib/neon.ts` | Database queries |
+| `lib/auth.ts` | Better Auth configuration |
+| `app/admin/actions.ts` | Server Actions |
 
 ---
 
