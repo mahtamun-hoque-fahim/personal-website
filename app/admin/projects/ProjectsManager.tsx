@@ -52,7 +52,9 @@ export default function ProjectsManager({ initialProjects }: { initialProjects: 
 
     const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1
     const newFeatured: Project[] = [...featuredProjects]
-    [newFeatured[currentIndex], newFeatured[newIndex]] = [newFeatured[newIndex], newFeatured[currentIndex]]
+    const temp = newFeatured[currentIndex]
+    newFeatured[currentIndex] = newFeatured[newIndex]
+    newFeatured[newIndex] = temp
 
     const newOrder = newFeatured.map((p, i) => ({ id: p.id, order: i + 1 }))
     setProjects(prev => prev.map(p => ({
