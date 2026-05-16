@@ -30,7 +30,7 @@
 - Drizzle ORM (single data layer)
 - Better Auth (email/password, password reset, sessions in DB)
 - Resend (transactional email)
-- Vercel (single deploy target)
+- **Deploy targets:** Vercel (primary) + Cloudflare Workers via OpenNext (secondary)
 
 **Folder structure**
 
@@ -89,8 +89,11 @@ lib/
 └── utils.ts                     cn, formatDate, slugify, estimateReadingTime
 drizzle/                         generated migrations (idempotent)
 drizzle.config.ts
-next.config.ts
+next.config.ts                   includes initOpenNextCloudflareForDev()
 tailwind.config.ts
+wrangler.jsonc                   Cloudflare Worker config
+open-next.config.ts              OpenNext build config
+scripts/patch-noble-ciphers.js   postinstall fix for @noble/ciphers dedupe
 .env.example
 ```
 
@@ -175,6 +178,51 @@ Breaking changes addressed:
 - `params` and `searchParams` are now `Promise<...>` — handled in `[slug]/page.tsx`, `[id]/page.tsx`, reset-password Suspense wrapper
 - Field name migration in JS: `cover_image`, `live_url`, `repo_url`, `featured_order`,
   `reading_time`, `created_at`, `updated_at` → camelCase. DB columns unchanged.
+
+---
+
+## Cloudflare Workers (secondary deploy)
+
+Configured via [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare) — the modern,
+non-deprecated path for running Next.js on Cloudflare.
+
+**Files involved:**
+
+- `wrangler.jsonc` — Worker config with `nodejs_compat` + `global_fetch_strictly_public`,
+  compat_date `2026-05-15`, ASSETS binding pointing at `.open-next/assets`
+- `open-next.config.ts` — OpenNext build config (default in-memory cache; documented
+  swap path for R2/KV-backed ISR caching)
+- `next.config.ts` calls `initOpenNextCloudflareForDev()` so `next dev` exposes
+  Cloudflare bindings locally
+- `scripts/patch-noble-ciphers.js` — postinstall fix for a `@noble/ciphers` v1/v2
+  dedupe issue (better-auth pulls v2 to top, dotenvx → eciesjs → @ecies/ciphers
+  expects v1-style extensionless subpaths). The patch adds extensionless aliases
+  to v2's exports map. Runs automatically on `npm install`.
+
+**Why both `@better-auth/core` and `better-auth` are in `serverExternalPackages`:**
+
+Next.js's standalone tracer follows the `"node"` export condition by default and only
+copies files reachable through that condition into the build output. The workerd
+condition for `@better-auth/core/instrumentation` points to a separate file
+(`pure.index.mjs`) that wasn't traced. Marking the package external forces Next to
+copy the whole package, which OpenNext then bundles with the correct condition resolution.
+
+**Bundle size:** ~9.5 MiB raw / ~1.9 MiB gzipped. Fits Workers Paid (10 MiB) and Free
+(3 MiB compressed) plans.
+
+**Deploy scripts** (in `package.json`):
+
+```
+cf:build    opennextjs-cloudflare build
+cf:preview  cf:build + opennextjs-cloudflare preview (runs in workerd via wrangler dev)
+cf:deploy   cf:build + opennextjs-cloudflare deploy
+cf:upload   cf:build + opennextjs-cloudflare upload (versioned, no traffic shift)
+cf:typegen  wrangler types -> cloudflare-env.d.ts
+```
+
+**Cloudflare env vars** — runtime secrets set via `wrangler secret put NAME` (or
+Dashboard → Workers → Settings → Variables); `NEXT_PUBLIC_APP_URL` must be set as
+a Build Variable in Workers Builds since it's inlined at build time.
 
 ---
 
