@@ -1,16 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "fahim-portfolio",
-  "main": ".open-next/worker.js",
+  // CF Pages auto-deploy reads this to know what to serve.
+  // For manual wrangler deploy (Workers), swap back to:
+  //   "main": ".open-next/worker.js",
+  //   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" }
+  "pages_build_output_dir": ".open-next/assets",
   "compatibility_date": "2026-05-15",
   "compatibility_flags": [
     "nodejs_compat",
     "global_fetch_strictly_public"
   ],
-  "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
-  },
   "observability": {
     "enabled": true
   }
