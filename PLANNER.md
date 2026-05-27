@@ -1,7 +1,7 @@
 # PLANNER.md — fahim. Personal Website
 
 > Living technical document. Updated whenever `update repo` is triggered.
-> Last updated: May 15, 2026
+> Last updated: May 27, 2026
 
 ---
 
@@ -13,9 +13,10 @@
 | Purpose        | Full-stack personal portfolio with blog and admin CMS                |
 | Target user    | Design/dev clients, recruiters, personal network                     |
 | Key value      | Fully managed portfolio (blog + projects) with self-hosted admin     |
-| Status         | Operational (Next 16 migration complete)                             |
+| Status         | Operational                                                          |
 | Repo           | `https://github.com/mahtamun-hoque-fahim/personal-website`           |
-| Live           | `https://mahtamunhoquefahim.vercel.app`                              |
+| Live (Vercel)  | `https://mahtamunhoquefahim.vercel.app`                              |
+| Live (CF)      | `https://mahtamunhoquefahim.pages.dev`                               |
 
 ---
 
@@ -30,7 +31,7 @@
 - Drizzle ORM (single data layer)
 - Better Auth (email/password, password reset, sessions in DB)
 - Resend (transactional email)
-- **Deploy targets:** Vercel (primary) + Cloudflare Workers via OpenNext (secondary)
+- **Deploy targets:** Vercel (primary) + Cloudflare Pages via OpenNext (secondary)
 
 **Folder structure**
 
@@ -91,9 +92,11 @@ drizzle/                         generated migrations (idempotent)
 drizzle.config.ts
 next.config.ts                   includes initOpenNextCloudflareForDev()
 tailwind.config.ts
-wrangler.jsonc                   Cloudflare Worker config
+wrangler.jsonc                   CF Pages config (pages_build_output_dir)
 open-next.config.ts              OpenNext build config
-scripts/patch-noble-ciphers.js   postinstall fix for @noble/ciphers dedupe
+scripts/
+├── patch-noble-ciphers.js       postinstall fix for @noble/ciphers dedupe
+└── export-backup.ts             data backup script — run before any DB migration
 .env.example
 ```
 
@@ -108,13 +111,17 @@ scripts/patch-noble-ciphers.js   postinstall fix for @noble/ciphers dedupe
 - `account`: id, accountId, providerId, userId (FK), password (hashed), tokens, timestamps
 - `verification`: id, identifier, value, expiresAt, timestamps
 
-**Application tables (preserved from production):**
+**Application tables:**
 
 - `blog_posts`: uuid, title, slug (unique), excerpt, content, cover_image, published, tags[], reading_time, timestamps
 - `contact_messages`: uuid, name, email, subject, message, country, read, created_at
 - `projects`: uuid, name (unique), tagline, description, tags[], type, live_url, repo_url, featured, featured_order, timestamps
 
-All Drizzle reads return camelCase fields; the column mapping (snake_case in DB) is handled by `casing: 'snake_case'` in the Drizzle client config.
+All Drizzle reads return camelCase fields; column mapping (snake_case in DB) handled by `casing: 'snake_case'` in the Drizzle client config.
+
+> **IMPORTANT:** Always run `npx tsx scripts/export-backup.ts` before any DB migration
+> or ORM change. Learned from Next.js 16 migration — blog data was left in Supabase
+> when the data layer was switched to Neon without migrating first.
 
 ---
 
@@ -144,91 +151,67 @@ Password reset:
 | `DATABASE_URL`          | yes      | Neon pooled URL, used in app                   |
 | `DATABASE_URL_UNPOOLED` | yes (CI) | Direct Neon URL for `drizzle-kit` migrations   |
 | `BETTER_AUTH_SECRET`    | yes      | `openssl rand -base64 32`                      |
-| `BETTER_AUTH_URL`       | yes      | App base URL                                   |
+| `BETTER_AUTH_URL`       | yes      | App base URL (differs per deploy target)       |
 | `NEXT_PUBLIC_APP_URL`   | yes      | Same as `BETTER_AUTH_URL`, exposed to client   |
 | `RESEND_API_KEY`        | yes      | Resend API key                                 |
 | `RESEND_FROM_EMAIL`     | yes      | Verified Resend domain sender                  |
 
----
-
-## Migration from previous setup
-
-What was removed:
-
-- `@supabase/*` packages — `lib/supabase.ts`, `lib/projects.ts` deleted
-- `bcryptjs` — Better Auth uses scrypt by default
-- `@paralleldrive/cuid2`, `@react-email/render` — unused
-- `@cloudflare/next-on-pages`, `wrangler` — single deploy target (Vercel)
-- Legacy cookie auth (`lib/auth.ts` old version, `fahim_admin_session` cookie)
-- Three fragmented DB layers (`lib/db.ts`, `lib/neon.ts`, `lib/drizzle/db.ts`) → one (`lib/db/`)
-- `export const runtime = 'edge'` from every page — Node runtime everywhere
-
-What was upgraded:
-
-- Next 14.2.29 → 16.2.6
-- React 18 → 19
-- `eslint-config-next` to match Next 16
-- `next-themes` 0.2.1 → 0.4.6
-- `lucide-react` to latest
-- Drizzle config now uses `casing: 'snake_case'` so JS gets camelCase fields
-
-Breaking changes addressed:
-
-- `cookies()`, `headers()`, `draftMode()` are now async — handled in `auth-utils.ts`
-- `params` and `searchParams` are now `Promise<...>` — handled in `[slug]/page.tsx`, `[id]/page.tsx`, reset-password Suspense wrapper
-- Field name migration in JS: `cover_image`, `live_url`, `repo_url`, `featured_order`,
-  `reading_time`, `created_at`, `updated_at` → camelCase. DB columns unchanged.
+> **CF Pages note:** `BETTER_AUTH_URL` and `NEXT_PUBLIC_APP_URL` must be set to the
+> CF Pages domain (`https://mahtamunhoquefahim.pages.dev`), not the Vercel domain.
 
 ---
 
-## Cloudflare Workers (secondary deploy)
+## Cloudflare Pages (secondary deploy)
 
-Configured via [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare) — the modern,
-non-deprecated path for running Next.js on Cloudflare.
+Configured via [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare).
+
+**CF Pages dashboard settings:**
+
+| Setting              | Value                    |
+|----------------------|--------------------------|
+| Build command        | `npm run cf:build`        |
+| Build output dir     | `.open-next/assets`       |
+| Compatibility flags  | `nodejs_compat`, `global_fetch_strictly_public` |
+| Compatibility date   | `2026-05-15`              |
 
 **Files involved:**
 
-- `wrangler.jsonc` — Worker config with `nodejs_compat` + `global_fetch_strictly_public`,
-  compat_date `2026-05-15`, ASSETS binding pointing at `.open-next/assets`
-- `open-next.config.ts` — OpenNext build config (default in-memory cache; documented
-  swap path for R2/KV-backed ISR caching)
-- `next.config.ts` calls `initOpenNextCloudflareForDev()` so `next dev` exposes
-  Cloudflare bindings locally
-- `scripts/patch-noble-ciphers.js` — postinstall fix for a `@noble/ciphers` v1/v2
-  dedupe issue (better-auth pulls v2 to top, dotenvx → eciesjs → @ecies/ciphers
-  expects v1-style extensionless subpaths). The patch adds extensionless aliases
-  to v2's exports map. Runs automatically on `npm install`.
+- `wrangler.jsonc` — uses `pages_build_output_dir: .open-next/assets` (CF Pages format,
+  not Workers format). The `main` + `assets binding` fields are for `wrangler deploy`
+  (Workers) only.
+- `open-next.config.ts` — default in-memory cache; documented R2/KV swap path for ISR
+- `next.config.ts` calls `initOpenNextCloudflareForDev()` for local binding support
+- `scripts/patch-noble-ciphers.js` — postinstall fix for `@noble/ciphers` v1/v2 dedupe
 
-**Why both `@better-auth/core` and `better-auth` are in `serverExternalPackages`:**
-
-Next.js's standalone tracer follows the `"node"` export condition by default and only
-copies files reachable through that condition into the build output. The workerd
-condition for `@better-auth/core/instrumentation` points to a separate file
-(`pure.index.mjs`) that wasn't traced. Marking the package external forces Next to
-copy the whole package, which OpenNext then bundles with the correct condition resolution.
-
-**Bundle size:** ~9.5 MiB raw / ~1.9 MiB gzipped. Fits Workers Paid (10 MiB) and Free
-(3 MiB compressed) plans.
-
-**Deploy scripts** (in `package.json`):
+**Deploy scripts:**
 
 ```
 cf:build    opennextjs-cloudflare build
-cf:preview  cf:build + opennextjs-cloudflare preview (runs in workerd via wrangler dev)
+cf:preview  cf:build + opennextjs-cloudflare preview
 cf:deploy   cf:build + opennextjs-cloudflare deploy
-cf:upload   cf:build + opennextjs-cloudflare upload (versioned, no traffic shift)
+cf:upload   cf:build + opennextjs-cloudflare upload
 cf:typegen  wrangler types -> cloudflare-env.d.ts
 ```
 
-**Cloudflare env vars** — runtime secrets set via `wrangler secret put NAME` (or
-Dashboard → Workers → Settings → Variables); `NEXT_PUBLIC_APP_URL` must be set as
-a Build Variable in Workers Builds since it's inlined at build time.
+---
+
+## Timeline
+
+| Phase                         | Status | Notes                                      |
+|-------------------------------|--------|--------------------------------------------|
+| Foundation (Next 14, Supabase)| ✅     | Original setup                             |
+| Projects + Blog               | ✅     | Full CRUD via admin                        |
+| Auth migration (Better Auth)  | ✅     | Email/password + forgot password + Resend  |
+| Next 16 + Neon + Drizzle      | ✅     | Full stack consolidated, Supabase removed  |
+| Cloudflare Pages (OpenNext)   | ✅     | wrangler.jsonc fixed for CF Pages format   |
+| Blog data restored            | ✅     | 10 posts migrated from Supabase to Neon    |
 
 ---
 
 ## Next steps
 
-- Add a Drizzle seed script for projects (currently only in the deleted SQL file)
-- Consider adding `revalidateTag` on Server Actions for finer cache control
-- Add Vercel Speed Insights if desired (post `npm install @vercel/speed-insights`)
+- Run `npm run db:push` in personal-website dir to create tables on Neon if fresh DB
+- Add a Drizzle seed script for projects
+- Consider `revalidateTag` on Server Actions for finer cache control
+- Add Vercel Speed Insights (`npm install @vercel/speed-insights`)
 - Add 2FA / passkey via Better Auth plugins when ready
