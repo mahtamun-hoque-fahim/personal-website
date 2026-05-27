@@ -4,6 +4,7 @@ import { nextCookies } from 'better-auth/next-js'
 import { db } from '@/lib/db'
 import * as schema from '@/lib/db/schema'
 import { sendPasswordResetEmail, sendVerificationEmail } from '@/lib/email'
+import { isAdminEmail } from '@/lib/admin-allowlist'
 
 export const auth = betterAuth({
   appName: 'fahim.',
@@ -27,6 +28,22 @@ export const auth = betterAuth({
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url }) => {
       await sendPasswordResetEmail(user.email, url)
+    },
+  },
+
+  // Hard lockdown: only emails in ADMIN_EMAILS may ever be created.
+  // Public signup UI is also stripped from the login page, but this
+  // hook enforces it server-side even if someone hits the API directly.
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          if (!isAdminEmail(user.email)) {
+            throw new Error('Signups are disabled on this site.')
+          }
+          return { data: user }
+        },
+      },
     },
   },
 

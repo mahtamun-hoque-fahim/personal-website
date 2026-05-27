@@ -9,10 +9,8 @@ export default function AdminLoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [mode, setMode] = useState<'login' | 'signup'>('login')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -20,17 +18,8 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      if (mode === 'signup') {
-        const { error } = await authClient.signUp.email({
-          email,
-          password,
-          name: name || email.split('@')[0],
-        })
-        if (error) throw new Error(error.message || 'Sign up failed')
-      } else {
-        const { error } = await authClient.signIn.email({ email, password })
-        if (error) throw new Error(error.message || 'Sign in failed')
-      }
+      const { error } = await authClient.signIn.email({ email, password })
+      if (error) throw new Error(error.message || 'Sign in failed')
 
       router.push('/admin')
       router.refresh()
@@ -61,15 +50,13 @@ export default function AdminLoginPage() {
             className="text-2xl font-bold text-[#f0ede6] mb-2"
             style={{ fontFamily: "'Syne', sans-serif" }}
           >
-            {mode === 'signup' ? 'Create account' : 'Welcome back'}
+            Welcome back
           </h1>
           <p
             className="text-[#8a8a8a] text-sm mb-8"
             style={{ fontFamily: "'Onest', sans-serif" }}
           >
-            {mode === 'signup'
-              ? 'Set up an admin account to manage your site.'
-              : 'Sign in to manage posts, projects, and messages.'}
+            Sign in to manage posts, projects, and messages.
           </p>
 
           {error && (
@@ -83,26 +70,7 @@ export default function AdminLoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {mode === 'signup' && (
-              <div>
-                <label
-                  className="block text-[#f0ede6] text-sm mb-2 font-medium"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your name"
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg text-[#f0ede6] placeholder-[#8a8a8a] focus:outline-none focus:border-[#00e676] transition-colors"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
-                />
-              </div>
-            )}
-
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
                 className="block text-[#f0ede6] text-sm mb-2 font-medium"
@@ -138,15 +106,13 @@ export default function AdminLoginPage() {
                 className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg text-[#f0ede6] placeholder-[#8a8a8a] focus:outline-none focus:border-[#00e676] transition-colors"
                 style={{ fontFamily: "'Onest', sans-serif" }}
               />
-              {mode === 'login' && (
-                <Link
-                  href="/admin/forgot-password"
-                  className="inline-block mt-2 text-xs text-[#8a8a8a] hover:text-[#00e676] transition-colors"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
-                >
-                  Forgot password?
-                </Link>
-              )}
+              <Link
+                href="/admin/forgot-password"
+                className="inline-block mt-2 text-xs text-[#8a8a8a] hover:text-[#00e676] transition-colors"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
+                Forgot password?
+              </Link>
             </div>
 
             <button
@@ -155,29 +121,9 @@ export default function AdminLoginPage() {
               className="w-full mt-6 px-4 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
               style={{ fontFamily: "'Onest', sans-serif" }}
             >
-              {loading
-                ? 'Please wait...'
-                : mode === 'signup'
-                  ? 'Create account'
-                  : 'Sign in'}
+              {loading ? 'Please wait...' : 'Sign in'}
             </button>
           </form>
-
-          <p
-            className="text-[#8a8a8a] text-sm text-center mt-6"
-            style={{ fontFamily: "'Onest', sans-serif" }}
-          >
-            {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
-            <button
-              onClick={() => {
-                setMode(mode === 'login' ? 'signup' : 'login')
-                setError('')
-              }}
-              className="text-[#00e676] hover:underline font-medium"
-            >
-              {mode === 'login' ? 'Sign up' : 'Sign in'}
-            </button>
-          </p>
         </div>
       </div>
     </div>

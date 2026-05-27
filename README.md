@@ -78,6 +78,26 @@ npm run cf:deploy    # build + deploy to Cloudflare Workers
 
 ---
 
+## Admin access
+
+Public signup is **disabled**. The `/admin` area is gated by an email
+allowlist defined in `ADMIN_EMAILS` (comma-separated) in `.env`.
+
+Bootstrap your first admin account:
+
+```bash
+# Make sure ADMIN_EMAILS contains your email in .env first.
+npm run admin:create -- you@example.com 'your-strong-password' "Your Name"
+```
+
+After that, sign in at `/admin/login`. Forgot your password? Use
+`/admin/forgot-password` (requires Resend env vars to be set).
+
+To revoke an admin: remove their email from `ADMIN_EMAILS` and redeploy.
+The next request from any of their existing sessions will be rejected.
+
+---
+
 ## Deploy
 
 ### Vercel (primary)

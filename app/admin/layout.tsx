@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getSession } from '@/lib/auth-utils'
+import { isAuthenticated } from '@/lib/auth-utils'
 import { logoutAction } from './actions'
 
 export const dynamic = 'force-dynamic'
@@ -9,8 +9,7 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getSession()
-  const isAuth = !!session?.user
+  const isAuth = await isAuthenticated()
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
