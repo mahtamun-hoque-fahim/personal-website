@@ -12,7 +12,9 @@ async function main() {
   const tables = ['blog_posts', 'contact_messages', 'projects']
 
   for (const table of tables) {
-    const rows = await sql(`SELECT * FROM ${table} ORDER BY created_at`)
+    // @neondatabase/serverless v1: use sql.query() for non-tagged calls.
+    // Table names cannot be parameterized; this list is hardcoded so safe.
+    const rows = await sql.query(`SELECT * FROM ${table} ORDER BY created_at`)
     const filename = `backup_${table}_${timestamp}.json`
     writeFileSync(filename, JSON.stringify(rows, null, 2))
     console.log(`Exported ${rows.length} rows -> ${filename}`)
