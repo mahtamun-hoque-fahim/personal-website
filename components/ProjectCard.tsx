@@ -78,7 +78,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       <div className="bg-[#0a0a0a] p-8 group hover:bg-[#0f0f0f] transition-colors duration-300 flex flex-col justify-between min-h-[280px]">
         <div>
           <div className="flex items-start justify-between mb-4">
-            <div>
+            <div className="flex-1">
               <span
                 className="text-[#2a2a2a] text-xs tracking-[0.15em] uppercase block mb-1 group-hover:text-[#00e676] transition-colors duration-300"
                 style={{ fontFamily: "'JetBrains Mono', monospace" }}
@@ -91,6 +91,21 @@ export default function ProjectCard({ project }: { project: Project }) {
               >
                 {project.name}
               </h3>
+              {project.statusBadges && project.statusBadges.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {project.statusBadges.map((b) => (
+                    <span
+                      key={b}
+                      className={`text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider font-medium ${cardBadgeCls(
+                        b,
+                      )}`}
+                      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    >
+                      {b}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <p
@@ -151,4 +166,19 @@ export default function ProjectCard({ project }: { project: Project }) {
       )}
     </>
   )
+}
+
+function cardBadgeCls(badge: string): string {
+  switch (badge) {
+    case 'live':
+      return 'bg-[#00e676]/15 border-[#00e676]/40 text-[#00e676]'
+    case 'beta':
+      return 'bg-blue-500/15 border-blue-500/40 text-blue-400'
+    case 'deprecated':
+      return 'bg-[#1f1f1f] border-[#2a2a2a] text-[#8a8a8a]'
+    case 'funding':
+      return 'bg-amber-500/15 border-amber-500/40 text-amber-400'
+    default:
+      return 'bg-[#1f1f1f] border-[#2a2a2a] text-[#8a8a8a]'
+  }
 }

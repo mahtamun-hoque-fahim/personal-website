@@ -22,6 +22,7 @@ type Project = {
   repoUrl: string
   featured: boolean
   featuredOrder: number | null
+  statusBadges: string[]
 }
 
 type ProjectFormState = {
@@ -32,7 +33,11 @@ type ProjectFormState = {
   type: string
   liveUrl: string
   repoUrl: string
+  statusBadges: string[]
 }
+
+const STATUS_BADGES = ['live', 'beta', 'deprecated', 'funding'] as const
+type StatusBadge = (typeof STATUS_BADGES)[number]
 
 const EMPTY_FORM: ProjectFormState = {
   name: '',
@@ -42,6 +47,7 @@ const EMPTY_FORM: ProjectFormState = {
   type: 'Web',
   liveUrl: '',
   repoUrl: '',
+  statusBadges: [],
 }
 
 export default function ProjectsManager({
@@ -128,6 +134,7 @@ export default function ProjectsManager({
       type: form.type.trim() || 'Web',
       liveUrl: form.liveUrl.trim() || null,
       repoUrl: form.repoUrl.trim(),
+      statusBadges: form.statusBadges,
     }
     if (!payload.name || !payload.tagline || !payload.description || !payload.repoUrl) {
       flash('err', 'Name, tagline, description and repo URL are required')
@@ -203,6 +210,17 @@ export default function ProjectsManager({
         : typeof tagsField === 'string'
         ? tagsField.split(',').map((t) => t.trim()).filter(Boolean)
         : []
+      const badgesField = r.statusBadges ?? r.status_badges ?? r.badges
+      const statusBadges = Array.isArray(badgesField)
+        ? badgesField
+            .map((b) => String(b).trim().toLowerCase())
+            .filter((b): b is StatusBadge => (STATUS_BADGES as readonly string[]).includes(b))
+        : typeof badgesField === 'string'
+        ? badgesField
+            .split(',')
+            .map((b) => b.trim().toLowerCase())
+            .filter((b): b is StatusBadge => (STATUS_BADGES as readonly string[]).includes(b))
+        : []
       const liveUrlRaw = typeof r.liveUrl === 'string' ? r.liveUrl.trim() : ''
       return {
         name: String(r.name ?? '').trim(),
@@ -212,6 +230,7 @@ export default function ProjectsManager({
         type: String(r.type ?? 'Web').trim() || 'Web',
         liveUrl: liveUrlRaw ? liveUrlRaw : null,
         repoUrl: String(r.repoUrl ?? '').trim(),
+        statusBadges,
       }
     })
 
@@ -350,6 +369,7 @@ export default function ProjectsManager({
                   type: editing.type,
                   liveUrl: editing.liveUrl ?? '',
                   repoUrl: editing.repoUrl,
+                  statusBadges: editing.statusBadges ?? [],
                 }
               : EMPTY_FORM
           }
@@ -397,7 +417,7 @@ function ProjectRow({
     <div className="bg-[#141414] border border-[#1f1f1f] rounded-lg p-4 hover:border-[#2a2a2a] transition-colors">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
             <p className="text-[#f0ede6] font-medium truncate" style={{ fontFamily: "'Syne', sans-serif" }}>
               {project.name}
             </p>
@@ -407,14 +427,9 @@ function ProjectRow({
             >
               {project.type}
             </span>
-            {project.liveUrl && (
-              <span
-                className="text-[10px] px-1.5 py-0.5 bg-[#00e676]/10 text-[#00e676] rounded uppercase tracking-wider"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
-              >
-                Live
-              </span>
-            )}
+            {project.statusBadges?.map((b) => (
+              <StatusPill key={b} badge={b} />
+            ))}
           </div>
           <p className="text-[#8a8a8a] text-sm truncate" style={{ fontFamily: "'Onest', sans-serif" }}>
             {project.tagline}
@@ -570,6 +585,43 @@ function ProjectFormModal({
                 </Field>
               </div>
 
+              <Field label="Status badges">
+                <div className="flex flex-wrap gap-2">
+                  {STATUS_BADGES.map((badge) => {
+                    const on = form.statusBadges.includes(badge)
+                    return (
+                      <button
+                        key={badge}
+                        type="button"
+                        onClick={() =>
+                          setForm({
+                            ...form,
+                            statusBadges: on
+                              ? form.statusBadges.filter((b) => b !== badge)
+                              : [...form.statusBadges, badge],
+                          })
+                        }
+                        className={`px-3 py-1.5 text-xs rounded-full border transition-colors uppercase tracking-wider ${
+                          on
+                            ? badgeOnCls(badge)
+                            : 'bg-transparent border-[#1f1f1f] text-[#5a5a5a] hover:border-[#2a2a2a] hover:text-[#8a8a8a]'
+                        }`}
+                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                      >
+                        {on ? '✓ ' : ''}
+                        {badge}
+                      </button>
+                    )
+                  })}
+                </div>
+                <p
+                  className="text-[10px] text-[#5a5a5a] mt-1.5"
+                  style={{ fontFamily: "'Onest', sans-serif" }}
+                >
+                  Toggle any combination, or none.
+                </p>
+              </Field>
+
               <Field label="Tagline *">
                 <input
                   value={form.tagline}
@@ -659,10 +711,15 @@ function ProjectFormModal({
       "tagline": "A diabetes operating system for Bangladesh.",
       "description": "Health platform for at-risk diabetics...",
       "liveUrl": null,
-      "repoUrl": "https://github.com/Tanvir83775757676/D-SHASTHO"
+      "repoUrl": "https://github.com/Tanvir83775757676/D-SHASTHO",
+      "statusBadges": ["beta", "funding"]
     }
   ]
-}`}
+}
+
+// statusBadges (optional): any subset of
+//   ["live", "beta", "deprecated", "funding"]
+// Omit or use [] for no badges.`}
                   </pre>
                 </details>
               </div>
@@ -770,6 +827,35 @@ function TabButton({
 
 const inputCls =
   "w-full px-4 py-2.5 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg text-[#f0ede6] placeholder-[#5a5a5a] focus:outline-none focus:border-[#00e676] transition-colors text-sm font-['Onest',sans-serif]"
+
+// Color palette per badge — used for both toggle (on state) and display pills.
+function badgeOnCls(badge: string): string {
+  switch (badge) {
+    case 'live':
+      return 'bg-[#00e676]/15 border-[#00e676]/40 text-[#00e676]'
+    case 'beta':
+      return 'bg-blue-500/15 border-blue-500/40 text-blue-400'
+    case 'deprecated':
+      return 'bg-[#1f1f1f] border-[#2a2a2a] text-[#8a8a8a]'
+    case 'funding':
+      return 'bg-amber-500/15 border-amber-500/40 text-amber-400'
+    default:
+      return 'bg-[#1f1f1f] border-[#2a2a2a] text-[#8a8a8a]'
+  }
+}
+
+function StatusPill({ badge }: { badge: string }) {
+  return (
+    <span
+      className={`text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider font-medium ${badgeOnCls(
+        badge,
+      )}`}
+      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+    >
+      {badge}
+    </span>
+  )
+}
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (

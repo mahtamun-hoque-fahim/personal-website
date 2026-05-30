@@ -118,6 +118,7 @@ export const projects = pgTable(
     repoUrl: text('repo_url').notNull(),
     featured: boolean('featured').notNull().default(false),
     featuredOrder: integer('featured_order'),
+    statusBadges: text('status_badges').array().notNull().default(sql`'{}'::text[]`),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },

@@ -41,8 +41,23 @@ export async function reorderProjects(newOrder: Array<{ id: string; order: numbe
   revalidatePath('/')
 }
 
+function sanitizeStatusBadges<T extends { statusBadges?: string[] | null }>(payload: T): T {
+  if (Array.isArray(payload.statusBadges)) {
+    payload.statusBadges = Array.from(
+      new Set(
+        payload.statusBadges
+          .map((b) => String(b).trim().toLowerCase())
+          .filter((b) => ALLOWED_BADGES.includes(b)),
+      ),
+    )
+  }
+  return payload
+}
+
+const ALLOWED_BADGES = ['live', 'beta', 'deprecated', 'funding']
+
 export async function createProjectAction(payload: NewProject) {
-  const created = await createProject(payload)
+  const created = await createProject(sanitizeStatusBadges(payload))
   revalidatePath('/admin/projects')
   revalidatePath('/')
   revalidatePath('/projects')
@@ -50,7 +65,7 @@ export async function createProjectAction(payload: NewProject) {
 }
 
 export async function updateProjectAction(id: string, payload: Partial<NewProject>) {
-  const updated = await updateProject(id, payload)
+  const updated = await updateProject(id, sanitizeStatusBadges(payload))
   revalidatePath('/admin/projects')
   revalidatePath('/')
   revalidatePath('/projects')
@@ -84,6 +99,16 @@ export async function bulkUpsertProjectsAction(
   const outcomes: BulkProjectOutcome[] = []
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i]
+    // Sanitize statusBadges: only allow known values, lowercase, deduped.
+    if (Array.isArray(row.statusBadges)) {
+      row.statusBadges = Array.from(
+        new Set(
+          row.statusBadges
+            .map((b) => String(b).trim().toLowerCase())
+            .filter((b) => ALLOWED_BADGES.includes(b)),
+        ),
+      )
+    }
     try {
       if (!row.name?.trim()) {
         outcomes.push({ index: i, name: row.name ?? '', status: 'error', error: 'name is required' })
