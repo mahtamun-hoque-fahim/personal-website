@@ -186,6 +186,43 @@ export async function reorderProjects(
   }
 }
 
+export async function createProject(data: NewProject): Promise<Project | null> {
+  try {
+    const rows = await db.insert(projects).values(data).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('createProject error:', error)
+    throw error
+  }
+}
+
+export async function updateProject(
+  id: string,
+  data: Partial<NewProject>
+): Promise<Project | null> {
+  try {
+    const rows = await db
+      .update(projects)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(projects.id, id))
+      .returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('updateProject error:', error)
+    throw error
+  }
+}
+
+export async function deleteProject(id: string): Promise<boolean> {
+  try {
+    await db.delete(projects).where(eq(projects.id, id))
+    return true
+  } catch (error) {
+    console.error('deleteProject error:', error)
+    return false
+  }
+}
+
 // Re-export the inferred types for convenience
 export type {
   BlogPost,

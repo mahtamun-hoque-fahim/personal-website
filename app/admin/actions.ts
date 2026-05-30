@@ -6,12 +6,16 @@ import { revalidatePath } from 'next/cache'
 import { auth } from '@/lib/auth'
 import {
   createBlogPost,
+  createProject,
   deleteBlogPost,
+  deleteProject,
   markMessageRead,
   reorderProjects as reorderProjectsDb,
   updateBlogPost,
+  updateProject,
   updateProjectFeatured as updateProjectFeaturedDb,
   type NewBlogPost,
+  type NewProject,
 } from '@/lib/db/queries'
 
 export async function logoutAction() {
@@ -34,6 +38,29 @@ export async function reorderProjects(newOrder: Array<{ id: string; order: numbe
   await reorderProjectsDb(newOrder)
   revalidatePath('/admin/projects')
   revalidatePath('/')
+}
+
+export async function createProjectAction(payload: NewProject) {
+  const created = await createProject(payload)
+  revalidatePath('/admin/projects')
+  revalidatePath('/')
+  revalidatePath('/projects')
+  return created
+}
+
+export async function updateProjectAction(id: string, payload: Partial<NewProject>) {
+  const updated = await updateProject(id, payload)
+  revalidatePath('/admin/projects')
+  revalidatePath('/')
+  revalidatePath('/projects')
+  return updated
+}
+
+export async function deleteProjectAction(id: string) {
+  await deleteProject(id)
+  revalidatePath('/admin/projects')
+  revalidatePath('/')
+  revalidatePath('/projects')
 }
 
 export async function deletePostAction(id: string) {
