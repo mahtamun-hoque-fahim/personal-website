@@ -9,6 +9,7 @@ import {
   createProject,
   deleteBlogPost,
   deleteProject,
+  getAllProjects,
   markMessageRead,
   reorderProjects as reorderProjectsDb,
   updateBlogPost,
@@ -61,6 +62,63 @@ export async function deleteProjectAction(id: string) {
   revalidatePath('/admin/projects')
   revalidatePath('/')
   revalidatePath('/projects')
+}
+
+// Bulk JSON upsert: for each row, if a project with the same name exists,
+// update it; otherwise create it. Returns one outcome per row so the UI can
+// show which succeeded vs failed without aborting the whole batch.
+export type BulkProjectOutcome = {
+  index: number
+  name: string
+  status: 'created' | 'updated' | 'error'
+  error?: string
+}
+
+export async function bulkUpsertProjectsAction(
+  rows: Array<Partial<NewProject> & { name: string }>,
+): Promise<BulkProjectOutcome[]> {
+  // Load existing names once so we know create vs update without N+1 queries.
+  const existing = await getAllProjects()
+  const byName = new Map(existing.map((p) => [p.name.toLowerCase(), p]))
+
+  const outcomes: BulkProjectOutcome[] = []
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i]
+    try {
+      if (!row.name?.trim()) {
+        outcomes.push({ index: i, name: row.name ?? '', status: 'error', error: 'name is required' })
+        continue
+      }
+      if (!row.tagline?.trim() || !row.description?.trim() || !row.repoUrl?.trim()) {
+        outcomes.push({
+          index: i,
+          name: row.name,
+          status: 'error',
+          error: 'tagline, description, repoUrl are required',
+        })
+        continue
+      }
+      const match = byName.get(row.name.toLowerCase())
+      if (match) {
+        await updateProject(match.id, row)
+        outcomes.push({ index: i, name: row.name, status: 'updated' })
+      } else {
+        await createProject(row as NewProject)
+        outcomes.push({ index: i, name: row.name, status: 'created' })
+      }
+    } catch (err) {
+      outcomes.push({
+        index: i,
+        name: row.name ?? '',
+        status: 'error',
+        error: err instanceof Error ? err.message : String(err),
+      })
+    }
+  }
+  revalidatePath('/admin/projects')
+  revalidatePath('/')
+  revalidatePath('/projects')
+  return outcomes
 }
 
 export async function deletePostAction(id: string) {

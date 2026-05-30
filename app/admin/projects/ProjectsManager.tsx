@@ -2,6 +2,8 @@
 
 import { useState, useTransition } from 'react'
 import {
+  type BulkProjectOutcome,
+  bulkUpsertProjectsAction,
   createProjectAction,
   deleteProjectAction,
   reorderProjects,
@@ -167,6 +169,75 @@ export default function ProjectsManager({
     })
   }
 
+  const [bulkOutcomes, setBulkOutcomes] = useState<BulkProjectOutcome[] | null>(null)
+
+  const handleBulkSubmit = (rawJson: string) => {
+    setBulkOutcomes(null)
+    let parsed: unknown
+    try {
+      parsed = JSON.parse(rawJson)
+    } catch (err) {
+      flash('err', `Invalid JSON: ${err instanceof Error ? err.message : 'parse failed'}`)
+      return
+    }
+
+    // Accept either { "projects": [...] }, a single object, or a bare array.
+    let arr: unknown[]
+    if (Array.isArray(parsed)) {
+      arr = parsed
+    } else if (parsed && typeof parsed === 'object' && 'projects' in parsed && Array.isArray((parsed as { projects: unknown[] }).projects)) {
+      arr = (parsed as { projects: unknown[] }).projects
+    } else if (parsed && typeof parsed === 'object') {
+      arr = [parsed]
+    } else {
+      flash('err', 'JSON must be an object, an array, or { "projects": [...] }')
+      return
+    }
+
+    // Normalize each row into the DB-shaped payload.
+    const rows = arr.map((raw) => {
+      const r = (raw ?? {}) as Record<string, unknown>
+      const tagsField = r.tags
+      const tags = Array.isArray(tagsField)
+        ? tagsField.map((t) => String(t).trim()).filter(Boolean)
+        : typeof tagsField === 'string'
+        ? tagsField.split(',').map((t) => t.trim()).filter(Boolean)
+        : []
+      const liveUrlRaw = typeof r.liveUrl === 'string' ? r.liveUrl.trim() : ''
+      return {
+        name: String(r.name ?? '').trim(),
+        tagline: String(r.tagline ?? '').trim(),
+        description: String(r.description ?? '').trim(),
+        tags,
+        type: String(r.type ?? 'Web').trim() || 'Web',
+        liveUrl: liveUrlRaw ? liveUrlRaw : null,
+        repoUrl: String(r.repoUrl ?? '').trim(),
+      }
+    })
+
+    startTransition(async () => {
+      try {
+        const outcomes = await bulkUpsertProjectsAction(rows)
+        setBulkOutcomes(outcomes)
+        const okCount = outcomes.filter((o) => o.status !== 'error').length
+        const errCount = outcomes.length - okCount
+        flash(
+          errCount === 0 ? 'ok' : 'err',
+          `${okCount} saved${errCount ? `, ${errCount} failed` : ''}`,
+        )
+        // Refresh the in-memory list from server-rendered state by fetching
+        // none — easiest path: synthesize the new list via a router refresh.
+        // We'll just reload the page to pull the new rows since revalidate
+        // is server-side.
+        if (okCount > 0) {
+          setTimeout(() => window.location.reload(), 700)
+        }
+      } catch (err) {
+        flash('err', err instanceof Error ? err.message : 'Bulk import failed')
+      }
+    })
+  }
+
   return (
     <div>
       {/* Header row with action */}
@@ -284,11 +355,14 @@ export default function ProjectsManager({
           }
           isEdit={!!editing}
           isPending={isPending}
+          bulkOutcomes={bulkOutcomes}
           onCancel={() => {
             setEditing(null)
             setCreating(false)
+            setBulkOutcomes(null)
           }}
           onSubmit={handleSubmit}
+          onBulkSubmit={handleBulkSubmit}
         />
       )}
     </div>
@@ -419,16 +493,22 @@ function ProjectFormModal({
   initial,
   isEdit,
   isPending,
+  bulkOutcomes,
   onCancel,
   onSubmit,
+  onBulkSubmit,
 }: {
   initial: ProjectFormState
   isEdit: boolean
   isPending: boolean
+  bulkOutcomes: BulkProjectOutcome[] | null
   onCancel: () => void
   onSubmit: (form: ProjectFormState) => void
+  onBulkSubmit: (rawJson: string) => void
 }) {
   const [form, setForm] = useState<ProjectFormState>(initial)
+  const [tab, setTab] = useState<'form' | 'json'>('form')
+  const [jsonText, setJsonText] = useState('')
 
   return (
     <div
@@ -436,101 +516,255 @@ function ProjectFormModal({
       onClick={onCancel}
     >
       <div
-        className="bg-[#141414] border border-[#1f1f1f] rounded-2xl w-full max-w-2xl p-8 my-8"
+        className="bg-[#141414] border border-[#1f1f1f] rounded-2xl w-full max-w-3xl p-8 my-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-bold text-[#f0ede6] mb-6" style={{ fontFamily: "'Syne', sans-serif" }}>
-          {isEdit ? 'Edit project' : 'New project'}
-        </h2>
-
-        <div className="space-y-4">
-          <Field label="Name *">
-            <input
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className={inputCls}
-              placeholder="D-Shastho"
-            />
-          </Field>
-
-          <div className="grid grid-cols-2 gap-4">
-            <Field label="Type">
-              <input
-                value={form.type}
-                onChange={(e) => setForm({ ...form, type: e.target.value })}
-                className={inputCls}
-                placeholder="Web, Mobile, CLI..."
-              />
-            </Field>
-            <Field label="Tags (comma-separated)">
-              <input
-                value={form.tags}
-                onChange={(e) => setForm({ ...form, tags: e.target.value })}
-                className={inputCls}
-                placeholder="Next.js, TypeScript, Health"
-              />
-            </Field>
-          </div>
-
-          <Field label="Tagline *">
-            <input
-              value={form.tagline}
-              onChange={(e) => setForm({ ...form, tagline: e.target.value })}
-              className={inputCls}
-              placeholder="One-line summary shown in cards"
-            />
-          </Field>
-
-          <Field label="Description *">
-            <textarea
-              value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-              rows={4}
-              className={`${inputCls} resize-y`}
-              placeholder="Longer description shown on the project detail."
-            />
-          </Field>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Field label="Live URL">
-              <input
-                value={form.liveUrl}
-                onChange={(e) => setForm({ ...form, liveUrl: e.target.value })}
-                className={inputCls}
-                placeholder="https://..."
-              />
-            </Field>
-            <Field label="Repo URL *">
-              <input
-                value={form.repoUrl}
-                onChange={(e) => setForm({ ...form, repoUrl: e.target.value })}
-                className={inputCls}
-                placeholder="https://github.com/..."
-              />
-            </Field>
-          </div>
+        <div className="flex items-center justify-between mb-6">
+          <h2
+            className="text-2xl font-bold text-[#f0ede6]"
+            style={{ fontFamily: "'Syne', sans-serif" }}
+          >
+            {isEdit ? 'Edit project' : 'New project'}
+          </h2>
+          {!isEdit && (
+            <div className="flex items-center bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg p-1">
+              <TabButton active={tab === 'form'} onClick={() => setTab('form')}>
+                Form
+              </TabButton>
+              <TabButton active={tab === 'json'} onClick={() => setTab('json')}>
+                Paste JSON
+              </TabButton>
+            </div>
+          )}
         </div>
 
-        <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-[#1f1f1f]">
-          <button
-            onClick={onCancel}
-            disabled={isPending}
-            className="px-4 py-2 text-sm text-[#8a8a8a] rounded-lg hover:text-[#f0ede6] disabled:opacity-50 transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
-          >
-            Cancel
-          </button>
-          <button
-            onClick={() => onSubmit(form)}
-            disabled={isPending}
-            className="px-5 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
-          >
-            {isPending ? 'Saving...' : isEdit ? 'Save changes' : 'Create project'}
-          </button>
-        </div>
+        {/* ── FORM TAB ── */}
+        {(isEdit || tab === 'form') && (
+          <>
+            <div className="space-y-4">
+              <Field label="Name *">
+                <input
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className={inputCls}
+                  placeholder="D-Shastho"
+                />
+              </Field>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Type">
+                  <input
+                    value={form.type}
+                    onChange={(e) => setForm({ ...form, type: e.target.value })}
+                    className={inputCls}
+                    placeholder="Web, Mobile, CLI..."
+                  />
+                </Field>
+                <Field label="Tags (comma-separated)">
+                  <input
+                    value={form.tags}
+                    onChange={(e) => setForm({ ...form, tags: e.target.value })}
+                    className={inputCls}
+                    placeholder="Next.js, TypeScript, Health"
+                  />
+                </Field>
+              </div>
+
+              <Field label="Tagline *">
+                <input
+                  value={form.tagline}
+                  onChange={(e) => setForm({ ...form, tagline: e.target.value })}
+                  className={inputCls}
+                  placeholder="One-line summary shown in cards"
+                />
+              </Field>
+
+              <Field label="Description *">
+                <textarea
+                  value={form.description}
+                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  rows={4}
+                  className={`${inputCls} resize-y`}
+                  placeholder="Longer description shown on the project detail."
+                />
+              </Field>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Field label="Live URL">
+                  <input
+                    value={form.liveUrl}
+                    onChange={(e) => setForm({ ...form, liveUrl: e.target.value })}
+                    className={inputCls}
+                    placeholder="https://..."
+                  />
+                </Field>
+                <Field label="Repo URL *">
+                  <input
+                    value={form.repoUrl}
+                    onChange={(e) => setForm({ ...form, repoUrl: e.target.value })}
+                    className={inputCls}
+                    placeholder="https://github.com/..."
+                  />
+                </Field>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-[#1f1f1f]">
+              <button
+                onClick={onCancel}
+                disabled={isPending}
+                className="px-4 py-2 text-sm text-[#8a8a8a] rounded-lg hover:text-[#f0ede6] disabled:opacity-50 transition-colors"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => onSubmit(form)}
+                disabled={isPending}
+                className="px-5 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
+                {isPending ? 'Saving...' : isEdit ? 'Save changes' : 'Create project'}
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* ── JSON TAB ── */}
+        {!isEdit && tab === 'json' && (
+          <>
+            <div className="space-y-4">
+              <div
+                className="text-xs text-[#8a8a8a] space-y-2 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg p-3"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
+                <p>
+                  Paste one project, an array, or{' '}
+                  <code className="text-[#00e676]">{'{ "projects": [...] }'}</code>. Existing
+                  projects (matched by <code className="text-[#00e676]">name</code>) are updated;
+                  new ones are created. <strong className="text-[#f0ede6]">Required:</strong> name,
+                  tagline, description, repoUrl.
+                </p>
+                <details>
+                  <summary className="cursor-pointer text-[#f0ede6] hover:text-[#00e676]">
+                    Show example
+                  </summary>
+                  <pre className="mt-2 text-[11px] overflow-x-auto text-[#8a8a8a] leading-relaxed">
+{`{
+  "projects": [
+    {
+      "name": "D-Shastho",
+      "type": "Health",
+      "tags": ["Next.js", "TypeScript", "Neon"],
+      "tagline": "A diabetes operating system for Bangladesh.",
+      "description": "Health platform for at-risk diabetics...",
+      "liveUrl": null,
+      "repoUrl": "https://github.com/Tanvir83775757676/D-SHASTHO"
+    }
+  ]
+}`}
+                  </pre>
+                </details>
+              </div>
+
+              <Field label="JSON *">
+                <textarea
+                  value={jsonText}
+                  onChange={(e) => setJsonText(e.target.value)}
+                  rows={14}
+                  spellCheck={false}
+                  className={`${inputCls} resize-y font-mono text-xs leading-relaxed`}
+                  placeholder='{ "projects": [ { "name": "...", "tagline": "...", "description": "...", "repoUrl": "..." } ] }'
+                  style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+                />
+              </Field>
+
+              {bulkOutcomes && bulkOutcomes.length > 0 && (
+                <div className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg p-3 max-h-40 overflow-y-auto">
+                  <p
+                    className="text-[10px] uppercase tracking-widest text-[#8a8a8a] mb-2"
+                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  >
+                    Results
+                  </p>
+                  <ul className="space-y-1">
+                    {bulkOutcomes.map((o) => (
+                      <li
+                        key={o.index}
+                        className="flex items-start gap-2 text-xs"
+                        style={{ fontFamily: "'Onest', sans-serif" }}
+                      >
+                        <span
+                          className={`shrink-0 w-16 text-[10px] uppercase tracking-wider ${
+                            o.status === 'created'
+                              ? 'text-[#00e676]'
+                              : o.status === 'updated'
+                              ? 'text-blue-400'
+                              : 'text-red-400'
+                          }`}
+                          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                        >
+                          {o.status === 'created'
+                            ? '✓ new'
+                            : o.status === 'updated'
+                            ? '↻ updated'
+                            : '✗ error'}
+                        </span>
+                        <span className="text-[#f0ede6]">{o.name || `(row ${o.index + 1})`}</span>
+                        {o.error && <span className="text-red-400">— {o.error}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-[#1f1f1f]">
+              <button
+                onClick={onCancel}
+                disabled={isPending}
+                className="px-4 py-2 text-sm text-[#8a8a8a] rounded-lg hover:text-[#f0ede6] disabled:opacity-50 transition-colors"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
+                Close
+              </button>
+              <button
+                onClick={() => onBulkSubmit(jsonText)}
+                disabled={isPending || !jsonText.trim()}
+                className="px-5 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
+                style={{ fontFamily: "'Onest', sans-serif" }}
+              >
+                {isPending ? 'Importing...' : 'Import'}
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
+  )
+}
+
+function TabButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean
+  onClick: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-3 py-1.5 text-xs rounded-md font-medium transition-colors ${
+        active
+          ? 'bg-[#00e676] text-black'
+          : 'text-[#8a8a8a] hover:text-[#f0ede6]'
+      }`}
+      style={{ fontFamily: "'Onest', sans-serif" }}
+    >
+      {children}
+    </button>
   )
 }
 
