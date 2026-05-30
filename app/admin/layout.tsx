@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import { isAuthenticated } from '@/lib/auth-utils'
-import { logoutAction } from './actions'
+import AdminSidebar from './AdminSidebar'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,68 +10,15 @@ export default async function AdminLayout({
 }) {
   const isAuth = await isAuthenticated()
 
+  // Unauthenticated routes (login, forgot/reset password) render plain — no chrome.
+  if (!isAuth) {
+    return <div className="min-h-screen bg-[#0a0a0a]">{children}</div>
+  }
+
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      {isAuth && (
-        <nav className="border-b border-[#1f1f1f] px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-[#8a8a8a] text-sm hover:text-[#f0ede6] transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
-            >
-              ← Site
-            </Link>
-            <span
-              className="text-[#f0ede6] font-bold"
-              style={{ fontFamily: "'Syne', sans-serif" }}
-            >
-              Admin
-              <span className="text-[#00e676]">.</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/admin"
-              className="text-sm text-[#8a8a8a] hover:text-[#f0ede6] transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/admin/posts"
-              className="text-sm text-[#8a8a8a] hover:text-[#f0ede6] transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
-            >
-              Posts
-            </Link>
-            <Link
-              href="/admin/messages"
-              className="text-sm text-[#8a8a8a] hover:text-[#f0ede6] transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
-            >
-              Messages
-            </Link>
-            <Link
-              href="/admin/projects"
-              className="text-sm text-[#8a8a8a] hover:text-[#f0ede6] transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
-            >
-              Projects
-            </Link>
-            <form action={logoutAction}>
-              <button
-                type="submit"
-                className="text-sm text-[#8a8a8a] hover:text-red-400 transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
-              >
-                Logout
-              </button>
-            </form>
-          </div>
-        </nav>
-      )}
-      {children}
+      <AdminSidebar />
+      <main className="ml-60 min-h-screen">{children}</main>
     </div>
   )
 }
