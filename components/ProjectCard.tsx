@@ -136,13 +136,25 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
           <div className="flex gap-4">
             {project.liveUrl && (
-              <button
-                onClick={() => setShowModal(true)}
-                className="text-[#00e676] text-sm hover:underline cursor-pointer"
-                style={{ fontFamily: "'Onest', sans-serif" }}
-              >
-                Live ↗
-              </button>
+              (project.statusBadges ?? []).includes('beta') ? (
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="text-[#00e676] text-sm hover:underline cursor-pointer"
+                  style={{ fontFamily: "'Onest', sans-serif" }}
+                >
+                  Live ↗
+                </button>
+              ) : (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#00e676] text-sm hover:underline"
+                  style={{ fontFamily: "'Onest', sans-serif" }}
+                >
+                  Live ↗
+                </a>
+              )
             )}
             <a
               href={project.repoUrl}
@@ -157,7 +169,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
 
-      {showModal && project.liveUrl && (
+      {showModal && project.liveUrl && (project.statusBadges ?? []).includes('beta') && (
         <BetaModal
           projectName={project.name}
           url={project.liveUrl}
