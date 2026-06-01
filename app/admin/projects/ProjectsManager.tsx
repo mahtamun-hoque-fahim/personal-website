@@ -11,6 +11,8 @@ import {
   updateProjectFeatured,
 } from '@/app/admin/actions'
 
+type Collaborator = { name: string; url?: string | null }
+
 type Project = {
   id: string
   name: string
@@ -23,6 +25,7 @@ type Project = {
   featured: boolean
   featuredOrder: number | null
   statusBadges: string[]
+  collaborators: Collaborator[]
 }
 
 type ProjectFormState = {
@@ -34,6 +37,7 @@ type ProjectFormState = {
   liveUrl: string
   repoUrl: string
   statusBadges: string[]
+  collaborators: Collaborator[]
 }
 
 const STATUS_BADGES = ['live', 'beta', 'deprecated', 'funding'] as const
@@ -48,6 +52,7 @@ const EMPTY_FORM: ProjectFormState = {
   liveUrl: '',
   repoUrl: '',
   statusBadges: [],
+  collaborators: [],
 }
 
 export default function ProjectsManager({
@@ -135,6 +140,12 @@ export default function ProjectsManager({
       liveUrl: form.liveUrl.trim() || null,
       repoUrl: form.repoUrl.trim(),
       statusBadges: form.statusBadges,
+      collaborators: form.collaborators
+        .map((c) => ({
+          name: c.name.trim(),
+          url: c.url?.trim() ? c.url.trim() : null,
+        }))
+        .filter((c) => c.name),
     }
     if (!payload.name || !payload.tagline || !payload.description || !payload.repoUrl) {
       flash('err', 'Name, tagline, description and repo URL are required')
@@ -221,6 +232,26 @@ export default function ProjectsManager({
             .map((b) => b.trim().toLowerCase())
             .filter((b): b is StatusBadge => (STATUS_BADGES as readonly string[]).includes(b))
         : []
+      const collabField = r.collaborators ?? r.collaborated_with ?? r.collaboratedWith
+      const collaborators: Collaborator[] = Array.isArray(collabField)
+        ? collabField
+            .map((c): Collaborator | null => {
+              if (typeof c === 'string') {
+                const name = c.trim()
+                return name ? { name, url: null } : null
+              }
+              if (c && typeof c === 'object') {
+                const obj = c as Record<string, unknown>
+                const name = String(obj.name ?? '').trim()
+                if (!name) return null
+                const urlRaw = obj.url ?? obj.link ?? obj.href
+                const url = typeof urlRaw === 'string' && urlRaw.trim() ? urlRaw.trim() : null
+                return { name, url }
+              }
+              return null
+            })
+            .filter((c): c is Collaborator => c !== null)
+        : []
       const liveUrlRaw = typeof r.liveUrl === 'string' ? r.liveUrl.trim() : ''
       return {
         name: String(r.name ?? '').trim(),
@@ -231,6 +262,7 @@ export default function ProjectsManager({
         liveUrl: liveUrlRaw ? liveUrlRaw : null,
         repoUrl: String(r.repoUrl ?? '').trim(),
         statusBadges,
+        collaborators,
       }
     })
 
@@ -370,6 +402,10 @@ export default function ProjectsManager({
                   liveUrl: editing.liveUrl ?? '',
                   repoUrl: editing.repoUrl,
                   statusBadges: editing.statusBadges ?? [],
+                  collaborators: (editing.collaborators ?? []).map((c) => ({
+                    name: c.name,
+                    url: c.url ?? '',
+                  })),
                 }
               : EMPTY_FORM
           }
@@ -434,6 +470,14 @@ function ProjectRow({
           <p className="text-[#8a8a8a] text-sm truncate" style={{ fontFamily: "'Onest', sans-serif" }}>
             {project.tagline}
           </p>
+          {project.collaborators && project.collaborators.length > 0 && (
+            <p
+              className="text-[#5a5a5a] text-xs mt-1 truncate"
+              style={{ fontFamily: "'Onest', sans-serif" }}
+            >
+              with {project.collaborators.map((c) => c.name).join(', ')}
+            </p>
+          )}
         </div>
 
         <div className="flex items-center gap-1.5 shrink-0">
@@ -622,6 +666,70 @@ function ProjectFormModal({
                 </p>
               </Field>
 
+              <Field label="Collaborators">
+                {form.collaborators.length === 0 && (
+                  <p
+                    className="text-[10px] text-[#5a5a5a] mb-2"
+                    style={{ fontFamily: "'Onest', sans-serif" }}
+                  >
+                    No collaborators yet. Add a person, team, or organization the
+                    project was built with.
+                  </p>
+                )}
+                <div className="space-y-2">
+                  {form.collaborators.map((c, i) => (
+                    <div key={i} className="flex gap-2 items-center">
+                      <input
+                        value={c.name}
+                        onChange={(e) => {
+                          const next = [...form.collaborators]
+                          next[i] = { ...next[i], name: e.target.value }
+                          setForm({ ...form, collaborators: next })
+                        }}
+                        placeholder="Name (e.g. Tanvir Hossain, Team CoxMC)"
+                        className={`${inputCls} flex-[2]`}
+                      />
+                      <input
+                        value={c.url ?? ''}
+                        onChange={(e) => {
+                          const next = [...form.collaborators]
+                          next[i] = { ...next[i], url: e.target.value }
+                          setForm({ ...form, collaborators: next })
+                        }}
+                        placeholder="URL (optional)"
+                        className={`${inputCls} flex-[3]`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setForm({
+                            ...form,
+                            collaborators: form.collaborators.filter((_, j) => j !== i),
+                          })
+                        }
+                        className="shrink-0 w-9 h-9 flex items-center justify-center text-[#8a8a8a] hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                        title="Remove"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setForm({
+                      ...form,
+                      collaborators: [...form.collaborators, { name: '', url: '' }],
+                    })
+                  }
+                  className="mt-2 px-3 py-1.5 text-xs border border-dashed border-[#1f1f1f] text-[#8a8a8a] hover:text-[#00e676] hover:border-[#00e676]/40 rounded-lg transition-colors"
+                  style={{ fontFamily: "'Onest', sans-serif" }}
+                >
+                  + Add collaborator
+                </button>
+              </Field>
+
               <Field label="Tagline *">
                 <input
                   value={form.tagline}
@@ -712,14 +820,20 @@ function ProjectFormModal({
       "description": "Health platform for at-risk diabetics...",
       "liveUrl": null,
       "repoUrl": "https://github.com/Tanvir83775757676/D-SHASTHO",
-      "statusBadges": ["beta", "funding"]
+      "statusBadges": ["beta", "funding"],
+      "collaborators": [
+        "Tanvir Hossain",
+        { "name": "Cox's Bazar Medical College", "url": "https://cbmc.edu.bd" }
+      ]
     }
   ]
 }
 
 // statusBadges (optional): any subset of
 //   ["live", "beta", "deprecated", "funding"]
-// Omit or use [] for no badges.`}
+// collaborators (optional): array of strings or
+//   { "name": "...", "url": "..." } objects.
+// Omit either field for none.`}
                   </pre>
                 </details>
               </div>

@@ -54,10 +54,26 @@ function sanitizeStatusBadges<T extends { statusBadges?: string[] | null }>(payl
   return payload
 }
 
+function sanitizeCollaborators<
+  T extends { collaborators?: Array<{ name?: string; url?: string | null }> | null },
+>(payload: T): T {
+  if (Array.isArray(payload.collaborators)) {
+    payload.collaborators = payload.collaborators
+      .map((c) => {
+        const name = String(c?.name ?? '').trim()
+        if (!name) return null
+        const url = c?.url ? String(c.url).trim() : null
+        return { name, url: url || null }
+      })
+      .filter((c): c is { name: string; url: string | null } => c !== null)
+  }
+  return payload
+}
+
 const ALLOWED_BADGES = ['live', 'beta', 'deprecated', 'funding']
 
 export async function createProjectAction(payload: NewProject) {
-  const created = await createProject(sanitizeStatusBadges(payload))
+  const created = await createProject(sanitizeCollaborators(sanitizeStatusBadges(payload)))
   revalidatePath('/admin/projects')
   revalidatePath('/')
   revalidatePath('/projects')
@@ -65,7 +81,7 @@ export async function createProjectAction(payload: NewProject) {
 }
 
 export async function updateProjectAction(id: string, payload: Partial<NewProject>) {
-  const updated = await updateProject(id, sanitizeStatusBadges(payload))
+  const updated = await updateProject(id, sanitizeCollaborators(sanitizeStatusBadges(payload)))
   revalidatePath('/admin/projects')
   revalidatePath('/')
   revalidatePath('/projects')
@@ -108,6 +124,17 @@ export async function bulkUpsertProjectsAction(
             .filter((b) => ALLOWED_BADGES.includes(b)),
         ),
       )
+    }
+    // Sanitize collaborators: drop empty names, normalize empty url to null.
+    if (Array.isArray(row.collaborators)) {
+      row.collaborators = row.collaborators
+        .map((c) => {
+          const name = String(c?.name ?? '').trim()
+          if (!name) return null
+          const url = c?.url ? String(c.url).trim() : null
+          return { name, url: url || null }
+        })
+        .filter((c): c is { name: string; url: string | null } => c !== null)
     }
     try {
       if (!row.name?.trim()) {

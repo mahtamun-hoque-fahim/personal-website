@@ -120,6 +120,31 @@ export default function ProjectCard({ project }: { project: Project }) {
           >
             {project.description}
           </p>
+          {project.collaborators && project.collaborators.length > 0 && (
+            <p
+              className="text-[#5a5a5a] text-xs mt-3"
+              style={{ fontFamily: "'Onest', sans-serif" }}
+            >
+              with{' '}
+              {project.collaborators.map((c, i) => (
+                <span key={`${c.name}-${i}`}>
+                  {c.url ? (
+                    <a
+                      href={c.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#8a8a8a] hover:text-[#00e676] underline-offset-2 hover:underline transition-colors"
+                    >
+                      {c.name}
+                    </a>
+                  ) : (
+                    <span className="text-[#8a8a8a]">{c.name}</span>
+                  )}
+                  {i < (project.collaborators?.length ?? 0) - 1 && ', '}
+                </span>
+              ))}
+            </p>
+          )}
         </div>
 
         <div className="mt-6 pt-6 border-t border-[#1f1f1f]">

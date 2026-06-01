@@ -3,6 +3,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgTable,
   text,
   timestamp,
@@ -119,6 +120,10 @@ export const projects = pgTable(
     featured: boolean('featured').notNull().default(false),
     featuredOrder: integer('featured_order'),
     statusBadges: text('status_badges').array().notNull().default(sql`'{}'::text[]`),
+    collaborators: jsonb('collaborators')
+      .$type<Array<{ name: string; url?: string | null }>>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
