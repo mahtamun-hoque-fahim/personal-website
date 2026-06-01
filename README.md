@@ -50,6 +50,7 @@ Fill in `.env.local`:
 | `NEXT_PUBLIC_APP_URL`   | Same as `BETTER_AUTH_URL`                              |
 | `RESEND_API_KEY`        | resend.com → API Keys                                  |
 | `RESEND_FROM_EMAIL`     | A verified Resend domain                               |
+| `ADMIN_EMAILS`          | Comma-separated allowlist of admin emails. Required — if unset, nobody can sign in. |
 
 ### 3. Database
 
@@ -95,6 +96,14 @@ After that, sign in at `/admin/login`. Forgot your password? Use
 
 To revoke an admin: remove their email from `ADMIN_EMAILS` and redeploy.
 The next request from any of their existing sessions will be rejected.
+
+### Bulk-importing projects
+
+`/admin/projects` accepts pasted JSON for one-or-many projects. Schema and a
+ready-to-paste example live in [`docs/PROJECT_JSON_SCHEMA.md`](docs/PROJECT_JSON_SCHEMA.md).
+Inside the admin UI, the same reference is on the projects page (collapsible
+"Bulk import — schema reference" panel) and inside the **Paste JSON** tab of
+the New Project modal — so you never have to leave the page to look it up.
 
 ---
 
