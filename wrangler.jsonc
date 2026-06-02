@@ -1,16 +1,20 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "fahim-portfolio",
-  // CF Pages auto-deploy reads this to know what to serve.
-  // For manual wrangler deploy (Workers), swap back to:
-  //   "main": ".open-next/worker.js",
-  //   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" }
-  "pages_build_output_dir": ".open-next/assets",
+  "name": "personal-website",
+  // OpenNext (@opennextjs/cloudflare) builds a Worker, so this uses the
+  // WORKERS config format: `main` points at the generated worker entry and
+  // `assets` binds the static output dir. Deploy via `npm run cf:deploy`
+  // (wrangler deploy) or a git-connected Workers Build running `npm run cf:build`.
+  "main": ".open-next/worker.js",
   "compatibility_date": "2026-05-15",
   "compatibility_flags": [
     "nodejs_compat",
     "global_fetch_strictly_public"
   ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
   "observability": {
     "enabled": true
   }
