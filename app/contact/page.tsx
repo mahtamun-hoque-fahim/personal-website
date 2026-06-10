@@ -51,18 +51,18 @@ export default function ContactPage() {
                 {[
                   {
                     label: 'Email',
-                    value: 'mahtamunhoquefahim@gmail.com',
-                    href: 'mailto:mahtamunhoquefahim@gmail.com',
+                    value: 'mahtamunhoquefahim@pm.me',
+                    href: 'mailto:mahtamunhoquefahim@pm.me',
                   },
                   {
                     label: 'LinkedIn',
-                    value: 'linkedin.com/in/mahtamun-hoque-fahim',
+                    value: 'mahtamun-hoque-fahim',
                     href: 'https://linkedin.com/in/mahtamun-hoque-fahim',
                   },
                   {
-                    label: 'Portfolio',
-                    value: 'mahtamundesigns.vercel.app',
-                    href: 'https://mahtamundesigns.vercel.app',
+                    label: 'Github',
+                    value: 'mahtamun-hoque-fahim',
+                    href: 'https://github.com/mahtamun-hoque-fahim',
                   },
                 ].map((item) => (
                   <div key={item.label} className="flex flex-col gap-1">
@@ -100,7 +100,7 @@ export default function ContactPage() {
                   style={{ fontFamily: "'Onest', sans-serif" }}
                 >
                   Open to freelance design & development projects, long-term collaborations,
-                  and interesting full-time roles. Response time: usually within 24h.
+                  and interesting full-time roles.<br/>Response time: usually within 24h.
                 </p>
               </div>
             </div>
