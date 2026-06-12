@@ -1,0 +1,62 @@
+# Mahtamun Hoque Fahim
+
+> Graphic designer, full-stack web developer, and UI/UX designer from Dhaka, Bangladesh. With 4+ years of experience and 50+ shipped projects, Fahim bridges the gap between design and engineering — doing both without a handoff. He builds things that look good and work better.
+
+Fahim is a self-taught designer and developer who learned by reverse-engineering things he loved. He started designing to understand why interfaces feel the way they do, and started coding because he couldn't communicate what he wanted to developers. Both became strengths. He is open to selective freelance projects and collaborations where design and development genuinely matter.
+
+## Site Pages
+
+- [Home](https://mahtamunhoquefahim.vercel.app/): Hero, overview of disciplines (Graphic Design, UI/UX, Full-Stack Dev), selected projects, and recent blog posts.
+- [About](https://mahtamunhoquefahim.vercel.app/about): Personal backstory, philosophy, timeline from 2019 to present, and full tools & stack list.
+- [Projects](https://mahtamunhoquefahim.vercel.app/projects): All 16 shipped projects filtered by type (Web, Tool, Health, Education, Browser Extension) across 26 technologies.
+- [Blog](https://mahtamunhoquefahim.vercel.app/blog): 12 articles on design, development, AI, learning resources, and personal reflections.
+- [Contact](https://mahtamunhoquefahim.vercel.app/contact): Inquiry form for project collaborations.
+
+## Projects
+
+- [Bindu](https://bindu-here.vercel.app/): E2E encrypted anonymous messaging inbox. Shared links let anyone send private messages; replies use emoji vibes. Client-side WebCrypto — the server never reads messages. Stack: Next.js, TypeScript, Tailwind CSS, Neon, WebCrypto.
+- [Cleanify](https://doc-cleanify.vercel.app): Document conversion tool that turns uploaded images or scans into clean, typed PDFs. Stack: Next.js, TypeScript, Tailwind CSS.
+- [D-SHASTHO](https://github.com/Tanvir83775757676/D-SHASTHO): AI-powered diabetes management platform for Bangladesh's 84 million at-risk diabetics. Features glucose analytics, consultations with 200+ doctors, a Bengali food GI guide, medication reminders, and CGM monitoring. Built with Cox's Bazar Medical College Debating Club. Stack: Next.js, TypeScript, Drizzle ORM, Neon, Tailwind CSS.
+- [Fahim. (this site)](https://mahtamunhoquefahim.vercel.app): Personal portfolio and blog. Next.js 16 App Router with Turbopack, Drizzle ORM on Neon PostgreSQL, Better Auth with email-allowlist admin, Resend for email, and a full admin panel.
+- [Fontina](https://fontina-convert.vercel.app): Browser-based font converter. Turns any font file into WOFF2 using a WASM build of fonttools — no server required. Stack: Next.js, TypeScript, Tailwind CSS, WASM, fonttools.
+- [Formify](https://oneformify.vercel.app): Form-building SaaS for organizations. Create forms, collect responses, export as CSV/JSON/PDF via SheetJS and jsPDF. Stack: Next.js, TypeScript, Tailwind CSS, Neon, Clerk. (Deprecated)
+- [LearnBEE](https://github.com/mahtamun-hoque-fahim/learn-BEE): University-level Basic Electrical Engineering platform with animated theory, KaTeX formulas, interactive SVG circuit simulators, randomised quizzes, and exam-mode prep. Stack: Next.js, TypeScript, Tailwind CSS, Neon, KaTeX.
+- [LearnDE](https://github.com/mahtamun-hoque-fahim/learnDE): Interactive Differential Equations course for CSE students. Structured chapters, quizzes, cheat-sheet, and role-based dashboards (student/staff/admin). Based on H.K. Dass's textbook. Stack: Next.js, TypeScript, Tailwind CSS, Neon, Better Auth.
+- [Memoriza](https://memorizaa.vercel.app): Date reminder service with daily email cron jobs, QR code generation, and cover image uploads. Stack: Next.js, TypeScript, Tailwind CSS, Neon, Auth.js. (Deprecated)
+- [MockX](https://github.com/mahtamun-hoque-fahim/mockX): MacBook mockup generator. Two styles (screen-only and full desk scene), any resolution, PNG export. Stack: Next.js, Tailwind CSS, Neon, Better Auth, html2canvas.
+- [Neura](https://neura-whiteboard.vercel.app): Collaborative infinite whiteboard with hand-drawn aesthetic, pure-SVG drawing engine, AI sketch-to-diagram tool, EEE/BEE circuit symbol library, and Liveblocks multiplayer. Stack: Next.js, TypeScript, Tailwind CSS, Liveblocks, Zustand.
+- [Notably](https://github.com/mahtamun-hoque-fahim/notably): Browser-native voice-to-text notes using the Web Speech API — no API keys, works offline. Freemium model with Stripe-powered Pro tier for cloud sync and AI enrichment. Stack: Next.js, TypeScript, Web Speech API, Neon, Stripe.
+- [Raisy](https://raisy-polling.vercel.app): Real-time polling platform for group decisions. No sign-up needed; live vote counts via WebSockets. Stack: Next.js, TypeScript, Tailwind CSS, Ably, Neon, Framer Motion.
+- [Sentri](https://sentri-here.vercel.app): Zero-knowledge password manager. All encryption/decryption happens client-side with WebCrypto. Supports logins, cards, notes; watchtower for breach detection; secure one-time sharing links. Stack: Next.js, TypeScript, Tailwind CSS, Neon, Clerk, WebCrypto.
+- [claudia](https://claudia-landing.vercel.app): Browser extension to export Claude.ai conversations as print-ready PDFs. Dark/light themes, full or partial export, LaTeX via KaTeX, syntax highlighting via Prism.js. Manifest V3. Stack: JavaScript, CSS, HTML, KaTeX, Prism.js.
+- [zen-mod](https://github.com/mahtamun-hoque-fahim/zen-mod-more-better-toast): CSS mod for Zen Browser replacing default toasts with a frosted-glass pill. Sidebar-aware positioning. Stack: CSS.
+
+## Blog Posts
+
+- [The 800-Rating Cliff: A Curated Problem Sheet for C++ Beginners](https://mahtamunhoquefahim.vercel.app/blog/curated-800-rated-problem-sheet-for-cpp-beginners): 30 hand-curated Codeforces 800-rated problems for C++ beginners learning OOP, with a roadmap and solutions.
+- [How to Survive a Breakup (Youngs' Method)](https://mahtamunhoquefahim.vercel.app/blog/how-to-survive-breakup-youngs-method): Neuroplasticity-based guide for 18–25 year olds on rewiring the brain after heartbreak.
+- [Learn Differential Equations for Free: The Interactive Course](https://mahtamunhoquefahim.vercel.app/blog/free-learn-differential-equations-interactive-course): Overview of LearnDE, a free interactive DE course built on H.K. Dass's textbook with quizzes and certificates.
+- [Build Your Own AI Dev Team for Free: 5 Custom Agents with Ollama & Continue.dev](https://mahtamunhoquefahim.vercel.app/blog/ai-dev-team-ollama-continue-dev-custom-agents): How to set up a private, local AI team of 5 specialised coding agents in VS Code.
+- [How to Get Claude-Level Coding Power for Free with Ollama](https://mahtamunhoquefahim.vercel.app/blog/ollama-claude-level-coding-free-agents): Running local LLMs with Ollama and custom VS Code agents as a free Claude alternative.
+- [How to Turn GitHub Copilot Into a Pro UI/UX Designer (2026 Guide)](https://mahtamunhoquefahim.vercel.app/blog/how-to-turn-github-copilot-into-a-pro-uiux-designer-2026-guide): Prompt engineering and agent setup to get professional UI/UX output from Copilot.
+- [Next.js Roadmap for 2026: Top Resources & Learning Path](https://mahtamunhoquefahim.vercel.app/blog/nextjs-roadmap-for-2026-top-resources-learning-path): Step-by-step Next.js learning roadmap from React fundamentals to advanced server components.
+- [KAIROS: The Hidden Memory System That Turns Claude Code Into a True AI Colleague](https://mahtamunhoquefahim.vercel.app/blog/kairos-the-hidden-memory-system-that-turns-claude-code-into-a-true-ai-colleague): Open-source persistent memory architecture for Claude Code with dream consolidation and sleep/wake cycles.
+- [From Diagnosis to Remission: How AI is Becoming a Cancer Patient's Greatest Ally](https://mahtamunhoquefahim.vercel.app/blog/from-diagnosis-to-remission-how-ai-is-becoming-a-cancer-patients-greatest-ally): How AI is transforming oncology — early detection, personalised treatment, and patient empowerment.
+- [10 Things to Stop Rate Limits in Claude: Master Token Management Like a Pro](https://mahtamunhoquefahim.vercel.app/blog/10-things-to-stop-rate-limits-in-claude-master-token-management-like-a-pro): Practical token management tips to avoid Claude rate limits and improve AI workflow efficiency.
+- [The Ultimate 2026 Guide: Best Free Resources to Learn React.js](https://mahtamunhoquefahim.vercel.app/blog/the-ultimate-2026-guide-best-free-resources-to-learn-reactjs-roadmap-included): Detailed zero-to-job-ready React roadmap with curated free resources.
+- [Why I Stopped Separating Design from Code](https://mahtamunhoquefahim.vercel.app/blog/why-i-stopped-separating-design-from-code): Personal essay on why the design–development handoff is the problem, not the people.
+
+## External Links
+
+- [Design Portfolio](https://mahtamundesigns.vercel.app): Dedicated UI/UX and graphic design portfolio at mahtamundesigns.vercel.app.
+- [GitHub](https://github.com/mahtamun-hoque-fahim): Source code for all open-source projects.
+- [LinkedIn](https://linkedin.com/in/mahtamun-hoque-fahim): Professional profile and contact.
+
+## Tech Stack Summary
+
+**Design:** Figma, Adobe Illustrator, Adobe Photoshop, Framer, After Effects  
+**Frontend:** Next.js 14/16, React, TypeScript, Tailwind CSS, Framer Motion  
+**Backend:** Node.js, Supabase, PostgreSQL, Neon, Drizzle ORM, Prisma, REST APIs  
+**Auth:** Better Auth, Clerk, Auth.js  
+**DevOps:** Vercel, GitHub, Git, Docker (basics), CI/CD  
+**Other:** WebCrypto, Web Speech API, WASM, Liveblocks, Ably, Stripe, Resend
