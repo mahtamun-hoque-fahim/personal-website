@@ -2,9 +2,6 @@
 
 Personal website of **Mahtamun Hoque Fahim** — Graphic Designer, Full-Stack Developer & UI/UX Designer from Bangladesh.
 
-**Live:** [mahtamunhoquefahim.vercel.app](https://mahtamunhoquefahim.vercel.app)
-**Design portfolio:** [mahtamundesigns.vercel.app](https://mahtamundesigns.vercel.app)
-
 ---
 
 ## Stack
