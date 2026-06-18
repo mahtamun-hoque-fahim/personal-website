@@ -10,14 +10,14 @@ export const metadata: Metadata = {
   },
   description:
     'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh. Crafting intentional digital experiences.',
-  keywords: ['designer', 'developer', 'Bangladesh', 'UI/UX', 'graphic design', 'fullstack'],
+  keywords: ['designer', 'developer', 'Bangladesh', 'UI/UX', 'graphic design', 'fullstack','mahtamun','mahtamun hoque fahim','fahim'],
   authors: [{ name: 'Mahtamun Hoque Fahim' }],
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://mahtamunhoquefahim.pages.dev',
+    url: 'https://mahtamunhoquefahim.vercel.app',
     siteName: 'Mahtamun Hoque Fahim',
-    title: 'Mahtamun Hoque Fahim — Designer & Developer',
+    title: 'Mahtamun Hoque Fahim — Senior Designer & Full Stack Developer',
     description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
   },
   twitter: {
@@ -61,7 +61,7 @@ export default function RootLayout({
                 'https://github.com/mahtamun-hoque-fahim',
                 'https://linkedin.com/in/mahtamun-hoque-fahim',
               ],
-              knowsAbout: ['Graphic Design', 'UI/UX Design', 'Next.js', 'React', 'TypeScript', 'Brand Identity'],
+              knowsAbout: ['Graphic Design', 'UI/UX Design', 'Next.js', 'React', 'TypeScript', 'Brand Identity','web development'],
             }),
           }}
         />
