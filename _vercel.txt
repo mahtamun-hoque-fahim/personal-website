@@ -1,0 +1,1 @@
+vc-domain-verify=pro.bd,6d401cb0843e7c3a31a7
