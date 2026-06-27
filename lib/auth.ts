@@ -7,7 +7,7 @@ import { sendPasswordResetEmail, sendVerificationEmail } from '@/lib/email'
 import { isAdminEmail } from '@/lib/admin-allowlist'
 
 export const auth = betterAuth({
-  appName: 'fahim.',
+  appName: 'mahtamun.',
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
 

@@ -5,7 +5,7 @@
  * the admin area. Public signup is disabled; this list is the single source
  * of truth for who is allowed in.
  *
- *   ADMIN_EMAILS=fahim@example.com,backup@example.com
+ *   ADMIN_EMAILS=mahtamun@example.com,backup@example.com
  */
 function parseAdminEmails(): string[] {
   const raw = process.env.ADMIN_EMAILS ?? ''

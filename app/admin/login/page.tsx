@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 import { authClient } from '@/lib/auth-client'
 
 export default function AdminLoginPage() {
@@ -33,16 +34,8 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-6 bg-[#0a0a0a]">
       <div className="w-full max-w-md">
-        <Link href="/" className="inline-block mb-12">
-          <div className="flex items-center gap-2">
-            <span
-              className="text-2xl font-bold text-[#f0ede6]"
-              style={{ fontFamily: 'var(--font-syne)' }}
-            >
-              fahim
-            </span>
-            <span className="text-2xl font-bold text-[#00e676]">.</span>
-          </div>
+        <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
+          <Logo height={26} />
         </Link>
 
         <div className="bg-[#141414] border border-[#1f1f1f] rounded-2xl p-8">

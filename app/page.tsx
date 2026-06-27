@@ -254,7 +254,7 @@ export default async function HomePage() {
               </div>
               <p className="text-[#8a8a8a] text-sm mb-1">
                 <span className="text-[#00e676]">const</span>{' '}
-                <span className="text-[#f0ede6]">fahim</span>{' '}
+                <span className="text-[#f0ede6]">mahtamun</span>{' '}
                 <span className="text-[#8a8a8a]">= {'{'}</span>
               </p>
               <p className="text-[#8a8a8a] text-sm ml-4 mb-1">

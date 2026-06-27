@@ -42,7 +42,7 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string) {
           <body>
             <div class="container">
               <div class="header">
-                <div class="logo">fahim<span class="accent">.</span></div>
+                <div class="logo">mahtamun<span class="accent">.</span></div>
               </div>
               
               <div class="content">
@@ -59,7 +59,7 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string) {
                 
                 <p>If you didn't request a password reset, you can safely ignore this email.</p>
                 
-                <p>Best,<br>Fahim</p>
+                <p>Best,<br>Mahtamun</p>
               </div>
               
               <div class="footer">
@@ -113,7 +113,7 @@ export async function sendVerificationEmail(email: string, verifyUrl: string) {
           <body>
             <div class="container">
               <div class="header">
-                <div class="logo">fahim<span class="accent">.</span></div>
+                <div class="logo">mahtamun<span class="accent">.</span></div>
               </div>
               
               <div class="content">

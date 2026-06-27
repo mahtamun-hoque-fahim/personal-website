@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import Logo from '@/components/Logo'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -41,11 +42,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-display font-800 text-xl tracking-tight group"
-            style={{ fontFamily: 'var(--font-syne)', fontWeight: 800 }}
+            className="group inline-flex items-center"
+            aria-label="Mahtamun — home"
           >
-            <span className="text-[#f0ede6]">fahim</span>
-            <span className="text-[#00e676]">.</span>
+            <Logo height={22} className="transition-opacity group-hover:opacity-80" />
           </Link>
 
           {/* Desktop links */}

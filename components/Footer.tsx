@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -6,12 +7,7 @@ export default function Footer() {
     <footer className="border-t border-[#1f1f1f] mt-24 py-12 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
-          <span
-            className="text-xl font-bold"
-            style={{ fontFamily: 'var(--font-syne)' }}
-          >
-            fahim<span className="text-[#00e676]">.</span>
-          </span>
+          <Logo height={20} />
           <p className="text-[#8a8a8a] text-sm mt-1" style={{ fontFamily: 'var(--font-onest)' }}>
             Designing the gap between beauty and function.
           </p>

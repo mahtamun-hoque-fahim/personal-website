@@ -28,11 +28,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: {
     default: 'Mahtamun Hoque Fahim — Designer & Developer',
-    template: '%s | Fahim',
+    template: '%s | Mahtamun',
   },
   description:
     'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh. Crafting intentional digital experiences.',
-  keywords: ['designer', 'developer', 'Bangladesh', 'UI/UX', 'graphic design', 'fullstack','mahtamun','mahtamun hoque fahim','fahim'],
+  keywords: ['designer', 'developer', 'Bangladesh', 'UI/UX', 'graphic design', 'fullstack','mahtamun','mahtamun hoque fahim'],
   authors: [{ name: 'Mahtamun Hoque Fahim' }],
   openGraph: {
     type: 'website',

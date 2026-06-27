@@ -40,7 +40,7 @@ export default function AdminSidebar() {
           className="text-[10px] uppercase tracking-widest text-[#5a5a5a] mt-1"
           style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
-          fahim. portfolio
+          mahtamun. portfolio
         </p>
       </div>
 
