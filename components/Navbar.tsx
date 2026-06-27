@@ -45,7 +45,7 @@ export default function Navbar() {
             className="group inline-flex items-center"
             aria-label="Mahtamun — home"
           >
-            <Logo height={22} className="transition-opacity group-hover:opacity-80" />
+            <Logo height={32} className="transition-opacity group-hover:opacity-80" />
           </Link>
 
           {/* Desktop links */}
