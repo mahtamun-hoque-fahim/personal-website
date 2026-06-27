@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="border-t border-[#1f1f1f] mt-24 py-12 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
-          <Logo height={20} />
+          <Logo height={32} />
           <p className="text-[#8a8a8a] text-sm mt-1" style={{ fontFamily: 'var(--font-onest)' }}>
             Designing the gap between beauty and function.
           </p>
