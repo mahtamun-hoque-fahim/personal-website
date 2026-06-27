@@ -78,7 +78,7 @@ export default function PostEditor({ post }: Props) {
         <div className="md:col-span-2">
           <label
             className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Title *
           </label>
@@ -89,13 +89,13 @@ export default function PostEditor({ post }: Props) {
             placeholder="Post title"
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm text-[#f0ede6]
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           />
         </div>
         <div>
           <label
             className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Slug
           </label>
@@ -106,7 +106,7 @@ export default function PostEditor({ post }: Props) {
             placeholder="post-slug"
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm text-[#f0ede6]
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           />
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function PostEditor({ post }: Props) {
         <div>
           <label
             className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Tags (comma-separated)
           </label>
@@ -126,13 +126,13 @@ export default function PostEditor({ post }: Props) {
             placeholder="design, process, ui"
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm text-[#f0ede6]
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           />
         </div>
         <div>
           <label
             className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Cover image URL (optional)
           </label>
@@ -143,7 +143,7 @@ export default function PostEditor({ post }: Props) {
             placeholder="https://..."
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm text-[#f0ede6]
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           />
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function PostEditor({ post }: Props) {
       <div>
         <label
           className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           Excerpt
         </label>
@@ -163,7 +163,7 @@ export default function PostEditor({ post }: Props) {
           placeholder="Short description shown on the blog listing..."
           className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-3 text-sm text-[#f0ede6]
                      placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors resize-none"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         />
       </div>
 
@@ -172,7 +172,7 @@ export default function PostEditor({ post }: Props) {
         <div className="flex items-center justify-between mb-2">
           <label
             className="text-xs text-[#8a8a8a] tracking-widest uppercase"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Content * (Markdown)
           </label>
@@ -186,7 +186,7 @@ export default function PostEditor({ post }: Props) {
                     ? 'bg-[#00e676] text-black font-medium'
                     : 'text-[#8a8a8a] hover:text-[#f0ede6]'
                 }`}
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 {t === 'write' ? 'Write' : 'Preview'}
               </button>
@@ -202,7 +202,7 @@ export default function PostEditor({ post }: Props) {
             placeholder={"Write your post in Markdown...\n\n## Heading\n\nSome **bold** text and `code`."}
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-4 text-sm text-[#f0ede6]
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors resize-none leading-relaxed"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           />
         ) : (
           <>
@@ -236,7 +236,7 @@ export default function PostEditor({ post }: Props) {
           </div>
           <span
             className="text-sm text-[#8a8a8a] group-hover:text-[#f0ede6] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             {published ? 'Published' : 'Draft'}
           </span>
@@ -246,7 +246,7 @@ export default function PostEditor({ post }: Props) {
           <button
             onClick={() => router.back()}
             className="px-5 py-2.5 border border-[#1f1f1f] text-[#8a8a8a] text-sm rounded-lg hover:border-[#2a2a2a] hover:text-[#f0ede6] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Cancel
           </button>
@@ -255,7 +255,7 @@ export default function PostEditor({ post }: Props) {
             disabled={saving}
             className="px-6 py-2.5 bg-[#00e676] text-black text-sm font-semibold rounded-lg
                        hover:bg-[#00b85a] transition-colors disabled:opacity-50"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             {saving ? 'Saving...' : post ? 'Update post' : 'Create post'}
           </button>

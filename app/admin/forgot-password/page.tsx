@@ -37,7 +37,7 @@ export default function ForgotPasswordPage() {
             <div className="flex items-center gap-2">
               <span
                 className="text-2xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 fahim
               </span>
@@ -65,13 +65,13 @@ export default function ForgotPasswordPage() {
             </div>
             <h1
               className="text-2xl font-bold text-[#f0ede6] mb-2"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               Check your email
             </h1>
             <p
               className="text-[#8a8a8a] text-sm mb-8"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               We sent a password reset link to <strong>{email}</strong>. Click the link in
               your email to create a new password.
@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
 
             <p
               className="text-[#8a8a8a] text-xs mb-8"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               The link expires in 24 hours. Check spam if you don&apos;t see it.
             </p>
@@ -87,7 +87,7 @@ export default function ForgotPasswordPage() {
             <Link
               href="/admin/login"
               className="inline-block px-6 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               Back to sign in
             </Link>
@@ -104,7 +104,7 @@ export default function ForgotPasswordPage() {
           <div className="flex items-center gap-2">
             <span
               className="text-2xl font-bold text-[#f0ede6]"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               fahim
             </span>
@@ -115,13 +115,13 @@ export default function ForgotPasswordPage() {
         <div className="bg-[#141414] border border-[#1f1f1f] rounded-2xl p-8">
           <h1
             className="text-2xl font-bold text-[#f0ede6] mb-2"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             Reset password
           </h1>
           <p
             className="text-[#8a8a8a] text-sm mb-8"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Enter your email and we&apos;ll send you a link to reset your password.
           </p>
@@ -130,7 +130,7 @@ export default function ForgotPasswordPage() {
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
               <p
                 className="text-red-500 text-sm"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 {error}
               </p>
@@ -141,7 +141,7 @@ export default function ForgotPasswordPage() {
             <div>
               <label
                 className="block text-[#f0ede6] text-sm mb-2 font-medium"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Email
               </label>
@@ -152,7 +152,7 @@ export default function ForgotPasswordPage() {
                 placeholder="your@email.com"
                 required
                 className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg text-[#f0ede6] placeholder-[#8a8a8a] focus:outline-none focus:border-[#00e676] transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               />
             </div>
 
@@ -160,7 +160,7 @@ export default function ForgotPasswordPage() {
               type="submit"
               disabled={loading}
               className="w-full mt-6 px-4 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               {loading ? 'Sending...' : 'Send reset link'}
             </button>
@@ -168,7 +168,7 @@ export default function ForgotPasswordPage() {
 
           <p
             className="text-[#8a8a8a] text-sm text-center mt-6"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Remember your password?{' '}
             <Link

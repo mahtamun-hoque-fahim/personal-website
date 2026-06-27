@@ -15,8 +15,8 @@ export default async function ProjectsAdminPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-[#f0ede6] mb-2" style={{ fontFamily: "'Syne', sans-serif" }}>Manage Projects</h1>
-        <p className="text-[#8a8a8a] text-sm" style={{ fontFamily: "'Onest', sans-serif" }}>Control which projects appear on your homepage and projects page.</p>
+        <h1 className="text-4xl font-bold text-[#f0ede6] mb-2" style={{ fontFamily: 'var(--font-syne)' }}>Manage Projects</h1>
+        <p className="text-[#8a8a8a] text-sm" style={{ fontFamily: 'var(--font-onest)' }}>Control which projects appear on your homepage and projects page.</p>
       </div>
       <JsonHelpPanel />
       <ProjectsManager initialProjects={projects || []} />

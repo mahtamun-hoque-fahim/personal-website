@@ -40,12 +40,12 @@ export default function JsonHelpPanel() {
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between px-5 py-3 hover:bg-[#141414] transition-colors"
-        style={{ fontFamily: "'Onest', sans-serif" }}
+        style={{ fontFamily: 'var(--font-onest)' }}
       >
         <div className="flex items-center gap-3">
           <span
             className="text-[10px] uppercase tracking-widest text-[#00e676] px-2 py-0.5 bg-[#00e676]/10 rounded border border-[#00e676]/30"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             JSON
           </span>
@@ -61,7 +61,7 @@ export default function JsonHelpPanel() {
           <div>
             <p
               className="text-[#8a8a8a] text-sm leading-relaxed mb-3"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               Click <span className="text-[#00e676]">+ New project → Paste JSON</span>. Accepts a
               single object, an array, or <code className="text-[#00e676] text-xs">{'{ "projects": [...] }'}</code>.
@@ -74,11 +74,11 @@ export default function JsonHelpPanel() {
             <div>
               <p
                 className="text-[10px] uppercase tracking-widest text-[#8a8a8a] mb-2"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 Required
               </p>
-              <ul className="space-y-1.5 text-xs text-[#8a8a8a]" style={{ fontFamily: "'Onest', sans-serif" }}>
+              <ul className="space-y-1.5 text-xs text-[#8a8a8a]" style={{ fontFamily: 'var(--font-onest)' }}>
                 <li>
                   <code className="text-[#f0ede6]">name</code> — unique, also the upsert key
                 </li>
@@ -96,11 +96,11 @@ export default function JsonHelpPanel() {
             <div>
               <p
                 className="text-[10px] uppercase tracking-widest text-[#8a8a8a] mb-2"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 Optional
               </p>
-              <ul className="space-y-1.5 text-xs text-[#8a8a8a]" style={{ fontFamily: "'Onest', sans-serif" }}>
+              <ul className="space-y-1.5 text-xs text-[#8a8a8a]" style={{ fontFamily: 'var(--font-onest)' }}>
                 <li>
                   <code className="text-[#f0ede6]">type</code> — default "Web"
                 </li>
@@ -126,21 +126,21 @@ export default function JsonHelpPanel() {
             <div className="flex items-center justify-between mb-2">
               <p
                 className="text-[10px] uppercase tracking-widest text-[#8a8a8a]"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 Example
               </p>
               <button
                 onClick={handleCopy}
                 className="text-[10px] uppercase tracking-widest px-2 py-1 bg-[#1f1f1f] text-[#8a8a8a] hover:text-[#00e676] hover:bg-[#00e676]/10 rounded transition-colors"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 {copied ? '✓ copied' : 'Copy'}
               </button>
             </div>
             <pre
               className="text-[11px] bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg p-3 overflow-x-auto text-[#8a8a8a] leading-relaxed"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               {EXAMPLE_JSON}
             </pre>
@@ -148,7 +148,7 @@ export default function JsonHelpPanel() {
 
           <p
             className="text-[10px] text-[#5a5a5a]"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Full spec: <code className="text-[#8a8a8a]">docs/PROJECT_JSON_SCHEMA.md</code> in the repo.
           </p>

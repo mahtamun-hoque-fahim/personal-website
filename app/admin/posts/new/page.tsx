@@ -10,7 +10,7 @@ export default async function NewPostPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-bold text-[#f0ede6] mb-10" style={{ fontFamily: "'Syne', sans-serif" }}>New Post</h1>
+      <h1 className="text-4xl font-bold text-[#f0ede6] mb-10" style={{ fontFamily: 'var(--font-syne)' }}>New Post</h1>
       <PostEditor />
     </div>
   )

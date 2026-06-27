@@ -293,14 +293,14 @@ export default function ProjectsManager({
     <div>
       {/* Header row with action */}
       <div className="flex items-center justify-between mb-8">
-        <div className="text-xs uppercase tracking-widest text-[#8a8a8a]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+        <div className="text-xs uppercase tracking-widest text-[#8a8a8a]" style={{ fontFamily: 'var(--font-jetbrains)' }}>
           {projects.length} project{projects.length === 1 ? '' : 's'} · {featured.length} featured
         </div>
         <button
           onClick={() => setCreating(true)}
           disabled={isPending}
           className="px-4 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         >
           + New project
         </button>
@@ -314,7 +314,7 @@ export default function ProjectsManager({
               : 'bg-red-500/10 border-red-500/30 text-red-400'
           }`}
         >
-          <p className="text-sm" style={{ fontFamily: "'Onest', sans-serif" }}>
+          <p className="text-sm" style={{ fontFamily: 'var(--font-onest)' }}>
             {message.text}
           </p>
         </div>
@@ -322,16 +322,16 @@ export default function ProjectsManager({
 
       {projects.length === 0 && (
         <div className="bg-[#141414] border border-dashed border-[#1f1f1f] rounded-xl p-12 text-center">
-          <p className="text-[#f0ede6] mb-2" style={{ fontFamily: "'Syne', sans-serif" }}>
+          <p className="text-[#f0ede6] mb-2" style={{ fontFamily: 'var(--font-syne)' }}>
             No projects yet
           </p>
-          <p className="text-[#8a8a8a] text-sm mb-6" style={{ fontFamily: "'Onest', sans-serif" }}>
+          <p className="text-[#8a8a8a] text-sm mb-6" style={{ fontFamily: 'var(--font-onest)' }}>
             Add your first project to show it on your homepage and projects page.
           </p>
           <button
             onClick={() => setCreating(true)}
             className="px-4 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             + Add project
           </button>
@@ -342,10 +342,10 @@ export default function ProjectsManager({
       {featured.length > 0 && (
         <section className="mb-12">
           <div className="flex items-baseline justify-between mb-4">
-            <h2 className="text-xl font-bold text-[#f0ede6]" style={{ fontFamily: "'Syne', sans-serif" }}>
+            <h2 className="text-xl font-bold text-[#f0ede6]" style={{ fontFamily: 'var(--font-syne)' }}>
               Featured ({featured.length})
             </h2>
-            <p className="text-xs text-[#8a8a8a]" style={{ fontFamily: "'Onest', sans-serif" }}>
+            <p className="text-xs text-[#8a8a8a]" style={{ fontFamily: 'var(--font-onest)' }}>
               Shown on homepage in this order
             </p>
           </div>
@@ -371,7 +371,7 @@ export default function ProjectsManager({
       {/* Unfeatured */}
       {unfeatured.length > 0 && (
         <section>
-          <h2 className="text-xl font-bold text-[#f0ede6] mb-4" style={{ fontFamily: "'Syne', sans-serif" }}>
+          <h2 className="text-xl font-bold text-[#f0ede6] mb-4" style={{ fontFamily: 'var(--font-syne)' }}>
             All projects ({unfeatured.length})
           </h2>
           <div className="space-y-3">
@@ -454,12 +454,12 @@ function ProjectRow({
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <p className="text-[#f0ede6] font-medium truncate" style={{ fontFamily: "'Syne', sans-serif" }}>
+            <p className="text-[#f0ede6] font-medium truncate" style={{ fontFamily: 'var(--font-syne)' }}>
               {project.name}
             </p>
             <span
               className="text-[10px] px-1.5 py-0.5 bg-[#1f1f1f] text-[#8a8a8a] rounded uppercase tracking-wider"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               {project.type}
             </span>
@@ -467,13 +467,13 @@ function ProjectRow({
               <StatusPill key={b} badge={b} />
             ))}
           </div>
-          <p className="text-[#8a8a8a] text-sm truncate" style={{ fontFamily: "'Onest', sans-serif" }}>
+          <p className="text-[#8a8a8a] text-sm truncate" style={{ fontFamily: 'var(--font-onest)' }}>
             {project.tagline}
           </p>
           {project.collaborators && project.collaborators.length > 0 && (
             <p
               className="text-[#5a5a5a] text-xs mt-1 truncate"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               with {project.collaborators.map((c) => c.name).join(', ')}
             </p>
@@ -496,7 +496,7 @@ function ProjectRow({
                 ? 'bg-[#00e676]/10 text-[#00e676] hover:bg-[#00e676]/20'
                 : 'bg-[#1f1f1f] text-[#8a8a8a] hover:bg-[#00e676] hover:text-black'
             }`}
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             {project.featured ? 'Unfeature' : 'Feature'}
           </button>
@@ -504,7 +504,7 @@ function ProjectRow({
             onClick={onEdit}
             disabled={isPending}
             className="px-3 py-1.5 text-xs bg-[#1f1f1f] text-[#f0ede6] rounded hover:bg-[#2a2a2a] disabled:opacity-50 transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Edit
           </button>
@@ -512,7 +512,7 @@ function ProjectRow({
             onClick={onDelete}
             disabled={isPending}
             className="px-3 py-1.5 text-xs bg-[#1f1f1f] text-red-400 rounded hover:bg-red-500/20 disabled:opacity-50 transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Delete
           </button>
@@ -581,7 +581,7 @@ function ProjectFormModal({
         <div className="flex items-center justify-between mb-6">
           <h2
             className="text-2xl font-bold text-[#f0ede6]"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             {isEdit ? 'Edit project' : 'New project'}
           </h2>
@@ -650,7 +650,7 @@ function ProjectFormModal({
                             ? badgeOnCls(badge)
                             : 'bg-transparent border-[#1f1f1f] text-[#5a5a5a] hover:border-[#2a2a2a] hover:text-[#8a8a8a]'
                         }`}
-                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                        style={{ fontFamily: 'var(--font-jetbrains)' }}
                       >
                         {on ? '✓ ' : ''}
                         {badge}
@@ -660,7 +660,7 @@ function ProjectFormModal({
                 </div>
                 <p
                   className="text-[10px] text-[#5a5a5a] mt-1.5"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   Toggle any combination, or none.
                 </p>
@@ -670,7 +670,7 @@ function ProjectFormModal({
                 {form.collaborators.length === 0 && (
                   <p
                     className="text-[10px] text-[#5a5a5a] mb-2"
-                    style={{ fontFamily: "'Onest', sans-serif" }}
+                    style={{ fontFamily: 'var(--font-onest)' }}
                   >
                     No collaborators yet. Add a person, team, or organization the
                     project was built with.
@@ -724,7 +724,7 @@ function ProjectFormModal({
                     })
                   }
                   className="mt-2 px-3 py-1.5 text-xs border border-dashed border-[#1f1f1f] text-[#8a8a8a] hover:text-[#00e676] hover:border-[#00e676]/40 rounded-lg transition-colors"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   + Add collaborator
                 </button>
@@ -774,7 +774,7 @@ function ProjectFormModal({
                 onClick={onCancel}
                 disabled={isPending}
                 className="px-4 py-2 text-sm text-[#8a8a8a] rounded-lg hover:text-[#f0ede6] disabled:opacity-50 transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Cancel
               </button>
@@ -782,7 +782,7 @@ function ProjectFormModal({
                 onClick={() => onSubmit(form)}
                 disabled={isPending}
                 className="px-5 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 {isPending ? 'Saving...' : isEdit ? 'Save changes' : 'Create project'}
               </button>
@@ -796,7 +796,7 @@ function ProjectFormModal({
             <div className="space-y-4">
               <div
                 className="text-xs text-[#8a8a8a] space-y-2 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg p-3"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 <p>
                   Paste one project, an array, or{' '}
@@ -846,7 +846,7 @@ function ProjectFormModal({
                   spellCheck={false}
                   className={`${inputCls} resize-y font-mono text-xs leading-relaxed`}
                   placeholder='{ "projects": [ { "name": "...", "tagline": "...", "description": "...", "repoUrl": "..." } ] }'
-                  style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+                  style={{ fontFamily: 'var(--font-jetbrains)' }}
                 />
               </Field>
 
@@ -854,7 +854,7 @@ function ProjectFormModal({
                 <div className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg p-3 max-h-40 overflow-y-auto">
                   <p
                     className="text-[10px] uppercase tracking-widest text-[#8a8a8a] mb-2"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     Results
                   </p>
@@ -863,7 +863,7 @@ function ProjectFormModal({
                       <li
                         key={o.index}
                         className="flex items-start gap-2 text-xs"
-                        style={{ fontFamily: "'Onest', sans-serif" }}
+                        style={{ fontFamily: 'var(--font-onest)' }}
                       >
                         <span
                           className={`shrink-0 w-16 text-[10px] uppercase tracking-wider ${
@@ -873,7 +873,7 @@ function ProjectFormModal({
                               ? 'text-blue-400'
                               : 'text-red-400'
                           }`}
-                          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                          style={{ fontFamily: 'var(--font-jetbrains)' }}
                         >
                           {o.status === 'created'
                             ? '✓ new'
@@ -895,7 +895,7 @@ function ProjectFormModal({
                 onClick={onCancel}
                 disabled={isPending}
                 className="px-4 py-2 text-sm text-[#8a8a8a] rounded-lg hover:text-[#f0ede6] disabled:opacity-50 transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Close
               </button>
@@ -903,7 +903,7 @@ function ProjectFormModal({
                 onClick={() => onBulkSubmit(jsonText)}
                 disabled={isPending || !jsonText.trim()}
                 className="px-5 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 {isPending ? 'Importing...' : 'Import'}
               </button>
@@ -932,7 +932,7 @@ function TabButton({
           ? 'bg-[#00e676] text-black'
           : 'text-[#8a8a8a] hover:text-[#f0ede6]'
       }`}
-      style={{ fontFamily: "'Onest', sans-serif" }}
+      style={{ fontFamily: 'var(--font-onest)' }}
     >
       {children}
     </button>
@@ -964,7 +964,7 @@ function StatusPill({ badge }: { badge: string }) {
       className={`text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider font-medium ${badgeOnCls(
         badge,
       )}`}
-      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+      style={{ fontFamily: 'var(--font-jetbrains)' }}
     >
       {badge}
     </span>
@@ -976,7 +976,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     <div>
       <label
         className="block text-[#f0ede6] text-xs mb-1.5 font-medium uppercase tracking-wider"
-        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        style={{ fontFamily: 'var(--font-jetbrains)' }}
       >
         {label}
       </label>

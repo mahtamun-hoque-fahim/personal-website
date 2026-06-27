@@ -45,7 +45,7 @@ export default async function BlogPostPage({
           <Link
             href="/blog"
             className="inline-block text-[#8a8a8a] text-sm mb-12 hover:text-[#00e676] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             ← Back to blog
           </Link>
@@ -56,7 +56,7 @@ export default async function BlogPostPage({
                 <span
                   key={tag}
                   className="text-xs px-2 py-1 border border-[#1f1f1f] text-[#8a8a8a] rounded"
-                  style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  style={{ fontFamily: 'var(--font-jetbrains)' }}
                 >
                   {tag}
                 </span>
@@ -65,14 +65,14 @@ export default async function BlogPostPage({
 
             <h1
               className="text-4xl md:text-5xl font-bold text-[#f0ede6] mb-6 leading-tight"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               {post.title}
             </h1>
 
             <div
               className="flex items-center gap-4 text-sm text-[#8a8a8a]"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               <span>{formatDate(post.createdAt)}</span>
               <span>·</span>

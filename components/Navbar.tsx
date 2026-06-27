@@ -42,7 +42,7 @@ export default function Navbar() {
           <Link
             href="/"
             className="font-display font-800 text-xl tracking-tight group"
-            style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800 }}
+            style={{ fontFamily: 'var(--font-syne)', fontWeight: 800 }}
           >
             <span className="text-[#f0ede6]">fahim</span>
             <span className="text-[#00e676]">.</span>
@@ -60,7 +60,7 @@ export default function Navbar() {
                     ? 'text-[#00e676]'
                     : 'text-[#8a8a8a] hover:text-[#f0ede6]'
                 )}
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 {link.label}
                 {pathname === link.href && (
@@ -116,7 +116,7 @@ export default function Navbar() {
               pathname === link.href ? 'text-[#00e676]' : 'text-[#f0ede6]'
             )}
             style={{
-              fontFamily: "'Syne', sans-serif",
+              fontFamily: 'var(--font-syne)',
               animationDelay: `${i * 80}ms`,
             }}
           >

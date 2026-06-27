@@ -15,7 +15,7 @@ export default function MarkReadButton({ id }: { id: string }) {
     <button
       onClick={handleMarkRead}
       className="text-xs text-[#8a8a8a] hover:text-[#00e676] transition-colors px-3 py-1.5 border border-[#1f1f1f] rounded-lg hover:border-[#00e676]/30"
-      style={{ fontFamily: "'Onest', sans-serif" }}
+      style={{ fontFamily: 'var(--font-onest)' }}
     >
       Mark read
     </button>

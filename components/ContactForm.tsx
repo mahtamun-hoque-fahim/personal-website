@@ -67,20 +67,20 @@ export default function ContactForm() {
         </div>
         <h3
           className="text-2xl font-bold text-[#f0ede6] mb-3"
-          style={{ fontFamily: "'Syne', sans-serif" }}
+          style={{ fontFamily: 'var(--font-syne)' }}
         >
           Message sent.
         </h3>
         <p
           className="text-[#8a8a8a] text-sm leading-relaxed mb-6"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         >
           I&apos;ll get back to you within 24 hours. Looking forward to it.
         </p>
         <button
           onClick={() => setState('idle')}
           className="text-[#00e676] text-sm hover:underline"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         >
           Send another →
         </button>
@@ -94,7 +94,7 @@ export default function ContactForm() {
         <div>
           <label
             className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Name
           </label>
@@ -107,13 +107,13 @@ export default function ContactForm() {
             placeholder="Your name"
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-3 text-sm text-[#f0ede6]
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           />
         </div>
         <div>
           <label
             className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Email
           </label>
@@ -126,7 +126,7 @@ export default function ContactForm() {
             placeholder="your@email.com"
             className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-3 text-sm text-[#f0ede6]
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           />
         </div>
       </div>
@@ -134,7 +134,7 @@ export default function ContactForm() {
       <div>
         <label
           className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           Subject
         </label>
@@ -145,7 +145,7 @@ export default function ContactForm() {
           onChange={handleChange}
           className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-3 text-sm text-[#f0ede6]
                      focus:outline-none focus:border-[#00e676] transition-colors"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         >
           <option value="">Select a topic</option>
           <option value="Freelance project">Freelance project</option>
@@ -159,7 +159,7 @@ export default function ContactForm() {
       <div>
         <label
           className="block text-xs text-[#8a8a8a] mb-2 tracking-widest uppercase"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           Message
         </label>
@@ -172,14 +172,14 @@ export default function ContactForm() {
           placeholder="Tell me about what you're building..."
           className="w-full bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-3 text-sm text-[#f0ede6]
                      placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors resize-none"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         />
       </div>
 
       {state === 'error' && (
         <p
           className="text-red-400 text-sm"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         >
           {error}
         </p>
@@ -191,7 +191,7 @@ export default function ContactForm() {
         className="w-full py-3.5 bg-[#00e676] text-black font-semibold text-sm rounded-lg
                    hover:bg-[#00b85a] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
                    hover:scale-[1.01] active:scale-[0.99]"
-        style={{ fontFamily: "'Onest', sans-serif" }}
+        style={{ fontFamily: 'var(--font-onest)' }}
       >
         {state === 'loading' ? 'Sending...' : 'Send message →'}
       </button>

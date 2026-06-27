@@ -23,13 +23,13 @@ export default async function ProjectsPage() {
           <div className="mb-16">
             <h1
               className="text-5xl md:text-7xl font-bold text-[#f0ede6] mb-6"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               All Projects
             </h1>
             <p
               className="text-[#8a8a8a] text-lg max-w-2xl"
-              style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
             >
               A collection of everything I've shipped — from web apps and tools to learning platforms and browser extensions. Each project represents something I wanted to build and share with the world.
             </p>
@@ -40,13 +40,13 @@ export default async function ProjectsPage() {
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 {allProjects.length}
               </p>
               <p
                 className="text-[#8a8a8a] text-sm mt-2"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Projects
               </p>
@@ -54,13 +54,13 @@ export default async function ProjectsPage() {
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 {allProjects.filter(p => p.liveUrl).length}
               </p>
               <p
                 className="text-[#8a8a8a] text-sm mt-2"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Live
               </p>
@@ -68,13 +68,13 @@ export default async function ProjectsPage() {
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 {new Set(allProjects.flatMap(p => p.tags)).size}
               </p>
               <p
                 className="text-[#8a8a8a] text-sm mt-2"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Technologies
               </p>
@@ -82,13 +82,13 @@ export default async function ProjectsPage() {
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 {new Set(allProjects.map(p => p.type)).size}
               </p>
               <p
                 className="text-[#8a8a8a] text-sm mt-2"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Types
               </p>
@@ -109,7 +109,7 @@ export default async function ProjectsPage() {
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
             className="text-4xl font-bold text-[#f0ede6] mb-12"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             By Type
           </h2>
@@ -121,7 +121,7 @@ export default async function ProjectsPage() {
               <div key={type} className="mb-20">
                 <h3
                   className="text-2xl font-semibold text-[#f0ede6] mb-6"
-                  style={{ fontFamily: "'Syne', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-syne)' }}
                 >
                   {type}
                 </h3>
@@ -139,13 +139,13 @@ export default async function ProjectsPage() {
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
             className="text-4xl font-bold text-[#f0ede6] mb-8"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             Technologies
           </h2>
           <p
             className="text-[#8a8a8a] text-lg mb-12"
-            style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+            style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
           >
             I specialize in modern full-stack development. Here are the tech stacks powering these projects.
           </p>
@@ -160,7 +160,7 @@ export default async function ProjectsPage() {
                 >
                   <p
                     className="text-[#f0ede6] font-medium"
-                    style={{ fontFamily: "'Onest', sans-serif" }}
+                    style={{ fontFamily: 'var(--font-onest)' }}
                   >
                     {tag}
                   </p>

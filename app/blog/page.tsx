@@ -29,19 +29,19 @@ export default async function BlogPage() {
         <div className="pb-16 border-b border-[#1f1f1f] mb-16">
           <p
             className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Blog
           </p>
           <h1
             className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#f0ede6] leading-[0.95] mb-6"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             Things I think about
           </h1>
           <p
             className="text-[#8a8a8a] text-lg max-w-xl leading-relaxed"
-            style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+            style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
           >
             Writing about design systems, creative process, building products, and whatever
             I&apos;m obsessing over this month.
@@ -53,13 +53,13 @@ export default async function BlogPage() {
           <div className="py-32 text-center">
             <p
               className="text-[#2a2a2a] text-8xl font-bold mb-6"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               Soon.
             </p>
             <p
               className="text-[#8a8a8a] text-base"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               First post is being written. Check back soon.
             </p>
@@ -76,7 +76,7 @@ export default async function BlogPage() {
                 {/* Number */}
                 <span
                   className="text-[#2a2a2a] text-sm shrink-0 mt-1 group-hover:text-[#00e676] transition-colors"
-                  style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  style={{ fontFamily: 'var(--font-jetbrains)' }}
                 >
                   {String(i + 1).padStart(2, '0')}
                 </span>
@@ -88,7 +88,7 @@ export default async function BlogPage() {
                       <span
                         key={tag}
                         className="text-xs px-2 py-0.5 border border-[#1f1f1f] rounded-full text-[#8a8a8a]"
-                        style={{ fontFamily: "'Onest', sans-serif" }}
+                        style={{ fontFamily: 'var(--font-onest)' }}
                       >
                         {tag}
                       </span>
@@ -96,13 +96,13 @@ export default async function BlogPage() {
                   </div>
                   <h2
                     className="text-xl md:text-2xl font-bold text-[#f0ede6] mb-2 group-hover:text-[#00e676] transition-colors"
-                    style={{ fontFamily: "'Syne', sans-serif" }}
+                    style={{ fontFamily: 'var(--font-syne)' }}
                   >
                     {post.title}
                   </h2>
                   <p
                     className="text-[#8a8a8a] text-sm leading-relaxed max-w-2xl"
-                    style={{ fontFamily: "'Onest', sans-serif" }}
+                    style={{ fontFamily: 'var(--font-onest)' }}
                   >
                     {post.excerpt}
                   </p>
@@ -112,13 +112,13 @@ export default async function BlogPage() {
                 <div className="shrink-0 text-right hidden md:block">
                   <p
                     className="text-[#8a8a8a] text-xs"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     {formatDate(post.createdAt)}
                   </p>
                   <p
                     className="text-[#2a2a2a] text-xs mt-1"
-                    style={{ fontFamily: "'Onest', sans-serif" }}
+                    style={{ fontFamily: 'var(--font-onest)' }}
                   >
                     {post.readingTime} min read
                   </p>

@@ -41,13 +41,13 @@ export default async function AdminDashboard() {
         <div>
           <p
             className="text-xs uppercase tracking-widest text-[#8a8a8a] mb-2"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Admin · Overview
           </p>
           <h1
             className="text-4xl font-bold text-[#f0ede6]"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             Welcome back<span className="text-[#00e676]">.</span>
           </h1>
@@ -109,13 +109,13 @@ export default async function AdminDashboard() {
               <div className="flex-1 min-w-0 mr-4">
                 <p
                   className="text-[#f0ede6] text-sm font-medium truncate group-hover:text-[#00e676]"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   {p.title}
                 </p>
                 <p
                   className="text-[#8a8a8a] text-xs mt-0.5"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   {formatRelative(p.updatedAt)}
                 </p>
@@ -141,14 +141,14 @@ export default async function AdminDashboard() {
               <div className="flex-1 min-w-0 mr-4">
                 <p
                   className="text-[#f0ede6] text-sm font-medium truncate group-hover:text-[#00e676] transition-colors"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   {m.name}
                   <span className="text-[#8a8a8a] font-normal"> · {m.email}</span>
                 </p>
                 <p
                   className="text-[#8a8a8a] text-xs mt-0.5"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   {formatRelative(m.createdAt)}
                 </p>
@@ -163,7 +163,7 @@ export default async function AdminDashboard() {
       <div>
         <h2
           className="text-xs uppercase tracking-widest text-[#8a8a8a] mb-4"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           Quick actions
         </h2>
@@ -203,19 +203,19 @@ function StatCard({
     >
       <p
         className="text-[10px] uppercase tracking-widest text-[#8a8a8a] mb-3"
-        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        style={{ fontFamily: 'var(--font-jetbrains)' }}
       >
         {label}
       </p>
       <p
         className="text-3xl font-bold text-[#f0ede6] mb-1 leading-none"
-        style={{ fontFamily: "'Syne', sans-serif" }}
+        style={{ fontFamily: 'var(--font-syne)' }}
       >
         {value}
       </p>
       <p
         className={`text-xs ${accent ? 'text-[#00e676]' : 'text-[#8a8a8a]'}`}
-        style={{ fontFamily: "'Onest', sans-serif" }}
+        style={{ fontFamily: 'var(--font-onest)' }}
       >
         {sub}
       </p>
@@ -239,7 +239,7 @@ function Panel({
       <div className="flex items-center justify-between mb-2">
         <h3
           className="text-base font-bold text-[#f0ede6]"
-          style={{ fontFamily: "'Syne', sans-serif" }}
+          style={{ fontFamily: 'var(--font-syne)' }}
         >
           {title}
         </h3>
@@ -247,7 +247,7 @@ function Panel({
           <Link
             href={action.href}
             className="text-xs text-[#8a8a8a] hover:text-[#00e676] transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             {action.label} →
           </Link>
@@ -256,7 +256,7 @@ function Panel({
       {empty ? (
         <p
           className="text-[#8a8a8a] text-sm py-8 text-center"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         >
           {empty}
         </p>
@@ -282,7 +282,7 @@ function Badge({
   return (
     <span
       className={`text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider font-medium ${styles}`}
-      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+      style={{ fontFamily: 'var(--font-jetbrains)' }}
     >
       {children}
     </span>
@@ -308,14 +308,14 @@ function QuickAction({
     >
       <span
         className="text-[#f0ede6] text-sm group-hover:text-[#00e676] transition-colors"
-        style={{ fontFamily: "'Onest', sans-serif" }}
+        style={{ fontFamily: 'var(--font-onest)' }}
       >
         {label}
       </span>
       {badge ? (
         <span
           className="text-[10px] bg-[#00e676] text-black rounded-full px-1.5 py-0.5 font-medium"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           {badge}
         </span>
@@ -331,7 +331,7 @@ function PrimaryLink({ href, children }: { href: string; children: React.ReactNo
     <Link
       href={href}
       className="px-4 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] transition-colors"
-      style={{ fontFamily: "'Onest', sans-serif" }}
+      style={{ fontFamily: 'var(--font-onest)' }}
     >
       {children}
     </Link>
@@ -343,7 +343,7 @@ function SecondaryLink({ href, children }: { href: string; children: React.React
     <Link
       href={href}
       className="px-4 py-2 text-sm bg-[#1f1f1f] text-[#f0ede6] rounded-lg font-medium hover:bg-[#2a2a2a] transition-colors"
-      style={{ fontFamily: "'Onest', sans-serif" }}
+      style={{ fontFamily: 'var(--font-onest)' }}
     >
       {children}
     </Link>

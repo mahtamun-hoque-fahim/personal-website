@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
           <div className="flex items-center gap-2">
             <span
               className="text-2xl font-bold text-[#f0ede6]"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               fahim
             </span>
@@ -48,13 +48,13 @@ export default function AdminLoginPage() {
         <div className="bg-[#141414] border border-[#1f1f1f] rounded-2xl p-8">
           <h1
             className="text-2xl font-bold text-[#f0ede6] mb-2"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             Welcome back
           </h1>
           <p
             className="text-[#8a8a8a] text-sm mb-8"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Sign in to manage posts, projects, and messages.
           </p>
@@ -63,7 +63,7 @@ export default function AdminLoginPage() {
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
               <p
                 className="text-red-500 text-sm"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 {error}
               </p>
@@ -74,7 +74,7 @@ export default function AdminLoginPage() {
             <div>
               <label
                 className="block text-[#f0ede6] text-sm mb-2 font-medium"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Email
               </label>
@@ -85,14 +85,14 @@ export default function AdminLoginPage() {
                 placeholder="your@email.com"
                 required
                 className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg text-[#f0ede6] placeholder-[#8a8a8a] focus:outline-none focus:border-[#00e676] transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               />
             </div>
 
             <div>
               <label
                 className="block text-[#f0ede6] text-sm mb-2 font-medium"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Password
               </label>
@@ -104,12 +104,12 @@ export default function AdminLoginPage() {
                 required
                 minLength={8}
                 className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg text-[#f0ede6] placeholder-[#8a8a8a] focus:outline-none focus:border-[#00e676] transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               />
               <Link
                 href="/admin/forgot-password"
                 className="inline-block mt-2 text-xs text-[#8a8a8a] hover:text-[#00e676] transition-colors"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Forgot password?
               </Link>
@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
               type="submit"
               disabled={loading}
               className="w-full mt-6 px-4 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               {loading ? 'Please wait...' : 'Sign in'}
             </button>

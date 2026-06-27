@@ -45,10 +45,10 @@ export default async function HomePage() {
 
           {/* Floating label top-right */}
           <div className="absolute top-32 right-6 md:right-16 text-right hidden md:block">
-            <p className="text-[#8a8a8a] text-xs tracking-[0.2em] uppercase mb-1" style={{ fontFamily: "'Onest', sans-serif" }}>
+            <p className="text-[#8a8a8a] text-xs tracking-[0.2em] uppercase mb-1" style={{ fontFamily: 'var(--font-onest)' }}>
               Based in
             </p>
-            <p className="text-[#f0ede6] text-sm" style={{ fontFamily: "'Syne', sans-serif" }}>
+            <p className="text-[#f0ede6] text-sm" style={{ fontFamily: 'var(--font-syne)' }}>
               Bangladesh
             </p>
           </div>
@@ -61,7 +61,7 @@ export default async function HomePage() {
               />
               <span
                 className="text-[#00e676] text-xs tracking-[0.25em] uppercase"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 Available for work
               </span>
@@ -70,7 +70,7 @@ export default async function HomePage() {
             {/* Main heading */}
             <h1
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               <span className="block text-[#f0ede6]">Design.</span>
               <span className="block text-[#f0ede6]">Code.</span>
@@ -82,7 +82,7 @@ export default async function HomePage() {
               <div className="max-w-md">
                 <p
                   className="text-[#8a8a8a] text-lg leading-relaxed"
-                  style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+                  style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
                 >
                   I&apos;m{' '}
                   <span className="text-[#f0ede6] font-medium">Mahtamun Hoque Fahim</span>
@@ -96,7 +96,7 @@ export default async function HomePage() {
                   href="/contact"
                   className="px-7 py-3 bg-[#00e676] text-black text-sm font-semibold rounded-full
                              hover:bg-[#00b85a] transition-all duration-200 hover:scale-105 active:scale-95"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   Let&apos;s talk
                 </Link>
@@ -104,7 +104,7 @@ export default async function HomePage() {
                   href="/about"
                   className="px-7 py-3 border border-[#1f1f1f] text-[#f0ede6] text-sm rounded-full
                              hover:border-[#8a8a8a] transition-all duration-200"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   About me
                 </Link>
@@ -121,13 +121,13 @@ export default async function HomePage() {
                 <div key={stat.label}>
                   <p
                     className="text-3xl font-bold text-[#f0ede6]"
-                    style={{ fontFamily: "'Syne', sans-serif" }}
+                    style={{ fontFamily: 'var(--font-syne)' }}
                   >
                     {stat.num}
                   </p>
                   <p
                     className="text-[#8a8a8a] text-sm mt-1"
-                    style={{ fontFamily: "'Onest', sans-serif" }}
+                    style={{ fontFamily: 'var(--font-onest)' }}
                   >
                     {stat.label}
                   </p>
@@ -145,7 +145,7 @@ export default async function HomePage() {
                 key={i}
                 className="text-sm tracking-widest uppercase shrink-0"
                 style={{
-                  fontFamily: "'Onest', sans-serif",
+                  fontFamily: 'var(--font-onest)',
                   color: i % 3 === 0 ? '#00e676' : '#8a8a8a',
                 }}
               >
@@ -161,13 +161,13 @@ export default async function HomePage() {
           <div className="flex flex-col md:flex-row gap-6 md:items-end mb-16">
             <h2
               className="text-5xl md:text-6xl font-bold text-[#f0ede6]"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               What I do
             </h2>
             <span
               className="text-[#8a8a8a] text-sm md:mb-2"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               — three disciplines, one person
             </span>
@@ -181,19 +181,19 @@ export default async function HomePage() {
               >
                 <span
                   className="text-[#2a2a2a] text-5xl font-bold block mb-6 group-hover:text-[#00e676] transition-colors duration-300"
-                  style={{ fontFamily: "'Syne', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-syne)' }}
                 >
                   {s.num}
                 </span>
                 <h3
                   className="text-xl font-semibold text-[#f0ede6] mb-3"
-                  style={{ fontFamily: "'Syne', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-syne)' }}
                 >
                   {s.title}
                 </h3>
                 <p
                   className="text-[#8a8a8a] text-sm leading-relaxed"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   {s.desc}
                 </p>
@@ -208,26 +208,26 @@ export default async function HomePage() {
             <div>
               <p
                 className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 The honest version
               </p>
               <h2
                 className="text-4xl md:text-5xl font-bold text-[#f0ede6] mb-6 leading-tight"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 I don&apos;t separate design from engineering.
               </h2>
               <p
                 className="text-[#8a8a8a] text-base leading-relaxed mb-6"
-                style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+                style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
               >
                 Most designers hand off to developers. Most developers complain about the Figma files.
                 I do both — which means the gap doesn&apos;t exist for me.
               </p>
               <p
                 className="text-[#8a8a8a] text-base leading-relaxed mb-10"
-                style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+                style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
               >
                 I care obsessively about the space between pixels. I write code the way
                 I design — with intention. I&apos;m from Bangladesh, building work that competes globally.
@@ -235,7 +235,7 @@ export default async function HomePage() {
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 text-[#00e676] text-sm group"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Full story
                 <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
@@ -245,7 +245,7 @@ export default async function HomePage() {
             {/* Code aesthetic block */}
             <div
               className="bg-[#141414] border border-[#1f1f1f] rounded-xl p-8"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               <div className="flex gap-2 mb-6">
                 <span className="w-3 h-3 rounded-full bg-[#ff5f56]" />
@@ -292,13 +292,13 @@ export default async function HomePage() {
             <div>
               <p
                 className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-3"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 Selected work
               </p>
               <h2
                 className="text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 Projects
               </h2>
@@ -306,7 +306,7 @@ export default async function HomePage() {
             <Link
               href="/projects"
               className="text-[#8a8a8a] text-sm hover:text-[#00e676] transition-colors hidden md:block"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               View all →
             </Link>
@@ -324,14 +324,14 @@ export default async function HomePage() {
           <div className="flex items-center justify-between mb-12">
             <h2
               className="text-4xl font-bold text-[#f0ede6]"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               Writing
             </h2>
             <Link
               href="/blog"
               className="text-[#8a8a8a] text-sm hover:text-[#00e676] transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               All posts →
             </Link>
@@ -341,14 +341,14 @@ export default async function HomePage() {
             <div className="border border-[#1f1f1f] rounded-xl p-16 text-center">
               <p
                 className="text-[#8a8a8a] text-sm"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Writing about design, process & building on the web — coming soon.
               </p>
               <Link
                 href="/blog"
                 className="inline-block mt-4 text-[#00e676] text-sm hover:underline"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Visit the blog →
               </Link>
@@ -365,21 +365,21 @@ export default async function HomePage() {
                     {post.tags?.length > 0 && (
                       <span
                         className="text-[#00e676] text-xs tracking-[0.15em] uppercase mb-4 block"
-                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                        style={{ fontFamily: 'var(--font-jetbrains)' }}
                       >
                         {post.tags[0]}
                       </span>
                     )}
                     <h3
                       className="text-lg font-semibold text-[#f0ede6] mb-3 leading-snug group-hover:text-[#00e676] transition-colors duration-300"
-                      style={{ fontFamily: "'Syne', sans-serif" }}
+                      style={{ fontFamily: 'var(--font-syne)' }}
                     >
                       {post.title}
                     </h3>
                     {post.excerpt && (
                       <p
                         className="text-[#8a8a8a] text-sm leading-relaxed line-clamp-3"
-                        style={{ fontFamily: "'Onest', sans-serif" }}
+                        style={{ fontFamily: 'var(--font-onest)' }}
                       >
                         {post.excerpt}
                       </p>
@@ -388,7 +388,7 @@ export default async function HomePage() {
                   <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#1f1f1f]">
                     <span
                       className="text-[#2a2a2a] text-xs"
-                      style={{ fontFamily: "'Onest', sans-serif" }}
+                      style={{ fontFamily: 'var(--font-onest)' }}
                     >
                       {new Date(post.createdAt).toLocaleDateString('en-US', {
                         month: 'short',
@@ -398,7 +398,7 @@ export default async function HomePage() {
                     </span>
                     <span
                       className="text-[#2a2a2a] text-xs"
-                      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                      style={{ fontFamily: 'var(--font-jetbrains)' }}
                     >
                       {post.readingTime} min
                     </span>
@@ -413,7 +413,7 @@ export default async function HomePage() {
                 >
                   <span
                     className="text-[#1f1f1f] text-xs tracking-widest uppercase"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     more coming
                   </span>
@@ -435,19 +435,19 @@ export default async function HomePage() {
             />
             <p
               className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-4"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               Open to projects
             </p>
             <h2
               className="text-4xl md:text-6xl font-bold text-[#f0ede6] mb-6 leading-tight"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               Have something in mind?
             </h2>
             <p
               className="text-[#8a8a8a] text-lg max-w-md mx-auto mb-10"
-              style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
             >
               I take on selective projects where design and development genuinely matter.
             </p>
@@ -455,7 +455,7 @@ export default async function HomePage() {
               href="/contact"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#00e676] text-black font-semibold rounded-full
                          hover:bg-[#00b85a] transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               Start a conversation
               <span>→</span>

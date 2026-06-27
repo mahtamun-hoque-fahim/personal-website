@@ -30,7 +30,7 @@ export default function AdminSidebar() {
         <Link href="/admin" className="flex items-center gap-2">
           <span
             className="text-xl font-bold text-[#f0ede6]"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             Admin
           </span>
@@ -38,7 +38,7 @@ export default function AdminSidebar() {
         </Link>
         <p
           className="text-[10px] uppercase tracking-widest text-[#5a5a5a] mt-1"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           fahim. portfolio
         </p>
@@ -48,7 +48,7 @@ export default function AdminSidebar() {
       <nav className="flex-1 px-3 py-4 overflow-y-auto">
         <p
           className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#5a5a5a]"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           Manage
         </p>
@@ -67,7 +67,7 @@ export default function AdminSidebar() {
                       ? 'bg-[#00e676]/10 text-[#00e676]'
                       : 'text-[#8a8a8a] hover:text-[#f0ede6] hover:bg-[#141414]'
                   }`}
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />
                   <span>{item.label}</span>
@@ -83,7 +83,7 @@ export default function AdminSidebar() {
         <Link
           href="/"
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#f0ede6] hover:bg-[#141414] transition-colors"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         >
           <ChevronLeft className="h-4 w-4 shrink-0" strokeWidth={2} />
           <span>Back to site</span>
@@ -93,7 +93,7 @@ export default function AdminSidebar() {
           <button
             type="submit"
             className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-red-400 hover:bg-red-500/5 transition-colors"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             <LogOut className="h-4 w-4 shrink-0" strokeWidth={2} />
             <span>Logout</span>

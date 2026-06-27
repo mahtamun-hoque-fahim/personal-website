@@ -72,13 +72,13 @@ export default function AboutPage() {
         <section className="max-w-6xl mx-auto px-6 pb-20">
           <p
             className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             About
           </p>
           <h1
             className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#f0ede6] mb-10"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             Designer who codes.
             <br />
@@ -86,7 +86,7 @@ export default function AboutPage() {
           </h1>
           <p
             className="text-[#8a8a8a] text-xl max-w-2xl leading-relaxed"
-            style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+            style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
           >
             I&apos;m Mahtamun Hoque Fahim. I grew up in Bangladesh with an internet connection
             and an obsession with how things look and work. That combination became a career.
@@ -99,13 +99,13 @@ export default function AboutPage() {
             <div>
               <h2
                 className="text-3xl font-bold text-[#f0ede6] mb-6"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 The honest story
               </h2>
               <div
                 className="text-[#8a8a8a] leading-relaxed space-y-4 text-base"
-                style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+                style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
               >
                 <p>
                   I didn&apos;t study design in a formal school. I learned by obsessively reverse-engineering
@@ -132,7 +132,7 @@ export default function AboutPage() {
             <div>
               <h2
                 className="text-3xl font-bold text-[#f0ede6] mb-6"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 What I believe
               </h2>
@@ -141,13 +141,13 @@ export default function AboutPage() {
                   <div key={v.title} className="border-l-2 border-[#1f1f1f] pl-5 hover:border-[#00e676] transition-colors duration-200 group">
                     <h3
                       className="text-[#f0ede6] font-semibold mb-1 group-hover:text-[#00e676] transition-colors"
-                      style={{ fontFamily: "'Syne', sans-serif" }}
+                      style={{ fontFamily: 'var(--font-syne)' }}
                     >
                       {v.title}
                     </h3>
                     <p
                       className="text-[#8a8a8a] text-sm leading-relaxed"
-                      style={{ fontFamily: "'Onest', sans-serif" }}
+                      style={{ fontFamily: 'var(--font-onest)' }}
                     >
                       {v.desc}
                     </p>
@@ -163,7 +163,7 @@ export default function AboutPage() {
           <div className="max-w-6xl mx-auto px-6 py-20">
             <h2
               className="text-4xl font-bold text-[#f0ede6] mb-16"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               How I got here
             </h2>
@@ -179,7 +179,7 @@ export default function AboutPage() {
                       <span
                         className="text-sm font-medium"
                         style={{
-                          fontFamily: "'JetBrains Mono', monospace",
+                          fontFamily: 'var(--font-jetbrains)',
                           color: i === timeline.length - 1 ? '#00e676' : '#8a8a8a',
                         }}
                       >
@@ -202,19 +202,19 @@ export default function AboutPage() {
                     <div>
                       <p
                         className="text-xs text-[#8a8a8a] mb-1 md:hidden"
-                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                        style={{ fontFamily: 'var(--font-jetbrains)' }}
                       >
                         {item.year}
                       </p>
                       <h3
                         className="text-[#f0ede6] font-semibold text-lg mb-2"
-                        style={{ fontFamily: "'Syne', sans-serif" }}
+                        style={{ fontFamily: 'var(--font-syne)' }}
                       >
                         {item.title}
                       </h3>
                       <p
                         className="text-[#8a8a8a] text-sm leading-relaxed max-w-xl"
-                        style={{ fontFamily: "'Onest', sans-serif" }}
+                        style={{ fontFamily: 'var(--font-onest)' }}
                       >
                         {item.desc}
                       </p>
@@ -230,7 +230,7 @@ export default function AboutPage() {
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
             className="text-4xl font-bold text-[#f0ede6] mb-12"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: 'var(--font-syne)' }}
           >
             Tools & stack
           </h2>
@@ -244,7 +244,7 @@ export default function AboutPage() {
               <div key={col.cat} className="bg-[#0a0a0a] p-6">
                 <p
                   className="text-[#00e676] text-xs tracking-widest uppercase mb-4"
-                  style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                  style={{ fontFamily: 'var(--font-jetbrains)' }}
                 >
                   {col.cat}
                 </p>
@@ -253,7 +253,7 @@ export default function AboutPage() {
                     <li
                       key={t}
                       className="text-[#8a8a8a] text-sm"
-                      style={{ fontFamily: "'Onest', sans-serif" }}
+                      style={{ fontFamily: 'var(--font-onest)' }}
                     >
                       {t}
                     </li>
@@ -270,13 +270,13 @@ export default function AboutPage() {
             <div>
               <h3
                 className="text-2xl font-bold text-[#f0ede6] mb-1"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 Want to work together?
               </h3>
               <p
                 className="text-[#8a8a8a] text-sm"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 I&apos;m selective about what I take on — which means I care about what you&apos;re building.
               </p>
@@ -286,7 +286,7 @@ export default function AboutPage() {
                 href="/contact"
                 className="px-6 py-2.5 bg-[#00e676] text-black text-sm font-semibold rounded-full
                            hover:bg-[#00b85a] transition-all duration-200"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 Get in touch
               </Link>
@@ -296,7 +296,7 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="px-6 py-2.5 border border-[#1f1f1f] text-[#f0ede6] text-sm rounded-full
                            hover:border-[#8a8a8a] transition-all duration-200"
-                style={{ fontFamily: "'Onest', sans-serif" }}
+                style={{ fontFamily: 'var(--font-onest)' }}
               >
                 See portfolio ↗
               </a>

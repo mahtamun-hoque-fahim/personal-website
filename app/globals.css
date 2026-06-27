@@ -1,13 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Onest:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-syne: 'Syne', sans-serif;
-  --font-onest: 'Onest', sans-serif;
-  --font-jetbrains: 'JetBrains Mono', monospace;
   --accent: #00e676;
   --accent-dim: #00b85a;
   --bg: #0a0a0a;
@@ -126,7 +121,7 @@ body::before {
   border: 1px solid #2a2a2a;
   border-radius: 4px;
   padding: 0.15em 0.45em;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains);
   font-size: 0.82em;
   color: #00e676;
   font-style: normal;
@@ -150,7 +145,7 @@ body::before {
   border: none;
   padding: 0;
   color: #c8c4bc;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains);
   font-size: 0.85rem;
   line-height: 1.7;
   white-space: pre-wrap;
@@ -170,7 +165,7 @@ body::before {
   border: 1px solid #2a2a2a;
   border-radius: 5px;
   color: #555;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains);
   font-size: 0.65rem;
   letter-spacing: 0.05em;
   padding: 0.25rem 0.6rem;
@@ -194,7 +189,7 @@ body::before {
 /* Language label badge */
 .prose-dark .hl-lang-label {
   display: block;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains);
   font-size: 0.65rem;
   color: #444;
   text-transform: uppercase;
@@ -269,7 +264,7 @@ body::before {
   padding: 0.625rem 1rem;
   border: 1px solid #2a2a2a;
   white-space: nowrap;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains);
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;

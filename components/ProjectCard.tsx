@@ -27,21 +27,21 @@ function BetaModal({
 
         <p
           className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-4"
-          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           Heads up
         </p>
 
         <h3
           className="text-xl font-bold text-[#f0ede6] mb-3"
-          style={{ fontFamily: "'Syne', sans-serif" }}
+          style={{ fontFamily: 'var(--font-syne)' }}
         >
           {projectName} is in beta
         </h3>
 
         <p
           className="text-[#8a8a8a] text-sm leading-relaxed mb-8"
-          style={{ fontFamily: "'Onest', sans-serif" }}
+          style={{ fontFamily: 'var(--font-onest)' }}
         >
           This project is still in beta and might be unstable — things could break or behave unexpectedly. Still want to visit?
         </p>
@@ -53,14 +53,14 @@ function BetaModal({
             rel="noopener noreferrer"
             onClick={onClose}
             className="flex-1 text-center px-5 py-2.5 bg-[#00e676] text-black text-sm font-semibold rounded-full hover:bg-[#00b85a] transition-all duration-200"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Yeah, let&apos;s go →
           </a>
           <button
             onClick={onClose}
             className="flex-1 px-5 py-2.5 border border-[#1f1f1f] text-[#8a8a8a] text-sm rounded-full hover:border-[#8a8a8a] hover:text-[#f0ede6] transition-all duration-200"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             Maybe later
           </button>
@@ -81,13 +81,13 @@ export default function ProjectCard({ project }: { project: Project }) {
             <div className="flex-1">
               <span
                 className="text-[#2a2a2a] text-xs tracking-[0.15em] uppercase block mb-1 group-hover:text-[#00e676] transition-colors duration-300"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 {project.type}
               </span>
               <h3
                 className="text-2xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: "'Syne', sans-serif" }}
+                style={{ fontFamily: 'var(--font-syne)' }}
               >
                 {project.name}
               </h3>
@@ -99,7 +99,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                       className={`text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider font-medium ${cardBadgeCls(
                         b,
                       )}`}
-                      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                      style={{ fontFamily: 'var(--font-jetbrains)' }}
                     >
                       {b}
                     </span>
@@ -110,20 +110,20 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
           <p
             className="text-[#00e676] text-sm mb-3 italic"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             {project.tagline}
           </p>
           <p
             className="text-[#8a8a8a] text-sm leading-relaxed"
-            style={{ fontFamily: "'Onest', sans-serif" }}
+            style={{ fontFamily: 'var(--font-onest)' }}
           >
             {project.description}
           </p>
           {project.collaborators && project.collaborators.length > 0 && (
             <p
               className="text-[#5a5a5a] text-xs mt-3"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               with{' '}
               {project.collaborators.map((c, i) => (
@@ -153,7 +153,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               <span
                 key={tag}
                 className="text-xs px-2 py-0.5 border border-[#1f1f1f] text-[#8a8a8a] rounded"
-                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 {tag}
               </span>
@@ -165,7 +165,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                 <button
                   onClick={() => setShowModal(true)}
                   className="text-[#00e676] text-sm hover:underline cursor-pointer"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   Live ↗
                 </button>
@@ -175,7 +175,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#00e676] text-sm hover:underline"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   Live ↗
                 </a>
@@ -186,7 +186,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#8a8a8a] text-sm hover:text-[#f0ede6] transition-colors"
-              style={{ fontFamily: "'Onest', sans-serif" }}
+              style={{ fontFamily: 'var(--font-onest)' }}
             >
               GitHub →
             </a>

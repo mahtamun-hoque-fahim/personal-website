@@ -21,13 +21,13 @@ export default function ContactPage() {
           <div className="pb-16 border-b border-[#1f1f1f] mb-16">
             <p
               className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               Contact
             </p>
             <h1
               className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#f0ede6] leading-[0.95] mb-6"
-              style={{ fontFamily: "'Syne', sans-serif" }}
+              style={{ fontFamily: 'var(--font-syne)' }}
             >
               Let&apos;s build
               <br />
@@ -35,7 +35,7 @@ export default function ContactPage() {
             </h1>
             <p
               className="text-[#8a8a8a] text-lg max-w-xl leading-relaxed"
-              style={{ fontFamily: "'Onest', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
             >
               I&apos;m open to freelance projects, collaborations, and full-time opportunities.
               Tell me what you&apos;re working on.
@@ -68,7 +68,7 @@ export default function ContactPage() {
                   <div key={item.label} className="flex flex-col gap-1">
                     <p
                       className="text-[#8a8a8a] text-xs tracking-widest uppercase"
-                      style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                      style={{ fontFamily: 'var(--font-jetbrains)' }}
                     >
                       {item.label}
                     </p>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                       target={item.href.startsWith('http') ? '_blank' : undefined}
                       rel="noopener noreferrer"
                       className="text-[#f0ede6] text-sm hover:text-[#00e676] transition-colors"
-                      style={{ fontFamily: "'Onest', sans-serif" }}
+                      style={{ fontFamily: 'var(--font-onest)' }}
                     >
                       {item.value} ↗
                     </a>
@@ -90,14 +90,14 @@ export default function ContactPage() {
                   <span className="w-2 h-2 rounded-full bg-[#00e676] animate-pulse" />
                   <span
                     className="text-[#00e676] text-xs tracking-widest uppercase"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     Currently available
                   </span>
                 </div>
                 <p
                   className="text-[#8a8a8a] text-sm leading-relaxed"
-                  style={{ fontFamily: "'Onest', sans-serif" }}
+                  style={{ fontFamily: 'var(--font-onest)' }}
                 >
                   Open to freelance design & development projects, long-term collaborations,
                   and interesting full-time roles.<br/>Response time: usually within 24h.
