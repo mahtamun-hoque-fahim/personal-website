@@ -1,1 +1,1 @@
-vc-domain-verify=www.mahtamunhoquefahim.pro.bd,7e1b1df1dfe9df35b48a
+vc-domain-verify=mahtamunhoquefahim.pro.bd,90325c412f237912863b
