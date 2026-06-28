@@ -25,6 +25,17 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [{ url: post.coverImage, width: 1200, height: 630 }] : undefined,
+    },
+    twitter: {
+      card: post.coverImage ? 'summary_large_image' : 'summary',
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [post.coverImage] : undefined,
+    },
   }
 }
 
@@ -67,6 +78,23 @@ export default async function BlogPostPage({
               <span>{post.readingTime} min read</span>
             </div>
           </div>
+
+          {post.coverImage && (
+            <div
+              className="mb-12 rounded-lg overflow-hidden border border-[#1f1f1f] bg-[#141414]"
+              style={{ aspectRatio: '1200 / 630' }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                width={1200}
+                height={630}
+                className="w-full h-full object-cover"
+                loading="eager"
+              />
+            </div>
+          )}
 
           <article
             className="prose-dark"

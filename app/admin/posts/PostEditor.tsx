@@ -145,6 +145,12 @@ export default function PostEditor({ post }: Props) {
                        placeholder:text-[#2a2a2a] focus:outline-none focus:border-[#00e676] transition-colors"
             style={{ fontFamily: 'var(--font-onest)' }}
           />
+          <p
+            className="text-xs text-[#2a2a2a] mt-1.5"
+            style={{ fontFamily: 'var(--font-onest)' }}
+          >
+            Recommended: 1200×630px (1.91:1). Also used as the social share preview image.
+          </p>
         </div>
       </div>
 

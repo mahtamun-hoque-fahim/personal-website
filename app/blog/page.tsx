@@ -81,6 +81,24 @@ export default async function BlogPage() {
                   {String(i + 1).padStart(2, '0')}
                 </span>
 
+                {/* Thumbnail */}
+                {post.coverImage && (
+                  <div
+                    className="shrink-0 w-full md:w-32 rounded-md overflow-hidden border border-[#1f1f1f] bg-[#141414]"
+                    style={{ aspectRatio: '1200 / 630' }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={post.coverImage}
+                      alt={post.title}
+                      width={1200}
+                      height={630}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+
                 {/* Main content */}
                 <div className="flex-1">
                   <div className="flex flex-wrap gap-2 mb-3">
