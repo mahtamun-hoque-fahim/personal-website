@@ -51,18 +51,6 @@ export default async function BlogPostPage({
           </Link>
 
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              {post.tags?.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-2 py-1 border border-[#1f1f1f] text-[#8a8a8a] rounded"
-                  style={{ fontFamily: 'var(--font-jetbrains)' }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
             <h1
               className="text-4xl md:text-5xl font-bold text-[#f0ede6] mb-6 leading-tight"
               style={{ fontFamily: 'var(--font-syne)' }}
@@ -85,6 +73,28 @@ export default async function BlogPostPage({
             dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
           />
           <CopyCodeInit />
+
+          {post.tags && post.tags.length > 0 && (
+            <div className="mt-16 pt-8 border-t border-[#1f1f1f] flex flex-wrap items-center gap-2">
+              <span
+                className="text-xs text-[#8a8a8a] mr-1"
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
+              >
+                Tagged
+              </span>
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs px-2 py-1 border border-[#1f1f1f] text-[#8a8a8a] rounded
+                             whitespace-nowrap flex-shrink-0
+                             hover:text-[#00e676] hover:border-[#00e676] transition-colors duration-150"
+                  style={{ fontFamily: 'var(--font-jetbrains)' }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </section>
       </main>
       <Footer />
