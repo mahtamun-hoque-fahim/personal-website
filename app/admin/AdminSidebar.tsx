@@ -30,7 +30,7 @@ export default function AdminSidebar() {
         <Link href="/admin" className="flex items-center gap-2">
           <span
             className="text-xl font-bold text-[#F3F6F4]"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Admin
           </span>

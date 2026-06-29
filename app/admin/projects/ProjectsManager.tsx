@@ -322,7 +322,7 @@ export default function ProjectsManager({
 
       {projects.length === 0 && (
         <div className="bg-[#0F0F0F] border border-dashed border-[#1F2421] rounded-xl p-12 text-center">
-          <p className="text-[#F3F6F4] mb-2" style={{ fontFamily: 'var(--font-jakarta)' }}>
+          <p className="text-[#F3F6F4] mb-2" style={{ fontFamily: 'var(--font-clash)' }}>
             No projects yet
           </p>
           <p className="text-[#8A938E] text-sm mb-6" style={{ fontFamily: 'var(--font-jakarta)' }}>
@@ -342,7 +342,7 @@ export default function ProjectsManager({
       {featured.length > 0 && (
         <section className="mb-12">
           <div className="flex items-baseline justify-between mb-4">
-            <h2 className="text-xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-jakarta)' }}>
+            <h2 className="text-xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }}>
               Featured ({featured.length})
             </h2>
             <p className="text-xs text-[#8A938E]" style={{ fontFamily: 'var(--font-jakarta)' }}>
@@ -371,7 +371,7 @@ export default function ProjectsManager({
       {/* Unfeatured */}
       {unfeatured.length > 0 && (
         <section>
-          <h2 className="text-xl font-bold text-[#F3F6F4] mb-4" style={{ fontFamily: 'var(--font-jakarta)' }}>
+          <h2 className="text-xl font-bold text-[#F3F6F4] mb-4" style={{ fontFamily: 'var(--font-clash)' }}>
             All projects ({unfeatured.length})
           </h2>
           <div className="space-y-3">
@@ -454,7 +454,7 @@ function ProjectRow({
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <p className="text-[#F3F6F4] font-medium truncate" style={{ fontFamily: 'var(--font-jakarta)' }}>
+            <p className="text-[#F3F6F4] font-medium truncate" style={{ fontFamily: 'var(--font-clash)' }}>
               {project.name}
             </p>
             <span
@@ -581,7 +581,7 @@ function ProjectFormModal({
         <div className="flex items-center justify-between mb-6">
           <h2
             className="text-2xl font-bold text-[#F3F6F4]"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             {isEdit ? 'Edit project' : 'New project'}
           </h2>

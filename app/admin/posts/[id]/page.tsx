@@ -19,7 +19,7 @@ export default async function EditPostPage({
     <div className="max-w-5xl mx-auto px-6 py-12">
       <h1
         className="text-4xl font-bold text-[#F3F6F4] mb-10"
-        style={{ fontFamily: 'var(--font-jakarta)' }}
+        style={{ fontFamily: 'var(--font-clash)' }}
       >
         Edit post
       </h1>

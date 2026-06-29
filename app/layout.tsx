@@ -56,6 +56,13 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${jakarta.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
+        />
+      </head>
       <body style={{ fontFamily: 'var(--font-jakarta)' }}>
         <script
           type="application/ld+json"

@@ -78,7 +78,7 @@ export default function AboutPage() {
           </p>
           <h1
             className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-10"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Designer who codes.
             <br />
@@ -99,7 +99,7 @@ export default function AboutPage() {
             <div>
               <h2
                 className="text-3xl font-bold text-[#F3F6F4] mb-6"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 The honest story
               </h2>
@@ -132,7 +132,7 @@ export default function AboutPage() {
             <div>
               <h2
                 className="text-3xl font-bold text-[#F3F6F4] mb-6"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 What I believe
               </h2>
@@ -141,7 +141,7 @@ export default function AboutPage() {
                   <div key={v.title} className="border-l-2 border-[#1F2421] pl-5 hover:border-[#3DF49A] transition-colors duration-200 group">
                     <h3
                       className="text-[#F3F6F4] font-semibold mb-1 group-hover:text-[#3DF49A] transition-colors"
-                      style={{ fontFamily: 'var(--font-jakarta)' }}
+                      style={{ fontFamily: 'var(--font-clash)' }}
                     >
                       {v.title}
                     </h3>
@@ -163,7 +163,7 @@ export default function AboutPage() {
           <div className="max-w-6xl mx-auto px-6 py-20">
             <h2
               className="text-4xl font-bold text-[#F3F6F4] mb-16"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               How I got here
             </h2>
@@ -208,7 +208,7 @@ export default function AboutPage() {
                       </p>
                       <h3
                         className="text-[#F3F6F4] font-semibold text-lg mb-2"
-                        style={{ fontFamily: 'var(--font-jakarta)' }}
+                        style={{ fontFamily: 'var(--font-clash)' }}
                       >
                         {item.title}
                       </h3>
@@ -230,7 +230,7 @@ export default function AboutPage() {
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
             className="text-4xl font-bold text-[#F3F6F4] mb-12"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Tools & stack
           </h2>
@@ -270,7 +270,7 @@ export default function AboutPage() {
             <div>
               <h3
                 className="text-2xl font-bold text-[#F3F6F4] mb-1"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 Want to work together?
               </h3>

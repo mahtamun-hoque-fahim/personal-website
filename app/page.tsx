@@ -48,7 +48,7 @@ export default async function HomePage() {
             <p className="text-[#8A938E] text-xs tracking-[0.2em] uppercase mb-1" style={{ fontFamily: 'var(--font-jakarta)' }}>
               Based in
             </p>
-            <p className="text-[#F3F6F4] text-sm" style={{ fontFamily: 'var(--font-jakarta)' }}>
+            <p className="text-[#F3F6F4] text-sm" style={{ fontFamily: 'var(--font-clash)' }}>
               Bangladesh
             </p>
           </div>
@@ -70,7 +70,7 @@ export default async function HomePage() {
             {/* Main heading */}
             <h1
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               <span className="block text-[#F3F6F4]">Design.</span>
               <span className="block text-[#F3F6F4]">Code.</span>
@@ -121,7 +121,7 @@ export default async function HomePage() {
                 <div key={stat.label}>
                   <p
                     className="text-3xl font-bold text-[#F3F6F4]"
-                    style={{ fontFamily: 'var(--font-jakarta)' }}
+                    style={{ fontFamily: 'var(--font-clash)' }}
                   >
                     {stat.num}
                   </p>
@@ -161,7 +161,7 @@ export default async function HomePage() {
           <div className="flex flex-col md:flex-row gap-6 md:items-end mb-16">
             <h2
               className="text-5xl md:text-6xl font-bold text-[#F3F6F4]"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               What I do
             </h2>
@@ -181,13 +181,13 @@ export default async function HomePage() {
               >
                 <span
                   className="text-[#2B302D] text-5xl font-bold block mb-6 group-hover:text-[#3DF49A] transition-colors duration-300"
-                  style={{ fontFamily: 'var(--font-jakarta)' }}
+                  style={{ fontFamily: 'var(--font-clash)' }}
                 >
                   {s.num}
                 </span>
                 <h3
                   className="text-xl font-semibold text-[#F3F6F4] mb-3"
-                  style={{ fontFamily: 'var(--font-jakarta)' }}
+                  style={{ fontFamily: 'var(--font-clash)' }}
                 >
                   {s.title}
                 </h3>
@@ -214,7 +214,7 @@ export default async function HomePage() {
               </p>
               <h2
                 className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 I don&apos;t separate design from engineering.
               </h2>
@@ -298,7 +298,7 @@ export default async function HomePage() {
               </p>
               <h2
                 className="text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 Projects
               </h2>
@@ -324,7 +324,7 @@ export default async function HomePage() {
           <div className="flex items-center justify-between mb-12">
             <h2
               className="text-4xl font-bold text-[#F3F6F4]"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               Writing
             </h2>
@@ -372,7 +372,7 @@ export default async function HomePage() {
                     )}
                     <h3
                       className="text-lg font-semibold text-[#F3F6F4] mb-3 leading-snug group-hover:text-[#3DF49A] transition-colors duration-300"
-                      style={{ fontFamily: 'var(--font-jakarta)' }}
+                      style={{ fontFamily: 'var(--font-clash)' }}
                     >
                       {post.title}
                     </h3>
@@ -441,7 +441,7 @@ export default async function HomePage() {
             </p>
             <h2
               className="text-4xl md:text-6xl font-bold text-[#F3F6F4] mb-6 leading-tight"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               Have something in mind?
             </h2>

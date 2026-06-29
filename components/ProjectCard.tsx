@@ -34,7 +34,7 @@ function BetaModal({
 
         <h3
           className="text-xl font-bold text-[#F3F6F4] mb-3"
-          style={{ fontFamily: 'var(--font-jakarta)' }}
+          style={{ fontFamily: 'var(--font-clash)' }}
         >
           {projectName} is in beta
         </h3>
@@ -87,7 +87,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               </span>
               <h3
                 className="text-2xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 {project.name}
               </h3>

@@ -12,7 +12,7 @@ export default async function AdminMessagesPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-bold text-[#F3F6F4] mb-10" style={{ fontFamily: 'var(--font-jakarta)' }}>
+      <h1 className="text-4xl font-bold text-[#F3F6F4] mb-10" style={{ fontFamily: 'var(--font-clash)' }}>
         Messages
         {messages.filter((m) => !m.read).length > 0 && (
           <span className="ml-3 text-lg text-[#3DF49A]">({messages.filter((m) => !m.read).length} unread)</span>
@@ -31,7 +31,7 @@ export default async function AdminMessagesPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
                     {!msg.read && <span className="text-xs px-2 py-0.5 bg-[#3DF49A]/10 text-[#3DF49A] border border-[#3DF49A]/20 rounded-full" style={{ fontFamily: 'var(--font-jetbrains)' }}>New</span>}
-                    <span className="font-semibold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-jakarta)' }}>{msg.name}</span>
+                    <span className="font-semibold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }}>{msg.name}</span>
                     <a href={`mailto:${msg.email}`} className="text-[#8A938E] text-sm hover:text-[#3DF49A] transition-colors" style={{ fontFamily: 'var(--font-jakarta)' }}>{msg.email}</a>
                     <div className="ml-auto flex items-center gap-3">
                       {msg.country && <span className="text-xs px-2 py-0.5 border border-[#1F2421] text-[#8A938E] rounded" style={{ fontFamily: 'var(--font-jetbrains)' }}>({msg.country})</span>}

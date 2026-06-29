@@ -47,7 +47,7 @@ export default async function AdminDashboard() {
           </p>
           <h1
             className="text-4xl font-bold text-[#F3F6F4]"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Welcome back<span className="text-[#3DF49A]">.</span>
           </h1>
@@ -209,7 +209,7 @@ function StatCard({
       </p>
       <p
         className="text-3xl font-bold text-[#F3F6F4] mb-1 leading-none"
-        style={{ fontFamily: 'var(--font-jakarta)' }}
+        style={{ fontFamily: 'var(--font-clash)' }}
       >
         {value}
       </p>
@@ -239,7 +239,7 @@ function Panel({
       <div className="flex items-center justify-between mb-2">
         <h3
           className="text-base font-bold text-[#F3F6F4]"
-          style={{ fontFamily: 'var(--font-jakarta)' }}
+          style={{ fontFamily: 'var(--font-clash)' }}
         >
           {title}
         </h3>

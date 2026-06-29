@@ -67,7 +67,7 @@ export default function ContactForm() {
         </div>
         <h3
           className="text-2xl font-bold text-[#F3F6F4] mb-3"
-          style={{ fontFamily: 'var(--font-jakarta)' }}
+          style={{ fontFamily: 'var(--font-clash)' }}
         >
           Message sent.
         </h3>

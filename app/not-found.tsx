@@ -10,14 +10,14 @@ export default function NotFound() {
       <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
         <p
           className="text-[#1F2421] text-[clamp(8rem,25vw,20rem)] font-bold leading-none select-none"
-          style={{ fontFamily: 'var(--font-jakarta)' }}
+          style={{ fontFamily: 'var(--font-clash)' }}
         >
           404
         </p>
         <div className="-mt-8 relative z-10">
           <h1
             className="text-3xl font-bold text-[#F3F6F4] mb-4"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Page not found
           </h1>

@@ -16,7 +16,7 @@ export default async function AdminPostsPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
       <div className="flex items-center justify-between mb-10">
-        <h1 className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-jakarta)' }}>
+        <h1 className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }}>
           Blog Posts
         </h1>
         <Link
@@ -44,7 +44,7 @@ export default async function AdminPostsPage() {
                   </span>
                   <span className="text-[#2B302D] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDate(post.createdAt)}</span>
                 </div>
-                <h3 className="text-[#F3F6F4] font-semibold truncate" style={{ fontFamily: 'var(--font-jakarta)' }}>{post.title}</h3>
+                <h3 className="text-[#F3F6F4] font-semibold truncate" style={{ fontFamily: 'var(--font-clash)' }}>{post.title}</h3>
                 <p className="text-[#8A938E] text-xs truncate mt-0.5" style={{ fontFamily: 'var(--font-jakarta)' }}>{post.excerpt}</p>
               </div>
               <div className="flex items-center gap-3 shrink-0">

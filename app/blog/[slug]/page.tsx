@@ -64,7 +64,7 @@ export default async function BlogPostPage({
           <div className="mb-8">
             <h1
               className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               {post.title}
             </h1>

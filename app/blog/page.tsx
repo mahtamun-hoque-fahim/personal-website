@@ -35,7 +35,7 @@ export default async function BlogPage() {
           </p>
           <h1
             className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Things I think about
           </h1>
@@ -53,7 +53,7 @@ export default async function BlogPage() {
           <div className="py-32 text-center">
             <p
               className="text-[#2B302D] text-8xl font-bold mb-6"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               Soon.
             </p>
@@ -114,7 +114,7 @@ export default async function BlogPage() {
                   </div>
                   <h2
                     className="text-xl md:text-2xl font-bold text-[#F3F6F4] mb-2 group-hover:text-[#3DF49A] transition-colors"
-                    style={{ fontFamily: 'var(--font-jakarta)' }}
+                    style={{ fontFamily: 'var(--font-clash)' }}
                   >
                     {post.title}
                   </h2>

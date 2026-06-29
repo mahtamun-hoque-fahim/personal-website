@@ -23,7 +23,7 @@ export default async function ProjectsPage() {
           <div className="mb-16">
             <h1
               className="text-5xl md:text-7xl font-bold text-[#F3F6F4] mb-6"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               All Projects
             </h1>
@@ -40,7 +40,7 @@ export default async function ProjectsPage() {
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 {allProjects.length}
               </p>
@@ -54,7 +54,7 @@ export default async function ProjectsPage() {
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 {allProjects.filter(p => p.liveUrl).length}
               </p>
@@ -68,7 +68,7 @@ export default async function ProjectsPage() {
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 {new Set(allProjects.flatMap(p => p.tags)).size}
               </p>
@@ -82,7 +82,7 @@ export default async function ProjectsPage() {
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 {new Set(allProjects.map(p => p.type)).size}
               </p>
@@ -109,7 +109,7 @@ export default async function ProjectsPage() {
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
             className="text-4xl font-bold text-[#F3F6F4] mb-12"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             By Type
           </h2>
@@ -121,7 +121,7 @@ export default async function ProjectsPage() {
               <div key={type} className="mb-20">
                 <h3
                   className="text-2xl font-semibold text-[#F3F6F4] mb-6"
-                  style={{ fontFamily: 'var(--font-jakarta)' }}
+                  style={{ fontFamily: 'var(--font-clash)' }}
                 >
                   {type}
                 </h3>
@@ -139,7 +139,7 @@ export default async function ProjectsPage() {
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
             className="text-4xl font-bold text-[#F3F6F4] mb-8"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Technologies
           </h2>

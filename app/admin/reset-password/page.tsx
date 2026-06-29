@@ -96,7 +96,7 @@ function ResetPasswordInner() {
           </div>
           <h1
             className="text-2xl font-bold text-[#F3F6F4] mb-2"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Password reset
           </h1>
@@ -118,7 +118,7 @@ function ResetPasswordInner() {
         <div className="bg-[#0F0F0F] border border-[#1F2421] rounded-2xl p-8">
           <h1
             className="text-2xl font-bold text-[#F3F6F4] mb-2"
-            style={{ fontFamily: 'var(--font-jakarta)' }}
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Create new password
           </h1>

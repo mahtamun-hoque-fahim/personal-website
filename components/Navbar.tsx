@@ -116,7 +116,7 @@ export default function Navbar() {
               pathname === link.href ? 'text-[#3DF49A]' : 'text-[#F3F6F4]'
             )}
             style={{
-              fontFamily: 'var(--font-jakarta)',
+              fontFamily: 'var(--font-clash)',
               animationDelay: `${i * 80}ms`,
             }}
           >

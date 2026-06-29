@@ -71,23 +71,29 @@ The Tailwind color extensions (`accent`, `surface`, etc.) in `tailwind.config.ts
 
 ### Font Stack
 
-| Role        | Font               | CSS Variable            | Tailwind Class            | Weights Used      |
-|-------------|--------------------|--------------------------|---------------------------|-------------------|
-| UI (display + body) | Plus Jakarta Sans | `var(--font-jakarta)` | `font-display` / `font-body` | 400, 500, 600, 700, 800 |
-| Monospace   | JetBrains Mono     | `var(--font-jetbrains)` | `font-mono`              | 400, 500          |
+| Role        | Font               | CSS Variable            | Tailwind Class    | Weights Used      |
+|-------------|--------------------|--------------------------|-------------------|-------------------|
+| Display     | Clash Display      | `var(--font-clash)`     | `font-display`    | 400, 500, 600, 700|
+| Body        | Plus Jakarta Sans  | `var(--font-jakarta)`   | `font-body`       | 400–800           |
+| Monospace   | JetBrains Mono     | `var(--font-jetbrains)` | `font-mono`       | 400, 500          |
 
-`font-display` and `font-body` both resolve to Plus Jakarta Sans now — kept as two Tailwind classes since headings still lean on the heavier weights (700–800) and body copy on the lighter ones (400–500), but it's one typeface, not two anymore.
+Plus Jakarta Sans and JetBrains Mono load via `next/font/google` in `app/layout.tsx` (self-hosted, zero layout shift). **Clash Display is not on Google Fonts** — it's an Indian Type Foundry / Fontshare release, loaded via a `<link>` to Fontshare's CDN in the `<head>` block of `app/layout.tsx`:
 
-Fonts are loaded via Google Fonts in `app/globals.css` and `app/layout.tsx` `<head>`.
+```tsx
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" />
+```
+
+`--font-clash` in `app/globals.css` falls back to `var(--font-jakarta)` then `sans-serif` if the Fontshare request is slow or blocked. **Tradeoff to know about:** this is an external runtime request, not self-hosted like the other two fonts — slightly more FOUT risk and a dependency on Fontshare's uptime. If that ever becomes a problem, the fix is downloading the Clash Display files from fontshare.com (free license) and switching to `next/font/local`.
 
 ### Usage Patterns
 
 ```tsx
 // Display heading (hero, section titles)
-<h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Design. Code. Create.</h1>
+<h1 style={{ fontFamily: 'var(--font-clash)' }}>Design. Code. Create.</h1>
 
 // Body copy
-<p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300 }}>...</p>
+<p style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 400 }}>...</p>
 
 // Labels, tags, code snippets, meta info
 <span style={{ fontFamily: "'JetBrains Mono', monospace" }}>// comment</span>
@@ -97,12 +103,12 @@ Fonts are loaded via Google Fonts in `app/globals.css` and `app/layout.tsx` `<he
 
 | Element            | Size                          | Font    | Weight |
 |--------------------|-------------------------------|---------|--------|
-| Hero heading       | `clamp(3.5rem, 10vw, 9rem)`   | Plus Jakarta Sans    | 700    |
-| Page heading (H1)  | `clamp(2.5rem, 7vw, 6rem)`    | Plus Jakarta Sans    | 700    |
-| Section heading    | `text-4xl` – `text-6xl`       | Plus Jakarta Sans    | 700    |
-| Card heading       | `text-xl` – `text-2xl`        | Plus Jakarta Sans    | 600–700|
-| Body text          | `text-base` – `text-lg`       | Plus Jakarta Sans   | 300–400|
-| Small / meta       | `text-xs` – `text-sm`         | Plus Jakarta Sans / JetBrains | 400 |
+| Hero heading       | `clamp(3.5rem, 10vw, 9rem)`   | Clash Display | 700 |
+| Page heading (H1)  | `clamp(2.5rem, 7vw, 6rem)`    | Clash Display | 700 |
+| Section heading    | `text-4xl` – `text-6xl`       | Clash Display | 700 |
+| Card heading       | `text-xl` – `text-2xl`        | Clash Display | 600–700|
+| Body text          | `text-base` – `text-lg`       | Plus Jakarta Sans | 400 |
+| Small / meta       | `text-xs` – `text-sm`         | Plus Jakarta Sans / JetBrains Mono | 400 |
 | Eyebrow labels     | `text-xs`, tracking `0.2em+`  | JetBrains Mono | 400 |
 
 ### Eyebrow Label Pattern
@@ -303,7 +309,7 @@ Blog post content is rendered from Markdown via a custom `renderMarkdown()` func
 
 | Element      | Style                                                        |
 |--------------|--------------------------------------------------------------|
-| Headings     | Plus Jakarta Sans, 700, `var(--text)`, margins: `2rem` top / `0.75rem` bottom |
+| Headings     | Clash Display, 700, `var(--text)`, margins: `2rem` top / `0.75rem` bottom |
 | Body `<p>`   | Plus Jakarta Sans, `#C7CCCA`, `1.25rem` bottom margin                   |
 | `<a>`        | `var(--accent)`, underline, 3px offset                       |
 | Inline `<code>` | `var(--surface)` bg, `var(--border)` border, accent text, JetBrains Mono |
@@ -407,5 +413,6 @@ CF_PAGES=1
 | 2026-04-04 | `DESIGN_GUIDE.md` created — consolidated design system documentation   |
 | 2026-05-15 | Better Auth UI added — login, forgot password, reset password pages use existing design tokens (no new colors required) |
 | 2026-06-29 | Full palette + typeface rebrand: adopted the academic-line system from `learnDE`'s `DESIGN_GUIDE.md` — accent green `#3DF49A`→mint, `#070807` bg, Plus Jakarta Sans replacing Syne + Onest (JetBrains Mono unchanged). Every hardcoded hex and font reference updated across `app/`, `components/`, `lib/email.ts`, and this file. Scoped to color tokens + typography only — component structure (button shapes, badge sizes, spacing scale) was left as this project's own, not migrated to match learnDE's dashboard-oriented patterns. |
+| 2026-06-29 | Display font split back out from body: every heading/display element that was originally Syne (recovered from git history, not guessed) now uses Clash Display via Fontshare's CDN link; Plus Jakarta Sans stays for body/UI text. `--font-clash` added to `:root` with a Jakarta/sans-serif fallback chain. |
 
 > **Note:** Sections 9–11 (Page Structure, Supabase Schema, Environment Variables) predate the Neon/Drizzle/Better Auth migration and Next.js runtime changes — they describe an older version of this codebase and weren't in scope for this pass. Worth a dedicated audit separately.

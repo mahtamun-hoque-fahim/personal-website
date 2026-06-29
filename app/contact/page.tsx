@@ -27,7 +27,7 @@ export default function ContactPage() {
             </p>
             <h1
               className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               Let&apos;s build
               <br />

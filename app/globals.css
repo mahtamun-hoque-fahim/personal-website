@@ -10,6 +10,7 @@
   --border: #1F2421;
   --text: #F3F6F4;
   --muted: #8A938E;
+  --font-clash: 'Clash Display', var(--font-jakarta), sans-serif;
 }
 
 * {
@@ -93,7 +94,7 @@ body::before {
 .prose-dark h2,
 .prose-dark h3,
 .prose-dark h4 {
-  font-family: var(--font-jakarta);
+  font-family: var(--font-clash);
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
