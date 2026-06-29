@@ -10,7 +10,7 @@
   --border: #1F2421;
   --text: #F3F6F4;
   --muted: #8A938E;
-  --font-clash: 'Clash Display', var(--font-jakarta), sans-serif;
+  --font-clash: var(--font-syne), sans-serif; /* title-font comparison: Syne instead of Clash Display */
 }
 
 * {

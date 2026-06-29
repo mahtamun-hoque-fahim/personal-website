@@ -1,8 +1,20 @@
 
 
 import type { Metadata } from 'next'
-import { Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
+import { Syne, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+
+// Title-font comparison branch: display/heading role uses Syne (same as
+// main), everything else (palette, body font, grid, etc.) stays on the
+// mint rebrand from blog/tags-bottom-placement. See globals.css :root —
+// --font-clash is repointed to var(--font-syne) below rather than the
+// actual Clash Display typeface, so no component files needed touching.
+const syne = Syne({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-syne',
+  display: 'swap',
+})
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -54,15 +66,8 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${jakarta.variable} ${jetbrainsMono.variable}`}
+      className={`${syne.variable} ${jakarta.variable} ${jetbrainsMono.variable}`}
     >
-      <head>
-        <link rel="preconnect" href="https://api.fontshare.com" />
-        <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
-        />
-      </head>
       <body style={{ fontFamily: 'var(--font-jakarta)' }}>
         <script
           type="application/ld+json"

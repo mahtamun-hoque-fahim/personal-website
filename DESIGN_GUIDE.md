@@ -69,6 +69,8 @@ The Tailwind color extensions (`accent`, `surface`, etc.) in `tailwind.config.ts
 
 ## 3. Typography
 
+> **Branch note (`design/syne-title-variant`):** this branch is a side-by-side comparison — display/heading role uses **Syne** (matching `main`) instead of Clash Display below, via `--font-clash` in `app/globals.css` repointed to `var(--font-syne)`. Everything else in this doc (palette, body font, component patterns) is unchanged from `blog/tags-bottom-placement`. Not the source of truth if this branch doesn't get merged — written from the Clash Display branch's perspective.
+
 ### Font Stack
 
 | Role        | Font               | CSS Variable            | Tailwind Class    | Weights Used      |
