@@ -40,16 +40,16 @@ export default async function AdminDashboard() {
       <div className="flex items-end justify-between mb-10 gap-4 flex-wrap">
         <div>
           <p
-            className="text-xs uppercase tracking-widest text-[#8a8a8a] mb-2"
+            className="text-xs uppercase tracking-widest text-[#8A938E] mb-2"
             style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Admin · Overview
           </p>
           <h1
-            className="text-4xl font-bold text-[#f0ede6]"
-            style={{ fontFamily: 'var(--font-syne)' }}
+            className="text-4xl font-bold text-[#F3F6F4]"
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
-            Welcome back<span className="text-[#00e676]">.</span>
+            Welcome back<span className="text-[#3DF49A]">.</span>
           </h1>
         </div>
         <div className="flex items-center gap-2">
@@ -104,18 +104,18 @@ export default async function AdminDashboard() {
             <Link
               key={p.id}
               href={`/admin/posts/${p.id}`}
-              className="flex items-center justify-between py-3 border-b border-[#1f1f1f] last:border-0 hover:text-[#00e676] transition-colors group"
+              className="flex items-center justify-between py-3 border-b border-[#1F2421] last:border-0 hover:text-[#3DF49A] transition-colors group"
             >
               <div className="flex-1 min-w-0 mr-4">
                 <p
-                  className="text-[#f0ede6] text-sm font-medium truncate group-hover:text-[#00e676]"
-                  style={{ fontFamily: 'var(--font-onest)' }}
+                  className="text-[#F3F6F4] text-sm font-medium truncate group-hover:text-[#3DF49A]"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   {p.title}
                 </p>
                 <p
-                  className="text-[#8a8a8a] text-xs mt-0.5"
-                  style={{ fontFamily: 'var(--font-onest)' }}
+                  className="text-[#8A938E] text-xs mt-0.5"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   {formatRelative(p.updatedAt)}
                 </p>
@@ -136,19 +136,19 @@ export default async function AdminDashboard() {
             <Link
               key={m.id}
               href="/admin/messages"
-              className="flex items-center justify-between py-3 border-b border-[#1f1f1f] last:border-0 group"
+              className="flex items-center justify-between py-3 border-b border-[#1F2421] last:border-0 group"
             >
               <div className="flex-1 min-w-0 mr-4">
                 <p
-                  className="text-[#f0ede6] text-sm font-medium truncate group-hover:text-[#00e676] transition-colors"
-                  style={{ fontFamily: 'var(--font-onest)' }}
+                  className="text-[#F3F6F4] text-sm font-medium truncate group-hover:text-[#3DF49A] transition-colors"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   {m.name}
-                  <span className="text-[#8a8a8a] font-normal"> · {m.email}</span>
+                  <span className="text-[#8A938E] font-normal"> · {m.email}</span>
                 </p>
                 <p
-                  className="text-[#8a8a8a] text-xs mt-0.5"
-                  style={{ fontFamily: 'var(--font-onest)' }}
+                  className="text-[#8A938E] text-xs mt-0.5"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   {formatRelative(m.createdAt)}
                 </p>
@@ -162,7 +162,7 @@ export default async function AdminDashboard() {
       {/* Quick actions */}
       <div>
         <h2
-          className="text-xs uppercase tracking-widest text-[#8a8a8a] mb-4"
+          className="text-xs uppercase tracking-widest text-[#8A938E] mb-4"
           style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           Quick actions
@@ -197,25 +197,25 @@ function StatCard({
   return (
     <Link
       href={href}
-      className={`block bg-[#141414] border rounded-xl p-5 transition-colors ${
-        accent ? 'border-[#00e676]/40 hover:border-[#00e676]' : 'border-[#1f1f1f] hover:border-[#2a2a2a]'
+      className={`block bg-[#0F0F0F] border rounded-xl p-5 transition-colors ${
+        accent ? 'border-[#3DF49A]/40 hover:border-[#3DF49A]' : 'border-[#1F2421] hover:border-[#2B302D]'
       }`}
     >
       <p
-        className="text-[10px] uppercase tracking-widest text-[#8a8a8a] mb-3"
+        className="text-[10px] uppercase tracking-widest text-[#8A938E] mb-3"
         style={{ fontFamily: 'var(--font-jetbrains)' }}
       >
         {label}
       </p>
       <p
-        className="text-3xl font-bold text-[#f0ede6] mb-1 leading-none"
-        style={{ fontFamily: 'var(--font-syne)' }}
+        className="text-3xl font-bold text-[#F3F6F4] mb-1 leading-none"
+        style={{ fontFamily: 'var(--font-clash)' }}
       >
         {value}
       </p>
       <p
-        className={`text-xs ${accent ? 'text-[#00e676]' : 'text-[#8a8a8a]'}`}
-        style={{ fontFamily: 'var(--font-onest)' }}
+        className={`text-xs ${accent ? 'text-[#3DF49A]' : 'text-[#8A938E]'}`}
+        style={{ fontFamily: 'var(--font-jakarta)' }}
       >
         {sub}
       </p>
@@ -235,19 +235,19 @@ function Panel({
   children?: React.ReactNode
 }) {
   return (
-    <div className="bg-[#141414] border border-[#1f1f1f] rounded-xl p-5">
+    <div className="bg-[#0F0F0F] border border-[#1F2421] rounded-xl p-5">
       <div className="flex items-center justify-between mb-2">
         <h3
-          className="text-base font-bold text-[#f0ede6]"
-          style={{ fontFamily: 'var(--font-syne)' }}
+          className="text-base font-bold text-[#F3F6F4]"
+          style={{ fontFamily: 'var(--font-clash)' }}
         >
           {title}
         </h3>
         {action && (
           <Link
             href={action.href}
-            className="text-xs text-[#8a8a8a] hover:text-[#00e676] transition-colors"
-            style={{ fontFamily: 'var(--font-onest)' }}
+            className="text-xs text-[#8A938E] hover:text-[#3DF49A] transition-colors"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             {action.label} →
           </Link>
@@ -255,8 +255,8 @@ function Panel({
       </div>
       {empty ? (
         <p
-          className="text-[#8a8a8a] text-sm py-8 text-center"
-          style={{ fontFamily: 'var(--font-onest)' }}
+          className="text-[#8A938E] text-sm py-8 text-center"
+          style={{ fontFamily: 'var(--font-jakarta)' }}
         >
           {empty}
         </p>
@@ -275,9 +275,9 @@ function Badge({
   variant: 'live' | 'draft' | 'unread'
 }) {
   const styles = {
-    live: 'bg-[#00e676]/10 text-[#00e676]',
-    draft: 'bg-[#1f1f1f] text-[#8a8a8a]',
-    unread: 'bg-[#00e676] text-black',
+    live: 'bg-[#3DF49A]/10 text-[#3DF49A]',
+    draft: 'bg-[#1F2421] text-[#8A938E]',
+    unread: 'bg-[#3DF49A] text-[#06160E]',
   }[variant]
   return (
     <span
@@ -304,23 +304,23 @@ function QuickAction({
     <Link
       href={href}
       target={external ? '_blank' : undefined}
-      className="bg-[#141414] border border-[#1f1f1f] rounded-lg px-4 py-3 hover:border-[#00e676]/40 transition-colors group flex items-center justify-between"
+      className="bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 hover:border-[#3DF49A]/40 transition-colors group flex items-center justify-between"
     >
       <span
-        className="text-[#f0ede6] text-sm group-hover:text-[#00e676] transition-colors"
-        style={{ fontFamily: 'var(--font-onest)' }}
+        className="text-[#F3F6F4] text-sm group-hover:text-[#3DF49A] transition-colors"
+        style={{ fontFamily: 'var(--font-jakarta)' }}
       >
         {label}
       </span>
       {badge ? (
         <span
-          className="text-[10px] bg-[#00e676] text-black rounded-full px-1.5 py-0.5 font-medium"
+          className="text-[10px] bg-[#3DF49A] text-[#06160E] rounded-full px-1.5 py-0.5 font-medium"
           style={{ fontFamily: 'var(--font-jetbrains)' }}
         >
           {badge}
         </span>
       ) : (
-        <span className="text-[#8a8a8a] group-hover:text-[#00e676] transition-colors">→</span>
+        <span className="text-[#8A938E] group-hover:text-[#3DF49A] transition-colors">→</span>
       )}
     </Link>
   )
@@ -330,8 +330,8 @@ function PrimaryLink({ href, children }: { href: string; children: React.ReactNo
   return (
     <Link
       href={href}
-      className="px-4 py-2 text-sm bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] transition-colors"
-      style={{ fontFamily: 'var(--font-onest)' }}
+      className="px-4 py-2 text-sm bg-[#3DF49A] text-[#06160E] rounded-lg font-medium hover:bg-[#5BFBA8] transition-colors"
+      style={{ fontFamily: 'var(--font-jakarta)' }}
     >
       {children}
     </Link>
@@ -342,8 +342,8 @@ function SecondaryLink({ href, children }: { href: string; children: React.React
   return (
     <Link
       href={href}
-      className="px-4 py-2 text-sm bg-[#1f1f1f] text-[#f0ede6] rounded-lg font-medium hover:bg-[#2a2a2a] transition-colors"
-      style={{ fontFamily: 'var(--font-onest)' }}
+      className="px-4 py-2 text-sm bg-[#1F2421] text-[#F3F6F4] rounded-lg font-medium hover:bg-[#2B302D] transition-colors"
+      style={{ fontFamily: 'var(--font-jakarta)' }}
     >
       {children}
     </Link>

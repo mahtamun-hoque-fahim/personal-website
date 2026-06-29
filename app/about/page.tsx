@@ -71,22 +71,22 @@ export default function AboutPage() {
         {/* ── HEADER ── */}
         <section className="max-w-6xl mx-auto px-6 pb-20">
           <p
-            className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
+            className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-6"
             style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             About
           </p>
           <h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#f0ede6] mb-10"
-            style={{ fontFamily: 'var(--font-syne)' }}
+            className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-10"
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Designer who codes.
             <br />
-            <span className="text-[#00e676]">Developer who designs.</span>
+            <span className="text-[#3DF49A]">Developer who designs.</span>
           </h1>
           <p
-            className="text-[#8a8a8a] text-xl max-w-2xl leading-relaxed"
-            style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+            className="text-[#8A938E] text-xl max-w-2xl leading-relaxed"
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
           >
             I&apos;m Mahtamun Hoque Fahim. I grew up in Bangladesh with an internet connection
             and an obsession with how things look and work. That combination became a career.
@@ -94,18 +94,18 @@ export default function AboutPage() {
         </section>
 
         {/* ── STORY SECTION ── */}
-        <section className="border-t border-[#1f1f1f]">
+        <section className="border-t border-[#1F2421]">
           <div className="max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-2 gap-16">
             <div>
               <h2
-                className="text-3xl font-bold text-[#f0ede6] mb-6"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-3xl font-bold text-[#F3F6F4] mb-6"
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 The honest story
               </h2>
               <div
-                className="text-[#8a8a8a] leading-relaxed space-y-4 text-base"
-                style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+                className="text-[#8A938E] leading-relaxed space-y-4 text-base"
+                style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
                 <p>
                   I didn&apos;t study design in a formal school. I learned by obsessively reverse-engineering
@@ -131,23 +131,23 @@ export default function AboutPage() {
             {/* Values */}
             <div>
               <h2
-                className="text-3xl font-bold text-[#f0ede6] mb-6"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-3xl font-bold text-[#F3F6F4] mb-6"
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 What I believe
               </h2>
               <div className="space-y-6">
                 {values.map((v) => (
-                  <div key={v.title} className="border-l-2 border-[#1f1f1f] pl-5 hover:border-[#00e676] transition-colors duration-200 group">
+                  <div key={v.title} className="border-l-2 border-[#1F2421] pl-5 hover:border-[#3DF49A] transition-colors duration-200 group">
                     <h3
-                      className="text-[#f0ede6] font-semibold mb-1 group-hover:text-[#00e676] transition-colors"
-                      style={{ fontFamily: 'var(--font-syne)' }}
+                      className="text-[#F3F6F4] font-semibold mb-1 group-hover:text-[#3DF49A] transition-colors"
+                      style={{ fontFamily: 'var(--font-clash)' }}
                     >
                       {v.title}
                     </h3>
                     <p
-                      className="text-[#8a8a8a] text-sm leading-relaxed"
-                      style={{ fontFamily: 'var(--font-onest)' }}
+                      className="text-[#8A938E] text-sm leading-relaxed"
+                      style={{ fontFamily: 'var(--font-jakarta)' }}
                     >
                       {v.desc}
                     </p>
@@ -159,17 +159,17 @@ export default function AboutPage() {
         </section>
 
         {/* ── TIMELINE ── */}
-        <section className="bg-[#0d0d0d] border-t border-b border-[#1f1f1f]">
+        <section className="bg-[#090A09] border-t border-b border-[#1F2421]">
           <div className="max-w-6xl mx-auto px-6 py-20">
             <h2
-              className="text-4xl font-bold text-[#f0ede6] mb-16"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-4xl font-bold text-[#F3F6F4] mb-16"
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               How I got here
             </h2>
             <div className="relative">
               {/* vertical line */}
-              <div className="absolute left-[52px] top-0 bottom-0 w-px bg-[#1f1f1f] hidden md:block" />
+              <div className="absolute left-[52px] top-0 bottom-0 w-px bg-[#1F2421] hidden md:block" />
 
               <div className="space-y-12">
                 {timeline.map((item, i) => (
@@ -180,7 +180,7 @@ export default function AboutPage() {
                         className="text-sm font-medium"
                         style={{
                           fontFamily: 'var(--font-jetbrains)',
-                          color: i === timeline.length - 1 ? '#00e676' : '#8a8a8a',
+                          color: i === timeline.length - 1 ? '#3DF49A' : '#8A938E',
                         }}
                       >
                         {item.year}
@@ -192,8 +192,8 @@ export default function AboutPage() {
                       <div
                         className="w-3 h-3 rounded-full border-2 mt-1"
                         style={{
-                          borderColor: i === timeline.length - 1 ? '#00e676' : '#2a2a2a',
-                          background: i === timeline.length - 1 ? '#00e676' : '#0a0a0a',
+                          borderColor: i === timeline.length - 1 ? '#3DF49A' : '#2B302D',
+                          background: i === timeline.length - 1 ? '#3DF49A' : '#070807',
                         }}
                       />
                     </div>
@@ -201,20 +201,20 @@ export default function AboutPage() {
                     {/* Content */}
                     <div>
                       <p
-                        className="text-xs text-[#8a8a8a] mb-1 md:hidden"
+                        className="text-xs text-[#8A938E] mb-1 md:hidden"
                         style={{ fontFamily: 'var(--font-jetbrains)' }}
                       >
                         {item.year}
                       </p>
                       <h3
-                        className="text-[#f0ede6] font-semibold text-lg mb-2"
-                        style={{ fontFamily: 'var(--font-syne)' }}
+                        className="text-[#F3F6F4] font-semibold text-lg mb-2"
+                        style={{ fontFamily: 'var(--font-clash)' }}
                       >
                         {item.title}
                       </h3>
                       <p
-                        className="text-[#8a8a8a] text-sm leading-relaxed max-w-xl"
-                        style={{ fontFamily: 'var(--font-onest)' }}
+                        className="text-[#8A938E] text-sm leading-relaxed max-w-xl"
+                        style={{ fontFamily: 'var(--font-jakarta)' }}
                       >
                         {item.desc}
                       </p>
@@ -229,21 +229,21 @@ export default function AboutPage() {
         {/* ── TOOLS ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
-            className="text-4xl font-bold text-[#f0ede6] mb-12"
-            style={{ fontFamily: 'var(--font-syne)' }}
+            className="text-4xl font-bold text-[#F3F6F4] mb-12"
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Tools & stack
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1f1f1f]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1F2421]">
             {[
               { cat: 'Design', tools: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'Framer', 'After Effects'] },
               { cat: 'Frontend', tools: ['Next.js 14', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
               { cat: 'Backend', tools: ['Node.js', 'Supabase', 'PostgreSQL', 'REST APIs', 'Prisma'] },
               { cat: 'DevOps', tools: ['Vercel', 'GitHub', 'Git', 'Docker (basics)', 'CI/CD'] },
             ].map((col) => (
-              <div key={col.cat} className="bg-[#0a0a0a] p-6">
+              <div key={col.cat} className="bg-[#070807] p-6">
                 <p
-                  className="text-[#00e676] text-xs tracking-widest uppercase mb-4"
+                  className="text-[#3DF49A] text-xs tracking-widest uppercase mb-4"
                   style={{ fontFamily: 'var(--font-jetbrains)' }}
                 >
                   {col.cat}
@@ -252,8 +252,8 @@ export default function AboutPage() {
                   {col.tools.map((t) => (
                     <li
                       key={t}
-                      className="text-[#8a8a8a] text-sm"
-                      style={{ fontFamily: 'var(--font-onest)' }}
+                      className="text-[#8A938E] text-sm"
+                      style={{ fontFamily: 'var(--font-jakarta)' }}
                     >
                       {t}
                     </li>
@@ -266,17 +266,17 @@ export default function AboutPage() {
 
         {/* ── CTA ── */}
         <section className="max-w-6xl mx-auto px-6 pb-24">
-          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border border-[#1f1f1f] rounded-xl p-8">
+          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border border-[#1F2421] rounded-xl p-8">
             <div>
               <h3
-                className="text-2xl font-bold text-[#f0ede6] mb-1"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-2xl font-bold text-[#F3F6F4] mb-1"
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 Want to work together?
               </h3>
               <p
-                className="text-[#8a8a8a] text-sm"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="text-[#8A938E] text-sm"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 I&apos;m selective about what I take on — which means I care about what you&apos;re building.
               </p>
@@ -284,9 +284,9 @@ export default function AboutPage() {
             <div className="flex gap-4 shrink-0">
               <Link
                 href="/contact"
-                className="px-6 py-2.5 bg-[#00e676] text-black text-sm font-semibold rounded-full
-                           hover:bg-[#00b85a] transition-all duration-200"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="px-6 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
+                           hover:bg-[#5BFBA8] transition-all duration-200"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Get in touch
               </Link>
@@ -294,9 +294,9 @@ export default function AboutPage() {
                 href="https://mahtamundesigns.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 border border-[#1f1f1f] text-[#f0ede6] text-sm rounded-full
-                           hover:border-[#8a8a8a] transition-all duration-200"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+                           hover:border-[#8A938E] transition-all duration-200"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 See portfolio ↗
               </a>

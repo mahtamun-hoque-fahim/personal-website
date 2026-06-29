@@ -26,22 +26,22 @@ export default async function BlogPage() {
       <Navbar />
       <main className="pt-32 max-w-6xl mx-auto px-6">
         {/* Header */}
-        <div className="pb-16 border-b border-[#1f1f1f] mb-16">
+        <div className="pb-16 border-b border-[#1F2421] mb-16">
           <p
-            className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
+            className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-6"
             style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Blog
           </p>
           <h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#f0ede6] leading-[0.95] mb-6"
-            style={{ fontFamily: 'var(--font-syne)' }}
+            className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6"
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Things I think about
           </h1>
           <p
-            className="text-[#8a8a8a] text-lg max-w-xl leading-relaxed"
-            style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+            className="text-[#8A938E] text-lg max-w-xl leading-relaxed"
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
           >
             Writing about design systems, creative process, building products, and whatever
             I&apos;m obsessing over this month.
@@ -52,79 +52,110 @@ export default async function BlogPage() {
         {posts.length === 0 ? (
           <div className="py-32 text-center">
             <p
-              className="text-[#2a2a2a] text-8xl font-bold mb-6"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-[#2B302D] text-8xl font-bold mb-6"
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               Soon.
             </p>
             <p
-              className="text-[#8a8a8a] text-base"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="text-[#8A938E] text-base"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               First post is being written. Check back soon.
             </p>
           </div>
         ) : (
-          <div className="space-y-0">
-            {posts.map((post, i) => (
-              <Link
-                href={`/blog/${post.slug}`}
-                key={post.id}
-                className="group flex flex-col md:flex-row gap-6 md:items-start py-10 border-b border-[#1f1f1f]
-                           hover:bg-[#0d0d0d] -mx-6 px-6 transition-colors duration-200"
-              >
-                {/* Number */}
-                <span
-                  className="text-[#2a2a2a] text-sm shrink-0 mt-1 group-hover:text-[#00e676] transition-colors"
-                  style={{ fontFamily: 'var(--font-jetbrains)' }}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {posts.map((post, i) => {
+              const isLastOdd = i === posts.length - 1 && posts.length % 2 === 1
+
+              return (
+                <Link
+                  href={`/blog/${post.slug}`}
+                  key={post.id}
+                  className={`group block rounded-xl border border-[#1F2421] bg-[#0F0F0F] overflow-hidden
+                              hover:border-[#3DF49A]/40 transition-colors duration-200
+                              ${isLastOdd ? 'md:col-span-2 md:flex md:items-stretch' : ''}`}
                 >
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-
-                {/* Main content */}
-                <div className="flex-1">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {post.tags?.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-2 py-0.5 border border-[#1f1f1f] rounded-full text-[#8a8a8a]"
-                        style={{ fontFamily: 'var(--font-onest)' }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                  {/* Cover image */}
+                  <div
+                    className={
+                      isLastOdd
+                        ? 'aspect-[1200/630] md:aspect-auto md:w-2/5 md:shrink-0 overflow-hidden bg-[#070807]'
+                        : 'aspect-[1200/630] w-full overflow-hidden bg-[#070807]'
+                    }
+                  >
+                    {post.coverImage ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={post.coverImage}
+                        alt={post.title}
+                        width={1200}
+                        height={630}
+                        loading={i === 0 ? 'eager' : 'lazy'}
+                        {...(i === 0 ? { fetchPriority: 'high' as const } : {})}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span
+                          className="text-[#2B302D] text-4xl font-bold"
+                          style={{ fontFamily: 'var(--font-clash)' }}
+                        >
+                          {post.title.slice(0, 1)}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  <h2
-                    className="text-xl md:text-2xl font-bold text-[#f0ede6] mb-2 group-hover:text-[#00e676] transition-colors"
-                    style={{ fontFamily: 'var(--font-syne)' }}
-                  >
-                    {post.title}
-                  </h2>
-                  <p
-                    className="text-[#8a8a8a] text-sm leading-relaxed max-w-2xl"
-                    style={{ fontFamily: 'var(--font-onest)' }}
-                  >
-                    {post.excerpt}
-                  </p>
-                </div>
 
-                {/* Meta */}
-                <div className="shrink-0 text-right hidden md:block">
-                  <p
-                    className="text-[#8a8a8a] text-xs"
-                    style={{ fontFamily: 'var(--font-jetbrains)' }}
-                  >
-                    {formatDate(post.createdAt)}
-                  </p>
-                  <p
-                    className="text-[#2a2a2a] text-xs mt-1"
-                    style={{ fontFamily: 'var(--font-onest)' }}
-                  >
-                    {post.readingTime} min read
-                  </p>
-                </div>
-              </Link>
-            ))}
+                  {/* Content */}
+                  <div className={isLastOdd ? 'p-6 md:p-8 flex-1 flex flex-col justify-center' : 'p-6'}>
+                    <div className="flex items-center justify-between gap-3 mb-3">
+                      <div className="flex gap-2 min-w-0">
+                        {post.tags?.slice(0, 2).map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-xs px-2 py-0.5 border border-[#1F2421] rounded-full text-[#8A938E] truncate"
+                            style={{ fontFamily: 'var(--font-jakarta)' }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <p
+                        className="text-[#2B302D] text-xs shrink-0"
+                        style={{ fontFamily: 'var(--font-jetbrains)' }}
+                      >
+                        {post.readingTime} min read
+                      </p>
+                    </div>
+
+                    <h2
+                      className={`font-bold text-[#F3F6F4] mb-2 group-hover:text-[#3DF49A] transition-colors ${
+                        isLastOdd ? 'text-2xl md:text-3xl' : 'text-xl'
+                      }`}
+                      style={{ fontFamily: 'var(--font-clash)' }}
+                    >
+                      {post.title}
+                    </h2>
+                    <p
+                      className={`text-[#8A938E] text-sm leading-relaxed ${
+                        isLastOdd ? 'line-clamp-3' : 'line-clamp-2'
+                      }`}
+                      style={{ fontFamily: 'var(--font-jakarta)' }}
+                    >
+                      {post.excerpt}
+                    </p>
+                    <p
+                      className="text-[#8A938E] text-xs mt-4"
+                      style={{ fontFamily: 'var(--font-jetbrains)' }}
+                    >
+                      {formatDate(post.createdAt)}
+                    </p>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         )}
 

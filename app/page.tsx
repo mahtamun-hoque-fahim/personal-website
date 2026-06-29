@@ -39,16 +39,16 @@ export default async function HomePage() {
           <div
             className="absolute top-1/3 right-1/4 w-[600px] h-[600px] rounded-full pointer-events-none"
             style={{
-              background: 'radial-gradient(circle, rgba(0,230,118,0.06) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(61,244,154,0.06) 0%, transparent 70%)',
             }}
           />
 
           {/* Floating label top-right */}
           <div className="absolute top-32 right-6 md:right-16 text-right hidden md:block">
-            <p className="text-[#8a8a8a] text-xs tracking-[0.2em] uppercase mb-1" style={{ fontFamily: 'var(--font-onest)' }}>
+            <p className="text-[#8A938E] text-xs tracking-[0.2em] uppercase mb-1" style={{ fontFamily: 'var(--font-jakarta)' }}>
               Based in
             </p>
-            <p className="text-[#f0ede6] text-sm" style={{ fontFamily: 'var(--font-syne)' }}>
+            <p className="text-[#F3F6F4] text-sm" style={{ fontFamily: 'var(--font-clash)' }}>
               Bangladesh
             </p>
           </div>
@@ -57,10 +57,10 @@ export default async function HomePage() {
             {/* Eyebrow */}
             <div className="flex items-center gap-3 mb-8">
               <span
-                className="w-2 h-2 rounded-full bg-[#00e676] animate-pulse"
+                className="w-2 h-2 rounded-full bg-[#3DF49A] animate-pulse"
               />
               <span
-                className="text-[#00e676] text-xs tracking-[0.25em] uppercase"
+                className="text-[#3DF49A] text-xs tracking-[0.25em] uppercase"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 Available for work
@@ -70,22 +70,22 @@ export default async function HomePage() {
             {/* Main heading */}
             <h1
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
-              <span className="block text-[#f0ede6]">Design.</span>
-              <span className="block text-[#f0ede6]">Code.</span>
-              <span className="block text-[#00e676]">Create.</span>
+              <span className="block text-[#F3F6F4]">Design.</span>
+              <span className="block text-[#F3F6F4]">Code.</span>
+              <span className="block text-[#3DF49A]">Create.</span>
             </h1>
 
             {/* Sub */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-12">
               <div className="max-w-md">
                 <p
-                  className="text-[#8a8a8a] text-lg leading-relaxed"
-                  style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+                  className="text-[#8A938E] text-lg leading-relaxed"
+                  style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
                 >
                   I&apos;m{' '}
-                  <span className="text-[#f0ede6] font-medium">Mahtamun Hoque Fahim</span>
+                  <span className="text-[#F3F6F4] font-medium">Mahtamun Hoque Fahim</span>
                   {' '}— a graphic designer, full-stack developer & UI/UX designer from Dhaka.
                   I make things that look good and work better.
                 </p>
@@ -94,17 +94,17 @@ export default async function HomePage() {
               <div className="flex gap-4">
                 <Link
                   href="/contact"
-                  className="px-7 py-3 bg-[#00e676] text-black text-sm font-semibold rounded-full
-                             hover:bg-[#00b85a] transition-all duration-200 hover:scale-105 active:scale-95"
-                  style={{ fontFamily: 'var(--font-onest)' }}
+                  className="px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
+                             hover:bg-[#5BFBA8] transition-all duration-200 hover:scale-105 active:scale-95"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   Let&apos;s talk
                 </Link>
                 <Link
                   href="/about"
-                  className="px-7 py-3 border border-[#1f1f1f] text-[#f0ede6] text-sm rounded-full
-                             hover:border-[#8a8a8a] transition-all duration-200"
-                  style={{ fontFamily: 'var(--font-onest)' }}
+                  className="px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+                             hover:border-[#8A938E] transition-all duration-200"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   About me
                 </Link>
@@ -112,7 +112,7 @@ export default async function HomePage() {
             </div>
 
             {/* Horizontal rule with stat */}
-            <div className="mt-16 pt-8 border-t border-[#1f1f1f] flex flex-wrap gap-12">
+            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12">
               {[
                 { num: '4+', label: 'Years designing' },
                 { num: '50+', label: 'Projects shipped' },
@@ -120,14 +120,14 @@ export default async function HomePage() {
               ].map((stat) => (
                 <div key={stat.label}>
                   <p
-                    className="text-3xl font-bold text-[#f0ede6]"
-                    style={{ fontFamily: 'var(--font-syne)' }}
+                    className="text-3xl font-bold text-[#F3F6F4]"
+                    style={{ fontFamily: 'var(--font-clash)' }}
                   >
                     {stat.num}
                   </p>
                   <p
-                    className="text-[#8a8a8a] text-sm mt-1"
-                    style={{ fontFamily: 'var(--font-onest)' }}
+                    className="text-[#8A938E] text-sm mt-1"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
                   >
                     {stat.label}
                   </p>
@@ -138,19 +138,19 @@ export default async function HomePage() {
         </section>
 
         {/* ── TICKER ── */}
-        <div className="overflow-hidden border-y border-[#1f1f1f] py-4 bg-[#0d0d0d]">
+        <div className="overflow-hidden border-y border-[#1F2421] py-4 bg-[#090A09]">
           <div className="flex gap-12 animate-marquee whitespace-nowrap">
             {ticker.map((skill, i) => (
               <span
                 key={i}
                 className="text-sm tracking-widest uppercase shrink-0"
                 style={{
-                  fontFamily: 'var(--font-onest)',
-                  color: i % 3 === 0 ? '#00e676' : '#8a8a8a',
+                  fontFamily: 'var(--font-jakarta)',
+                  color: i % 3 === 0 ? '#3DF49A' : '#8A938E',
                 }}
               >
                 {skill}
-                <span className="ml-12 text-[#1f1f1f]">◆</span>
+                <span className="ml-12 text-[#1F2421]">◆</span>
               </span>
             ))}
           </div>
@@ -160,40 +160,40 @@ export default async function HomePage() {
         <section className="max-w-6xl mx-auto px-6 py-28">
           <div className="flex flex-col md:flex-row gap-6 md:items-end mb-16">
             <h2
-              className="text-5xl md:text-6xl font-bold text-[#f0ede6]"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-5xl md:text-6xl font-bold text-[#F3F6F4]"
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               What I do
             </h2>
             <span
-              className="text-[#8a8a8a] text-sm md:mb-2"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="text-[#8A938E] text-sm md:mb-2"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               — three disciplines, one person
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1f1f1f]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1F2421]">
             {services.map((s) => (
               <div
                 key={s.num}
-                className="bg-[#0a0a0a] p-8 group hover:bg-[#0f0f0f] transition-colors duration-300"
+                className="bg-[#070807] p-8 group hover:bg-[#0F0F0F] transition-colors duration-300"
               >
                 <span
-                  className="text-[#2a2a2a] text-5xl font-bold block mb-6 group-hover:text-[#00e676] transition-colors duration-300"
-                  style={{ fontFamily: 'var(--font-syne)' }}
+                  className="text-[#2B302D] text-5xl font-bold block mb-6 group-hover:text-[#3DF49A] transition-colors duration-300"
+                  style={{ fontFamily: 'var(--font-clash)' }}
                 >
                   {s.num}
                 </span>
                 <h3
-                  className="text-xl font-semibold text-[#f0ede6] mb-3"
-                  style={{ fontFamily: 'var(--font-syne)' }}
+                  className="text-xl font-semibold text-[#F3F6F4] mb-3"
+                  style={{ fontFamily: 'var(--font-clash)' }}
                 >
                   {s.title}
                 </h3>
                 <p
-                  className="text-[#8a8a8a] text-sm leading-relaxed"
-                  style={{ fontFamily: 'var(--font-onest)' }}
+                  className="text-[#8A938E] text-sm leading-relaxed"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   {s.desc}
                 </p>
@@ -207,35 +207,35 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
               <p
-                className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
+                className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-6"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 The honest version
               </p>
               <h2
-                className="text-4xl md:text-5xl font-bold text-[#f0ede6] mb-6 leading-tight"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 I don&apos;t separate design from engineering.
               </h2>
               <p
-                className="text-[#8a8a8a] text-base leading-relaxed mb-6"
-                style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+                className="text-[#8A938E] text-base leading-relaxed mb-6"
+                style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
                 Most designers hand off to developers. Most developers complain about the Figma files.
                 I do both — which means the gap doesn&apos;t exist for me.
               </p>
               <p
-                className="text-[#8a8a8a] text-base leading-relaxed mb-10"
-                style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+                className="text-[#8A938E] text-base leading-relaxed mb-10"
+                style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
                 I care obsessively about the space between pixels. I write code the way
                 I design — with intention. I&apos;m from Bangladesh, building work that competes globally.
               </p>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-[#00e676] text-sm group"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="inline-flex items-center gap-2 text-[#3DF49A] text-sm group"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Full story
                 <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
@@ -244,7 +244,7 @@ export default async function HomePage() {
 
             {/* Code aesthetic block */}
             <div
-              className="bg-[#141414] border border-[#1f1f1f] rounded-xl p-8"
+              className="bg-[#0F0F0F] border border-[#1F2421] rounded-xl p-8"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               <div className="flex gap-2 mb-6">
@@ -252,36 +252,36 @@ export default async function HomePage() {
                 <span className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
                 <span className="w-3 h-3 rounded-full bg-[#27c93f]" />
               </div>
-              <p className="text-[#8a8a8a] text-sm mb-1">
-                <span className="text-[#00e676]">const</span>{' '}
-                <span className="text-[#f0ede6]">mahtamun</span>{' '}
-                <span className="text-[#8a8a8a]">= {'{'}</span>
+              <p className="text-[#8A938E] text-sm mb-1">
+                <span className="text-[#3DF49A]">const</span>{' '}
+                <span className="text-[#F3F6F4]">mahtamun</span>{' '}
+                <span className="text-[#8A938E]">= {'{'}</span>
               </p>
-              <p className="text-[#8a8a8a] text-sm ml-4 mb-1">
-                <span className="text-[#f0ede6]">role</span>:{' '}
-                <span className="text-[#00e676]">&apos;Designer + Developer&apos;</span>,
+              <p className="text-[#8A938E] text-sm ml-4 mb-1">
+                <span className="text-[#F3F6F4]">role</span>:{' '}
+                <span className="text-[#3DF49A]">&apos;Designer + Developer&apos;</span>,
               </p>
-              <p className="text-[#8a8a8a] text-sm ml-4 mb-1">
-                <span className="text-[#f0ede6]">based</span>:{' '}
-                <span className="text-[#00e676]">&apos;Dhaka, Bangladesh&apos;</span>,
+              <p className="text-[#8A938E] text-sm ml-4 mb-1">
+                <span className="text-[#F3F6F4]">based</span>:{' '}
+                <span className="text-[#3DF49A]">&apos;Dhaka, Bangladesh&apos;</span>,
               </p>
-              <p className="text-[#8a8a8a] text-sm ml-4 mb-1">
-                <span className="text-[#f0ede6]">stack</span>: [
-                <span className="text-[#00e676]">
+              <p className="text-[#8A938E] text-sm ml-4 mb-1">
+                <span className="text-[#F3F6F4]">stack</span>: [
+                <span className="text-[#3DF49A]">
                   &apos;Next.js&apos;, &apos;Figma&apos;, &apos;Supabase&apos;
                 </span>],
               </p>
-              <p className="text-[#8a8a8a] text-sm ml-4 mb-1">
-                <span className="text-[#f0ede6]">available</span>:{' '}
-                <span className="text-[#00e676]">true</span>,
+              <p className="text-[#8A938E] text-sm ml-4 mb-1">
+                <span className="text-[#F3F6F4]">available</span>:{' '}
+                <span className="text-[#3DF49A]">true</span>,
               </p>
-              <p className="text-[#8a8a8a] text-sm ml-4 mb-1">
-                <span className="text-[#f0ede6]">obsessions</span>: [
-                <span className="text-[#00e676]">
+              <p className="text-[#8A938E] text-sm ml-4 mb-1">
+                <span className="text-[#F3F6F4]">obsessions</span>: [
+                <span className="text-[#3DF49A]">
                   &apos;craft&apos;, &apos;clarity&apos;, &apos;coffee&apos;
                 </span>],
               </p>
-              <p className="text-[#8a8a8a] text-sm">{'}'}</p>
+              <p className="text-[#8A938E] text-sm">{'}'}</p>
             </div>
           </div>
         </section>
@@ -291,28 +291,28 @@ export default async function HomePage() {
           <div className="flex items-center justify-between mb-12">
             <div>
               <p
-                className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-3"
+                className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-3"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 Selected work
               </p>
               <h2
-                className="text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-4xl font-bold text-[#F3F6F4]"
+                style={{ fontFamily: 'var(--font-clash)' }}
               >
                 Projects
               </h2>
             </div>
             <Link
               href="/projects"
-              className="text-[#8a8a8a] text-sm hover:text-[#00e676] transition-colors hidden md:block"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="text-[#8A938E] text-sm hover:text-[#3DF49A] transition-colors hidden md:block"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               View all →
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1f1f1f]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
             {featuredProjects.map((project) => (
               <ProjectCard key={project.name} project={project} />
             ))}
@@ -323,72 +323,72 @@ export default async function HomePage() {
         <section className="max-w-6xl mx-auto px-6 py-16">
           <div className="flex items-center justify-between mb-12">
             <h2
-              className="text-4xl font-bold text-[#f0ede6]"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-4xl font-bold text-[#F3F6F4]"
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               Writing
             </h2>
             <Link
               href="/blog"
-              className="text-[#8a8a8a] text-sm hover:text-[#00e676] transition-colors"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="text-[#8A938E] text-sm hover:text-[#3DF49A] transition-colors"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               All posts →
             </Link>
           </div>
 
           {recentPosts.length === 0 ? (
-            <div className="border border-[#1f1f1f] rounded-xl p-16 text-center">
+            <div className="border border-[#1F2421] rounded-xl p-16 text-center">
               <p
-                className="text-[#8a8a8a] text-sm"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="text-[#8A938E] text-sm"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Writing about design, process & building on the web — coming soon.
               </p>
               <Link
                 href="/blog"
-                className="inline-block mt-4 text-[#00e676] text-sm hover:underline"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="inline-block mt-4 text-[#3DF49A] text-sm hover:underline"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Visit the blog →
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1f1f1f]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1F2421]">
               {recentPosts.map((post, i) => (
                 <Link
                   key={post.id}
                   href={`/blog/${post.slug}`}
-                  className="bg-[#0a0a0a] p-8 flex flex-col justify-between group hover:bg-[#0f0f0f] transition-colors duration-300 min-h-[260px]"
+                  className="bg-[#070807] p-8 flex flex-col justify-between group hover:bg-[#0F0F0F] transition-colors duration-300 min-h-[260px]"
                 >
                   <div>
                     {post.tags?.length > 0 && (
                       <span
-                        className="text-[#00e676] text-xs tracking-[0.15em] uppercase mb-4 block"
+                        className="text-[#3DF49A] text-xs tracking-[0.15em] uppercase mb-4 block"
                         style={{ fontFamily: 'var(--font-jetbrains)' }}
                       >
                         {post.tags[0]}
                       </span>
                     )}
                     <h3
-                      className="text-lg font-semibold text-[#f0ede6] mb-3 leading-snug group-hover:text-[#00e676] transition-colors duration-300"
-                      style={{ fontFamily: 'var(--font-syne)' }}
+                      className="text-lg font-semibold text-[#F3F6F4] mb-3 leading-snug group-hover:text-[#3DF49A] transition-colors duration-300"
+                      style={{ fontFamily: 'var(--font-clash)' }}
                     >
                       {post.title}
                     </h3>
                     {post.excerpt && (
                       <p
-                        className="text-[#8a8a8a] text-sm leading-relaxed line-clamp-3"
-                        style={{ fontFamily: 'var(--font-onest)' }}
+                        className="text-[#8A938E] text-sm leading-relaxed line-clamp-3"
+                        style={{ fontFamily: 'var(--font-jakarta)' }}
                       >
                         {post.excerpt}
                       </p>
                     )}
                   </div>
-                  <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#1f1f1f]">
+                  <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#1F2421]">
                     <span
-                      className="text-[#2a2a2a] text-xs"
-                      style={{ fontFamily: 'var(--font-onest)' }}
+                      className="text-[#2B302D] text-xs"
+                      style={{ fontFamily: 'var(--font-jakarta)' }}
                     >
                       {new Date(post.createdAt).toLocaleDateString('en-US', {
                         month: 'short',
@@ -397,7 +397,7 @@ export default async function HomePage() {
                       })}
                     </span>
                     <span
-                      className="text-[#2a2a2a] text-xs"
+                      className="text-[#2B302D] text-xs"
                       style={{ fontFamily: 'var(--font-jetbrains)' }}
                     >
                       {post.readingTime} min
@@ -409,10 +409,10 @@ export default async function HomePage() {
               {recentPosts.length < 3 && Array.from({ length: 3 - recentPosts.length }).map((_, i) => (
                 <div
                   key={`empty-${i}`}
-                  className="bg-[#0a0a0a] p-8 min-h-[260px] flex items-center justify-center"
+                  className="bg-[#070807] p-8 min-h-[260px] flex items-center justify-center"
                 >
                   <span
-                    className="text-[#1f1f1f] text-xs tracking-widest uppercase"
+                    className="text-[#1F2421] text-xs tracking-widest uppercase"
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     more coming
@@ -425,37 +425,37 @@ export default async function HomePage() {
 
         {/* ── CTA ── */}
         <section className="max-w-6xl mx-auto px-6 py-24">
-          <div className="border border-[#1f1f1f] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden">
+          <div className="border border-[#1F2421] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden">
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  'radial-gradient(ellipse at center bottom, rgba(0,230,118,0.07) 0%, transparent 70%)',
+                  'radial-gradient(ellipse at center bottom, rgba(61,244,154,0.07) 0%, transparent 70%)',
               }}
             />
             <p
-              className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-4"
+              className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-4"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               Open to projects
             </p>
             <h2
-              className="text-4xl md:text-6xl font-bold text-[#f0ede6] mb-6 leading-tight"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-4xl md:text-6xl font-bold text-[#F3F6F4] mb-6 leading-tight"
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               Have something in mind?
             </h2>
             <p
-              className="text-[#8a8a8a] text-lg max-w-md mx-auto mb-10"
-              style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+              className="text-[#8A938E] text-lg max-w-md mx-auto mb-10"
+              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
               I take on selective projects where design and development genuinely matter.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#00e676] text-black font-semibold rounded-full
-                         hover:bg-[#00b85a] transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#3DF49A] text-[#06160E] font-semibold rounded-full
+                         hover:bg-[#5BFBA8] transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               Start a conversation
               <span>→</span>

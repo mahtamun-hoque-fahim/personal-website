@@ -25,6 +25,17 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [{ url: post.coverImage, width: 1200, height: 630 }] : undefined,
+    },
+    twitter: {
+      card: post.coverImage ? 'summary_large_image' : 'summary',
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [post.coverImage] : undefined,
+    },
   }
 }
 
@@ -44,35 +55,23 @@ export default async function BlogPostPage({
         <section className="max-w-3xl mx-auto px-6 py-24 pt-32">
           <Link
             href="/blog"
-            className="inline-block text-[#8a8a8a] text-sm mb-12 hover:text-[#00e676] transition-colors"
-            style={{ fontFamily: 'var(--font-onest)' }}
+            className="inline-block text-[#8A938E] text-sm mb-12 hover:text-[#3DF49A] transition-colors"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             ← Back to blog
           </Link>
 
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              {post.tags?.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-2 py-1 border border-[#1f1f1f] text-[#8a8a8a] rounded"
-                  style={{ fontFamily: 'var(--font-jetbrains)' }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
             <h1
-              className="text-4xl md:text-5xl font-bold text-[#f0ede6] mb-6 leading-tight"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               {post.title}
             </h1>
 
             <div
-              className="flex items-center gap-4 text-sm text-[#8a8a8a]"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="flex items-center gap-4 text-sm text-[#8A938E]"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               <span>{formatDate(post.createdAt)}</span>
               <span>·</span>
@@ -80,11 +79,50 @@ export default async function BlogPostPage({
             </div>
           </div>
 
+          {post.coverImage && (
+            <div
+              className="mb-12 rounded-lg overflow-hidden border border-[#1F2421] bg-[#0F0F0F]"
+              style={{ aspectRatio: '1200 / 630' }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                width={1200}
+                height={630}
+                className="w-full h-full object-cover"
+                loading="eager"
+              />
+            </div>
+          )}
+
           <article
             className="prose-dark"
             dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
           />
           <CopyCodeInit />
+
+          {post.tags && post.tags.length > 0 && (
+            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap items-center gap-2">
+              <span
+                className="text-xs text-[#8A938E] mr-1"
+                style={{ fontFamily: 'var(--font-jetbrains)' }}
+              >
+                Tagged
+              </span>
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs px-2 py-1 border border-[#1F2421] text-[#8A938E] rounded
+                             whitespace-nowrap flex-shrink-0
+                             hover:text-[#3DF49A] hover:border-[#3DF49A] transition-colors duration-150"
+                  style={{ fontFamily: 'var(--font-jetbrains)' }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </section>
       </main>
       <Footer />

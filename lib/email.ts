@@ -28,15 +28,15 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string) {
           <head>
             <meta charset="utf-8">
             <style>
-              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #f0ede6; }
+              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #070807; color: #F3F6F4; }
               .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
-              .header { border-bottom: 1px solid #1f1f1f; padding-bottom: 20px; margin-bottom: 30px; }
+              .header { border-bottom: 1px solid #1F2421; padding-bottom: 20px; margin-bottom: 30px; }
               .logo { font-size: 24px; font-weight: bold; }
-              .logo .accent { color: #00e676; }
+              .logo .accent { color: #3DF49A; }
               .content { line-height: 1.6; }
-              .button { display: inline-block; background: #00e676; color: #0a0a0a; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 20px 0; }
-              .footer { border-top: 1px solid #1f1f1f; padding-top: 20px; margin-top: 40px; font-size: 12px; color: #8a8a8a; }
-              .code { background: #141414; padding: 20px; border-radius: 8px; border: 1px solid #1f1f1f; margin: 20px 0; word-break: break-all; }
+              .button { display: inline-block; background: #3DF49A; color: #070807; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 20px 0; }
+              .footer { border-top: 1px solid #1F2421; padding-top: 20px; margin-top: 40px; font-size: 12px; color: #8A938E; }
+              .code { background: #0F0F0F; padding: 20px; border-radius: 8px; border: 1px solid #1F2421; margin: 20px 0; word-break: break-all; }
             </style>
           </head>
           <body>
@@ -100,14 +100,14 @@ export async function sendVerificationEmail(email: string, verifyUrl: string) {
           <head>
             <meta charset="utf-8">
             <style>
-              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #f0ede6; }
+              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #070807; color: #F3F6F4; }
               .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
-              .header { border-bottom: 1px solid #1f1f1f; padding-bottom: 20px; margin-bottom: 30px; }
+              .header { border-bottom: 1px solid #1F2421; padding-bottom: 20px; margin-bottom: 30px; }
               .logo { font-size: 24px; font-weight: bold; }
-              .logo .accent { color: #00e676; }
+              .logo .accent { color: #3DF49A; }
               .content { line-height: 1.6; }
-              .button { display: inline-block; background: #00e676; color: #0a0a0a; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 20px 0; }
-              .footer { border-top: 1px solid #1f1f1f; padding-top: 20px; margin-top: 40px; font-size: 12px; color: #8a8a8a; }
+              .button { display: inline-block; background: #3DF49A; color: #070807; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 20px 0; }
+              .footer { border-top: 1px solid #1F2421; padding-top: 20px; margin-top: 40px; font-size: 12px; color: #8A938E; }
             </style>
           </head>
           <body>

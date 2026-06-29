@@ -32,15 +32,15 @@ export default function ForgotPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6 bg-[#0a0a0a]">
+      <div className="min-h-screen flex items-center justify-center px-6 bg-[#070807]">
         <div className="w-full max-w-md">
           <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
             <Logo height={26} />
           </Link>
 
-          <div className="bg-[#141414] border border-[#1f1f1f] rounded-2xl p-8 text-center">
+          <div className="bg-[#0F0F0F] border border-[#1F2421] rounded-2xl p-8 text-center">
             <div
-              className="w-12 h-12 rounded-full bg-[#00e676]/10 border border-[#00e676]/30 flex items-center justify-center mx-auto mb-6"
+              className="w-12 h-12 rounded-full bg-[#3DF49A]/10 border border-[#3DF49A]/30 flex items-center justify-center mx-auto mb-6"
               aria-hidden="true"
             >
               <svg
@@ -48,7 +48,7 @@ export default function ForgotPasswordPage() {
                 height="20"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#00e676"
+                stroke="#3DF49A"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -57,30 +57,30 @@ export default function ForgotPasswordPage() {
               </svg>
             </div>
             <h1
-              className="text-2xl font-bold text-[#f0ede6] mb-2"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-2xl font-bold text-[#F3F6F4] mb-2"
+              style={{ fontFamily: 'var(--font-clash)' }}
             >
               Check your email
             </h1>
             <p
-              className="text-[#8a8a8a] text-sm mb-8"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="text-[#8A938E] text-sm mb-8"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               We sent a password reset link to <strong>{email}</strong>. Click the link in
               your email to create a new password.
             </p>
 
             <p
-              className="text-[#8a8a8a] text-xs mb-8"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="text-[#8A938E] text-xs mb-8"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               The link expires in 24 hours. Check spam if you don&apos;t see it.
             </p>
 
             <Link
               href="/admin/login"
-              className="inline-block px-6 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] transition-colors"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="inline-block px-6 py-3 bg-[#3DF49A] text-[#06160E] rounded-lg font-medium hover:bg-[#5BFBA8] transition-colors"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               Back to sign in
             </Link>
@@ -91,22 +91,22 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 bg-[#0a0a0a]">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-[#070807]">
       <div className="w-full max-w-md">
         <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
           <Logo height={26} />
         </Link>
 
-        <div className="bg-[#141414] border border-[#1f1f1f] rounded-2xl p-8">
+        <div className="bg-[#0F0F0F] border border-[#1F2421] rounded-2xl p-8">
           <h1
-            className="text-2xl font-bold text-[#f0ede6] mb-2"
-            style={{ fontFamily: 'var(--font-syne)' }}
+            className="text-2xl font-bold text-[#F3F6F4] mb-2"
+            style={{ fontFamily: 'var(--font-clash)' }}
           >
             Reset password
           </h1>
           <p
-            className="text-[#8a8a8a] text-sm mb-8"
-            style={{ fontFamily: 'var(--font-onest)' }}
+            className="text-[#8A938E] text-sm mb-8"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             Enter your email and we&apos;ll send you a link to reset your password.
           </p>
@@ -115,7 +115,7 @@ export default function ForgotPasswordPage() {
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
               <p
                 className="text-red-500 text-sm"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 {error}
               </p>
@@ -125,8 +125,8 @@ export default function ForgotPasswordPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
-                className="block text-[#f0ede6] text-sm mb-2 font-medium"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="block text-[#F3F6F4] text-sm mb-2 font-medium"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Email
               </label>
@@ -136,29 +136,29 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#1f1f1f] rounded-lg text-[#f0ede6] placeholder-[#8a8a8a] focus:outline-none focus:border-[#00e676] transition-colors"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="w-full px-4 py-3 bg-[#070807] border border-[#1F2421] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-6 px-4 py-3 bg-[#00e676] text-black rounded-lg font-medium hover:bg-[#00b85a] disabled:opacity-50 transition-colors"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="w-full mt-6 px-4 py-3 bg-[#3DF49A] text-[#06160E] rounded-lg font-medium hover:bg-[#5BFBA8] disabled:opacity-50 transition-colors"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               {loading ? 'Sending...' : 'Send reset link'}
             </button>
           </form>
 
           <p
-            className="text-[#8a8a8a] text-sm text-center mt-6"
-            style={{ fontFamily: 'var(--font-onest)' }}
+            className="text-[#8A938E] text-sm text-center mt-6"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             Remember your password?{' '}
             <Link
               href="/admin/login"
-              className="text-[#00e676] hover:underline font-medium"
+              className="text-[#3DF49A] hover:underline font-medium"
             >
               Sign in
             </Link>
