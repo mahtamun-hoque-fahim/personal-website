@@ -12,11 +12,11 @@ export default async function AdminLayout({
 
   // Unauthenticated routes (login, forgot/reset password) render plain — no chrome.
   if (!isAuth) {
-    return <div className="min-h-screen bg-[#0a0a0a]">{children}</div>
+    return <div className="min-h-screen bg-[#070807]">{children}</div>
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-[#070807]">
       <AdminSidebar />
       <main className="ml-60 min-h-screen">{children}</main>
     </div>

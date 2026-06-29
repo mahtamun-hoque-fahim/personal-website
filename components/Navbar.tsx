@@ -34,7 +34,7 @@ export default function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
           scrolled
-            ? 'py-3 bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-[#1f1f1f]'
+            ? 'py-3 bg-[#070807]/90 backdrop-blur-xl border-b border-[#1F2421]'
             : 'py-6'
         )}
       >
@@ -57,14 +57,14 @@ export default function Navbar() {
                 className={cn(
                   'text-sm tracking-wide transition-colors duration-200 relative group',
                   pathname === link.href
-                    ? 'text-[#00e676]'
-                    : 'text-[#8a8a8a] hover:text-[#f0ede6]'
+                    ? 'text-[#3DF49A]'
+                    : 'text-[#8A938E] hover:text-[#F3F6F4]'
                 )}
-                style={{ fontFamily: 'var(--font-onest)' }}
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 {link.label}
                 {pathname === link.href && (
-                  <span className="absolute -bottom-1 left-0 w-full h-px bg-[#00e676]" />
+                  <span className="absolute -bottom-1 left-0 w-full h-px bg-[#3DF49A]" />
                 )}
               </Link>
             ))}
@@ -79,19 +79,19 @@ export default function Navbar() {
           >
             <span
               className={cn(
-                'block w-6 h-0.5 bg-[#f0ede6] transition-all duration-300',
+                'block w-6 h-0.5 bg-[#F3F6F4] transition-all duration-300',
                 menuOpen && 'rotate-45 translate-y-2'
               )}
             />
             <span
               className={cn(
-                'block w-6 h-0.5 bg-[#f0ede6] transition-all duration-300',
+                'block w-6 h-0.5 bg-[#F3F6F4] transition-all duration-300',
                 menuOpen && 'opacity-0'
               )}
             />
             <span
               className={cn(
-                'block w-6 h-0.5 bg-[#f0ede6] transition-all duration-300',
+                'block w-6 h-0.5 bg-[#F3F6F4] transition-all duration-300',
                 menuOpen && '-rotate-45 -translate-y-2'
               )}
             />
@@ -102,7 +102,7 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div
         className={cn(
-          'fixed inset-0 z-40 bg-[#0a0a0a] flex flex-col justify-center items-center gap-10 transition-all duration-500',
+          'fixed inset-0 z-40 bg-[#070807] flex flex-col justify-center items-center gap-10 transition-all duration-500',
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
       >
@@ -113,10 +113,10 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             className={cn(
               'text-4xl font-display font-bold transition-colors duration-200',
-              pathname === link.href ? 'text-[#00e676]' : 'text-[#f0ede6]'
+              pathname === link.href ? 'text-[#3DF49A]' : 'text-[#F3F6F4]'
             )}
             style={{
-              fontFamily: 'var(--font-syne)',
+              fontFamily: 'var(--font-jakarta)',
               animationDelay: `${i * 80}ms`,
             }}
           >

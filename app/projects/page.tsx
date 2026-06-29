@@ -22,73 +22,73 @@ export default async function ProjectsPage() {
         <section className="max-w-6xl mx-auto px-6 py-24 pt-32">
           <div className="mb-16">
             <h1
-              className="text-5xl md:text-7xl font-bold text-[#f0ede6] mb-6"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-5xl md:text-7xl font-bold text-[#F3F6F4] mb-6"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               All Projects
             </h1>
             <p
-              className="text-[#8a8a8a] text-lg max-w-2xl"
-              style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+              className="text-[#8A938E] text-lg max-w-2xl"
+              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
               A collection of everything I've shipped — from web apps and tools to learning platforms and browser extensions. Each project represents something I wanted to build and share with the world.
             </p>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-y border-[#1f1f1f]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-y border-[#1F2421]">
             <div>
               <p
-                className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 {allProjects.length}
               </p>
               <p
-                className="text-[#8a8a8a] text-sm mt-2"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="text-[#8A938E] text-sm mt-2"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Projects
               </p>
             </div>
             <div>
               <p
-                className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 {allProjects.filter(p => p.liveUrl).length}
               </p>
               <p
-                className="text-[#8a8a8a] text-sm mt-2"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="text-[#8A938E] text-sm mt-2"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Live
               </p>
             </div>
             <div>
               <p
-                className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 {new Set(allProjects.flatMap(p => p.tags)).size}
               </p>
               <p
-                className="text-[#8a8a8a] text-sm mt-2"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="text-[#8A938E] text-sm mt-2"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Technologies
               </p>
             </div>
             <div>
               <p
-                className="text-3xl md:text-4xl font-bold text-[#f0ede6]"
-                style={{ fontFamily: 'var(--font-syne)' }}
+                className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 {new Set(allProjects.map(p => p.type)).size}
               </p>
               <p
-                className="text-[#8a8a8a] text-sm mt-2"
-                style={{ fontFamily: 'var(--font-onest)' }}
+                className="text-[#8A938E] text-sm mt-2"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Types
               </p>
@@ -98,7 +98,7 @@ export default async function ProjectsPage() {
 
         {/* ── ALL PROJECTS GRID ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1f1f1f]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
             {allProjects.map((project) => (
               <ProjectCard key={project.name} project={project} />
             ))}
@@ -108,8 +108,8 @@ export default async function ProjectsPage() {
         {/* ── PROJECT TYPES BREAKDOWN ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
-            className="text-4xl font-bold text-[#f0ede6] mb-12"
-            style={{ fontFamily: 'var(--font-syne)' }}
+            className="text-4xl font-bold text-[#F3F6F4] mb-12"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             By Type
           </h2>
@@ -120,12 +120,12 @@ export default async function ProjectsPage() {
             return (
               <div key={type} className="mb-20">
                 <h3
-                  className="text-2xl font-semibold text-[#f0ede6] mb-6"
-                  style={{ fontFamily: 'var(--font-syne)' }}
+                  className="text-2xl font-semibold text-[#F3F6F4] mb-6"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   {type}
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1f1f1f]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
                   {projectsByType.map((project) => (
                     <ProjectCard key={project.name} project={project} />
                   ))}
@@ -138,14 +138,14 @@ export default async function ProjectsPage() {
         {/* ── TECH STACK ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
           <h2
-            className="text-4xl font-bold text-[#f0ede6] mb-8"
-            style={{ fontFamily: 'var(--font-syne)' }}
+            className="text-4xl font-bold text-[#F3F6F4] mb-8"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             Technologies
           </h2>
           <p
-            className="text-[#8a8a8a] text-lg mb-12"
-            style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+            className="text-[#8A938E] text-lg mb-12"
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
           >
             I specialize in modern full-stack development. Here are the tech stacks powering these projects.
           </p>
@@ -156,11 +156,11 @@ export default async function ProjectsPage() {
               .map((tag) => (
                 <div
                   key={tag}
-                  className="bg-[#0f0f0f] border border-[#1f1f1f] rounded-lg p-4 hover:border-[#00e676] transition-colors"
+                  className="bg-[#0F0F0F] border border-[#1F2421] rounded-lg p-4 hover:border-[#3DF49A] transition-colors"
                 >
                   <p
-                    className="text-[#f0ede6] font-medium"
-                    style={{ fontFamily: 'var(--font-onest)' }}
+                    className="text-[#F3F6F4] font-medium"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
                   >
                     {tag}
                   </p>

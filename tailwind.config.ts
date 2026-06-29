@@ -17,8 +17,8 @@ const config: Config = {
         'accent-dim': 'var(--accent-dim)',
       },
       fontFamily: {
-        display: ['var(--font-syne)', 'sans-serif'],
-        body: ['var(--font-onest)', 'sans-serif'],
+        display: ['var(--font-jakarta)', 'sans-serif'],
+        body: ['var(--font-jakarta)', 'sans-serif'],
         mono: ['var(--font-jetbrains)', 'monospace'],
       },
       animation: {

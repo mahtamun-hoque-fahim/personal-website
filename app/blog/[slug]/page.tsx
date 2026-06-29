@@ -55,23 +55,23 @@ export default async function BlogPostPage({
         <section className="max-w-3xl mx-auto px-6 py-24 pt-32">
           <Link
             href="/blog"
-            className="inline-block text-[#8a8a8a] text-sm mb-12 hover:text-[#00e676] transition-colors"
-            style={{ fontFamily: 'var(--font-onest)' }}
+            className="inline-block text-[#8A938E] text-sm mb-12 hover:text-[#3DF49A] transition-colors"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             ← Back to blog
           </Link>
 
           <div className="mb-8">
             <h1
-              className="text-4xl md:text-5xl font-bold text-[#f0ede6] mb-6 leading-tight"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               {post.title}
             </h1>
 
             <div
-              className="flex items-center gap-4 text-sm text-[#8a8a8a]"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="flex items-center gap-4 text-sm text-[#8A938E]"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               <span>{formatDate(post.createdAt)}</span>
               <span>·</span>
@@ -81,7 +81,7 @@ export default async function BlogPostPage({
 
           {post.coverImage && (
             <div
-              className="mb-12 rounded-lg overflow-hidden border border-[#1f1f1f] bg-[#141414]"
+              className="mb-12 rounded-lg overflow-hidden border border-[#1F2421] bg-[#0F0F0F]"
               style={{ aspectRatio: '1200 / 630' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -103,9 +103,9 @@ export default async function BlogPostPage({
           <CopyCodeInit />
 
           {post.tags && post.tags.length > 0 && (
-            <div className="mt-16 pt-8 border-t border-[#1f1f1f] flex flex-wrap items-center gap-2">
+            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap items-center gap-2">
               <span
-                className="text-xs text-[#8a8a8a] mr-1"
+                className="text-xs text-[#8A938E] mr-1"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 Tagged
@@ -113,9 +113,9 @@ export default async function BlogPostPage({
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-2 py-1 border border-[#1f1f1f] text-[#8a8a8a] rounded
+                  className="text-xs px-2 py-1 border border-[#1F2421] text-[#8A938E] rounded
                              whitespace-nowrap flex-shrink-0
-                             hover:text-[#00e676] hover:border-[#00e676] transition-colors duration-150"
+                             hover:text-[#3DF49A] hover:border-[#3DF49A] transition-colors duration-150"
                   style={{ fontFamily: 'var(--font-jetbrains)' }}
                 >
                   {tag}

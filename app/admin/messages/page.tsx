@@ -12,41 +12,41 @@ export default async function AdminMessagesPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-bold text-[#f0ede6] mb-10" style={{ fontFamily: 'var(--font-syne)' }}>
+      <h1 className="text-4xl font-bold text-[#F3F6F4] mb-10" style={{ fontFamily: 'var(--font-jakarta)' }}>
         Messages
         {messages.filter((m) => !m.read).length > 0 && (
-          <span className="ml-3 text-lg text-[#00e676]">({messages.filter((m) => !m.read).length} unread)</span>
+          <span className="ml-3 text-lg text-[#3DF49A]">({messages.filter((m) => !m.read).length} unread)</span>
         )}
       </h1>
 
       {messages.length === 0 ? (
-        <div className="border border-[#1f1f1f] rounded-xl p-16 text-center">
-          <p className="text-[#8a8a8a] text-sm" style={{ fontFamily: 'var(--font-onest)' }}>No messages yet.</p>
+        <div className="border border-[#1F2421] rounded-xl p-16 text-center">
+          <p className="text-[#8A938E] text-sm" style={{ fontFamily: 'var(--font-jakarta)' }}>No messages yet.</p>
         </div>
       ) : (
         <div className="space-y-3">
           {messages.map((msg) => (
-            <div key={msg.id} className={`border rounded-xl p-6 transition-colors ${msg.read ? 'border-[#1f1f1f] bg-[#0f0f0f]' : 'border-[#00e676]/20 bg-[#141414]'}`}>
+            <div key={msg.id} className={`border rounded-xl p-6 transition-colors ${msg.read ? 'border-[#1F2421] bg-[#0F0F0F]' : 'border-[#3DF49A]/20 bg-[#0F0F0F]'}`}>
               <div className="flex items-start justify-between gap-6">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
-                    {!msg.read && <span className="text-xs px-2 py-0.5 bg-[#00e676]/10 text-[#00e676] border border-[#00e676]/20 rounded-full" style={{ fontFamily: 'var(--font-jetbrains)' }}>New</span>}
-                    <span className="font-semibold text-[#f0ede6]" style={{ fontFamily: 'var(--font-syne)' }}>{msg.name}</span>
-                    <a href={`mailto:${msg.email}`} className="text-[#8a8a8a] text-sm hover:text-[#00e676] transition-colors" style={{ fontFamily: 'var(--font-onest)' }}>{msg.email}</a>
+                    {!msg.read && <span className="text-xs px-2 py-0.5 bg-[#3DF49A]/10 text-[#3DF49A] border border-[#3DF49A]/20 rounded-full" style={{ fontFamily: 'var(--font-jetbrains)' }}>New</span>}
+                    <span className="font-semibold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-jakarta)' }}>{msg.name}</span>
+                    <a href={`mailto:${msg.email}`} className="text-[#8A938E] text-sm hover:text-[#3DF49A] transition-colors" style={{ fontFamily: 'var(--font-jakarta)' }}>{msg.email}</a>
                     <div className="ml-auto flex items-center gap-3">
-                      {msg.country && <span className="text-xs px-2 py-0.5 border border-[#1f1f1f] text-[#8a8a8a] rounded" style={{ fontFamily: 'var(--font-jetbrains)' }}>({msg.country})</span>}
+                      {msg.country && <span className="text-xs px-2 py-0.5 border border-[#1F2421] text-[#8A938E] rounded" style={{ fontFamily: 'var(--font-jetbrains)' }}>({msg.country})</span>}
                       <div className="text-right">
-                        <p className="text-[#2a2a2a] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDateTime(msg.createdAt).date}</p>
-                        <p className="text-[#2a2a2a] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDateTime(msg.createdAt).time}</p>
+                        <p className="text-[#2B302D] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDateTime(msg.createdAt).date}</p>
+                        <p className="text-[#2B302D] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDateTime(msg.createdAt).time}</p>
                       </div>
                     </div>
                   </div>
-                  {msg.subject && <p className="text-sm text-[#f0ede6] font-medium mb-2" style={{ fontFamily: 'var(--font-onest)' }}>Re: {msg.subject}</p>}
-                  <p className="text-[#8a8a8a] text-sm leading-relaxed whitespace-pre-wrap" style={{ fontFamily: 'var(--font-onest)' }}>{msg.message}</p>
+                  {msg.subject && <p className="text-sm text-[#F3F6F4] font-medium mb-2" style={{ fontFamily: 'var(--font-jakarta)' }}>Re: {msg.subject}</p>}
+                  <p className="text-[#8A938E] text-sm leading-relaxed whitespace-pre-wrap" style={{ fontFamily: 'var(--font-jakarta)' }}>{msg.message}</p>
                 </div>
                 <div className="flex flex-col gap-2 shrink-0">
                   {!msg.read && <MarkReadButton id={msg.id} />}
-                  <a href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject || 'Your message')}`} className="text-xs text-[#8a8a8a] hover:text-[#00e676] transition-colors px-3 py-1.5 border border-[#1f1f1f] rounded-lg text-center" style={{ fontFamily: 'var(--font-onest)' }}>Reply ↗</a>
+                  <a href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject || 'Your message')}`} className="text-xs text-[#8A938E] hover:text-[#3DF49A] transition-colors px-3 py-1.5 border border-[#1F2421] rounded-lg text-center" style={{ fontFamily: 'var(--font-jakarta)' }}>Reply ↗</a>
                 </div>
               </div>
             </div>

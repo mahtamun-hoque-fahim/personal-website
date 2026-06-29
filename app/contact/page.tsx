@@ -18,24 +18,24 @@ export default function ContactPage() {
         <div className="max-w-6xl mx-auto px-6">
 
           {/* Header */}
-          <div className="pb-16 border-b border-[#1f1f1f] mb-16">
+          <div className="pb-16 border-b border-[#1F2421] mb-16">
             <p
-              className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
+              className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-6"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               Contact
             </p>
             <h1
-              className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#f0ede6] leading-[0.95] mb-6"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               Let&apos;s build
               <br />
-              <span className="text-[#00e676]">something.</span>
+              <span className="text-[#3DF49A]">something.</span>
             </h1>
             <p
-              className="text-[#8a8a8a] text-lg max-w-xl leading-relaxed"
-              style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+              className="text-[#8A938E] text-lg max-w-xl leading-relaxed"
+              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
               I&apos;m open to freelance projects, collaborations, and full-time opportunities.
               Tell me what you&apos;re working on.
@@ -67,7 +67,7 @@ export default function ContactPage() {
                 ].map((item) => (
                   <div key={item.label} className="flex flex-col gap-1">
                     <p
-                      className="text-[#8a8a8a] text-xs tracking-widest uppercase"
+                      className="text-[#8A938E] text-xs tracking-widest uppercase"
                       style={{ fontFamily: 'var(--font-jetbrains)' }}
                     >
                       {item.label}
@@ -76,8 +76,8 @@ export default function ContactPage() {
                       href={item.href}
                       target={item.href.startsWith('http') ? '_blank' : undefined}
                       rel="noopener noreferrer"
-                      className="text-[#f0ede6] text-sm hover:text-[#00e676] transition-colors"
-                      style={{ fontFamily: 'var(--font-onest)' }}
+                      className="text-[#F3F6F4] text-sm hover:text-[#3DF49A] transition-colors"
+                      style={{ fontFamily: 'var(--font-jakarta)' }}
                     >
                       {item.value} ↗
                     </a>
@@ -85,19 +85,19 @@ export default function ContactPage() {
                 ))}
               </div>
 
-              <div className="border border-[#1f1f1f] rounded-xl p-6">
+              <div className="border border-[#1F2421] rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="w-2 h-2 rounded-full bg-[#00e676] animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-[#3DF49A] animate-pulse" />
                   <span
-                    className="text-[#00e676] text-xs tracking-widest uppercase"
+                    className="text-[#3DF49A] text-xs tracking-widest uppercase"
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     Currently available
                   </span>
                 </div>
                 <p
-                  className="text-[#8a8a8a] text-sm leading-relaxed"
-                  style={{ fontFamily: 'var(--font-onest)' }}
+                  className="text-[#8A938E] text-sm leading-relaxed"
+                  style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   Open to freelance design & development projects, long-term collaborations,
                   and interesting full-time roles.<br/>Response time: usually within 24h.

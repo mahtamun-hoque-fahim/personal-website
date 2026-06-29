@@ -1,6 +1,6 @@
 <svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
 <style>
-  path { fill: #0a0a0a; }
+  path { fill: #070807; }
   @media (prefers-color-scheme: dark) {
     path { fill: #ffffff; }
   }

@@ -15,8 +15,8 @@ export default function DeletePostButton({ id }: { id: string }) {
   return (
     <button
       onClick={handleDelete}
-      className="text-xs text-[#8a8a8a] hover:text-red-400 transition-colors px-3 py-1.5 border border-[#1f1f1f] rounded-lg hover:border-red-400/30"
-      style={{ fontFamily: 'var(--font-onest)' }}
+      className="text-xs text-[#8A938E] hover:text-red-400 transition-colors px-3 py-1.5 border border-[#1F2421] rounded-lg hover:border-red-400/30"
+      style={{ fontFamily: 'var(--font-jakarta)' }}
     >
       Delete
     </button>

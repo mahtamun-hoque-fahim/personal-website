@@ -1,20 +1,13 @@
 
 
 import type { Metadata } from 'next'
-import { Syne, Onest, JetBrains_Mono } from 'next/font/google'
+import { Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
-const syne = Syne({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-syne',
-  display: 'swap',
-})
-
-const onest = Onest({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-onest',
+  variable: '--font-jakarta',
   display: 'swap',
 })
 
@@ -61,9 +54,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${syne.variable} ${onest.variable} ${jetbrainsMono.variable}`}
+      className={`${jakarta.variable} ${jetbrainsMono.variable}`}
     >
-      <body style={{ fontFamily: 'var(--font-onest)' }}>
+      <body style={{ fontFamily: 'var(--font-jakarta)' }}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

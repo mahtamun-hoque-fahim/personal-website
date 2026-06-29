@@ -26,22 +26,22 @@ export default async function BlogPage() {
       <Navbar />
       <main className="pt-32 max-w-6xl mx-auto px-6">
         {/* Header */}
-        <div className="pb-16 border-b border-[#1f1f1f] mb-16">
+        <div className="pb-16 border-b border-[#1F2421] mb-16">
           <p
-            className="text-[#00e676] text-xs tracking-[0.2em] uppercase mb-6"
+            className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-6"
             style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
             Blog
           </p>
           <h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#f0ede6] leading-[0.95] mb-6"
-            style={{ fontFamily: 'var(--font-syne)' }}
+            className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             Things I think about
           </h1>
           <p
-            className="text-[#8a8a8a] text-lg max-w-xl leading-relaxed"
-            style={{ fontFamily: 'var(--font-onest)', fontWeight: 300 }}
+            className="text-[#8A938E] text-lg max-w-xl leading-relaxed"
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
           >
             Writing about design systems, creative process, building products, and whatever
             I&apos;m obsessing over this month.
@@ -52,14 +52,14 @@ export default async function BlogPage() {
         {posts.length === 0 ? (
           <div className="py-32 text-center">
             <p
-              className="text-[#2a2a2a] text-8xl font-bold mb-6"
-              style={{ fontFamily: 'var(--font-syne)' }}
+              className="text-[#2B302D] text-8xl font-bold mb-6"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               Soon.
             </p>
             <p
-              className="text-[#8a8a8a] text-base"
-              style={{ fontFamily: 'var(--font-onest)' }}
+              className="text-[#8A938E] text-base"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               First post is being written. Check back soon.
             </p>
@@ -70,12 +70,12 @@ export default async function BlogPage() {
               <Link
                 href={`/blog/${post.slug}`}
                 key={post.id}
-                className="group flex flex-col md:flex-row gap-6 md:items-start py-10 border-b border-[#1f1f1f]
-                           hover:bg-[#0d0d0d] -mx-6 px-6 transition-colors duration-200"
+                className="group flex flex-col md:flex-row gap-6 md:items-start py-10 border-b border-[#1F2421]
+                           hover:bg-[#090A09] -mx-6 px-6 transition-colors duration-200"
               >
                 {/* Number */}
                 <span
-                  className="text-[#2a2a2a] text-sm shrink-0 mt-1 group-hover:text-[#00e676] transition-colors"
+                  className="text-[#2B302D] text-sm shrink-0 mt-1 group-hover:text-[#3DF49A] transition-colors"
                   style={{ fontFamily: 'var(--font-jetbrains)' }}
                 >
                   {String(i + 1).padStart(2, '0')}
@@ -84,7 +84,7 @@ export default async function BlogPage() {
                 {/* Thumbnail */}
                 {post.coverImage && (
                   <div
-                    className="shrink-0 w-full md:w-32 rounded-md overflow-hidden border border-[#1f1f1f] bg-[#141414]"
+                    className="shrink-0 w-full md:w-32 rounded-md overflow-hidden border border-[#1F2421] bg-[#0F0F0F]"
                     style={{ aspectRatio: '1200 / 630' }}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -105,22 +105,22 @@ export default async function BlogPage() {
                     {post.tags?.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs px-2 py-0.5 border border-[#1f1f1f] rounded-full text-[#8a8a8a]"
-                        style={{ fontFamily: 'var(--font-onest)' }}
+                        className="text-xs px-2 py-0.5 border border-[#1F2421] rounded-full text-[#8A938E]"
+                        style={{ fontFamily: 'var(--font-jakarta)' }}
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
                   <h2
-                    className="text-xl md:text-2xl font-bold text-[#f0ede6] mb-2 group-hover:text-[#00e676] transition-colors"
-                    style={{ fontFamily: 'var(--font-syne)' }}
+                    className="text-xl md:text-2xl font-bold text-[#F3F6F4] mb-2 group-hover:text-[#3DF49A] transition-colors"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
                   >
                     {post.title}
                   </h2>
                   <p
-                    className="text-[#8a8a8a] text-sm leading-relaxed max-w-2xl"
-                    style={{ fontFamily: 'var(--font-onest)' }}
+                    className="text-[#8A938E] text-sm leading-relaxed max-w-2xl"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
                   >
                     {post.excerpt}
                   </p>
@@ -129,14 +129,14 @@ export default async function BlogPage() {
                 {/* Meta */}
                 <div className="shrink-0 text-right hidden md:block">
                   <p
-                    className="text-[#8a8a8a] text-xs"
+                    className="text-[#8A938E] text-xs"
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     {formatDate(post.createdAt)}
                   </p>
                   <p
-                    className="text-[#2a2a2a] text-xs mt-1"
-                    style={{ fontFamily: 'var(--font-onest)' }}
+                    className="text-[#2B302D] text-xs mt-1"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
                   >
                     {post.readingTime} min read
                   </p>
