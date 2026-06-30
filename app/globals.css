@@ -132,7 +132,7 @@ body::before {
 .prose-dark pre,
 .prose-dark .hl-pre {
   position: relative;
-  background: #0F0F0F;
+  background: linear-gradient(to bottom right, #000000, #222222);
   border: 1px solid #1F2421;
   border-radius: 10px;
   padding: 1.25rem 1.25rem 1.25rem 1.25rem;
