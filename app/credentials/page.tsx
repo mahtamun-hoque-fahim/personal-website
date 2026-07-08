@@ -226,11 +226,18 @@ const communityRoles = [
     ongoing: false,
   },
   {
-    title: 'Cadet Sergeant',
+    title: 'Cadet Sergeant — BNCC',
     org: 'Bangladesh National Cadet Corps (BNCC)',
-    period: 'Apr 2020 – Mar 2021',
+    period: '2017 – 2024',
     category: 'Social Services',
     ongoing: false,
+    details: [
+      'Junior Division · 2017–21 · GMHS Platoon',
+      'Senior Division · 2022–24',
+      '1× Regimental Camp',
+      'Call-sign: Black bird',
+      'Best Shooter Badge — 2017',
+    ],
   },
   {
     title: 'Deputy Youth Chief',
@@ -648,6 +655,20 @@ export default function CredentialsPage() {
                   >
                     {role.category}
                   </span>
+                  {'details' in role && Array.isArray((role as { details?: string[] }).details) && (
+                    <ul className="mt-3 space-y-1">
+                      {(role as { details: string[] }).details.map((d) => (
+                        <li
+                          key={d}
+                          className="text-[11px] text-[#5C615E] flex items-center gap-1.5"
+                          style={{ fontFamily: 'var(--font-jetbrains)' }}
+                        >
+                          <span className="w-1 h-1 rounded-full bg-[#2B302D] shrink-0" />
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               ))}
             </div>
