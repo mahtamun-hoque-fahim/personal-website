@@ -217,6 +217,9 @@ const communityRoles = [
     period: 'Jun 2022 – Present',
     category: 'Disaster & Humanitarian Relief',
     ongoing: true,
+    details: [
+      'Crowd Control Management Team — Sitakunda Container Depot Fire Outbreak',
+    ],
   },
   {
     title: 'Event Organizer',
