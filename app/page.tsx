@@ -17,7 +17,7 @@ const services = [
 
 const skills = [
   'Figma', 'Adobe Suite', 'Next.js', 'React', 'TypeScript', 'Tailwind CSS',
-  'Supabase', 'PostgreSQL', 'Node.js', 'Brand Identity', 'Motion Design', 'Framer',
+  'Neon', 'PostgreSQL', 'Node.js', 'Brand Identity', 'Motion Design', 'Framer',
 ]
 
 const ticker = [...skills, ...skills]
@@ -86,7 +86,7 @@ export default async function HomePage() {
                 >
                   I&apos;m{' '}
                   <span className="text-[#F3F6F4] font-medium">Mahtamun Hoque Fahim</span>
-                  {' '}— a graphic designer, full-stack developer & UI/UX designer from Dhaka.
+                  {' '}— a graphic designer, full-stack developer & UI/UX designer from Chattogram.
                   I make things that look good and work better.
                 </p>
               </div>
@@ -114,7 +114,7 @@ export default async function HomePage() {
             {/* Horizontal rule with stat */}
             <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12">
               {[
-                { num: '4+', label: 'Years designing' },
+                { num: '5+', label: 'Years designing' },
                 { num: '50+', label: 'Projects shipped' },
                 { num: '∞', label: 'Coffee consumed' },
               ].map((stat) => (
@@ -263,12 +263,12 @@ export default async function HomePage() {
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">based</span>:{' '}
-                <span className="text-[#3DF49A]">&apos;Dhaka, Bangladesh&apos;</span>,
+                <span className="text-[#3DF49A]">&apos;Chattogram, Bangladesh&apos;</span>,
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">stack</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;Next.js&apos;, &apos;Figma&apos;, &apos;Supabase&apos;
+                  &apos;Next.js&apos;, &apos;Figma&apos;, &apos;Neon&apos;
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">

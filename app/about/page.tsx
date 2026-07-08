@@ -237,8 +237,8 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1F2421]">
             {[
               { cat: 'Design', tools: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'Framer', 'After Effects'] },
-              { cat: 'Frontend', tools: ['Next.js 14', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
-              { cat: 'Backend', tools: ['Node.js', 'Supabase', 'PostgreSQL', 'REST APIs', 'Prisma'] },
+              { cat: 'Frontend', tools: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
+              { cat: 'Backend', tools: ['Node.js', 'Neon (PostgreSQL)', 'Drizzle ORM', 'Better Auth', 'REST APIs'] },
               { cat: 'DevOps', tools: ['Vercel', 'GitHub', 'Git', 'Docker (basics)', 'CI/CD'] },
             ].map((col) => (
               <div key={col.cat} className="bg-[#070807] p-6">
