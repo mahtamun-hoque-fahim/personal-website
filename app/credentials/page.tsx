@@ -224,6 +224,11 @@ const communityRoles = [
     period: 'Dec 2024 – Feb 2025',
     category: 'Arts & Culture',
     ongoing: false,
+    details: [
+      'First lead designer role',
+      'Lead volunteer — citywide awareness campaign',
+      'First official approach to City Corporation office',
+    ],
   },
   {
     title: 'Cadet Sergeant — BNCC',
