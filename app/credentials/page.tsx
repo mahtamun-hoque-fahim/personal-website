@@ -245,6 +245,12 @@ const communityRoles = [
     period: 'Mar 2019 – 2021',
     category: 'Environment & Youth',
     ongoing: false,
+    details: [
+      '1× Tree Plantation Program',
+      '4× School Cleaning Program',
+      '1× Pedestrian Drinking Water Program',
+      '1× Divisional Youth Camp',
+    ],
   },
 ]
 
