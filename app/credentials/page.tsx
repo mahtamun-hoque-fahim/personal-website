@@ -216,9 +216,9 @@ const communityRoles = [
     org: 'Bangladesh Red Crescent Society (BDRCS)',
     period: 'Jun 2022 – Present',
     category: 'Disaster & Humanitarian Relief',
-    ongoing: true,
+    ongoing: false,
     details: [
-      'Crowd Control Management Team — Sitakunda Container Depot Fire Outbreak',
+      'Crowd Control Management Team — Sitakunda Container Depot Fire Outbreak (Jun 2022)',
     ],
   },
   {
