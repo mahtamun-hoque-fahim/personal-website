@@ -243,7 +243,6 @@ const communityRoles = [
       'Junior Division · 2017–21 · GMHS Platoon',
       'Senior Division · 2022–24 · PGC Platoon',
       '1× Regimental Camp',
-      'Call-sign: Black bird',
       'Best Shooter Badge — 2017',
     ],
   },
