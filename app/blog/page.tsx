@@ -96,7 +96,6 @@ export default async function BlogPage() {
                         loading={i === 0 ? 'eager' : 'lazy'}
                         {...(i === 0 ? { fetchPriority: 'high' as const } : {})}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
