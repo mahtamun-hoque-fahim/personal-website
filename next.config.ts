@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     remotePatterns: [
+      { protocol: 'https', hostname: 'raw.githubusercontent.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'ltyzobowjzwrwcacairz.supabase.co' },
     ],
   },
   serverExternalPackages: ['better-auth', '@better-auth/core'],

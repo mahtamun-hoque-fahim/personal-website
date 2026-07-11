@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getBlogPosts, getBlogPostBySlug, type BlogPost } from '@/lib/db/queries'
 import { formatDate } from '@/lib/utils'
+import { getCoverUrl } from '@/lib/blog-image'
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -85,16 +86,17 @@ export default async function BlogPage() {
                         : 'aspect-[1200/630] w-full overflow-hidden bg-[#070807]'
                     }
                   >
-                    {post.coverImage ? (
+                    {true ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
-                        src={post.coverImage}
+                        src={getCoverUrl(post.slug, post.coverImage)}
                         alt={post.title}
                         width={1200}
                         height={630}
                         loading={i === 0 ? 'eager' : 'lazy'}
                         {...(i === 0 ? { fetchPriority: 'high' as const } : {})}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">

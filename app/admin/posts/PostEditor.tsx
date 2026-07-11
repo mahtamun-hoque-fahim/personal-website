@@ -134,13 +134,13 @@ export default function PostEditor({ post }: Props) {
             className="block text-xs text-[#8A938E] mb-2 tracking-widest uppercase"
             style={{ fontFamily: 'var(--font-jetbrains)' }}
           >
-            Cover image URL (optional)
+            Cover image extension
           </label>
           <input
-            type="url"
+            type="text"
             value={coverImage}
             onChange={(e) => setCoverImage(e.target.value)}
-            placeholder="https://..."
+            placeholder="png"
             className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
                        placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
             style={{ fontFamily: 'var(--font-jakarta)' }}
@@ -149,7 +149,8 @@ export default function PostEditor({ post }: Props) {
             className="text-xs text-[#2B302D] mt-1.5"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           >
-            Recommended: 1200×630px (1.91:1). Also used as the social share preview image.
+            Extension only — e.g. “png”, “jpg”, “webp”. Leave blank to default to .png.
+            File must be named [slug].[ext] and placed in the blog-image repo under /covers/.
           </p>
         </div>
       </div>

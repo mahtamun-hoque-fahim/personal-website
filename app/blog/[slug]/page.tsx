@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getBlogPostBySlug, type BlogPost } from '@/lib/db/queries'
 import { formatDate } from '@/lib/utils'
+import { getCoverUrl } from '@/lib/blog-image'
 import { renderMarkdown } from '@/lib/markdown'
 import CopyCodeInit from '@/components/CopyCodeInit'
 
@@ -28,13 +29,13 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      images: post.coverImage ? [{ url: post.coverImage, width: 1200, height: 630 }] : undefined,
+      images: [{ url: getCoverUrl(post.slug, post.coverImage), width: 1200, height: 630 }],
     },
     twitter: {
       card: post.coverImage ? 'summary_large_image' : 'summary',
       title: post.title,
       description: post.excerpt,
-      images: post.coverImage ? [post.coverImage] : undefined,
+      images: [getCoverUrl(post.slug, post.coverImage)],
     },
   }
 }
@@ -79,14 +80,14 @@ export default async function BlogPostPage({
             </div>
           </div>
 
-          {post.coverImage && (
+          {true && (
             <div
               className="mb-12 rounded-lg overflow-hidden border border-[#1F2421] bg-[#0F0F0F]"
               style={{ aspectRatio: '1200 / 630' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={post.coverImage}
+                src={getCoverUrl(post.slug, post.coverImage)}
                 alt={post.title}
                 width={1200}
                 height={630}
