@@ -1,13 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 import { authClient } from '@/lib/auth-client'
 
 export default function AdminLoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -22,8 +20,11 @@ export default function AdminLoginPage() {
       const { error } = await authClient.signIn.email({ email, password })
       if (error) throw new Error(error.message || 'Sign in failed')
 
-      router.push('/admin')
-      router.refresh()
+      // Hard redirect: forces a full page load so AdminLayout re-runs
+      // isAuthenticated() with the newly-set session cookie. A client-side
+      // router.push() keeps the shared layout alive in its unauthenticated
+      // state and router.refresh() races with the navigation and loses.
+      window.location.href = '/admin'
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Authentication failed')
     } finally {
