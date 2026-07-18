@@ -24,9 +24,9 @@ export default function PostsSearchList({ posts }: Props) {
       if (!q) return true
       return (
         post.title.toLowerCase().includes(q) ||
-        (post.excerpt ?? '').toLowerCase().includes(q) ||
+        post.excerpt.toLowerCase().includes(q) ||
         post.slug.toLowerCase().includes(q) ||
-        (post.tags ?? '').toLowerCase().includes(q)
+        post.tags.some((tag) => tag.toLowerCase().includes(q))
       )
     })
   }, [posts, query, status])
