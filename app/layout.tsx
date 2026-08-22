@@ -31,6 +31,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mahtamunhoquefahim.vercel.app'),
   title: {
     default: 'Mahtamun Hoque Fahim — Designer & Developer',
     template: '%s | Mahtamun',
@@ -39,6 +40,9 @@ export const metadata: Metadata = {
     'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh. Crafting intentional digital experiences.',
   keywords: ['designer', 'developer', 'Bangladesh', 'UI/UX', 'graphic design', 'fullstack','mahtamun','mahtamun hoque fahim'],
   authors: [{ name: 'Mahtamun Hoque Fahim' }],
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -51,9 +55,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Mahtamun Hoque Fahim',
     description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
-  },
-  verification: {
-    google: '8PIgBrmXnVMSgvDYawTHZ__GpsAuaihf-ZrNx2hfMoA',
   },
 }
 
@@ -76,7 +77,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Person',
               name: 'Mahtamun Hoque Fahim',
-              url: 'https://mahtamunhoquefahim.pages.dev',
+              url: 'https://mahtamunhoquefahim.vercel.app',
               jobTitle: 'Graphic Designer & Full-Stack Developer',
               description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
               nationality: 'Bangladeshi',

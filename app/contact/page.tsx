@@ -8,6 +8,9 @@ import ContactForm from '@/components/ContactForm'
 export const metadata: Metadata = {
   title: 'Contact',
   description: 'Get in touch with Mahtamun Hoque Fahim for design and development projects.',
+  alternates: {
+    canonical: 'https://mahtamunhoquefahim.vercel.app/contact',
+  },
 }
 
 export default function ContactPage() {

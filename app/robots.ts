@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin',
     },
-    sitemap: 'https://mahtamunhoquefahim.pages.dev/sitemap.xml',
+    sitemap: 'https://mahtamunhoquefahim.vercel.app/sitemap.xml',
   }
 }

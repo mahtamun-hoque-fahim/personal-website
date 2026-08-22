@@ -26,6 +26,9 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
+    alternates: {
+      canonical: `https://mahtamunhoquefahim.vercel.app/blog/${slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,

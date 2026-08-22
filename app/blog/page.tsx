@@ -11,6 +11,9 @@ import { getCoverUrl } from '@/lib/blog-image'
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Writing about design, creativity, and building on the web.',
+  alternates: {
+    canonical: 'https://mahtamunhoquefahim.vercel.app/blog',
+  },
 }
 
 export const revalidate = 60

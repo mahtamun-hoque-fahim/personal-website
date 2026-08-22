@@ -8,6 +8,9 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'About',
   description: 'The story of Mahtamun Hoque Fahim — designer, developer, and creative from Bangladesh.',
+  alternates: {
+    canonical: 'https://mahtamunhoquefahim.vercel.app/about',
+  },
 }
 
 const timeline = [

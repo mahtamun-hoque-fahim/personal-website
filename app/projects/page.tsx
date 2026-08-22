@@ -10,6 +10,9 @@ import { getAllProjects } from '@/lib/db/queries'
 export const metadata = {
   title: 'Projects',
   description: 'All projects by Mahtamun Hoque Fahim — web apps, tools, platforms, and more.',
+  alternates: {
+    canonical: 'https://mahtamunhoquefahim.vercel.app/projects',
+  },
 }
 
 export default async function ProjectsPage() {

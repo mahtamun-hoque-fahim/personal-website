@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getBlogPosts } from '@/lib/db/queries'
 
-const BASE_URL = 'https://mahtamunhoquefahim.pages.dev'
+const BASE_URL = 'https://mahtamunhoquefahim.vercel.app'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getBlogPosts({ publishedOnly: true }) as any[]
