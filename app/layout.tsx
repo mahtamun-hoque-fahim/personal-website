@@ -2,6 +2,7 @@
 
 import type { Metadata } from 'next'
 import { Syne, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
+import MintGlow from '@/components/MintGlow'
 import './globals.css'
 
 // Title-font comparison branch: display/heading role uses Syne (same as
@@ -70,6 +71,8 @@ export default function RootLayout({
       className={`${syne.variable} ${jakarta.variable} ${jetbrainsMono.variable}`}
     >
       <body style={{ fontFamily: 'var(--font-jakarta)' }}>
+        <MintGlow />
+        <div style={{ position: 'relative', zIndex: 1 }}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -90,6 +93,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        </div>
       </body>
     </html>
   )

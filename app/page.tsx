@@ -35,13 +35,6 @@ export default async function HomePage() {
       <main>
         {/* ── HERO ── */}
         <section className="min-h-screen flex flex-col justify-end pb-20 px-6 pt-32 relative overflow-hidden">
-          {/* Background accent glow */}
-          <div
-            className="absolute top-1/3 right-1/4 w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{
-              background: 'radial-gradient(circle, rgba(61,244,154,0.06) 0%, transparent 70%)',
-            }}
-          />
 
           {/* Floating label top-right */}
           <div className="absolute top-32 right-6 md:right-16 text-right hidden md:block">
