@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: 'Credentials & Journey',
   description:
     '5+ years of professional design, 4+ years of full-stack development, 8.5 ECTS in AI from the University of Helsinki, and official Anthropic certifications. The complete story.',
+  alternates: {
+    canonical: 'https://mahtamunhoquefahim.vercel.app/credentials',
+  },
 }
 
 // ─── TIMELINE DATA ───────────────────────────────────────────────────────────
