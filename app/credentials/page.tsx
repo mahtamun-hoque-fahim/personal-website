@@ -7,7 +7,7 @@ import { ExternalLink, Cpu, Code2, Palette, Globe, BookOpen, MapPin, Briefcase, 
 export const metadata: Metadata = {
   title: 'Credentials & Journey',
   description:
-    '5+ years of professional design, 4+ years of full-stack development, 8.5 ECTS in AI from the University of Helsinki, and official Anthropic certifications. The complete story.',
+    '7+ years of professional design, 4+ years of full-stack development, completed a verified Front-end AI Engineering internship at FlyRank AI, 8.5 ECTS in AI from the University of Helsinki, and official Anthropic certifications. The complete story.',
   alternates: {
     canonical: 'https://mahtamunhoquefahim.vercel.app/credentials',
   },
@@ -31,21 +31,20 @@ interface TimelineEvent {
 const timelineEvents: TimelineEvent[] = [
   {
     year: '2026',
-    period: 'Jun 2026 – Present',
+    period: 'Jul 2026 – Sep 2026',
     title: 'Front-end AI Engineering Intern',
     org: 'FlyRank AI',
-    desc: 'Building AI-powered frontend systems for organic growth automation. Remote internship.',
-    tags: ['AI Engineering', 'Remote'],
+    desc: 'Built production-grade AI-powered frontend systems. 14 assignments, 93+ verified hours. Capstone "Send the Link: Launch, Demo & Story" accepted by lead track mentor. Verified: internship.flyrank.ai',
+    tags: ['AI Engineering', 'Remote', 'Completed'],
     type: 'work',
-    isCurrent: true,
   },
   {
     year: '2025',
     period: 'Jul 2025 – Present',
     title: 'B.Sc (Hons.) Computer Science & Engineering',
     org: 'BGC Trust University Bangladesh',
-    desc: 'CGPA 3.40 / 4.0. Media & IT Subcommittee — BGCTUB Debating Club. ACS Subcommittee Member. Captain, 45 Central Football Team. Active debater.',
-    tags: ['CSE', 'Active', 'CGPA 3.40'],
+    desc: 'CGPA 3.14 / 4.0. Media & IT Subcommittee — BGCTUB Debating Club. ACS Subcommittee Member. Captain, 45 Central Football Team. Active debater.',
+    tags: ['CSE', 'Active', 'CGPA 3.14'],
     type: 'education',
     isCurrent: true,
   },
@@ -154,8 +153,9 @@ const credentialClusters: Cluster[] = [
   {
     id: 'ai',
     title: 'AI & Machine Intelligence',
-    badge: '8.5 ECTS · 2 Anthropic Certifications',
+    badge: '8.5 ECTS · 6 Anthropic Courses · FlyRank Certified',
     certs: [
+      { name: 'Front-end AI Engineering — Certificate of Completion', issuer: 'FlyRank AI', date: 'Sep 2026', credentialId: 'FR-D11-94C62-B67D8' },
       { name: 'Introduction to Model Context Protocol', issuer: 'Anthropic', date: 'Jul 2026', credentialId: 'dxqz448h9iex' },
       { name: 'AI Fluency: Framework & Foundations', issuer: 'Anthropic', date: 'Jun 2026', credentialId: 'f3m25y4u3fm8' },
       { name: 'AI in Society: Introduction', issuer: 'University of Helsinki', date: 'Apr 2026', ects: 1.5 },
@@ -332,14 +332,14 @@ export default function CredentialsPage() {
             className="text-[#8A938E] text-xl max-w-2xl leading-relaxed mb-12"
             style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
           >
-            5+ years designing. 4+ years building. Every cert, role, and field 
+            7+ years designing. 4+ years building. Every cert, role, and field 
             experience — in one place.
           </p>
 
           {/* Stats row */}
           <div className="flex flex-wrap gap-px bg-[#1F2421] w-fit">
             {[
-              { num: '5+', label: 'Years designing' },
+              { num: '7+', label: 'Years designing' },
               { num: `${totalEcts}`, label: 'ECTS from Helsinki' },
               { num: `${totalCerts}+`, label: 'Certifications' },
               { num: '6', label: 'Orgs designed for' },
