@@ -3,6 +3,13 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { ExternalLink, Cpu, Code2, Palette, Globe, BookOpen, MapPin, Briefcase, GraduationCap, Star } from 'lucide-react'
+import {
+  getCredentialTimeline,
+  getCredentialClusters,
+  getCredentialCerts,
+  getCredentialCommunity,
+  getCredentialContributions,
+} from '@/lib/db/queries'
 
 export const metadata: Metadata = {
   title: 'Credentials & Journey',
@@ -306,10 +313,64 @@ function clusterIcon(id: string) {
 
 // ─── PAGE ────────────────────────────────────────────────────────────────────
 
-export default function CredentialsPage() {
+export default async function CredentialsPage() {
+  const [dbTimeline, dbClusters, dbCerts, dbCommunity, dbContributions] = await Promise.all([
+    getCredentialTimeline(),
+    getCredentialClusters(),
+    getCredentialCerts(),
+    getCredentialCommunity(),
+    getCredentialContributions(),
+  ])
+
+  // Map DB data to page shapes
+  const timelineEvents: TimelineEvent[] = dbTimeline.map(e => ({
+    year: e.year,
+    period: e.period,
+    title: e.title,
+    org: e.org,
+    desc: e.desc,
+    tags: e.tags,
+    type: e.type as TimelineType,
+    isCurrent: e.isCurrent,
+  }))
+
+  const credentialClusters: Cluster[] = dbClusters.map(cl => ({
+    id: cl.iconId,
+    title: cl.title,
+    badge: cl.badge ?? undefined,
+    certs: dbCerts
+      .filter(c => c.clusterId === cl.id)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map(c => ({
+        name: c.name,
+        issuer: c.issuer,
+        date: c.date,
+        ects: c.ects ?? undefined,
+        credentialId: c.credentialId ?? undefined,
+        isFoundational: c.isFoundational,
+      })),
+  }))
+
+  const communityRoles: CommunityRole[] = dbCommunity.map(c => ({
+    title: c.title,
+    org: c.org,
+    period: c.period,
+    category: c.category,
+    ongoing: c.ongoing,
+    details: c.details,
+  }))
+
+  const contributions = dbContributions.map(c => ({
+    title: c.title,
+    releases: c.releases,
+    desc: c.desc,
+    link: c.link,
+    linkLabel: c.linkLabel,
+  }))
+
   const totalEcts = credentialClusters
-    .find(c => c.id === 'ai')!
-    .certs.reduce((sum, c) => sum + (c.ects ?? 0), 0)
+    .find(c => c.iconId === 'ai' || c.id === 'ai')
+    ?.certs.reduce((sum, c) => sum + (c.ects ?? 0), 0) ?? 0
 
   const totalCerts = credentialClusters.reduce((sum, c) => sum + c.certs.length, 0)
 
