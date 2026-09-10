@@ -351,7 +351,7 @@ export default async function CredentialsPage() {
       })),
   }))
 
-  const communityRoles: CommunityRole[] = dbCommunity.map(c => ({
+  const communityRoles = dbCommunity.map(c => ({
     title: c.title,
     org: c.org,
     period: c.period,
