@@ -18,6 +18,33 @@ import {
   type NewBlogPost,
   type NewProject,
 } from '@/lib/db/queries'
+import {
+  createCredentialTimelineEntry,
+  updateCredentialTimelineEntry,
+  deleteCredentialTimelineEntry,
+  reorderCredentialTimeline,
+  createCredentialCluster,
+  updateCredentialCluster,
+  deleteCredentialCluster,
+  reorderCredentialClusters,
+  createCredentialCert,
+  updateCredentialCert,
+  deleteCredentialCert,
+  reorderCredentialCerts,
+  createCredentialCommunityEntry,
+  updateCredentialCommunityEntry,
+  deleteCredentialCommunityEntry,
+  reorderCredentialCommunity,
+  createCredentialContribution,
+  updateCredentialContribution,
+  deleteCredentialContribution,
+  reorderCredentialContributions,
+  type NewCredentialTimeline,
+  type NewCredentialCluster,
+  type NewCredentialCert,
+  type NewCredentialCommunity,
+  type NewCredentialContribution,
+} from '@/lib/db/queries'
 
 export async function logoutAction() {
   try {
@@ -196,4 +223,152 @@ export async function saveBlogPostAction(payload: Partial<NewBlogPost>, postId?:
   revalidatePath('/admin/posts')
   revalidatePath('/blog')
   return created
+}
+
+
+// ──────────────────────────────────────────────────────────
+// Credential Timeline actions
+// ──────────────────────────────────────────────────────────
+
+import {
+  createCredentialTimelineEntry,
+  updateCredentialTimelineEntry,
+  deleteCredentialTimelineEntry,
+  reorderCredentialTimeline,
+  createCredentialCluster,
+  updateCredentialCluster,
+  deleteCredentialCluster,
+  reorderCredentialClusters,
+  createCredentialCert,
+  updateCredentialCert,
+  deleteCredentialCert,
+  reorderCredentialCerts,
+  createCredentialCommunityEntry,
+  updateCredentialCommunityEntry,
+  deleteCredentialCommunityEntry,
+  reorderCredentialCommunity,
+  createCredentialContribution,
+  updateCredentialContribution,
+  deleteCredentialContribution,
+  reorderCredentialContributions,
+  type NewCredentialTimeline,
+  type NewCredentialCluster,
+  type NewCredentialCert,
+  type NewCredentialCommunity,
+  type NewCredentialContribution,
+} from '@/lib/db/queries'
+
+export async function createTimelineEntryAction(data: NewCredentialTimeline) {
+  const result = await createCredentialTimelineEntry(data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function updateTimelineEntryAction(id: string, data: Partial<NewCredentialTimeline>) {
+  const result = await updateCredentialTimelineEntry(id, data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function deleteTimelineEntryAction(id: string) {
+  await deleteCredentialTimelineEntry(id)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+export async function reorderTimelineAction(orders: Array<{ id: string; order: number }>) {
+  await reorderCredentialTimeline(orders)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+
+export async function createClusterAction(data: NewCredentialCluster) {
+  const result = await createCredentialCluster(data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function updateClusterAction(id: string, data: Partial<NewCredentialCluster>) {
+  const result = await updateCredentialCluster(id, data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function deleteClusterAction(id: string) {
+  await deleteCredentialCluster(id)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+export async function reorderClustersAction(orders: Array<{ id: string; order: number }>) {
+  await reorderCredentialClusters(orders)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+
+export async function createCertAction(data: NewCredentialCert) {
+  const result = await createCredentialCert(data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function updateCertAction(id: string, data: Partial<NewCredentialCert>) {
+  const result = await updateCredentialCert(id, data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function deleteCertAction(id: string) {
+  await deleteCredentialCert(id)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+export async function reorderCertsAction(orders: Array<{ id: string; order: number }>) {
+  await reorderCredentialCerts(orders)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+
+export async function createCommunityEntryAction(data: NewCredentialCommunity) {
+  const result = await createCredentialCommunityEntry(data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function updateCommunityEntryAction(id: string, data: Partial<NewCredentialCommunity>) {
+  const result = await updateCredentialCommunityEntry(id, data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function deleteCommunityEntryAction(id: string) {
+  await deleteCredentialCommunityEntry(id)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+export async function reorderCommunityAction(orders: Array<{ id: string; order: number }>) {
+  await reorderCredentialCommunity(orders)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+
+export async function createContributionAction(data: NewCredentialContribution) {
+  const result = await createCredentialContribution(data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function updateContributionAction(id: string, data: Partial<NewCredentialContribution>) {
+  const result = await updateCredentialContribution(id, data)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+  return result
+}
+export async function deleteContributionAction(id: string) {
+  await deleteCredentialContribution(id)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
+}
+export async function reorderContributionsAction(orders: Array<{ id: string; order: number }>) {
+  await reorderCredentialContributions(orders)
+  revalidatePath('/admin/credentials')
+  revalidatePath('/credentials')
 }
