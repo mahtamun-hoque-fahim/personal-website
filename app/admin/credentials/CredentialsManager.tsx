@@ -136,7 +136,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
       const parsed = JSON.parse(tlJson)
       const rows: NewCredentialTimeline[] = Array.isArray(parsed) ? parsed : [parsed]
       startTransition(async () => {
-        const results = []
+        const results: CredentialTimeline[] = []
         for (let i = 0; i < rows.length; i++) {
           const r = await createTimelineEntryAction({ ...rows[i], sortOrder: timeline.length + i })
           if (r) results.push(r)
@@ -206,7 +206,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
       const parsed = JSON.parse(certJson)
       const rows: NewCredentialCert[] = Array.isArray(parsed) ? parsed : [parsed]
       startTransition(async () => {
-        const results = []
+        const results: CredentialCert[] = []
         for (let i = 0; i < rows.length; i++) {
           const r = await createCertAction({ ...rows[i], sortOrder: certs.length + i })
           if (r) results.push(r)
@@ -256,7 +256,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
       const parsed = JSON.parse(comJson)
       const rows = Array.isArray(parsed) ? parsed : [parsed]
       startTransition(async () => {
-        const results = []
+        const results: CredentialCommunity[] = []
         for (let i = 0; i < rows.length; i++) {
           const r = await createCommunityEntryAction({ ...rows[i], sortOrder: community.length + i })
           if (r) results.push(r)
@@ -300,7 +300,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
       const parsed = JSON.parse(conJson)
       const rows = Array.isArray(parsed) ? parsed : [parsed]
       startTransition(async () => {
-        const results = []
+        const results: CredentialContribution[] = []
         for (let i = 0; i < rows.length; i++) {
           const r = await createContributionAction({ ...rows[i], sortOrder: contributions.length + i })
           if (r) results.push(r)
