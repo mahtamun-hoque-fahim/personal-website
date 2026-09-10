@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 
 /**
  * MintGlow — fixed, full-page ambient light source.
@@ -19,7 +20,10 @@ import { useEffect, useRef } from 'react'
  * per-page wiring.
  */
 export default function MintGlow() {
+  const pathname = usePathname()
   const orbRef = useRef<HTMLDivElement>(null)
+
+  if (pathname === '/credentials') return null
 
   useEffect(() => {
     const PARALLAX = 0.28 // glow moves at 28% of scroll speed
