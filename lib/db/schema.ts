@@ -5,6 +5,7 @@ import {
   integer,
   jsonb,
   pgTable,
+  real,
   text,
   timestamp,
   uuid,
@@ -132,6 +133,106 @@ export const projects = pgTable(
   })
 )
 
+// ──────────────────────────────────────────────────────────
+// Credentials tables
+// ──────────────────────────────────────────────────────────
+
+export const credentialTimeline = pgTable(
+  'credential_timeline',
+  {
+    id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+    year: text('year').notNull(),
+    period: text('period').notNull(),
+    title: text('title').notNull(),
+    org: text('org').notNull(),
+    desc: text('desc').notNull(),
+    tags: text('tags').array().notNull().default(sql`'{}'::text[]`),
+    type: text('type').notNull().default('work'), // 'work' | 'education' | 'milestone'
+    isCurrent: boolean('is_current').notNull().default(false),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    sortIdx: index('credential_timeline_sort_idx').on(t.sortOrder),
+  })
+)
+
+export const credentialClusters = pgTable(
+  'credential_clusters',
+  {
+    id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+    title: text('title').notNull(),
+    iconId: text('icon_id').notNull().default('other'), // 'ai'|'webdev'|'design'|'humanitarian'|'foundational'|'other'
+    badge: text('badge'),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    sortIdx: index('credential_clusters_sort_idx').on(t.sortOrder),
+  })
+)
+
+export const credentialCerts = pgTable(
+  'credential_certs',
+  {
+    id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+    clusterId: uuid('cluster_id')
+      .notNull()
+      .references(() => credentialClusters.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    issuer: text('issuer').notNull(),
+    date: text('date').notNull(),
+    ects: real('ects'),
+    credentialId: text('credential_id'),
+    isFoundational: boolean('is_foundational').notNull().default(false),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    clusterIdx: index('credential_certs_cluster_idx').on(t.clusterId, t.sortOrder),
+  })
+)
+
+export const credentialCommunity = pgTable(
+  'credential_community',
+  {
+    id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+    title: text('title').notNull(),
+    org: text('org').notNull(),
+    period: text('period').notNull(),
+    category: text('category').notNull().default(''),
+    ongoing: boolean('ongoing').notNull().default(false),
+    details: text('details').array().notNull().default(sql`'{}'::text[]`),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    sortIdx: index('credential_community_sort_idx').on(t.sortOrder),
+  })
+)
+
+export const credentialContributions = pgTable(
+  'credential_contributions',
+  {
+    id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+    title: text('title').notNull(),
+    releases: text('releases').notNull(),
+    desc: text('desc').notNull(),
+    link: text('link').notNull(),
+    linkLabel: text('link_label').notNull(),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    sortIdx: index('credential_contributions_sort_idx').on(t.sortOrder),
+  })
+)
+
 // ── Inferred types ────────────────────────────────────────
 export type BlogPost = typeof blogPosts.$inferSelect
 export type NewBlogPost = typeof blogPosts.$inferInsert
@@ -139,3 +240,13 @@ export type ContactMessage = typeof contactMessages.$inferSelect
 export type NewContactMessage = typeof contactMessages.$inferInsert
 export type Project = typeof projects.$inferSelect
 export type NewProject = typeof projects.$inferInsert
+export type CredentialTimeline = typeof credentialTimeline.$inferSelect
+export type NewCredentialTimeline = typeof credentialTimeline.$inferInsert
+export type CredentialCluster = typeof credentialClusters.$inferSelect
+export type NewCredentialCluster = typeof credentialClusters.$inferInsert
+export type CredentialCert = typeof credentialCerts.$inferSelect
+export type NewCredentialCert = typeof credentialCerts.$inferInsert
+export type CredentialCommunity = typeof credentialCommunity.$inferSelect
+export type NewCredentialCommunity = typeof credentialCommunity.$inferInsert
+export type CredentialContribution = typeof credentialContributions.$inferSelect
+export type NewCredentialContribution = typeof credentialContributions.$inferInsert
