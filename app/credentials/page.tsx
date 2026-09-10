@@ -559,22 +559,7 @@ export default async function CredentialsPage() {
                       {cluster.title}
                     </h3>
                   </div>
-                  <div className="flex items-center gap-2 ml-auto">
-                    {cluster.badge && (
-                      <span
-                        className="text-[10px] text-[#3DF49A] border border-[#3DF49A]/30 bg-[#3DF49A]/5 px-2.5 py-1 rounded-full tracking-wide"
-                        style={{ fontFamily: 'var(--font-jetbrains)' }}
-                      >
-                        {cluster.badge}
-                      </span>
-                    )}
-                    <span
-                      className="text-[10px] text-[#5C615E] border border-[#1F2421] px-2 py-1 rounded-full"
-                      style={{ fontFamily: 'var(--font-jetbrains)' }}
-                    >
-                      {cluster.certs.length} certs
-                    </span>
-                  </div>
+
                 </div>
 
                 {/* Cert cards */}
