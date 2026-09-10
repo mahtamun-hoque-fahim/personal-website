@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { getDb } from '../lib/db'
+import { db } from '../lib/db'
 import {
   credentialTimeline,
   credentialClusters,
@@ -9,7 +9,6 @@ import {
 } from '../lib/db/schema'
 
 async function seed() {
-  const db = await getDb()
   console.log('Seeding credentials...')
 
   // ── Timeline ────────────────────────────────────────────
