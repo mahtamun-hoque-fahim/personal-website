@@ -509,20 +509,8 @@ export default async function CredentialsPage() {
                           >
                             {event.title}
                           </h3>
-                          <span
-                            className={`text-[10px] tracking-[0.15em] uppercase ${color} hidden md:inline`}
-                            style={{ fontFamily: 'var(--font-jetbrains)' }}
-                          >
-                            {label}
-                          </span>
-                          {event.isCurrent && (
-                            <span
-                              className="text-[10px] tracking-[0.12em] uppercase bg-[#3DF49A]/10 text-[#3DF49A] px-2 py-0.5 rounded-full"
-                              style={{ fontFamily: 'var(--font-jetbrains)' }}
-                            >
-                              Current
-                            </span>
-                          )}
+
+
                         </div>
 
                         <p
@@ -546,18 +534,7 @@ export default async function CredentialsPage() {
                           {event.desc}
                         </p>
 
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-1.5">
-                          {event.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-[10px] text-[#5C615E] border border-[#1F2421] px-2 py-0.5 rounded"
-                              style={{ fontFamily: 'var(--font-jetbrains)' }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+
                       </div>
                     </div>
                   )
@@ -619,9 +596,7 @@ export default async function CredentialsPage() {
                   {cluster.certs.map((cert) => (
                     <div
                       key={cert.name}
-                      className={`border border-[#1F2421] rounded-lg p-4 hover:border-[#3DF49A]/25 transition-colors duration-200 ${
-                        cert.isFoundational ? 'opacity-50 hover:opacity-70' : ''
-                      }`}
+                      className="border border-[#1F2421] rounded-lg p-4 hover:border-[#8A938E]/30 hover:bg-[#111413] transition-colors duration-200"
                     >
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <p
@@ -630,14 +605,7 @@ export default async function CredentialsPage() {
                         >
                           {cert.name}
                         </p>
-                        {cert.ects && (
-                          <span
-                            className="shrink-0 text-[10px] text-[#3DF49A] bg-[#3DF49A]/10 border border-[#3DF49A]/20 px-1.5 py-0.5 rounded"
-                            style={{ fontFamily: 'var(--font-jetbrains)' }}
-                          >
-                            {cert.ects} ECTS
-                          </span>
-                        )}
+
                       </div>
                       <p
                         className="text-[#8A938E] text-xs mb-1.5"
@@ -660,14 +628,7 @@ export default async function CredentialsPage() {
                             · {cert.credentialId}
                           </span>
                         )}
-                        {cert.isFoundational && (
-                          <span
-                            className="text-[10px] text-[#3B3F3D] italic"
-                            style={{ fontFamily: 'var(--font-jakarta)' }}
-                          >
-                            foundational
-                          </span>
-                        )}
+
                       </div>
                     </div>
                   ))}
@@ -697,7 +658,7 @@ export default async function CredentialsPage() {
               {communityRoles.map((role) => (
                 <div
                   key={role.title}
-                  className="border border-[#1F2421] rounded-lg p-6 hover:border-[#3DF49A]/20 transition-colors duration-200"
+                  className="border border-[#1F2421] rounded-lg p-6 hover:border-[#8A938E]/30 hover:bg-[#111413] transition-colors duration-200"
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <h3
@@ -730,12 +691,7 @@ export default async function CredentialsPage() {
                   >
                     {role.period}
                   </p>
-                  <span
-                    className="text-[10px] text-[#5C615E] border border-[#1F2421] px-2 py-0.5 rounded"
-                    style={{ fontFamily: 'var(--font-jetbrains)' }}
-                  >
-                    {role.category}
-                  </span>
+
                   {'details' in role && Array.isArray((role as { details?: string[] }).details) && (
                     <ul className="mt-3 space-y-1">
                       {(role as { details: string[] }).details.map((d) => (
@@ -778,7 +734,7 @@ export default async function CredentialsPage() {
             {contributions.map((item) => (
               <div
                 key={item.title}
-                className="border border-[#1F2421] rounded-xl p-8 hover:border-[#3DF49A]/30 transition-all duration-300 group"
+                className="border border-[#1F2421] rounded-xl p-8 hover:border-[#8A938E]/30 hover:bg-[#111413] transition-all duration-300 group"
               >
                 <p
                   className="text-[10px] text-[#3DF49A] tracking-[0.15em] uppercase mb-3"
