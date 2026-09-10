@@ -4,11 +4,26 @@ import {
   blogPosts,
   contactMessages,
   projects,
+  credentialTimeline,
+  credentialClusters,
+  credentialCerts,
+  credentialCommunity,
+  credentialContributions,
   type BlogPost,
   type NewBlogPost,
   type NewContactMessage,
   type NewProject,
   type Project,
+  type CredentialTimeline,
+  type NewCredentialTimeline,
+  type CredentialCluster,
+  type NewCredentialCluster,
+  type CredentialCert,
+  type NewCredentialCert,
+  type CredentialCommunity,
+  type NewCredentialCommunity,
+  type CredentialContribution,
+  type NewCredentialContribution,
 } from './schema'
 
 // ──────────────────────────────────────────────────────────
@@ -223,6 +238,222 @@ export async function deleteProject(id: string): Promise<boolean> {
   }
 }
 
+
+// ──────────────────────────────────────────────────────────
+// Credential Timeline
+// ──────────────────────────────────────────────────────────
+
+export async function getCredentialTimeline(): Promise<CredentialTimeline[]> {
+  try {
+    return await db.select().from(credentialTimeline).orderBy(asc(credentialTimeline.sortOrder))
+  } catch (error) {
+    console.error('getCredentialTimeline error:', error)
+    return []
+  }
+}
+
+export async function createCredentialTimelineEntry(data: NewCredentialTimeline): Promise<CredentialTimeline | null> {
+  try {
+    const rows = await db.insert(credentialTimeline).values(data).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('createCredentialTimelineEntry error:', error)
+    throw error
+  }
+}
+
+export async function updateCredentialTimelineEntry(id: string, data: Partial<NewCredentialTimeline>): Promise<CredentialTimeline | null> {
+  try {
+    const rows = await db.update(credentialTimeline).set({ ...data, updatedAt: new Date() }).where(eq(credentialTimeline.id, id)).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('updateCredentialTimelineEntry error:', error)
+    throw error
+  }
+}
+
+export async function deleteCredentialTimelineEntry(id: string): Promise<void> {
+  await db.delete(credentialTimeline).where(eq(credentialTimeline.id, id))
+}
+
+export async function reorderCredentialTimeline(orders: Array<{ id: string; order: number }>): Promise<void> {
+  for (const { id, order } of orders) {
+    await db.update(credentialTimeline).set({ sortOrder: order, updatedAt: new Date() }).where(eq(credentialTimeline.id, id))
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// Credential Clusters
+// ──────────────────────────────────────────────────────────
+
+export async function getCredentialClusters(): Promise<CredentialCluster[]> {
+  try {
+    return await db.select().from(credentialClusters).orderBy(asc(credentialClusters.sortOrder))
+  } catch (error) {
+    console.error('getCredentialClusters error:', error)
+    return []
+  }
+}
+
+export async function createCredentialCluster(data: NewCredentialCluster): Promise<CredentialCluster | null> {
+  try {
+    const rows = await db.insert(credentialClusters).values(data).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('createCredentialCluster error:', error)
+    throw error
+  }
+}
+
+export async function updateCredentialCluster(id: string, data: Partial<NewCredentialCluster>): Promise<CredentialCluster | null> {
+  try {
+    const rows = await db.update(credentialClusters).set({ ...data, updatedAt: new Date() }).where(eq(credentialClusters.id, id)).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('updateCredentialCluster error:', error)
+    throw error
+  }
+}
+
+export async function deleteCredentialCluster(id: string): Promise<void> {
+  await db.delete(credentialClusters).where(eq(credentialClusters.id, id))
+}
+
+export async function reorderCredentialClusters(orders: Array<{ id: string; order: number }>): Promise<void> {
+  for (const { id, order } of orders) {
+    await db.update(credentialClusters).set({ sortOrder: order, updatedAt: new Date() }).where(eq(credentialClusters.id, id))
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// Credential Certs
+// ──────────────────────────────────────────────────────────
+
+export async function getCredentialCerts(): Promise<CredentialCert[]> {
+  try {
+    return await db.select().from(credentialCerts).orderBy(asc(credentialCerts.clusterId), asc(credentialCerts.sortOrder))
+  } catch (error) {
+    console.error('getCredentialCerts error:', error)
+    return []
+  }
+}
+
+export async function createCredentialCert(data: NewCredentialCert): Promise<CredentialCert | null> {
+  try {
+    const rows = await db.insert(credentialCerts).values(data).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('createCredentialCert error:', error)
+    throw error
+  }
+}
+
+export async function updateCredentialCert(id: string, data: Partial<NewCredentialCert>): Promise<CredentialCert | null> {
+  try {
+    const rows = await db.update(credentialCerts).set({ ...data, updatedAt: new Date() }).where(eq(credentialCerts.id, id)).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('updateCredentialCert error:', error)
+    throw error
+  }
+}
+
+export async function deleteCredentialCert(id: string): Promise<void> {
+  await db.delete(credentialCerts).where(eq(credentialCerts.id, id))
+}
+
+export async function reorderCredentialCerts(orders: Array<{ id: string; order: number }>): Promise<void> {
+  for (const { id, order } of orders) {
+    await db.update(credentialCerts).set({ sortOrder: order, updatedAt: new Date() }).where(eq(credentialCerts.id, id))
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// Credential Community
+// ──────────────────────────────────────────────────────────
+
+export async function getCredentialCommunity(): Promise<CredentialCommunity[]> {
+  try {
+    return await db.select().from(credentialCommunity).orderBy(asc(credentialCommunity.sortOrder))
+  } catch (error) {
+    console.error('getCredentialCommunity error:', error)
+    return []
+  }
+}
+
+export async function createCredentialCommunityEntry(data: NewCredentialCommunity): Promise<CredentialCommunity | null> {
+  try {
+    const rows = await db.insert(credentialCommunity).values(data).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('createCredentialCommunityEntry error:', error)
+    throw error
+  }
+}
+
+export async function updateCredentialCommunityEntry(id: string, data: Partial<NewCredentialCommunity>): Promise<CredentialCommunity | null> {
+  try {
+    const rows = await db.update(credentialCommunity).set({ ...data, updatedAt: new Date() }).where(eq(credentialCommunity.id, id)).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('updateCredentialCommunityEntry error:', error)
+    throw error
+  }
+}
+
+export async function deleteCredentialCommunityEntry(id: string): Promise<void> {
+  await db.delete(credentialCommunity).where(eq(credentialCommunity.id, id))
+}
+
+export async function reorderCredentialCommunity(orders: Array<{ id: string; order: number }>): Promise<void> {
+  for (const { id, order } of orders) {
+    await db.update(credentialCommunity).set({ sortOrder: order, updatedAt: new Date() }).where(eq(credentialCommunity.id, id))
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// Credential Contributions
+// ──────────────────────────────────────────────────────────
+
+export async function getCredentialContributions(): Promise<CredentialContribution[]> {
+  try {
+    return await db.select().from(credentialContributions).orderBy(asc(credentialContributions.sortOrder))
+  } catch (error) {
+    console.error('getCredentialContributions error:', error)
+    return []
+  }
+}
+
+export async function createCredentialContribution(data: NewCredentialContribution): Promise<CredentialContribution | null> {
+  try {
+    const rows = await db.insert(credentialContributions).values(data).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('createCredentialContribution error:', error)
+    throw error
+  }
+}
+
+export async function updateCredentialContribution(id: string, data: Partial<NewCredentialContribution>): Promise<CredentialContribution | null> {
+  try {
+    const rows = await db.update(credentialContributions).set({ ...data, updatedAt: new Date() }).where(eq(credentialContributions.id, id)).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('updateCredentialContribution error:', error)
+    throw error
+  }
+}
+
+export async function deleteCredentialContribution(id: string): Promise<void> {
+  await db.delete(credentialContributions).where(eq(credentialContributions.id, id))
+}
+
+export async function reorderCredentialContributions(orders: Array<{ id: string; order: number }>): Promise<void> {
+  for (const { id, order } of orders) {
+    await db.update(credentialContributions).set({ sortOrder: order, updatedAt: new Date() }).where(eq(credentialContributions.id, id))
+  }
+}
+
 // Re-export the inferred types for convenience
 export type {
   BlogPost,
@@ -231,4 +462,14 @@ export type {
   NewContactMessage,
   NewProject,
   Project,
+  CredentialTimeline,
+  NewCredentialTimeline,
+  CredentialCluster,
+  NewCredentialCluster,
+  CredentialCert,
+  NewCredentialCert,
+  CredentialCommunity,
+  NewCredentialCommunity,
+  CredentialContribution,
+  NewCredentialContribution,
 } from './schema'
