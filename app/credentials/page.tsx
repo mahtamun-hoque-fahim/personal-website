@@ -369,7 +369,7 @@ export default async function CredentialsPage() {
   }))
 
   const totalEcts = credentialClusters
-    .find(c => c.iconId === 'ai' || c.id === 'ai')
+    .find(c => c.id === 'ai')
     ?.certs.reduce((sum, c) => sum + (c.ects ?? 0), 0) ?? 0
 
   const totalCerts = credentialClusters.reduce((sum, c) => sum + c.certs.length, 0)
