@@ -10,6 +10,7 @@ import {
   LogOut,
   Mail,
   ScrollText,
+  Award,
 } from 'lucide-react'
 import { logoutAction } from './actions'
 
@@ -18,6 +19,7 @@ const navItems = [
   { href: '/admin/posts', label: 'Posts', icon: ScrollText },
   { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
   { href: '/admin/messages', label: 'Messages', icon: Mail },
+  { href: '/admin/credentials', label: 'Credentials', icon: Award },
 ]
 
 export default function AdminSidebar() {
