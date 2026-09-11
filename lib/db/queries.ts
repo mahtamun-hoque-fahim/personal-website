@@ -468,6 +468,7 @@ const DEFAULT_SITE_SETTINGS: SiteSettings = {
   description:
     'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
   jobTitle: 'Full-Stack Developer & AI Engineer',
+  avatarUrl: null,
   keywords: [
     'developer',
     'AI engineer',

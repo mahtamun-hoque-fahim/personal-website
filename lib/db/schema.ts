@@ -248,6 +248,7 @@ export const siteSettings = pgTable('site_settings', {
       'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.'
     ),
   jobTitle: text('job_title').notNull().default('Full-Stack Developer & AI Engineer'),
+  avatarUrl: text('avatar_url'),
   keywords: text('keywords')
     .array()
     .notNull()

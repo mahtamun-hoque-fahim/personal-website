@@ -74,6 +74,7 @@ export default async function BlogPostPage({
               name: 'Mahtamun Hoque Fahim',
               url: 'https://mahtamunhoquefahim.vercel.app',
               jobTitle: settings.jobTitle,
+              ...(settings.avatarUrl ? { image: settings.avatarUrl } : {}),
             },
           }),
         }}
@@ -152,7 +153,7 @@ export default async function BlogPostPage({
             </div>
           )}
 
-          <AuthorCard jobTitle={settings.jobTitle} />
+          <AuthorCard jobTitle={settings.jobTitle} avatarUrl={settings.avatarUrl} />
         </section>
       </main>
       <Footer />

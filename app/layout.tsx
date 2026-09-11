@@ -88,6 +88,7 @@ export default async function RootLayout({
               url: 'https://mahtamunhoquefahim.vercel.app',
               jobTitle: settings.jobTitle,
               description: settings.description,
+              ...(settings.avatarUrl ? { image: settings.avatarUrl } : {}),
               nationality: 'Bangladeshi',
               sameAs: [
                 'https://github.com/mahtamun-hoque-fahim',

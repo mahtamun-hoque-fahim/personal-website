@@ -4,6 +4,8 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { auth } from '@/lib/auth'
+import { isAuthenticated } from '@/lib/auth-utils'
+import { uploadAvatarToCloudinary } from '@/lib/cloudinary'
 import {
   createBlogPost,
   createProject,
@@ -47,6 +49,46 @@ import {
   type NewCredentialCommunity,
   type NewCredentialContribution,
 } from '@/lib/db/queries'
+
+export async function uploadAvatarAction(formData: FormData) {
+  // File uploads get an explicit auth check (unlike the other actions in
+  // this file, which rely on their calling page already being gated) —
+  // an unauthenticated upload endpoint is a meaningfully different risk
+  // (storage/bandwidth abuse) from an unauthenticated text-field write.
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    throw new Error('Not authenticated.')
+  }
+
+  const file = formData.get('file')
+  if (!(file instanceof File)) {
+    throw new Error('No file provided.')
+  }
+
+  const avatarUrl = await uploadAvatarToCloudinary(file)
+  const updated = await updateSiteSettings({ avatarUrl })
+
+  revalidateTag('site-settings', 'max')
+  revalidatePath('/')
+  revalidatePath('/admin/settings')
+
+  return updated
+}
+
+export async function removeAvatarAction() {
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    throw new Error('Not authenticated.')
+  }
+
+  const updated = await updateSiteSettings({ avatarUrl: null })
+
+  revalidateTag('site-settings', 'max')
+  revalidatePath('/')
+  revalidatePath('/admin/settings')
+
+  return updated
+}
 
 export async function saveSiteSettingsAction(updates: Partial<NewSiteSettings>) {
   const updated = await updateSiteSettings(updates)

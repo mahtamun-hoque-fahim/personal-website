@@ -124,7 +124,7 @@ scripts/
 - `blog_posts`: uuid, title, slug (unique), excerpt, content, cover_image, published, tags[], reading_time, timestamps
 - `contact_messages`: uuid, name, email, subject, message, country, read, created_at
 - `projects`: uuid, name (unique), tagline, description, tags[], type, live_url, repo_url, featured, featured_order, **status_badges text[]** (default `{}`), **collaborators jsonb** (default `[]`, shape `[{ name, url? }]`), timestamps
-- `site_settings`: integer id (always `1`, single row), title, description, job_title, keywords text[], og_title, og_description, updated_at — feeds `generateMetadata()` in `app/layout.tsx` and the blog post JSON-LD author block. Read through `getCachedSiteSettings()` (`unstable_cache`, 1h revalidate, tag `site-settings`); written via admin `/admin/settings`.
+- `site_settings`: integer id (always `1`, single row), title, description, job_title, **avatar_url** (nullable), keywords text[], og_title, og_description, updated_at — feeds `generateMetadata()` in `app/layout.tsx`, the root layout's Person JSON-LD, and the blog post JSON-LD author block. Read through `getCachedSiteSettings()` (`unstable_cache`, 1h revalidate, tag `site-settings`); written via admin `/admin/settings`.
 
 All Drizzle reads return camelCase fields; column mapping (snake_case in DB) handled by `casing: 'snake_case'` in the Drizzle client config.
 
@@ -136,6 +136,7 @@ All Drizzle reads return camelCase fields; column mapping (snake_case in DB) han
 | —     | `projects.status_badges` (text[])     | `db:push` / ALTER      |
 | —     | `projects.collaborators` (jsonb)      | `db:push` / ALTER      |
 | 0002  | `site_settings` table                 | `drizzle-kit generate` (hand-trimmed — see AGENTS.md Security/Gotchas for why) |
+| 0003  | `site_settings.avatar_url` (text, nullable) | `drizzle-kit generate` (clean diff — 0002_snapshot repaired the chain) |
 
 > **IMPORTANT:** Always run `npx tsx scripts/export-backup.ts` before any DB migration
 > or ORM change.
@@ -184,7 +185,8 @@ This writes directly through Better Auth (bypassing the UI), but still passes th
 
 **Site settings (`/admin/settings`)**
 
-- Single-row form over the `site_settings` table: title, description, job title, keywords (CSV), OG title, OG description
+- Single-row form over the `site_settings` table: avatar (Cloudinary upload), title, description, job title, keywords (CSV), OG title, OG description
+- Avatar upload: `uploadAvatarAction` (`app/admin/actions.ts`) signs and posts directly to Cloudinary via `lib/cloudinary.ts` (Web Crypto SHA-1, no Node SDK — works on both the Vercel and Cloudflare Workers deploy targets). Fixed `public_id` so re-uploads overwrite the same asset instead of accumulating orphaned images. Has its own `isAuthenticated()` check inside the action itself, unlike the rest of this file's actions — an unauthenticated upload endpoint is a meaningfully different risk than an unauthenticated text write.
 - Server component (`page.tsx`) does the auth check + fetch; client `SettingsForm.tsx` owns form state and calls `saveSiteSettingsAction`
 - Save revalidates the `site-settings` cache tag and `/` immediately — public metadata otherwise refreshes on its own 1h `unstable_cache` window
 - Drives `generateMetadata()` in `app/layout.tsx`, the root layout's JSON-LD Person block, and the blog post JSON-LD author block (via `job_title`)
@@ -304,6 +306,7 @@ cf:typegen  wrangler types -> cloudflare-env.d.ts
 | Beta-gated live link modal    | ✅     | BetaModal only fires when badge='beta'     |
 | Collaborators                 | ✅     | jsonb column, name + optional URL          |
 | Dashboard-driven metadata     | [x]    | `site_settings` table + `/admin/settings`, wired into `generateMetadata()` and JSON-LD |
+| Avatar upload (Cloudinary)    | [x]    | Signed upload via Web Crypto (no Node SDK), fixed public_id, wired into AuthorCard + Person JSON-LD |
 | Blog AuthorCard + JSON-LD     | [x]    | `AuthorCard.tsx` on post pages, Article schema with nested author added |
 
 ---
@@ -312,6 +315,8 @@ cf:typegen  wrangler types -> cloudflare-env.d.ts
 
 - Apply the `status_badges` + `collaborators` migrations on production Neon if not already done (`npm run db:push` or run ALTER TABLEs)
 - Apply migration `0002` (`site_settings`) on production Neon — `npx drizzle-kit migrate`. Until then `getSiteSettings()` falls back to hardcoded defaults matching current content, so nothing breaks, but `/admin/settings` writes will fail until the table exists.
+- Apply migration `0003` (`site_settings.avatar_url`) at the same time.
+- Set `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` in Vercel and Cloudflare env vars — avatar upload throws a clear error if these are missing, but won't work until set.
 - Regenerate `drizzle/meta/0001_snapshot.json` properly so the migration chain no longer has a gap between `0000` and `0002` (see AGENTS.md Security/Gotchas)
 - Bulk-import the project list using `docs/PROJECT_JSON_SCHEMA.md` as reference
 - Add Vercel Speed Insights (`npm install @vercel/speed-insights`)
