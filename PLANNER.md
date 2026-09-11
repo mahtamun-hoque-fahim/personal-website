@@ -124,6 +124,7 @@ scripts/
 - `blog_posts`: uuid, title, slug (unique), excerpt, content, cover_image, published, tags[], reading_time, timestamps
 - `contact_messages`: uuid, name, email, subject, message, country, read, created_at
 - `projects`: uuid, name (unique), tagline, description, tags[], type, live_url, repo_url, featured, featured_order, **status_badges text[]** (default `{}`), **collaborators jsonb** (default `[]`, shape `[{ name, url? }]`), timestamps
+- `site_settings`: integer id (always `1`, single row), title, description, job_title, keywords text[], og_title, og_description, updated_at — feeds `generateMetadata()` in `app/layout.tsx` and the blog post JSON-LD author block. Read through `getCachedSiteSettings()` (`unstable_cache`, 1h revalidate, tag `site-settings`); written via admin `/admin/settings`.
 
 All Drizzle reads return camelCase fields; column mapping (snake_case in DB) handled by `casing: 'snake_case'` in the Drizzle client config.
 
@@ -134,6 +135,7 @@ All Drizzle reads return camelCase fields; column mapping (snake_case in DB) han
 | 0000  | Initial schema                        | `drizzle-kit generate` |
 | —     | `projects.status_badges` (text[])     | `db:push` / ALTER      |
 | —     | `projects.collaborators` (jsonb)      | `db:push` / ALTER      |
+| 0002  | `site_settings` table                 | `drizzle-kit generate` (hand-trimmed — see AGENTS.md Security/Gotchas for why) |
 
 > **IMPORTANT:** Always run `npx tsx scripts/export-backup.ts` before any DB migration
 > or ORM change.
@@ -177,8 +179,15 @@ This writes directly through Better Auth (bypassing the UI), but still passes th
 
 - Fixed 240px left rail with lucide icons
 - Active route highlight via `usePathname`
-- Sections: brand, Manage nav (Dashboard / Posts / Projects / Messages), footer (Back to site / Logout)
+- Sections: brand, Manage nav (Dashboard / Posts / Projects / Messages / Credentials / Settings), footer (Back to site / Logout)
 - Login/forgot/reset routes render full-bleed (no sidebar)
+
+**Site settings (`/admin/settings`)**
+
+- Single-row form over the `site_settings` table: title, description, job title, keywords (CSV), OG title, OG description
+- Server component (`page.tsx`) does the auth check + fetch; client `SettingsForm.tsx` owns form state and calls `saveSiteSettingsAction`
+- Save revalidates the `site-settings` cache tag and `/` immediately — public metadata otherwise refreshes on its own 1h `unstable_cache` window
+- Drives `generateMetadata()` in `app/layout.tsx`, the root layout's JSON-LD Person block, and the blog post JSON-LD author block (via `job_title`)
 
 **Projects manager (`/admin/projects`)**
 
@@ -294,14 +303,17 @@ cf:typegen  wrangler types -> cloudflare-env.d.ts
 | Status badges                 | ✅     | live/beta/deprecated/funding pills         |
 | Beta-gated live link modal    | ✅     | BetaModal only fires when badge='beta'     |
 | Collaborators                 | ✅     | jsonb column, name + optional URL          |
+| Dashboard-driven metadata     | [x]    | `site_settings` table + `/admin/settings`, wired into `generateMetadata()` and JSON-LD |
+| Blog AuthorCard + JSON-LD     | [x]    | `AuthorCard.tsx` on post pages, Article schema with nested author added |
 
 ---
 
 ## Next steps
 
 - Apply the `status_badges` + `collaborators` migrations on production Neon if not already done (`npm run db:push` or run ALTER TABLEs)
+- Apply migration `0002` (`site_settings`) on production Neon — `npx drizzle-kit migrate`. Until then `getSiteSettings()` falls back to hardcoded defaults matching current content, so nothing breaks, but `/admin/settings` writes will fail until the table exists.
+- Regenerate `drizzle/meta/0001_snapshot.json` properly so the migration chain no longer has a gap between `0000` and `0002` (see AGENTS.md Security/Gotchas)
 - Bulk-import the project list using `docs/PROJECT_JSON_SCHEMA.md` as reference
-- Add `revalidateTag` on server actions for finer cache control
 - Add Vercel Speed Insights (`npm install @vercel/speed-insights`)
 - Add 2FA / passkey via Better Auth plugins
 - Consider drag-and-drop reorder on `/admin/projects` (currently ↑↓ arrows)
