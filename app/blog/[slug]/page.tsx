@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import AuthorCard from '@/components/AuthorCard'
 import Link from 'next/link'
-import { getBlogPostBySlug, type BlogPost } from '@/lib/db/queries'
+import { getBlogPostBySlug, getCachedSiteSettings, type BlogPost } from '@/lib/db/queries'
 import { formatDate } from '@/lib/utils'
 import { getCoverUrl } from '@/lib/blog-image'
 import { renderMarkdown } from '@/lib/markdown'
@@ -26,6 +27,7 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
+    authors: [{ name: 'Mahtamun Hoque Fahim', url: 'https://mahtamunhoquefahim.vercel.app' }],
     alternates: {
       canonical: `https://mahtamunhoquefahim.vercel.app/blog/${slug}`,
     },
@@ -52,8 +54,30 @@ export default async function BlogPostPage({
   const post = await getPost(slug)
   if (!post) notFound()
 
+  const settings = await getCachedSiteSettings()
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description: post.excerpt,
+            image: getCoverUrl(post.slug, post.coverImage),
+            datePublished: post.createdAt,
+            dateModified: post.updatedAt,
+            author: {
+              '@type': 'Person',
+              name: 'Mahtamun Hoque Fahim',
+              url: 'https://mahtamunhoquefahim.vercel.app',
+              jobTitle: settings.jobTitle,
+            },
+          }),
+        }}
+      />
       <Navbar />
       <main>
         <section className="max-w-3xl mx-auto px-6 py-24 pt-32">
@@ -127,6 +151,8 @@ export default async function BlogPostPage({
               ))}
             </div>
           )}
+
+          <AuthorCard jobTitle={settings.jobTitle} />
         </section>
       </main>
       <Footer />
