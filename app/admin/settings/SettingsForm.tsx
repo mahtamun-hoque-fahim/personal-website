@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Upload, X } from 'lucide-react'
 import type { SiteSettings, NewSiteSettings } from '@/lib/db/queries'
+import { MAX_AVATAR_BYTES } from '@/lib/constants'
 import { saveSiteSettingsAction, uploadAvatarAction, removeAvatarAction } from '@/app/admin/actions'
 
 type Props = {
@@ -64,6 +65,17 @@ export default function SettingsForm({ settings }: Props) {
   const handleAvatarSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      setAvatarError('File must be an image.')
+      if (fileInputRef.current) fileInputRef.current.value = ''
+      return
+    }
+    if (file.size > MAX_AVATAR_BYTES) {
+      setAvatarError('Image must be under 4MB.')
+      if (fileInputRef.current) fileInputRef.current.value = ''
+      return
+    }
 
     setUploadingAvatar(true)
     setAvatarError(null)
@@ -160,7 +172,7 @@ export default function SettingsForm({ settings }: Props) {
             <span className="text-red-400">{avatarError}</span>
           </Hint>
         )}
-        <Hint>Shown on the AuthorCard on blog posts and in the Person JSON-LD block. JPG/PNG/WebP, under 5MB.</Hint>
+        <Hint>Shown on the AuthorCard on blog posts and in the Person JSON-LD block. JPG/PNG/WebP, under 4MB.</Hint>
       </Field>
 
       <Field label="Title *">

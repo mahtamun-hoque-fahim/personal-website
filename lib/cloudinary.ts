@@ -1,3 +1,5 @@
+import { MAX_AVATAR_BYTES } from './constants'
+
 /**
  * Minimal signed Cloudinary upload, implemented with plain fetch + Web
  * Crypto instead of the `cloudinary` Node SDK. This repo dual-deploys to
@@ -15,8 +17,6 @@ async function sha1Hex(input: string): Promise<string> {
     .map((b) => b.toString(16).padStart(2, '0'))
     .join('')
 }
-
-const MAX_AVATAR_BYTES = 5 * 1024 * 1024 // 5MB
 
 export async function uploadAvatarToCloudinary(file: File): Promise<string> {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME
