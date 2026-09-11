@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { auth } from '@/lib/auth'
 import {
   createBlogPost,
@@ -15,8 +15,10 @@ import {
   updateBlogPost,
   updateProject,
   updateProjectFeatured as updateProjectFeaturedDb,
+  updateSiteSettings,
   type NewBlogPost,
   type NewProject,
+  type NewSiteSettings,
 } from '@/lib/db/queries'
 import {
   createCredentialTimelineEntry,
@@ -45,6 +47,17 @@ import {
   type NewCredentialCommunity,
   type NewCredentialContribution,
 } from '@/lib/db/queries'
+
+export async function saveSiteSettingsAction(updates: Partial<NewSiteSettings>) {
+  const updated = await updateSiteSettings(updates)
+  // The public site reads settings through the cached getCachedSiteSettings()
+  // (unstable_cache, 1h revalidate) — revalidateTag clears that cache entry
+  // immediately; revalidatePath('/') refreshes the homepage render on top.
+  revalidateTag('site-settings', 'max')
+  revalidatePath('/')
+  revalidatePath('/admin/settings')
+  return updated
+}
 
 export async function logoutAction() {
   try {

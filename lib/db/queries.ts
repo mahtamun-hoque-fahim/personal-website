@@ -1,4 +1,5 @@
 import { and, asc, desc, eq, isNotNull, sql } from 'drizzle-orm'
+import { unstable_cache } from 'next/cache'
 import { db } from './index'
 import {
   blogPosts,
@@ -9,6 +10,7 @@ import {
   credentialCerts,
   credentialCommunity,
   credentialContributions,
+  siteSettings,
   type BlogPost,
   type NewBlogPost,
   type NewContactMessage,
@@ -24,6 +26,8 @@ import {
   type NewCredentialCommunity,
   type CredentialContribution,
   type NewCredentialContribution,
+  type SiteSettings,
+  type NewSiteSettings,
 } from './schema'
 
 // ──────────────────────────────────────────────────────────
@@ -454,6 +458,76 @@ export async function reorderCredentialContributions(orders: Array<{ id: string;
   }
 }
 
+// ──────────────────────────────────────────────────────────
+// Site settings (single row, id always 1 — dashboard-driven metadata)
+// ──────────────────────────────────────────────────────────
+
+const DEFAULT_SITE_SETTINGS: SiteSettings = {
+  id: 1,
+  title: 'Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer',
+  description:
+    'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
+  jobTitle: 'Full-Stack Developer & AI Engineer',
+  keywords: [
+    'developer',
+    'AI engineer',
+    'full-stack developer',
+    'Bangladesh',
+    'Next.js',
+    'TypeScript',
+    'mahtamun',
+    'mahtamun hoque fahim',
+  ],
+  ogTitle: 'Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer',
+  ogDescription:
+    'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
+  updatedAt: new Date(),
+}
+
+/**
+ * Reads the single site_settings row (id=1), creating it with defaults on
+ * first read if it doesn't exist yet. Uncached — use getCachedSiteSettings()
+ * for anything rendered on the public site.
+ */
+export async function getSiteSettings(): Promise<SiteSettings> {
+  try {
+    const rows = await db.select().from(siteSettings).where(eq(siteSettings.id, 1)).limit(1)
+    if (rows[0]) return rows[0]
+    const created = await db.insert(siteSettings).values({ id: 1 }).returning()
+    return created[0] ?? DEFAULT_SITE_SETTINGS
+  } catch (error) {
+    console.error('getSiteSettings error:', error)
+    return DEFAULT_SITE_SETTINGS
+  }
+}
+
+/**
+ * Cached read for public-facing metadata (root layout). Revalidates every
+ * hour, and on-demand via revalidateTag('site-settings') from the admin
+ * save action below.
+ */
+export const getCachedSiteSettings = unstable_cache(
+  async () => getSiteSettings(),
+  ['site-settings'],
+  { revalidate: 3600, tags: ['site-settings'] }
+)
+
+export async function updateSiteSettings(
+  updates: Partial<NewSiteSettings>
+): Promise<SiteSettings> {
+  const rows = await db
+    .update(siteSettings)
+    .set({ ...updates, updatedAt: new Date() })
+    .where(eq(siteSettings.id, 1))
+    .returning()
+  if (rows[0]) return rows[0]
+  const created = await db
+    .insert(siteSettings)
+    .values({ id: 1, ...updates })
+    .returning()
+  return created[0]
+}
+
 // Re-export the inferred types for convenience
 export type {
   BlogPost,
@@ -472,4 +546,6 @@ export type {
   NewCredentialCommunity,
   CredentialContribution,
   NewCredentialContribution,
+  SiteSettings,
+  NewSiteSettings,
 } from './schema'

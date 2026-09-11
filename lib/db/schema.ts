@@ -233,6 +233,38 @@ export const credentialContributions = pgTable(
   })
 )
 
+// ──────────────────────────────────────────────────────────
+// Site settings (single row, id always 1 — dashboard-driven metadata)
+// ──────────────────────────────────────────────────────────
+
+export const siteSettings = pgTable('site_settings', {
+  id: integer('id').primaryKey().default(1),
+  title: text('title')
+    .notNull()
+    .default('Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer'),
+  description: text('description')
+    .notNull()
+    .default(
+      'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.'
+    ),
+  jobTitle: text('job_title').notNull().default('Full-Stack Developer & AI Engineer'),
+  keywords: text('keywords')
+    .array()
+    .notNull()
+    .default(
+      sql`ARRAY['developer','AI engineer','full-stack developer','Bangladesh','Next.js','TypeScript','mahtamun','mahtamun hoque fahim']::text[]`
+    ),
+  ogTitle: text('og_title')
+    .notNull()
+    .default('Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer'),
+  ogDescription: text('og_description')
+    .notNull()
+    .default(
+      'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.'
+    ),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
 // ── Inferred types ────────────────────────────────────────
 export type BlogPost = typeof blogPosts.$inferSelect
 export type NewBlogPost = typeof blogPosts.$inferInsert
@@ -250,3 +282,5 @@ export type CredentialCommunity = typeof credentialCommunity.$inferSelect
 export type NewCredentialCommunity = typeof credentialCommunity.$inferInsert
 export type CredentialContribution = typeof credentialContributions.$inferSelect
 export type NewCredentialContribution = typeof credentialContributions.$inferInsert
+export type SiteSettings = typeof siteSettings.$inferSelect
+export type NewSiteSettings = typeof siteSettings.$inferInsert

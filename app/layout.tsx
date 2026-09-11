@@ -3,6 +3,7 @@
 import type { Metadata } from 'next'
 import { Syne, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
 import MintGlow from '@/components/MintGlow'
+import { getCachedSiteSettings } from '@/lib/db/queries'
 import './globals.css'
 
 // Title-font comparison branch: display/heading role uses Syne (same as
@@ -31,39 +32,43 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://mahtamunhoquefahim.vercel.app'),
-  title: {
-    default: 'Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer',
-    template: '%s | Mahtamun',
-  },
-  description:
-    'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
-  keywords: ['developer', 'AI engineer', 'full-stack developer', 'Bangladesh', 'Next.js', 'TypeScript', 'mahtamun', 'mahtamun hoque fahim'],
-  authors: [{ name: 'Mahtamun Hoque Fahim' }],
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://mahtamunhoquefahim.vercel.app',
-    siteName: 'Mahtamun Hoque Fahim',
-    title: 'Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer',
-    description: 'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Mahtamun Hoque Fahim',
-    description: 'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getCachedSiteSettings()
+  return {
+    metadataBase: new URL('https://mahtamunhoquefahim.vercel.app'),
+    title: {
+      default: settings.title,
+      template: '%s | Mahtamun',
+    },
+    description: settings.description,
+    keywords: settings.keywords,
+    authors: [{ name: 'Mahtamun Hoque Fahim' }],
+    alternates: {
+      canonical: '/',
+    },
+    openGraph: {
+      type: 'website',
+      locale: 'en_US',
+      url: 'https://mahtamunhoquefahim.vercel.app',
+      siteName: 'Mahtamun Hoque Fahim',
+      title: settings.ogTitle,
+      description: settings.ogDescription,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: settings.ogTitle,
+      description: settings.ogDescription,
+    },
+  }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const settings = await getCachedSiteSettings()
+
   return (
     <html
       lang="en"
@@ -81,8 +86,8 @@ export default function RootLayout({
               '@type': 'Person',
               name: 'Mahtamun Hoque Fahim',
               url: 'https://mahtamunhoquefahim.vercel.app',
-              jobTitle: 'Full-Stack Developer & AI Engineer',
-              description: 'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
+              jobTitle: settings.jobTitle,
+              description: settings.description,
               nationality: 'Bangladeshi',
               sameAs: [
                 'https://github.com/mahtamun-hoque-fahim',

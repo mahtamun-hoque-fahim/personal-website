@@ -171,6 +171,7 @@ export default async function AdminDashboard() {
           <QuickAction href="/admin/posts/new" label="Write a post" />
           <QuickAction href="/admin/projects" label="Add a project" />
           <QuickAction href="/admin/messages" label="Inbox" badge={unreadMessages || null} />
+          <QuickAction href="/admin/settings" label="Site settings" />
           <QuickAction href="/" label="View site" external />
         </div>
       </div>
