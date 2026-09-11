@@ -34,12 +34,12 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://mahtamunhoquefahim.vercel.app'),
   title: {
-    default: 'Mahtamun Hoque Fahim — Designer & Developer',
+    default: 'Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer',
     template: '%s | Mahtamun',
   },
   description:
-    'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh. Crafting intentional digital experiences.',
-  keywords: ['designer', 'developer', 'Bangladesh', 'UI/UX', 'graphic design', 'fullstack','mahtamun','mahtamun hoque fahim'],
+    'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
+  keywords: ['developer', 'AI engineer', 'full-stack developer', 'Bangladesh', 'Next.js', 'TypeScript', 'mahtamun', 'mahtamun hoque fahim'],
   authors: [{ name: 'Mahtamun Hoque Fahim' }],
   alternates: {
     canonical: '/',
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://mahtamunhoquefahim.vercel.app',
     siteName: 'Mahtamun Hoque Fahim',
-    title: 'Mahtamun Hoque Fahim — Senior Designer & Full Stack Developer',
-    description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
+    title: 'Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer',
+    description: 'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Mahtamun Hoque Fahim',
-    description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
+    description: 'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
   },
 }
 
@@ -81,14 +81,14 @@ export default function RootLayout({
               '@type': 'Person',
               name: 'Mahtamun Hoque Fahim',
               url: 'https://mahtamunhoquefahim.vercel.app',
-              jobTitle: 'Graphic Designer & Full-Stack Developer',
-              description: 'Graphic designer, full-stack web developer, and UI/UX designer from Bangladesh.',
+              jobTitle: 'Full-Stack Developer & AI Engineer',
+              description: 'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
               nationality: 'Bangladeshi',
               sameAs: [
                 'https://github.com/mahtamun-hoque-fahim',
                 'https://linkedin.com/in/mahtamun-hoque-fahim',
               ],
-              knowsAbout: ['Graphic Design', 'UI/UX Design', 'Next.js', 'React', 'TypeScript', 'Brand Identity','web development'],
+              knowsAbout: ['Next.js', 'React', 'TypeScript', 'AI Engineering', 'Full-Stack Development', 'Web Development', 'UI/UX Design'],
             }),
           }}
         />
