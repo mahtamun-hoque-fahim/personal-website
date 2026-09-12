@@ -19,9 +19,13 @@ async function sha1Hex(input: string): Promise<string> {
 }
 
 export async function uploadAvatarToCloudinary(file: File): Promise<string> {
-  const cloudName = process.env.CLOUDINARY_CLOUD_NAME
-  const apiKey = process.env.CLOUDINARY_API_KEY
-  const apiSecret = process.env.CLOUDINARY_API_SECRET
+  // .trim() guards against a common, invisible failure mode: pasting a
+  // secret into Vercel's env var field with a trailing newline/space
+  // silently corrupts the signature hash and produces a bare 401 with
+  // no useful error message from Cloudinary.
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME?.trim()
+  const apiKey = process.env.CLOUDINARY_API_KEY?.trim()
+  const apiSecret = process.env.CLOUDINARY_API_SECRET?.trim()
 
   if (!cloudName || !apiKey || !apiSecret) {
     throw new Error(
@@ -33,7 +37,7 @@ export async function uploadAvatarToCloudinary(file: File): Promise<string> {
     throw new Error('File must be an image.')
   }
   if (file.size > MAX_AVATAR_BYTES) {
-    throw new Error('Image must be under 5MB.')
+    throw new Error('Image must be under 4MB.')
   }
 
   const timestamp = Math.floor(Date.now() / 1000)
@@ -63,7 +67,14 @@ export async function uploadAvatarToCloudinary(file: File): Promise<string> {
 
   if (!res.ok) {
     const body = await res.text()
-    throw new Error(`Cloudinary upload failed (${res.status}): ${body}`)
+    let message = body
+    try {
+      const parsed = JSON.parse(body) as { error?: { message?: string } }
+      if (parsed.error?.message) message = parsed.error.message
+    } catch {
+      // body wasn't JSON — fall through and use the raw text
+    }
+    throw new Error(`Cloudinary upload failed (${res.status}): ${message || '(empty response body)'}`)
   }
 
   const data = (await res.json()) as { secure_url?: string }
