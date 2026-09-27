@@ -79,8 +79,8 @@ export default async function HomePage() {
                 >
                   I&apos;m{' '}
                   <span className="text-[#F3F6F4] font-medium">Mahtamun Hoque Fahim</span>
-                  {' '}— a graphic designer, full-stack developer & UI/UX designer from Chattogram.
-                  I make things that look good and work better.
+                  {' '} - an Aspiring AI engineer and full stack web engineer.
+                  I build better looking web and secure architecture.
                 </p>
               </div>
 
