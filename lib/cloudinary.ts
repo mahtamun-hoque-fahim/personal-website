@@ -86,3 +86,70 @@ export async function uploadAvatarToCloudinary(file: File): Promise<string> {
   // so <img src> would keep showing a stale cached copy after re-upload.
   return `${data.secure_url}?v=${timestamp}`
 }
+
+/**
+ * Skill thumbnail upload. Same signed-upload approach as the avatar, but
+ * public_id is per-skill (`skill-<id>`) instead of a single fixed slot —
+ * multiple skills each keep their own thumbnail, and re-uploading a given
+ * skill's image overwrites only that skill's asset rather than orphaning it.
+ * PNG transparency is preserved: Cloudinary keeps the source format unless
+ * told to convert, and nothing here asks it to.
+ */
+export async function uploadSkillImageToCloudinary(file: File, skillId: string): Promise<string> {
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME?.trim()
+  const apiKey = process.env.CLOUDINARY_API_KEY?.trim()
+  const apiSecret = process.env.CLOUDINARY_API_SECRET?.trim()
+
+  if (!cloudName || !apiKey || !apiSecret) {
+    throw new Error(
+      'Cloudinary is not configured — set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.'
+    )
+  }
+
+  if (!file.type.startsWith('image/')) {
+    throw new Error('File must be an image.')
+  }
+  if (file.size > MAX_AVATAR_BYTES) {
+    throw new Error('Image must be under 4MB.')
+  }
+
+  const timestamp = Math.floor(Date.now() / 1000)
+  const publicId = `skill-${skillId}`
+  const folder = 'personal-website/skills'
+
+  const paramsToSign = `folder=${folder}&overwrite=true&public_id=${publicId}&timestamp=${timestamp}`
+  const signature = await sha1Hex(`${paramsToSign}${apiSecret}`)
+
+  const formData = new FormData()
+  formData.set('file', file)
+  formData.set('api_key', apiKey)
+  formData.set('timestamp', String(timestamp))
+  formData.set('signature', signature)
+  formData.set('public_id', publicId)
+  formData.set('folder', folder)
+  formData.set('overwrite', 'true')
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    method: 'POST',
+    body: formData,
+  })
+
+  if (!res.ok) {
+    const body = await res.text()
+    let message = body
+    try {
+      const parsed = JSON.parse(body) as { error?: { message?: string } }
+      if (parsed.error?.message) message = parsed.error.message
+    } catch {
+      // body wasn't JSON — fall through and use the raw text
+    }
+    throw new Error(`Cloudinary upload failed (${res.status}): ${message || '(empty response body)'}`)
+  }
+
+  const data = (await res.json()) as { secure_url?: string }
+  if (!data.secure_url) {
+    throw new Error('Cloudinary upload succeeded but returned no secure_url.')
+  }
+
+  return `${data.secure_url}?v=${timestamp}`
+}

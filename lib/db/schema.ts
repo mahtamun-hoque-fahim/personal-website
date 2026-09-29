@@ -137,6 +137,22 @@ export const projects = pgTable(
 // Credentials tables
 // ──────────────────────────────────────────────────────────
 
+export const skills = pgTable(
+  'skills',
+  {
+    id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+    title: text('title').notNull(),
+    desc: text('desc').notNull(),
+    imageUrl: text('image_url'),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    sortIdx: index('skills_sort_idx').on(t.sortOrder),
+  })
+)
+
 export const credentialTimeline = pgTable(
   'credential_timeline',
   {
@@ -273,6 +289,9 @@ export type ContactMessage = typeof contactMessages.$inferSelect
 export type NewContactMessage = typeof contactMessages.$inferInsert
 export type Project = typeof projects.$inferSelect
 export type NewProject = typeof projects.$inferInsert
+export type Skill = typeof skills.$inferSelect
+export type NewSkill = typeof skills.$inferInsert
+
 export type CredentialTimeline = typeof credentialTimeline.$inferSelect
 export type NewCredentialTimeline = typeof credentialTimeline.$inferInsert
 export type CredentialCluster = typeof credentialClusters.$inferSelect

@@ -7,13 +7,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
-import { getFeaturedProjects } from '@/lib/db/queries'
-
-const services = [
-  { num: '01', title: 'Graphic Design', desc: 'Brand identities, print, visual systems — design that speaks before words do.' },
-  { num: '02', title: 'UI/UX Design', desc: 'Interfaces that feel inevitable. User flows that guide without friction.' },
-  { num: '03', title: 'Full-Stack Dev', desc: 'Next.js, React, databases. I build what I design — no handoff required.' },
-]
+import { getFeaturedProjects, getSkills } from '@/lib/db/queries'
 
 const skills = [
   'Figma', 'Adobe Suite', 'Next.js', 'React', 'TypeScript', 'Tailwind CSS',
@@ -23,9 +17,10 @@ const skills = [
 const ticker = [...skills, ...skills]
 
 export default async function HomePage() {
-  const [allPosts, featuredProjects] = await Promise.all([
+  const [allPosts, featuredProjects, skills] = await Promise.all([
     getBlogPosts({ publishedOnly: true, limit: 3 }),
     getFeaturedProjects(),
+    getSkills(),
   ])
 
   const recentPosts = allPosts as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'readingTime' | 'createdAt'>[]
@@ -166,32 +161,57 @@ export default async function HomePage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1F2421]">
-            {services.map((s) => (
+          <div className="flex flex-col gap-6">
+            {skills.map((s, i) => (
               <div
-                key={s.num}
-                className="bg-[#070807] p-8 group hover:bg-[#0F0F0F] transition-colors duration-300"
+                key={s.id}
+                className="flex flex-col md:flex-row rounded-2xl border border-[#1F2421] overflow-hidden group hover:border-[#3A3F3C] transition-colors duration-300"
               >
-                <span
-                  className="text-[#2B302D] text-5xl font-bold block mb-6 group-hover:text-[#3DF49A] transition-colors duration-300"
-                  style={{ fontFamily: 'var(--font-clash)' }}
-                >
-                  {s.num}
-                </span>
-                <h3
-                  className="text-xl font-semibold text-[#F3F6F4] mb-3"
-                  style={{ fontFamily: 'var(--font-clash)' }}
-                >
-                  {s.title}
-                </h3>
-                <p
-                  className="text-[#8A938E] text-sm leading-relaxed"
-                  style={{ fontFamily: 'var(--font-jakarta)' }}
-                >
-                  {s.desc}
-                </p>
+                {/* Thumbnail: image left / text right on wide screens, image
+                    top / text below on phones. The slot's background is a
+                    shade lighter than the page (#070807 -> #141712) on
+                    purpose — a transparent-background PNG upload still
+                    reads as a tile instead of floating on nothing. */}
+                <div className="w-full md:w-2/5 aspect-[16/9] md:aspect-auto bg-[#141712] flex items-center justify-center overflow-hidden shrink-0">
+                  {s.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={s.imageUrl} alt="" className="w-full h-full object-contain p-10" />
+                  ) : (
+                    <span
+                      className="text-[#2B302D] text-6xl font-bold group-hover:text-[#3DF49A]/30 transition-colors duration-300"
+                      style={{ fontFamily: 'var(--font-clash)' }}
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  )}
+                </div>
+                <div className="flex-1 p-8 md:p-10 flex flex-col justify-center bg-[#070807] group-hover:bg-[#0F0F0F] transition-colors duration-300">
+                  <span
+                    className="text-[#2B302D] text-sm font-bold block mb-2 group-hover:text-[#3DF49A] transition-colors duration-300"
+                    style={{ fontFamily: 'var(--font-clash)' }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3
+                    className="text-xl md:text-2xl font-semibold text-[#F3F6F4] mb-3"
+                    style={{ fontFamily: 'var(--font-clash)' }}
+                  >
+                    {s.title}
+                  </h3>
+                  <p
+                    className="text-[#8A938E] text-sm leading-relaxed max-w-md"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
+                  >
+                    {s.desc}
+                  </p>
+                </div>
               </div>
             ))}
+            {skills.length === 0 && (
+              <p className="text-[#3A3F3C] text-sm" style={{ fontFamily: 'var(--font-jakarta)' }}>
+                Nothing here yet.
+              </p>
+            )}
           </div>
         </section>
 

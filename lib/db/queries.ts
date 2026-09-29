@@ -5,6 +5,7 @@ import {
   blogPosts,
   contactMessages,
   projects,
+  skills,
   credentialTimeline,
   credentialClusters,
   credentialCerts,
@@ -16,6 +17,8 @@ import {
   type NewContactMessage,
   type NewProject,
   type Project,
+  type Skill,
+  type NewSkill,
   type CredentialTimeline,
   type NewCredentialTimeline,
   type CredentialCluster,
@@ -164,6 +167,58 @@ export async function getFeaturedProjects(): Promise<Project[]> {
   } catch (error) {
     console.error('getFeaturedProjects error:', error)
     return []
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// Skills ("What I do" section)
+// ──────────────────────────────────────────────────────────
+
+export async function getSkills(): Promise<Skill[]> {
+  try {
+    return await db.select().from(skills).orderBy(asc(skills.sortOrder))
+  } catch (error) {
+    console.error('getSkills error:', error)
+    return []
+  }
+}
+
+export async function createSkill(data: NewSkill): Promise<Skill | null> {
+  try {
+    const rows = await db.insert(skills).values(data).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('createSkill error:', error)
+    throw error
+  }
+}
+
+export async function updateSkill(id: string, data: Partial<NewSkill>): Promise<Skill | null> {
+  try {
+    const rows = await db
+      .update(skills)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(skills.id, id))
+      .returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('updateSkill error:', error)
+    throw error
+  }
+}
+
+export async function deleteSkill(id: string): Promise<void> {
+  try {
+    await db.delete(skills).where(eq(skills.id, id))
+  } catch (error) {
+    console.error('deleteSkill error:', error)
+    throw error
+  }
+}
+
+export async function reorderSkills(orders: Array<{ id: string; order: number }>): Promise<void> {
+  for (const { id, order } of orders) {
+    await db.update(skills).set({ sortOrder: order, updatedAt: new Date() }).where(eq(skills.id, id))
   }
 }
 
@@ -537,6 +592,8 @@ export type {
   NewContactMessage,
   NewProject,
   Project,
+  Skill,
+  NewSkill,
   CredentialTimeline,
   NewCredentialTimeline,
   CredentialCluster,

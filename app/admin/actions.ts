@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { auth } from '@/lib/auth'
 import { isAuthenticated } from '@/lib/auth-utils'
-import { uploadAvatarToCloudinary } from '@/lib/cloudinary'
+import { uploadAvatarToCloudinary, uploadSkillImageToCloudinary } from '@/lib/cloudinary'
 import {
   createBlogPost,
   createProject,
@@ -18,9 +18,14 @@ import {
   updateProject,
   updateProjectFeatured as updateProjectFeaturedDb,
   updateSiteSettings,
+  createSkill,
+  updateSkill,
+  deleteSkill,
+  reorderSkills,
   type NewBlogPost,
   type NewProject,
   type NewSiteSettings,
+  type NewSkill,
 } from '@/lib/db/queries'
 import {
   createCredentialTimelineEntry,
@@ -175,6 +180,56 @@ export async function deleteProjectAction(id: string) {
   revalidatePath('/admin/projects')
   revalidatePath('/')
   revalidatePath('/projects')
+}
+
+// ──────────────────────────────────────────────────────────
+// Skills ("What I do" section)
+// ──────────────────────────────────────────────────────────
+
+export async function createSkillAction(payload: NewSkill) {
+  const created = await createSkill(payload)
+  revalidatePath('/admin/skills')
+  revalidatePath('/')
+  return created
+}
+
+export async function updateSkillAction(id: string, payload: Partial<NewSkill>) {
+  const updated = await updateSkill(id, payload)
+  revalidatePath('/admin/skills')
+  revalidatePath('/')
+  return updated
+}
+
+export async function deleteSkillAction(id: string) {
+  await deleteSkill(id)
+  revalidatePath('/admin/skills')
+  revalidatePath('/')
+}
+
+export async function reorderSkillsAction(orders: Array<{ id: string; order: number }>) {
+  await reorderSkills(orders)
+  revalidatePath('/admin/skills')
+  revalidatePath('/')
+}
+
+export async function uploadSkillImageAction(skillId: string, formData: FormData) {
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    throw new Error('Not authenticated.')
+  }
+
+  const file = formData.get('file')
+  if (!(file instanceof File)) {
+    throw new Error('No file provided.')
+  }
+
+  const imageUrl = await uploadSkillImageToCloudinary(file, skillId)
+  const updated = await updateSkill(skillId, { imageUrl })
+
+  revalidatePath('/admin/skills')
+  revalidatePath('/')
+
+  return updated
 }
 
 // Bulk JSON upsert: for each row, if a project with the same name exists,
