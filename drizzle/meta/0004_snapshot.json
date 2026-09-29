@@ -1,5 +1,5 @@
 {
-  "id": "d9da656e-9e98-482f-a475-22548d10d9f5",
+  "id": "81f7483f-2351-49e2-a02d-57954c41d12d",
   "prevId": "789d3cf5-aab6-42b3-98e8-ca4e789d743b",
   "version": "7",
   "dialect": "postgresql",
@@ -1128,8 +1128,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "description": {
-          "name": "description",
+        "desc": {
+          "name": "desc",
           "type": "text",
           "primaryKey": false,
           "notNull": true
