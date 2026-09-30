@@ -47,6 +47,10 @@ npm run dev
 
 ## Session Log
 
+### 2026-09-28 (credentials CTA): buttons stack on phone
+- Agent: claude-sonnet (chat)
+- /credentials page's "Want to work together?" CTA ("Get in touch" / "LinkedIn") sat in a no-wrap flex row, same overflow risk as the hero and footer bugs this session. Now `flex-col` (full-width, stacked) below `sm` (640px), `flex-row` (auto-width, side by side) at `sm` and up.
+
 ### 2026-09-28 (footer): dashboard-driven, restructured to fix mobile overflow
 - Agent: claude-sonnet (chat)
 - Bug: the footer's 5 nav links (About, Blog, Contact, Portfolio, LinkedIn) sat in one `flex` row with no wrap, so on phones the row overflowed and the first item ("About") got clipped off the left edge.

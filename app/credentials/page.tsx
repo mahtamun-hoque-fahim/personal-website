@@ -778,10 +778,10 @@ export default async function CredentialsPage() {
                 I&apos;m selective about what I take on — which means I care about what you&apos;re building.
               </p>
             </div>
-            <div className="flex gap-4 shrink-0">
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto shrink-0">
               <Link
                 href="/contact"
-                className="px-6 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
+                className="w-full sm:w-auto text-center px-6 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
                            hover:bg-[#5BFBA8] transition-all duration-200"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
@@ -791,7 +791,7 @@ export default async function CredentialsPage() {
                 href="https://linkedin.com/in/mahtamun-hoque-fahim"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+                className="w-full sm:w-auto justify-center px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
                            hover:border-[#8A938E] transition-all duration-200 inline-flex items-center gap-1.5"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
