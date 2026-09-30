@@ -6,6 +6,7 @@ import {
   contactMessages,
   projects,
   skills,
+  footerLinks,
   credentialTimeline,
   credentialClusters,
   credentialCerts,
@@ -19,6 +20,8 @@ import {
   type Project,
   type Skill,
   type NewSkill,
+  type FooterLink,
+  type NewFooterLink,
   type CredentialTimeline,
   type NewCredentialTimeline,
   type CredentialCluster,
@@ -219,6 +222,58 @@ export async function deleteSkill(id: string): Promise<void> {
 export async function reorderSkills(orders: Array<{ id: string; order: number }>): Promise<void> {
   for (const { id, order } of orders) {
     await db.update(skills).set({ sortOrder: order, updatedAt: new Date() }).where(eq(skills.id, id))
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// Footer links (nav + social links shown in the site footer)
+// ──────────────────────────────────────────────────────────
+
+export async function getFooterLinks(): Promise<FooterLink[]> {
+  try {
+    return await db.select().from(footerLinks).orderBy(asc(footerLinks.sortOrder))
+  } catch (error) {
+    console.error('getFooterLinks error:', error)
+    return []
+  }
+}
+
+export async function createFooterLink(data: NewFooterLink): Promise<FooterLink | null> {
+  try {
+    const rows = await db.insert(footerLinks).values(data).returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('createFooterLink error:', error)
+    throw error
+  }
+}
+
+export async function updateFooterLink(id: string, data: Partial<NewFooterLink>): Promise<FooterLink | null> {
+  try {
+    const rows = await db
+      .update(footerLinks)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(footerLinks.id, id))
+      .returning()
+    return rows[0] ?? null
+  } catch (error) {
+    console.error('updateFooterLink error:', error)
+    throw error
+  }
+}
+
+export async function deleteFooterLink(id: string): Promise<void> {
+  try {
+    await db.delete(footerLinks).where(eq(footerLinks.id, id))
+  } catch (error) {
+    console.error('deleteFooterLink error:', error)
+    throw error
+  }
+}
+
+export async function reorderFooterLinks(orders: Array<{ id: string; order: number }>): Promise<void> {
+  for (const { id, order } of orders) {
+    await db.update(footerLinks).set({ sortOrder: order, updatedAt: new Date() }).where(eq(footerLinks.id, id))
   }
 }
 
@@ -594,6 +649,8 @@ export type {
   Project,
   Skill,
   NewSkill,
+  FooterLink,
+  NewFooterLink,
   CredentialTimeline,
   NewCredentialTimeline,
   CredentialCluster,

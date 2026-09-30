@@ -22,10 +22,15 @@ import {
   updateSkill,
   deleteSkill,
   reorderSkills,
+  createFooterLink,
+  updateFooterLink,
+  deleteFooterLink,
+  reorderFooterLinks,
   type NewBlogPost,
   type NewProject,
   type NewSiteSettings,
   type NewSkill,
+  type NewFooterLink,
 } from '@/lib/db/queries'
 import {
   createCredentialTimelineEntry,
@@ -54,6 +59,14 @@ import {
   type NewCredentialCommunity,
   type NewCredentialContribution,
 } from '@/lib/db/queries'
+
+// Footer renders on every top-level page (it's included per-page, not from
+// the root layout), so an edit needs each of those paths revalidated.
+function revalidateFooterPaths() {
+  for (const p of ['/', '/about', '/blog', '/contact', '/projects', '/credentials']) {
+    revalidatePath(p)
+  }
+}
 
 export async function uploadAvatarAction(formData: FormData) {
   // File uploads get an explicit auth check (unlike the other actions in
@@ -230,6 +243,36 @@ export async function uploadSkillImageAction(skillId: string, formData: FormData
   revalidatePath('/')
 
   return updated
+}
+
+// ──────────────────────────────────────────────────────────
+// Footer links (nav + social links shown in the site footer)
+// ──────────────────────────────────────────────────────────
+
+export async function createFooterLinkAction(payload: NewFooterLink) {
+  const created = await createFooterLink(payload)
+  revalidatePath('/admin/footer-links')
+  revalidateFooterPaths()
+  return created
+}
+
+export async function updateFooterLinkAction(id: string, payload: Partial<NewFooterLink>) {
+  const updated = await updateFooterLink(id, payload)
+  revalidatePath('/admin/footer-links')
+  revalidateFooterPaths()
+  return updated
+}
+
+export async function deleteFooterLinkAction(id: string) {
+  await deleteFooterLink(id)
+  revalidatePath('/admin/footer-links')
+  revalidateFooterPaths()
+}
+
+export async function reorderFooterLinksAction(orders: Array<{ id: string; order: number }>) {
+  await reorderFooterLinks(orders)
+  revalidatePath('/admin/footer-links')
+  revalidateFooterPaths()
 }
 
 // Bulk JSON upsert: for each row, if a project with the same name exists,
