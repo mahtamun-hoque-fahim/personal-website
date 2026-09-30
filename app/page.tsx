@@ -79,10 +79,10 @@ export default async function HomePage() {
                 </p>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/contact"
-                  className="px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
+                  className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
                              hover:bg-[#5BFBA8] transition-all duration-200 hover:scale-105 active:scale-95"
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
@@ -90,7 +90,7 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   href="/about"
-                  className="px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+                  className="w-full sm:w-auto text-center px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
                              hover:border-[#8A938E] transition-all duration-200"
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >

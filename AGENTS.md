@@ -47,6 +47,10 @@ npm run dev
 
 ## Session Log
 
+### 2026-09-28 (hero buttons): stack on phone
+- Agent: claude-sonnet (chat)
+- Hero "Let's talk" / "About me" buttons sat side by side at every width, cramped on narrow phones. Now `flex-col` (full-width, stacked) below the `sm` breakpoint (640px) and `flex-row` (auto-width, side by side) at `sm` and up, per Fahim's sketch.
+
 ### 2026-09-28: Skills CRUD + "What I do" redesign (branch small-ui-fixes)
 - Agent: claude-sonnet (chat)
 - Branch created fresh from `main` (not from `over-engineered` — no eyebrow/dash/font changes carried over).
