@@ -47,6 +47,38 @@ npm run dev
 
 ## Session Log
 
+### 2026-09-28 (about CTA): last remaining unstacked button pair
+- Agent: claude-sonnet (chat)
+- Fahim's screenshot for the "credentials CTA" fix actually showed /about's CTA ("Get in touch" / "See portfolio ↗") — same no-wrap flex row bug, same fix. Searched the whole `app/` tree for the pattern (`flex gap-4 shrink-0` beside `rounded-full` buttons) to confirm this was the last one; /credentials was already fixed, /page.tsx's hero and bottom CTA were already fixed earlier this session, /projects and /contact have no button pairs like this.
+- All secondary-CTA button pairs across the site now share the same rule: `flex-col` (full-width, stacked) below `sm` (640px), `flex-row` (auto-width, side by side) at `sm` and up.
+
+### 2026-09-28 (credentials CTA): buttons stack on phone
+- Agent: claude-sonnet (chat)
+- /credentials page's "Want to work together?" CTA ("Get in touch" / "LinkedIn") sat in a no-wrap flex row, same overflow risk as the hero and footer bugs this session. Now `flex-col` (full-width, stacked) below `sm` (640px), `flex-row` (auto-width, side by side) at `sm` and up.
+
+### 2026-09-28 (footer): dashboard-driven, restructured to fix mobile overflow
+- Agent: claude-sonnet (chat)
+- Bug: the footer's 5 nav links (About, Blog, Contact, Portfolio, LinkedIn) sat in one `flex` row with no wrap, so on phones the row overflowed and the first item ("About") got clipped off the left edge.
+- Fix + feature: new `footer_links` table (label, url, groupLabel, external, sortOrder), full CRUD at `/admin/footer-links` (`FooterLinksManager.tsx`), linked from the sidebar. Links sharing a `groupLabel` render as one footer column.
+- `Footer.tsx` is now an async Server Component reading `getFooterLinks()` (previously a static component with a hardcoded link list). Layout: brand block + link columns side by side on desktop (`md:flex-row`), brand then each column stacked full-width on phones (`flex-col`, `grid-cols-1` under `sm`), divider + centered copyright below — matches the structural pattern Fahim sketched (not its colors/copy).
+- Grouping is by label only, not by numeric contiguity: bucketed with a `Map` keyed by `groupLabel`, so reordering one link can never split it from its group. Per-item reorder swaps `sortOrder` only with the neighbor *within the same group*, so it can't accidentally jump columns either.
+- Neon seed SQL provided separately (`create-and-seed-footer-links.sql`) — seeds the current 5 links as "Navigate" (About, Blog, Contact) and "Elsewhere" (Portfolio, LinkedIn), matching current hrefs/targets exactly.
+- Learned from the skills-table mistake last session: ran `drizzle-kit generate` immediately after finalizing schema.ts this time, before committing, so the migration and schema never drift apart in the same commit.
+
+### 2026-09-28 (hero buttons): stack on phone
+- Agent: claude-sonnet (chat)
+- Hero "Let's talk" / "About me" buttons sat side by side at every width, cramped on narrow phones. Now `flex-col` (full-width, stacked) below the `sm` breakpoint (640px) and `flex-row` (auto-width, side by side) at `sm` and up, per Fahim's sketch.
+
+### 2026-09-28: Skills CRUD + "What I do" redesign (branch small-ui-fixes)
+- Agent: claude-sonnet (chat)
+- Branch created fresh from `main` (not from `over-engineered` — no eyebrow/dash/font changes carried over).
+- New `skills` table (`lib/db/schema.ts`): title, desc, imageUrl, sortOrder, timestamps. Full CRUD in `lib/db/queries.ts` and `app/admin/actions.ts`, admin UI at `/admin/skills` (`SkillsManager.tsx`), linked from `AdminSidebar.tsx`.
+- Image upload: new `uploadSkillImageToCloudinary` in `lib/cloudinary.ts`, separate from the avatar uploader — each skill's thumbnail lives at its own `skill-<id>` Cloudinary public_id, so uploads don't collide across skills or force a single shared slot.
+- Home page "What I do" (`app/page.tsx`): replaced the hardcoded `services` array with `getSkills()`; rebuilt from a 3-column grid into a single-column list of full-width rows — image beside text on desktop (`md:flex-row`), image above text on phones (`flex-col`). No image yet → falls back to showing the skill's number.
+- Thumbnail background is `#141712` (a shade lighter than the page's `#070807`) specifically so a transparent PNG upload still reads as a card instead of floating on empty space.
+- Neon seed SQL provided separately (`create-and-seed-skills.sql`) — creates the table and seeds the 3 existing cards (Graphic Design, UI/UX Design, Full-Stack Dev) with `image_url` left NULL; images to be uploaded later from the dashboard.
+- Known gap: `MAX_AVATAR_BYTES` (4MB) is reused as the skill-image size cap rather than a dedicated constant — fine for now, rename if a different limit is ever wanted for skill thumbnails specifically.
+
 ### 2026-09-11 — Dashboard-driven metadata + Blog AuthorCard/JSON-LD
 - Agent: claude-sonnet (chat)
 - Added `site_settings` table (single row, `id=1`) — `title`, `description`, `job_title`, `keywords[]`, `og_title`, `og_description`, `updated_at`. Migration `0002_high_marrow.sql`, hand-trimmed (see Gotchas above).

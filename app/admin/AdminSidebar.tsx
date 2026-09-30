@@ -12,6 +12,8 @@ import {
   ScrollText,
   Award,
   Settings,
+  Sparkles,
+  Link2,
 } from 'lucide-react'
 import { logoutAction } from './actions'
 
@@ -19,6 +21,8 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/posts', label: 'Posts', icon: ScrollText },
   { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
+  { href: '/admin/skills', label: 'Skills', icon: Sparkles },
+  { href: '/admin/footer-links', label: 'Footer Links', icon: Link2 },
   { href: '/admin/messages', label: 'Messages', icon: Mail },
   { href: '/admin/credentials', label: 'Credentials', icon: Award },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
