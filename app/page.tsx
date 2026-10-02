@@ -187,21 +187,21 @@ export default async function HomePage() {
                 className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
                 style={{ fontFamily: 'var(--font-clash)' }}
               >
-               Design can't be seperated from engineering.
+               Design can&apos;t be separated from engineering.
               </h2>
               <p
                 className="text-[#8A938E] text-base leading-relaxed mb-6"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
-                Most designers hand off to developers. Most developers complain about the Security.
-                I do it all, Cause I don't rest till I build the best.
+                Most designers hand off to developers. Most developers leave security for last.
+                I do it all, because I don&apos;t rest till I build the best.
               </p>
               <p
                 className="text-[#8A938E] text-base leading-relaxed mb-10"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
-                I am obsessively curious the space between pixels. I write code the way
-                I design — with intention.I love what I do, and coffee? More.
+                I am obsessively curious about the space between pixels. I write code the way
+                I design — with intention. I love what I do, and coffee? More.
               </p>
               <Link
                 href="/about"
@@ -230,24 +230,24 @@ export default async function HomePage() {
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">role</span>:{' '}
-                <span className="text-[#3DF49A]">&apos;Polymath;</span>,
+                <span className="text-[#3DF49A]">&apos;Polymath&apos;</span>,
               </p>
               
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
-                <span className="text-[#F3F6F4]">Description</span>: [
+                <span className="text-[#F3F6F4]">description</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;Design&apos;, &apos;Develope&apos;, &apos;Secure&apos;
+                  &apos;Design&apos;, &apos;Develop&apos;, &apos;Secure&apos;
                 </span>],
               </p>
               
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">stack</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;Next.js&apos;, &apos;Figma&apos;, &apos;Postgress&apos;
+                  &apos;Next.js&apos;, &apos;Figma&apos;, &apos;Postgres&apos;
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
-                <span className="text-[#F3F6F4]">Availability</span>: [
+                <span className="text-[#F3F6F4]">availability</span>: [
                 <span className="text-[#3DF49A]">
                   &apos;Remote&apos;, &apos;Hybrid&apos;, &apos;Onsite&apos;
                 </span>],
@@ -271,7 +271,7 @@ export default async function HomePage() {
                 className="text-gray text-xs tracking-[0.2em] uppercase mb-3"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
-Things I like and.. 
+Selected work
               </p>
               <h2
                 className="text-4xl font-bold text-[#F3F6F4]"
@@ -303,7 +303,7 @@ Things I like and..
               className="text-4xl font-bold text-[#F3F6F4]"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              Things I write..
+              Things I write.
             </h2>
             <Link
               href="/blog"
@@ -420,7 +420,7 @@ Things I like and..
               className="text-[#8A938E] text-lg max-w-auto mx-auto mb-10"
               style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
-              Building user-centrice softwares or SaaS applications are not that tough, neither easier to ship in the epicenter of AI era.
+              Building user-centric software or SaaS isn&apos;t that tough, but it&apos;s no easier to ship in the epicenter of the AI era.
             </p>
             <Link
               href="/contact"

@@ -574,10 +574,10 @@ export async function reorderCredentialContributions(orders: Array<{ id: string;
 
 const DEFAULT_SITE_SETTINGS: SiteSettings = {
   id: 1,
-  title: 'Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer',
+  title: 'Mahtamun Hoque Fahim — Aspiring AI Engineer',
   description:
-    'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
-  jobTitle: 'Full-Stack Developer & AI Engineer',
+    'Aspiring AI engineer from Bangladesh. Building secure web apps, tools, and digital products in the era of agentic AI.',
+  jobTitle: 'Aspiring AI Engineer',
   avatarUrl: null,
   keywords: [
     'developer',
@@ -589,9 +589,9 @@ const DEFAULT_SITE_SETTINGS: SiteSettings = {
     'mahtamun',
     'mahtamun hoque fahim',
   ],
-  ogTitle: 'Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer',
+  ogTitle: 'Mahtamun Hoque Fahim — Aspiring AI Engineer',
   ogDescription:
-    'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.',
+    'Aspiring AI engineer from Bangladesh. Building secure web apps, tools, and digital products in the era of agentic AI.',
   updatedAt: new Date(),
 }
 

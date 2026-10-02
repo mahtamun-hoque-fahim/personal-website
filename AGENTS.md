@@ -47,6 +47,15 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-02 (homepage copy pass): typos, code-block syntax, "Aspiring" positioning
+- Agent: claude-sonnet (chat)
+- `app/page.tsx`: fixed typos (seperated, Develope, Postgress, Cause, centrice/softwares), missing spaces after punctuation, "curious about the space between pixels", and "Most developers leave security for last". Hero code block: unclosed `'Polymath;` string fixed, `Description`/`Availability` keys lowercased to match the rest.
+- Eyebrow "Things I like and.." replaced with "Selected work"; "Things I write.." now ends with a single period.
+- Positioning decision (Fahim): "Aspiring AI Engineer" everywhere. Updated `DEFAULT_SITE_SETTINGS` in `lib/db/queries.ts` and the placeholders in `app/admin/settings/SettingsForm.tsx`. The LIVE title/OG/description/jobTitle come from the `site_settings` DB row, so they must also be changed in `/admin/settings`. `lib/db/schema.ts` column defaults and `drizzle/meta` snapshots were deliberately NOT touched (changing them would need a migration).
+- Hero stats (9+/2+/1+ years) kept as is, per Fahim. Note: `app/credentials/page.tsx` meta says "7+ years of professional design, 4+ years of full-stack development" - inconsistent with the homepage; unresolved.
+- Project status badges (e.g. Bindu and LearnDE showing both `live` and `beta`) are DB-driven via `/admin/projects`, not code. Beta projects render "Live" as a button that opens a warning modal, not an anchor, so a missing `<a>` for those is expected behavior.
+- Not run this session: `npx tsc --noEmit` / `npm run build` (string-only edits; Vercel build is the check).
+
 ### 2026-09-28 (skills section): switched from wide rows to compact icon-card grid
 - Agent: claude-sonnet (chat)
 - Per Fahim's reference (another site's "What I work on" section): replaced the full-width image-beside-text row layout (from the earlier Frame_6 sketch) with a compact card grid — 1 column on phones, up to 3 across on desktop (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`), each card holding a small 56px icon slot above the title and description, not a large image block beside it.

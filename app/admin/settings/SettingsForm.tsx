@@ -180,7 +180,7 @@ export default function SettingsForm({ settings }: Props) {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Mahtamun Hoque Fahim — Full-Stack Developer & AI Engineer"
+          placeholder="Mahtamun Hoque Fahim — Aspiring AI Engineer"
           className={inputClass}
           style={{ fontFamily: 'var(--font-jakarta)' }}
         />
@@ -192,7 +192,7 @@ export default function SettingsForm({ settings }: Props) {
           rows={3}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Full-stack developer and AI engineer from Bangladesh..."
+          placeholder="Aspiring AI engineer from Bangladesh..."
           className={`${inputClass} resize-none`}
           style={{ fontFamily: 'var(--font-jakarta)' }}
         />
@@ -204,7 +204,7 @@ export default function SettingsForm({ settings }: Props) {
           type="text"
           value={jobTitle}
           onChange={(e) => setJobTitle(e.target.value)}
-          placeholder="Full-Stack Developer & AI Engineer"
+          placeholder="Aspiring AI Engineer"
           className={inputClass}
           style={{ fontFamily: 'var(--font-jakarta)' }}
         />
