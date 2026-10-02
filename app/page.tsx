@@ -269,7 +269,7 @@ export default async function HomePage() {
                 className="text-gray text-xs tracking-[0.2em] uppercase mb-3"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
-Things I like and 
+Things I like and.. 
               </p>
               <h2
                 className="text-4xl font-bold text-[#F3F6F4]"
@@ -301,7 +301,7 @@ Things I like and
               className="text-4xl font-bold text-[#F3F6F4]"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              Writing
+              Things I write..
             </h2>
             <Link
               href="/blog"
