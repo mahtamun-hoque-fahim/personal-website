@@ -47,6 +47,12 @@ npm run dev
 
 ## Session Log
 
+### 2026-09-28 (credentials timeline): remove type badge, Current badge, tags
+- Agent: claude-sonnet (chat)
+- Per Fahim's annotated screenshot: removed, from every entry in the Experience & Education timeline (`app/credentials/page.tsx`) — the WORK/EDUCATION/MILESTONE type label next to the title, the green "Current" pill, and the row of tag chips below the description (e.g. "AI Engineering", "Remote", "Internship").
+- Removed the now-dead `typeLabel()` helper along with it. Left `event.isCurrent` itself alone — it still tints the year and timeline dot mint-green for the current entry, which is a different, subtler cue than the text pill that got removed and wasn't part of what was circled.
+- Scoped to the timeline section only. The Certifications badge text and the Contributions "releases" label are different content (not type/status chips) and weren't touched.
+
 ### 2026-09-28 (about CTA): last remaining unstacked button pair
 - Agent: claude-sonnet (chat)
 - Fahim's screenshot for the "credentials CTA" fix actually showed /about's CTA ("Get in touch" / "See portfolio ↗") — same no-wrap flex row bug, same fix. Searched the whole `app/` tree for the pattern (`flex gap-4 shrink-0` beside `rounded-full` buttons) to confirm this was the last one; /credentials was already fixed, /page.tsx's hero and bottom CTA were already fixed earlier this session, /projects and /contact have no button pairs like this.
