@@ -47,6 +47,11 @@ npm run dev
 
 ## Session Log
 
+### 2026-09-28 (home CTA button): one-line label, again
+- Agent: claude-sonnet (chat)
+- Same "Start a conversation" wrap bug as the hero CTA fixed earlier — but that fix was made on `over-engineered`, a separate branch from `main` that `small-ui-fixes` doesn't include (neither branch has been merged). Applied the identical fix here: `whitespace-nowrap` + smaller `px-6` below 380px, with the label itself swapping to "Start conversation" below 380px and "Start a conversation" at 380px and up.
+- Worth remembering next merge: `over-engineered` and `small-ui-fixes` both touch some of the same spots (this button, likely others) independently — check for overlapping fixes when either merges to main, to avoid reverting one branch's fix with the other's older version.
+
 ### 2026-09-28 (navbar): floating rounded pill instead of flush top bar
 - Agent: claude-sonnet (chat)
 - Per Fahim's sketch: Navbar.tsx no longer sits flush against the top edge as a square-cornered, full-bleed bar. It's now a floating pill, inset `top-4` from the viewport top (and `px-4`/`sm:px-6` from the sides), `rounded-full`, with a blurred background at all times — not just after scroll. Scroll still deepens the background opacity and adds a shadow for legibility over busy content, but the shape itself (floating, rounded, inset) is now constant, mobile and desktop alike.

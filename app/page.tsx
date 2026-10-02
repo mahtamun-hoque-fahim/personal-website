@@ -466,12 +466,14 @@ export default async function HomePage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#3DF49A] text-[#06160E] font-semibold rounded-full
+              className="inline-flex items-center gap-2 whitespace-nowrap px-6 min-[380px]:px-8 py-4 bg-[#3DF49A] text-[#06160E] font-semibold rounded-full
                          hover:bg-[#5BFBA8] transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
               style={{ fontFamily: 'var(--font-jakarta)' }}
             >
-              Start a conversation
-              <span>→</span>
+              {/* One line always: full label from 380px up, shorter label below it */}
+              <span className="min-[380px]:hidden">Start conversation</span>
+              <span className="hidden min-[380px]:inline">Start a conversation</span>
+              <span aria-hidden="true">→</span>
             </Link>
           </div>
         </section>
