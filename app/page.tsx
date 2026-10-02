@@ -53,7 +53,7 @@ export default async function HomePage() {
                 >
                   I&apos;m{' '}
                   <span className="text-[#F3F6F4] font-medium">Mahtamun Hoque Fahim</span>
-                  {' '} - an Aspiring AI Dngineer. I build better and secure web architecture.
+                  {' '} - an Aspiring AI Engineer. I build better and secure web architecture.
                 </p>
               </div>
 
@@ -247,8 +247,10 @@ export default async function HomePage() {
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
-                <span className="text-[#F3F6F4]">available</span>:{' '}
-                <span className="text-[#3DF49A]">True,Remote</span>,
+                <span className="text-[#F3F6F4]">Availability</span>: [
+                <span className="text-[#3DF49A]">
+                  &apos;Remote&apos;, &apos;Hybrid&apos;, &apos;Onsite&apos;
+                </span>],
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">obsessions</span>: [
@@ -400,7 +402,7 @@ Things I like and..
 
         {/* ── CTA ── */}
         <section className="max-w-6xl mx-auto px-6 py-24">
-          <div className="border border-[#1F2421] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden">
+          <div className="border border-[#1F2421] rounded-2xl p-12 md:p-20 relative overflow-hidden">
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
@@ -408,12 +410,6 @@ Things I like and..
                   'radial-gradient(ellipse at center bottom, rgba(61,244,154,0.07) 0%, transparent 70%)',
               }}
             />
-            <p
-              className="text-gray text-xs tracking-[0.2em] uppercase mb-4"
-              style={{ fontFamily: 'var(--font-jetbrains)' }}
-            >
-              Open to projects
-            </p>
             <h2
               className="text-4xl md:text-6xl font-bold text-[#F3F6F4] mb-6 leading-tight"
               style={{ fontFamily: 'var(--font-clash)' }}
@@ -421,11 +417,10 @@ Things I like and..
               Reach Out!
             </h2>
             <p
-              className="text-[#8A938E] text-lg max-w-md mx-auto mb-10"
+              className="text-[#8A938E] text-lg max-w-auto mx-auto mb-10"
               style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
               Building user-centrice softwares or SaaS applications are not that tough, neither easier to ship in the epicenter of AI era.
-              Once you fix your mind, Let's talk Business!
             </p>
             <Link
               href="/contact"
