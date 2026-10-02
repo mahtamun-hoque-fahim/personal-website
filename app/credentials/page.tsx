@@ -296,12 +296,6 @@ const contributions = [
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
-function typeLabel(type: TimelineType) {
-  if (type === 'work') return { label: 'WORK', color: 'text-[#3DF49A]' }
-  if (type === 'education') return { label: 'EDUCATION', color: 'text-[#8A938E]' }
-  return { label: 'MILESTONE', color: 'text-[#5C615E]' }
-}
-
 function clusterIcon(id: string) {
   const cls = 'w-4 h-4 text-[#3DF49A]'
   if (id === 'ai') return <Cpu className={cls} />
@@ -425,7 +419,6 @@ export default async function CredentialsPage() {
 
               <div className="space-y-10">
                 {timelineEvents.map((event, i) => {
-                  const { label, color } = typeLabel(event.type)
                   const isLast = i === timelineEvents.length - 1
 
                   return (
@@ -472,20 +465,6 @@ export default async function CredentialsPage() {
                           >
                             {event.title}
                           </h3>
-                          <span
-                            className={`text-[10px] tracking-[0.15em] uppercase ${color} hidden md:inline`}
-                            style={{ fontFamily: 'var(--font-jetbrains)' }}
-                          >
-                            {label}
-                          </span>
-                          {event.isCurrent && (
-                            <span
-                              className="text-[10px] tracking-[0.12em] uppercase bg-[#3DF49A]/10 text-[#3DF49A] px-2 py-0.5 rounded-full"
-                              style={{ fontFamily: 'var(--font-jetbrains)' }}
-                            >
-                              Current
-                            </span>
-                          )}
                         </div>
 
                         <p
@@ -508,19 +487,6 @@ export default async function CredentialsPage() {
                         >
                           {event.desc}
                         </p>
-
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-1.5">
-                          {event.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-[10px] text-[#5C615E] border border-[#1F2421] px-2 py-0.5 rounded"
-                              style={{ fontFamily: 'var(--font-jetbrains)' }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
                       </div>
                     </div>
                   )
