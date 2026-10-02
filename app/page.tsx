@@ -31,38 +31,17 @@ export default async function HomePage() {
         {/* ── HERO ── */}
         <section className="min-h-screen flex flex-col justify-end pb-20 px-6 pt-32 relative overflow-hidden">
 
-          {/* Floating label top-right */}
-          <div className="absolute top-32 right-6 md:right-16 text-right hidden md:block">
-            <p className="text-[#8A938E] text-xs tracking-[0.2em] uppercase mb-1" style={{ fontFamily: 'var(--font-jakarta)' }}>
-              Based in
-            </p>
-            <p className="text-[#F3F6F4] text-sm" style={{ fontFamily: 'var(--font-clash)' }}>
-              Bangladesh
-            </p>
-          </div>
 
           <div className="max-w-6xl mx-auto w-full">
-            {/* Eyebrow */}
-            <div className="flex items-center gap-3 mb-8">
-              <span
-                className="w-2 h-2 rounded-full bg-[#3DF49A] animate-pulse"
-              />
-              <span
-                className="text-[#3DF49A] text-xs tracking-[0.25em] uppercase"
-                style={{ fontFamily: 'var(--font-jetbrains)' }}
-              >
-                Available for work
-              </span>
-            </div>
-
+            
             {/* Main heading */}
             <h1
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              <span className="block text-[#F3F6F4]">Think.</span>
-              <span className="block text-[#F3F6F4]">Direct.</span>
-              <span className="block text-[#3DF49A]">Create.</span>
+              <span className="block text-[#F3F6F4]">Safety</span>
+              <span className="block text-[#F3F6F4]">Security</span>
+              <span className="block text-[#3DF49A]">Integrity</span>
             </h1>
 
             {/* Sub */}
