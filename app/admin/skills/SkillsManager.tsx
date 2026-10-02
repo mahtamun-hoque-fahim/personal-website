@@ -190,7 +190,7 @@ export default function SkillsManager({ initialSkills }: { initialSkills: Skill[
     <div>
       <div className="flex justify-between items-center mb-4">
         <p className="text-sm text-[#5C615E]">
-          Cards render left-to-right (image beside text) on wide screens and stack (image above text) on phones. Transparent PNGs are fine — the thumbnail slot has a light background so they still read as a card.
+          Cards sit in a grid — one column on phones, up to three across on desktop — each with a small icon above the title. Transparent PNGs are fine; the icon slot has a light background so they still read as a tile.
         </p>
         <button onClick={openCreate} className={btnPrimary}>
           <Plus className="h-4 w-4" /> New Skill

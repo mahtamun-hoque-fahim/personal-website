@@ -47,6 +47,13 @@ npm run dev
 
 ## Session Log
 
+### 2026-09-28 (skills section): switched from wide rows to compact icon-card grid
+- Agent: claude-sonnet (chat)
+- Per Fahim's reference (another site's "What I work on" section): replaced the full-width image-beside-text row layout (from the earlier Frame_6 sketch) with a compact card grid — 1 column on phones, up to 3 across on desktop (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`), each card holding a small 56px icon slot above the title and description, not a large image block beside it.
+- Icon slot keeps the same transparent-PNG-friendly background idea as before (`#141712`, a shade lighter than the page), just much smaller and square instead of wide. No image uploaded yet -> falls back to showing the skill's number, same as before.
+- Updated the stale "image beside text on wide screens" description text in `/admin/skills` to match the new grid.
+- Section heading ("What I do" / "— three disciplines, one person") left untouched — only the cards below it changed.
+
 ### 2026-09-28 (navbar): more transparent, less blur, rounded hamburger bars
 - Agent: claude-sonnet (chat)
 - Navbar pill: `backdrop-blur-xl` -> `backdrop-blur-sm`, background opacity dropped a tier at both states (`/70`->`/40` idle, `/95`->`/70` scrolled), so more of what's behind it shows through.
