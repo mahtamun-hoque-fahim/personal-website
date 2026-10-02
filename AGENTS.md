@@ -47,6 +47,12 @@ npm run dev
 
 ## Session Log
 
+### 2026-09-28 (credentials admin): removed dead type/tags controls, no DB change needed
+- Agent: claude-sonnet (chat)
+- Checked: yes, the type badge (work/education/milestone) and the tag chips removed from the public timeline last session were both dashboard-editable, in `/admin/credentials`'s timeline form (`CredentialsManager.tsx`) — a Type dropdown, a "Tags (comma separated)" input, and matching read-only badges in the admin's own list view. With nothing on the public page rendering either anymore, both were dead controls (editing them had no visible effect) and are now removed from the form, the list view, and the JSON-import placeholder example. `isCurrent` ("Current role" checkbox) was left alone — still live, still tints the year/dot on the public page.
+- Checked whether this needs Neon SQL: no. `credential_timeline.type` and `.tags` are both `NOT NULL` with DB-level defaults (`'work'` and `'{}'`), so omitting them from the dashboard's create payload is safe — Postgres fills the default, no constraint violation, no migration. Existing rows keep whatever type/tags values they already had; they're just inert now, not blanked out.
+- Left the `type` and `tags` columns in `lib/db/schema.ts` as they are — removing them outright would be a bigger, less reversible step (an actual migration) that wasn't asked for. Easy to revisit if Fahim wants a full cleanup later.
+
 ### 2026-09-28 (credentials timeline): remove type badge, Current badge, tags
 - Agent: claude-sonnet (chat)
 - Per Fahim's annotated screenshot: removed, from every entry in the Experience & Education timeline (`app/credentials/page.tsx`) — the WORK/EDUCATION/MILESTONE type label next to the title, the green "Current" pill, and the row of tag chips below the description (e.g. "AI Engineering", "Remote", "Internship").

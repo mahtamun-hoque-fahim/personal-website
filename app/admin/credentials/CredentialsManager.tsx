@@ -108,7 +108,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
   const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; label: string; action: () => void }>({ open: false, id: '', label: '', action: () => {} })
 
   function openTlCreate() {
-    setTlForm({ year: '', period: '', title: '', org: '', desc: '', tags: [], type: 'work', isCurrent: false })
+    setTlForm({ year: '', period: '', title: '', org: '', desc: '', isCurrent: false })
     setTlJsonMode(false)
     setTlModal({ open: true, mode: 'create' })
   }
@@ -353,13 +353,11 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs text-[#3DF49A] font-mono">{entry.year}</span>
                     <span className="text-xs text-[#5C615E]">{entry.period}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full border ${entry.type === 'work' ? 'border-blue-500/30 text-blue-400' : entry.type === 'education' ? 'border-purple-500/30 text-purple-400' : 'border-yellow-500/30 text-yellow-400'}`}>{entry.type}</span>
                     {entry.isCurrent && <span className="text-xs px-2 py-0.5 rounded-full border border-[#3DF49A]/30 text-[#3DF49A]">current</span>}
                   </div>
                   <p className="text-sm font-semibold text-[#F3F6F4]">{entry.title}</p>
                   <p className="text-xs text-[#8A938E]">{entry.org}</p>
                   <p className="text-xs text-[#5C615E] mt-1 line-clamp-2">{entry.desc}</p>
-                  <div className="flex gap-1 mt-2 flex-wrap">{entry.tags.map(t => <span key={t} className="text-xs px-2 py-0.5 bg-[#1A1F1C] rounded text-[#5C615E]">{t}</span>)}</div>
                 </div>
                 <div className="flex gap-1 shrink-0">
                   <button onClick={() => openTlEdit(entry)} className="p-2 text-[#5C615E] hover:text-[#3DF49A] transition-colors"><Pencil className="h-4 w-4" /></button>
@@ -495,7 +493,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
         </div>
         {tlJsonMode ? (
           <>
-            <JsonTab value={tlJson} onChange={setTlJson} placeholder='[{"year":"2026","period":"Jul 2026 – Sep 2026","title":"...","org":"...","desc":"...","tags":[],"type":"work","isCurrent":false}]' />
+            <JsonTab value={tlJson} onChange={setTlJson} placeholder='[{"year":"2026","period":"Jul 2026 – Sep 2026","title":"...","org":"...","desc":"...","isCurrent":false}]' />
             <div className="flex justify-end gap-2 mt-4">
               <button onClick={() => setTlModal({ open: false, mode: 'create' })} className={btnSecondary}>Cancel</button>
               <button onClick={saveTlJson} disabled={pending} className={btnPrimary}>{pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} Import</button>
@@ -510,15 +508,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
             <div><label className={labelCls}>Title</label><input className={inputCls} value={tlForm.title ?? ''} onChange={e => setTlForm(p => ({ ...p, title: e.target.value }))} placeholder="Front-end AI Engineering Intern" /></div>
             <div><label className={labelCls}>Organisation</label><input className={inputCls} value={tlForm.org ?? ''} onChange={e => setTlForm(p => ({ ...p, org: e.target.value }))} placeholder="FlyRank AI" /></div>
             <div><label className={labelCls}>Description</label><textarea rows={3} className={inputCls} value={tlForm.desc ?? ''} onChange={e => setTlForm(p => ({ ...p, desc: e.target.value }))} /></div>
-            <div><label className={labelCls}>Tags (comma separated)</label><input className={inputCls} value={(tlForm.tags ?? []).join(', ')} onChange={e => setTlForm(p => ({ ...p, tags: e.target.value.split(',').map(s => s.trim()).filter(Boolean) }))} placeholder="AI Engineering, Remote" /></div>
-            <div className="grid grid-cols-2 gap-3">
-              <div><label className={labelCls}>Type</label>
-                <select className={inputCls} value={tlForm.type ?? 'work'} onChange={e => setTlForm(p => ({ ...p, type: e.target.value }))}>
-                  <option value="work">Work</option><option value="education">Education</option><option value="milestone">Milestone</option>
-                </select>
-              </div>
-              <div className="flex items-end pb-2"><label className="flex items-center gap-2 text-sm text-[#8A938E] cursor-pointer"><input type="checkbox" className="accent-[#3DF49A]" checked={!!tlForm.isCurrent} onChange={e => setTlForm(p => ({ ...p, isCurrent: e.target.checked }))} /> Current role</label></div>
-            </div>
+            <label className="flex items-center gap-2 text-sm text-[#8A938E] cursor-pointer"><input type="checkbox" className="accent-[#3DF49A]" checked={!!tlForm.isCurrent} onChange={e => setTlForm(p => ({ ...p, isCurrent: e.target.checked }))} /> Current role (tints the year and timeline dot on the public page)</label>
             <div className="flex justify-end gap-2 mt-2">
               <button onClick={() => setTlModal({ open: false, mode: 'create' })} className={btnSecondary}>Cancel</button>
               <button onClick={saveTlForm} disabled={pending} className={btnPrimary}>{pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} Save</button>
