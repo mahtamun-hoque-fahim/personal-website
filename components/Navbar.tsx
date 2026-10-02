@@ -31,15 +31,19 @@ export default function Navbar() {
 
   return (
     <>
-      <nav
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-          scrolled
-            ? 'py-3 bg-[#070807]/90 backdrop-blur-xl border-b border-[#1F2421]'
-            : 'py-6'
-        )}
-      >
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+      {/* Floating pill nav: inset from the top (and sides) at every width —
+          never flush against the viewport edge, mobile or desktop. Scroll
+          only deepens the background/shadow for legibility; the shape
+          itself doesn't change. */}
+      <nav className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 transition-all duration-500">
+        <div
+          className={cn(
+            'max-w-6xl mx-auto rounded-full border border-[#1F2421] backdrop-blur-xl px-5 sm:px-6 py-3 flex items-center justify-between transition-all duration-500',
+            scrolled
+              ? 'bg-[#0A0C0B]/95 shadow-lg shadow-black/40'
+              : 'bg-[#0A0C0B]/70'
+          )}
+        >
           {/* Logo */}
           <Link
             href="/"
