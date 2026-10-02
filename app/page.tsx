@@ -60,8 +60,8 @@ export default async function HomePage() {
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              <span className="block text-[#F3F6F4]">Design.</span>
-              <span className="block text-[#F3F6F4]">Code.</span>
+              <span className="block text-[#F3F6F4]">Think.</span>
+              <span className="block text-[#F3F6F4]">Direct.</span>
               <span className="block text-[#3DF49A]">Create.</span>
             </h1>
 
@@ -74,8 +74,7 @@ export default async function HomePage() {
                 >
                   I&apos;m{' '}
                   <span className="text-[#F3F6F4] font-medium">Mahtamun Hoque Fahim</span>
-                  {' '} - an Aspiring AI engineer and full stack web engineer.
-                  I build better looking web and secure architecture.
+                  {' '} - an Aspiring AI Dngineer. I build better and secure web architecture.
                 </p>
               </div>
 
