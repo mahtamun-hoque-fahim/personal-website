@@ -143,21 +143,15 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* ── WHAT I DO ── */}
+        {/* ── I like building ── */}
         <section className="max-w-6xl mx-auto px-6 py-28">
           <div className="flex flex-col md:flex-row gap-6 md:items-end mb-16">
             <h2
               className="text-5xl md:text-6xl font-bold text-[#F3F6F4]"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              What I do
+             I like building.
             </h2>
-            <span
-              className="text-[#8A938E] text-sm md:mb-2"
-              style={{ fontFamily: 'var(--font-jakarta)' }}
-            >
-              — three disciplines, one person
-            </span>
           </div>
 
           {/* Compact icon-card grid: 1 column on phones, up to 3 across on
