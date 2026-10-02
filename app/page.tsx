@@ -80,9 +80,9 @@ export default async function HomePage() {
             {/* Horizontal rule with stat */}
             <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12">
               {[
-                { num: '5+', label: 'Years designing' },
-                { num: '50+', label: 'Projects shipped' },
-                { num: '∞', label: 'Coffee consumed' },
+                { num: '9+', label: 'Years of designing' },
+                { num: '2+', label: 'Years of building' },
+                { num: '1+', label: 'Years of Securing' },
               ].map((stat) => (
                 <div key={stat.label}>
                   <p
@@ -183,31 +183,25 @@ export default async function HomePage() {
         <section className="max-w-6xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
-              <p
-                className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-6"
-                style={{ fontFamily: 'var(--font-jetbrains)' }}
-              >
-                The honest version
-              </p>
               <h2
                 className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
                 style={{ fontFamily: 'var(--font-clash)' }}
               >
-                I don&apos;t separate design from engineering.
+               Design can't be seperated from engineering.
               </h2>
               <p
                 className="text-[#8A938E] text-base leading-relaxed mb-6"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
-                Most designers hand off to developers. Most developers complain about the Figma files.
-                I do both — which means the gap doesn&apos;t exist for me.
+                Most designers hand off to developers. Most developers complain about the Security.
+                I do it all, Cause I don't rest till I build the best.
               </p>
               <p
                 className="text-[#8A938E] text-base leading-relaxed mb-10"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
-                I care obsessively about the space between pixels. I write code the way
-                I design — with intention. I&apos;m from Bangladesh, building work that competes globally.
+                I am obsessively curious the space between pixels. I write code the way
+                I design — with intention.I love what I do, and coffee? More.
               </p>
               <Link
                 href="/about"
@@ -236,26 +230,30 @@ export default async function HomePage() {
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">role</span>:{' '}
-                <span className="text-[#3DF49A]">&apos;Designer + Developer&apos;</span>,
+                <span className="text-[#3DF49A]">&apos;Polymath;</span>,
               </p>
+              
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
-                <span className="text-[#F3F6F4]">based</span>:{' '}
-                <span className="text-[#3DF49A]">&apos;Chattogram, Bangladesh&apos;</span>,
+                <span className="text-[#F3F6F4]">Description</span>: [
+                <span className="text-[#3DF49A]">
+                  &apos;Design&apos;, &apos;Develope&apos;, &apos;Secure&apos;
+                </span>],
               </p>
+              
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">stack</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;Next.js&apos;, &apos;Figma&apos;, &apos;Neon&apos;
+                  &apos;Next.js&apos;, &apos;Figma&apos;, &apos;Postgress&apos;
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">available</span>:{' '}
-                <span className="text-[#3DF49A]">true</span>,
+                <span className="text-[#3DF49A]">True,Remote</span>,
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">obsessions</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;craft&apos;, &apos;clarity&apos;, &apos;coffee&apos;
+                  &apos;Sky&apos;, &apos;Grass&apos;, &apos;coffee&apos;
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm">{'}'}</p>
@@ -268,16 +266,16 @@ export default async function HomePage() {
           <div className="flex items-center justify-between mb-12">
             <div>
               <p
-                className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-3"
+                className="text-gray text-xs tracking-[0.2em] uppercase mb-3"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
-                Selected work
+Things I like and 
               </p>
               <h2
                 className="text-4xl font-bold text-[#F3F6F4]"
                 style={{ fontFamily: 'var(--font-clash)' }}
               >
-                Projects
+                Things I've built.
               </h2>
             </div>
             <Link
@@ -320,7 +318,7 @@ export default async function HomePage() {
                 className="text-[#8A938E] text-sm"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
-                Writing about design, process & building on the web — coming soon.
+                Writing about design, engineering & security on the web - start reading.
               </p>
               <Link
                 href="/blog"
@@ -411,7 +409,7 @@ export default async function HomePage() {
               }}
             />
             <p
-              className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-4"
+              className="text-gray text-xs tracking-[0.2em] uppercase mb-4"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               Open to projects
@@ -420,13 +418,14 @@ export default async function HomePage() {
               className="text-4xl md:text-6xl font-bold text-[#F3F6F4] mb-6 leading-tight"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              Have something in mind?
+              Reach Out!
             </h2>
             <p
               className="text-[#8A938E] text-lg max-w-md mx-auto mb-10"
               style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
-              I take on selective projects where design and development genuinely matter.
+              Building user-centrice softwares or SaaS applications are not that tough, neither easier to ship in the epicenter of AI era.
+              Once you fix your mind, Let's talk Business!
             </p>
             <Link
               href="/contact"
