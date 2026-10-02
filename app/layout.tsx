@@ -94,7 +94,7 @@ export default async function RootLayout({
                 'https://github.com/mahtamun-hoque-fahim',
                 'https://linkedin.com/in/mahtamun-hoque-fahim',
               ],
-              knowsAbout: ['Next.js', 'React', 'TypeScript', 'AI Engineering', 'Full-Stack Development', 'Web Development', 'UI/UX Design'],
+              knowsAbout: ['Next.js', 'React', 'TypeScript', 'AI Engineering', 'Full-Stack Development', 'Software Engineering', 'UI/UX Design'],
             }),
           }}
         />
