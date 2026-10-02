@@ -47,6 +47,11 @@ npm run dev
 
 ## Session Log
 
+### 2026-09-28 (navbar): more transparent, less blur, rounded hamburger bars
+- Agent: claude-sonnet (chat)
+- Navbar pill: `backdrop-blur-xl` -> `backdrop-blur-sm`, background opacity dropped a tier at both states (`/70`->`/40` idle, `/95`->`/70` scrolled), so more of what's behind it shows through.
+- Hamburger icon: its 3 bars gained `rounded-full` end caps instead of square ones.
+
 ### 2026-09-28 (home CTA button): one-line label, again
 - Agent: claude-sonnet (chat)
 - Same "Start a conversation" wrap bug as the hero CTA fixed earlier — but that fix was made on `over-engineered`, a separate branch from `main` that `small-ui-fixes` doesn't include (neither branch has been merged). Applied the identical fix here: `whitespace-nowrap` + smaller `px-6` below 380px, with the label itself swapping to "Start conversation" below 380px and "Start a conversation" at 380px and up.
