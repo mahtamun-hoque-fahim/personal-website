@@ -47,6 +47,11 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-02 (skills section): thumbnail area transparent, text block solid
+- Agent: claude-sonnet (chat)
+- Per Fahim's annotated screenshot: reversed the earlier call on the skills-card thumbnail background. The top (image) area now has no background of its own (removed `bg-[#141712]`) so a transparent PNG blends straight into the page with no visible box around it. The bottom (title/desc) block now has an explicit solid background (`bg-[#0A0C0B]`), the opposite of the thumbnail above it.
+- Admin skills manager description text updated to match. Left the small 64px thumbnail preview in the admin list view (`/admin/skills`) with its own light background unchanged on purpose — that's an internal management UI showing where the image slot is, not a copy of the public card's exact rendering, so the light box still earns its keep there.
+
 ### 2026-10-02 (branch cleanup): small-ui-fixes merged, replaced by small-fixes
 - Agent: claude-sonnet (chat)
 - `small-ui-fixes` was merged into `main` via PR #6 (up through the stray-typo-fix commit). My last commit on that branch — switching the skills-grid thumbnail to full-bleed (`object-cover`, no padding) — landed ~3 minutes after the merge, so it never made it into `main`.
