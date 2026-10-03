@@ -190,7 +190,7 @@ export default function SkillsManager({ initialSkills }: { initialSkills: Skill[
     <div>
       <div className="flex justify-between items-center mb-4">
         <p className="text-sm text-[#5C615E]">
-          Cards sit in a grid — one column on phones, up to three across on desktop — each with a full-bleed thumbnail on top, cropped to fit. Transparent PNGs are fine; the thumbnail area has a light background so they still read as a tile.
+          Cards sit in a grid — one column on phones, up to three across on desktop — each with a full-bleed thumbnail on top, cropped to fit. The thumbnail area has no background of its own, so a transparent PNG blends straight into the page; the title and description below it sit on a solid background.
         </p>
         <button onClick={openCreate} className={btnPrimary}>
           <Plus className="h-4 w-4" /> New Skill

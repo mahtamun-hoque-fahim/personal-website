@@ -142,9 +142,11 @@ export default async function HomePage() {
               >
                 {/* Full-bleed thumbnail: fills the card edge to edge
                     (object-cover, no padding), clipped to the card's own
-                    rounded corners. Falls back to the skill's number when
-                    no image is uploaded yet. */}
-                <div className="w-full aspect-[4/3] bg-[#141712] overflow-hidden">
+                    rounded corners. Background is transparent on purpose —
+                    a transparent PNG upload blends straight into the page
+                    with no visible box around it. Falls back to the
+                    skill's number when no image is uploaded yet. */}
+                <div className="w-full aspect-[4/3] overflow-hidden">
                   {s.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={s.imageUrl} alt="" className="w-full h-full object-cover" />
@@ -159,7 +161,9 @@ export default async function HomePage() {
                     </div>
                   )}
                 </div>
-                <div className="p-8">
+                {/* Text block: solid background (not transparent), the
+                    opposite of the thumbnail above it. */}
+                <div className="p-8 bg-[#0A0C0B]">
                   <h3
                     className="text-xl font-semibold text-[#F3F6F4] mb-3"
                     style={{ fontFamily: 'var(--font-clash)' }}
