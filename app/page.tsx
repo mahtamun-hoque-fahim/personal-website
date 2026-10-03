@@ -133,42 +133,46 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          {/* Compact icon-card grid: 1 column on phones, up to 3 across on
-              desktop, wrapping to more rows as more skills are added. Each
-              card's icon slot is a shade lighter than the page (#141712 vs
-              #070807) on purpose, so an uploaded transparent PNG still
-              reads as a tile instead of floating on nothing. */}
+          {/* 1 column on phones, up to 3 across on desktop. */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {skills.map((s, i) => (
               <div
                 key={s.id}
-                className="rounded-2xl border border-[#1F2421] p-8 group hover:border-[#3A3F3C] transition-colors duration-300"
+                className="rounded-2xl border border-[#1F2421] overflow-hidden group hover:border-[#3A3F3C] transition-colors duration-300"
               >
-                <div className="w-14 h-14 rounded-xl bg-[#141712] flex items-center justify-center overflow-hidden mb-6 shrink-0">
+                {/* Full-bleed thumbnail: fills the card edge to edge
+                    (object-cover, no padding), clipped to the card's own
+                    rounded corners. Falls back to the skill's number when
+                    no image is uploaded yet. */}
+                <div className="w-full aspect-[4/3] bg-[#141712] overflow-hidden">
                   {s.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={s.imageUrl} alt="" className="w-full h-full object-contain p-2.5" />
+                    <img src={s.imageUrl} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <span
-                      className="text-[#2B302D] text-xl font-bold group-hover:text-[#3DF49A]/40 transition-colors duration-300"
-                      style={{ fontFamily: 'var(--font-clash)' }}
-                    >
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span
+                        className="text-[#2B302D] text-6xl font-bold group-hover:text-[#3DF49A]/30 transition-colors duration-300"
+                        style={{ fontFamily: 'var(--font-clash)' }}
+                      >
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                    </div>
                   )}
                 </div>
-                <h3
-                  className="text-xl font-semibold text-[#F3F6F4] mb-3"
-                  style={{ fontFamily: 'var(--font-clash)' }}
-                >
-                  {s.title}
-                </h3>
-                <p
-                  className="text-[#8A938E] text-sm leading-relaxed"
-                  style={{ fontFamily: 'var(--font-jakarta)' }}
-                >
-                  {s.desc}
-                </p>
+                <div className="p-8">
+                  <h3
+                    className="text-xl font-semibold text-[#F3F6F4] mb-3"
+                    style={{ fontFamily: 'var(--font-clash)' }}
+                  >
+                    {s.title}
+                  </h3>
+                  <p
+                    className="text-[#8A938E] text-sm leading-relaxed"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
+                  >
+                    {s.desc}
+                  </p>
+                </div>
               </div>
             ))}
             {skills.length === 0 && (

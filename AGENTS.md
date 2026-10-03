@@ -47,6 +47,12 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-02 (branch cleanup): small-ui-fixes merged, replaced by small-fixes
+- Agent: claude-sonnet (chat)
+- `small-ui-fixes` was merged into `main` via PR #6 (up through the stray-typo-fix commit). My last commit on that branch — switching the skills-grid thumbnail to full-bleed (`object-cover`, no padding) — landed ~3 minutes after the merge, so it never made it into `main`.
+- Fahim then hand-edited `main` directly: homepage copy/typo fixes, the `knowsAbout` list in `layout.tsx`, the availability section wording, renamed the skills-section heading to "I like building." (matching his reference) with a simplified header, and nudged the navbar blur `sm` -> `md` on top of my earlier change. None of that touched the skills-card markup itself, so no conflict with the thumbnail fix below.
+- Deleted `small-ui-fixes` (stale, diverged from `main` post-merge) and created `small-fixes` fresh off current `main`. Reapplied the full-bleed thumbnail fix against `main`'s actual current file (not a blind cherry-pick, since the surrounding heading/header markup had changed) and updated the matching description text in `/admin/skills`.
+
 ### 2026-10-02 (homepage copy pass): typos, code-block syntax, "Aspiring" positioning
 - Agent: claude-sonnet (chat)
 - `app/page.tsx`: fixed typos (seperated, Develope, Postgress, Cause, centrice/softwares), missing spaces after punctuation, "curious about the space between pixels", and "Most developers leave security for last". Hero code block: unclosed `'Polymath;` string fixed, `Description`/`Availability` keys lowercased to match the rest.
