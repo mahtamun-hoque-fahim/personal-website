@@ -1,0 +1,1 @@
+ALTER TABLE "skills" ADD COLUMN "image_position" text DEFAULT 'left' NOT NULL;

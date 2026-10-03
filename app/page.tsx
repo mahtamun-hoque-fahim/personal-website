@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
 import { getFeaturedProjects, getSkills } from '@/lib/db/queries'
+import { cn } from '@/lib/utils'
 
 const skills = [
   'Figma', 'Adobe Suite', 'Next.js', 'React', 'TypeScript', 'Tailwind CSS',
@@ -133,27 +134,33 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          {/* 1 column on phones, up to 3 across on desktop. */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Stacked full-width rows, each split 50/50 into image and
+              text. Which half the image sits on is per-skill and
+              dashboard-controlled (imagePosition), not auto-alternated —
+              flex-row-reverse just swaps the two halves at md and up.
+              Mobile always stacks image-then-text regardless of the
+              setting, since "left/right" is meaningless in one column. */}
+          <div className="flex flex-col gap-6">
             {skills.map((s, i) => (
               <div
                 key={s.id}
-                className="rounded-2xl border border-[#1F2421] overflow-hidden group hover:border-[#3A3F3C] transition-colors duration-300"
+                className={cn(
+                  'flex flex-col rounded-2xl border border-[#1F2421] overflow-hidden group hover:border-[#3A3F3C] transition-colors duration-300',
+                  s.imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'
+                )}
               >
-                {/* Full-bleed thumbnail: fills the card edge to edge
-                    (object-cover, no padding), clipped to the card's own
-                    rounded corners. Background is transparent on purpose —
-                    a transparent PNG upload blends straight into the page
-                    with no visible box around it. Falls back to the
-                    skill's number when no image is uploaded yet. */}
-                <div className="w-full aspect-[4/3] overflow-hidden">
+                {/* Image half: no background of its own, so a transparent
+                    PNG blends straight into the page with no visible box
+                    around it. Falls back to the skill's number when no
+                    image is uploaded yet. */}
+                <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto overflow-hidden shrink-0">
                   {s.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={s.imageUrl} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <span
-                        className="text-[#2B302D] text-6xl font-bold group-hover:text-[#3DF49A]/30 transition-colors duration-300"
+                        className="text-[#2B302D] text-7xl font-bold group-hover:text-[#3DF49A]/30 transition-colors duration-300"
                         style={{ fontFamily: 'var(--font-clash)' }}
                       >
                         {String(i + 1).padStart(2, '0')}
@@ -161,11 +168,11 @@ export default async function HomePage() {
                     </div>
                   )}
                 </div>
-                {/* Text block: solid background (not transparent), the
-                    opposite of the thumbnail above it. */}
-                <div className="p-8 bg-[#0A0C0B]">
+                {/* Text half: solid background, the opposite of the image
+                    half beside it. */}
+                <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center bg-[#0A0C0B]">
                   <h3
-                    className="text-xl font-semibold text-[#F3F6F4] mb-3"
+                    className="text-xl md:text-2xl font-semibold text-[#F3F6F4] mb-3"
                     style={{ fontFamily: 'var(--font-clash)' }}
                   >
                     {s.title}

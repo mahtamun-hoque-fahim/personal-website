@@ -11,6 +11,7 @@ import {
   uploadSkillImageAction,
 } from '@/app/admin/actions'
 import { MAX_AVATAR_BYTES } from '@/lib/constants'
+import { cn } from '@/lib/utils'
 
 // ── Shared UI (matches CredentialsManager / ProjectsManager) ──────────────
 
@@ -114,12 +115,14 @@ export default function SkillsManager({ initialSkills }: { initialSkills: Skill[
   const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
 
   function openCreate() {
-    setForm({ title: '', desc: '' })
+    // Default alternates left/right based on position in the list — just a
+    // starting suggestion, not a rule; override it per-skill below.
+    setForm({ title: '', desc: '', imagePosition: skills.length % 2 === 0 ? 'left' : 'right' })
     setModal({ open: true, mode: 'create' })
   }
 
   function openEdit(skill: Skill) {
-    setForm({ title: skill.title, desc: skill.desc })
+    setForm({ title: skill.title, desc: skill.desc, imagePosition: skill.imagePosition })
     setModal({ open: true, mode: 'edit', skill })
   }
 
@@ -210,6 +213,7 @@ export default function SkillsManager({ initialSkills }: { initialSkills: Skill[
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-[#F3F6F4]">
                 {String(idx + 1).padStart(2, '0')} · {skill.title}
+                <span className="text-[#5C615E] font-normal ml-2 capitalize">(image {skill.imagePosition})</span>
               </p>
               <p className="text-xs text-[#5C615E] mt-0.5 leading-relaxed">{skill.desc}</p>
 
@@ -275,6 +279,27 @@ export default function SkillsManager({ initialSkills }: { initialSkills: Skill[
               onChange={(e) => setForm((p) => ({ ...p, desc: e.target.value }))}
               placeholder="Brand identities, print, visual systems."
             />
+          </div>
+          <div>
+            <label className={labelCls}>Image side (desktop)</label>
+            <div className="flex gap-2">
+              {(['left', 'right'] as const).map((side) => (
+                <button
+                  key={side}
+                  type="button"
+                  onClick={() => setForm((p) => ({ ...p, imagePosition: side }))}
+                  className={cn(
+                    'flex-1 px-3 py-2 rounded-lg border text-sm capitalize transition-colors',
+                    (form.imagePosition ?? 'left') === side
+                      ? 'border-[#3DF49A] text-[#3DF49A] bg-[#3DF49A]/10'
+                      : 'border-[#1F2421] text-[#8A938E] hover:border-[#3A3F3C]'
+                  )}
+                >
+                  {side}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-[#3A3F3C] mt-1">Phones always stack image above text regardless of this setting.</p>
           </div>
           {modal.mode === 'create' && (
             <p className="text-xs text-[#5C615E]">Save first, then upload a thumbnail from the card below.</p>
