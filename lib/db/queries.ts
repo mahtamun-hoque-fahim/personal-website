@@ -592,6 +592,7 @@ const DEFAULT_SITE_SETTINGS: SiteSettings = {
   ogTitle: 'Mahtamun Hoque Fahim — Aspiring AI Engineer',
   ogDescription:
     'Aspiring AI engineer from Bangladesh. Building secure web apps, tools, and digital products in the era of agentic AI.',
+  skillsLayout: 'rows',
   updatedAt: new Date(),
 }
 

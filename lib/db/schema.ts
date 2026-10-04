@@ -297,6 +297,7 @@ export const siteSettings = pgTable('site_settings', {
     .default(
       'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.'
     ),
+  skillsLayout: text('skills_layout').notNull().default('rows'), // 'rows' | 'columns'
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 })
 

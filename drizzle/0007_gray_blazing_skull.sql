@@ -1,0 +1,1 @@
+ALTER TABLE "site_settings" ADD COLUMN "skills_layout" text DEFAULT 'rows' NOT NULL;

@@ -1,14 +1,14 @@
 import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { auth } from '@/lib/auth'
-import { getSkills } from '@/lib/db/queries'
+import { getSkills, getSiteSettings } from '@/lib/db/queries'
 import SkillsManager from './SkillsManager'
 
 export default async function AdminSkillsPage() {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session) redirect('/admin/login')
 
-  const skills = await getSkills()
+  const [skills, settings] = await Promise.all([getSkills(), getSiteSettings()])
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -23,7 +23,7 @@ export default async function AdminSkillsPage() {
           Manage the &quot;What I do&quot; cards on the home page: title, description, thumbnail, and order.
         </p>
       </div>
-      <SkillsManager initialSkills={skills} />
+      <SkillsManager initialSkills={skills} initialLayout={settings.skillsLayout} />
     </div>
   )
 }
