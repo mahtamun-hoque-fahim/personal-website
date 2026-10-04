@@ -79,12 +79,6 @@ export default function ProjectCard({ project }: { project: Project }) {
         <div>
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
-              <span
-                className="text-[#2B302D] text-xs tracking-[0.15em] uppercase block mb-1 group-hover:text-[#3DF49A] transition-colors duration-300"
-                style={{ fontFamily: 'var(--font-jetbrains)' }}
-              >
-                {project.type}
-              </span>
               <h3
                 className="text-2xl font-bold text-[#F3F6F4]"
                 style={{ fontFamily: 'var(--font-clash)' }}
