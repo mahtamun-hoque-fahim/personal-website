@@ -485,7 +485,8 @@ Selected work
               className="text-[#8A938E] text-lg max-w-auto mx-auto mb-10"
               style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
-              Building user-centric software or SaaS isn&apos;t that tough, but it&apos;s no easier to ship in the epicenter of the AI era.
+              Building user-centric software or SaaS is not that tough, but it&apos;s no that easier as well to ship in the epicenter of the AI era.
+              Let's discuss what you have in mind
             </p>
             <Link
               href="/contact"
