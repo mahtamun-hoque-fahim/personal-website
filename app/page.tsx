@@ -183,8 +183,9 @@ export default async function HomePage() {
               )}
             </div>
           ) : (
-            /* Rows: stacked full-width rows, each split 50/50 into image
-               and text. Which half the image sits on is per-skill and
+            /* Rows: stacked full-width rows, each split into a narrower
+               image side (~40%) and a wider text side (~60%). Which side
+               the image sits on is per-skill and
                dashboard-controlled (imagePosition), not auto-alternated —
                flex-row-reverse just swaps the two halves at md and up.
                Mobile always stacks image-then-text regardless of the
@@ -202,7 +203,7 @@ export default async function HomePage() {
                       PNG blends straight into the page with no visible box
                       around it. Falls back to the skill's number when no
                       image is uploaded yet. */}
-                  <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto overflow-hidden shrink-0">
+                  <div className="w-full md:w-2/5 aspect-[4/3] md:aspect-auto overflow-hidden shrink-0">
                     {s.imageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={s.imageUrl} alt="" className="w-full h-full object-cover" />
@@ -219,7 +220,7 @@ export default async function HomePage() {
                   </div>
                   {/* Text half: solid background, the opposite of the image
                       half beside it. */}
-                  <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center bg-[#0A0C0B]">
+                  <div className="w-full md:w-3/5 p-8 md:p-10 flex flex-col justify-center bg-[#0A0C0B]">
                     <h3
                       className="text-xl md:text-2xl font-semibold text-[#F3F6F4] mb-3"
                       style={{ fontFamily: 'var(--font-clash)' }}
