@@ -47,6 +47,13 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-02 (skills section): back to stacked rows, image side switchable per entry
+- Agent: claude-sonnet (chat)
+- Per Fahim's sketch: skills section is no longer the 3-column card grid — it's a single-column stack of full-width rows again, each split 50/50 into image and text. New `imagePosition` column (`'left' | 'right'`, default `'left'`) on `skills`, with a Left/Right toggle in `/admin/skills`'s create/edit form, so which side the image sits on is per-skill and dashboard-controlled rather than fixed or auto-alternated. New entries default to alternating based on position in the list, as a starting suggestion only — fully overridable per skill.
+- Image half keeps the transparent-background treatment from last session (blends a transparent PNG into the page); text half keeps its solid `bg-[#0A0C0B]`. On phones, `imagePosition` is ignored — always image-then-text, stacked, since left/right has no meaning in one column.
+- Ran `drizzle-kit generate` immediately after the schema edit, before anything else, per the standing rule from the skills/footer-links mistakes earlier.
+- Neon SQL provided separately (`add-skills-image-position.sql`) — adds the column (safe on an existing table: `NOT NULL DEFAULT 'left'` backfills automatically) and optionally alternates the 3 existing seeded skills left/right/left by sort order, matching the sketch's pattern.
+
 ### 2026-10-02 (skills section): thumbnail area transparent, text block solid
 - Agent: claude-sonnet (chat)
 - Per Fahim's annotated screenshot: reversed the earlier call on the skills-card thumbnail background. The top (image) area now has no background of its own (removed `bg-[#141712]`) so a transparent PNG blends straight into the page with no visible box around it. The bottom (title/desc) block now has an explicit solid background (`bg-[#0A0C0B]`), the opposite of the thumbnail above it.
