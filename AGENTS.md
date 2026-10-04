@@ -51,8 +51,9 @@ npm run dev
 - Agent: claude-sonnet (chat)
 - Misread Fahim's earlier sketch as "rows, with per-skill left/right image toggle." What he actually wanted was two complete arrangements (full-width rows, and a card grid with a centered icon) with a dashboard switch between them — should have asked when the sketch was ambiguous between those two readings instead of guessing.
 - Built it properly this time: new `skillsLayout` column (`'rows' | 'columns'`, default `'rows'`) on `site_settings` (a site-wide switch, not per-skill), with a toggle at the top of `/admin/skills`. `app/page.tsx` renders one of two complete JSX blocks for the "What I do" section depending on this setting.
-- Columns mode: unified card (one background/border, no split), icon centered above left-aligned title/desc, grid up to 3 across on desktop — matches Fahim's reference screenshot of his own already-uploaded icons. Rows mode is unchanged from last session (50/50 split, per-skill `imagePosition`). `imagePosition` is stored regardless of which layout is active, but only has a visible effect in rows mode — the admin form now says so.
+- Columns mode: unified card (one background/border, no split), icon centered above left-aligned title/desc, grid up to 3 across on desktop — matches Fahim's reference screenshot of his own already-uploaded icons. Rows mode carries over from last session, per-skill `imagePosition`. `imagePosition` is stored regardless of which layout is active, but only has a visible effect in rows mode — the admin form now says so.
 - `drizzle-kit generate` run immediately after the schema edit, before committing. Neon SQL provided separately for the live DB.
+- Correction, same day: the rows split was 50/50, not matching the sketch — re-checked it and the actual ratio is closer to 40% image / 60% text. Changed `md:w-1/2`/`md:w-1/2` to `md:w-2/5`/`md:w-3/5`.
 
 ### 2026-10-02 (skills section): back to stacked rows, image side switchable per entry
 - Agent: claude-sonnet (chat)
