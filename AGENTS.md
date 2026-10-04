@@ -47,6 +47,11 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-03 (projects page): remove per-card type eyebrow
+- Agent: claude-sonnet (chat)
+- Per screenshot: removed the small uppercase `{project.type}` label (TOOL/WEB/EDUCATION) that sat above each project card's title, in `components/ProjectCard.tsx`. Since ProjectCard is shared, this clears it from both the main grid and the "By Type" breakdown section further down `/projects` in one place -- "the whole page" as asked.
+- Did NOT remove the `type` field from `/admin/projects` or the DB column: unlike the credentials-timeline cleanup, this one isn't fully dead. It still drives the "Types" count stat at the top of `/projects` and the "By Type" grouped section (real `h3` headings, not eyebrows) further down the same page -- neither of which was part of what Fahim circled. Left the admin list view's own small type badge alone too (a pill, not the same bare eyebrow pattern, and still an accurate reflection of a live field).
+
 ### 2026-10-03 (skills section): real row/column layout switch, not just image-side
 - Agent: claude-sonnet (chat)
 - Misread Fahim's earlier sketch as "rows, with per-skill left/right image toggle." What he actually wanted was two complete arrangements (full-width rows, and a card grid with a centered icon) with a dashboard switch between them — should have asked when the sketch was ambiguous between those two readings instead of guessing.
