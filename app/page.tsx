@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
-import { getFeaturedProjects, getSkills } from '@/lib/db/queries'
+import { getFeaturedProjects, getSkills, getCachedSiteSettings } from '@/lib/db/queries'
 import { cn } from '@/lib/utils'
 
 const skills = [
@@ -18,10 +18,11 @@ const skills = [
 const ticker = [...skills, ...skills]
 
 export default async function HomePage() {
-  const [allPosts, featuredProjects, skills] = await Promise.all([
+  const [allPosts, featuredProjects, skills, siteSettings] = await Promise.all([
     getBlogPosts({ publishedOnly: true, limit: 3 }),
     getFeaturedProjects(),
     getSkills(),
+    getCachedSiteSettings(),
   ])
 
   const recentPosts = allPosts as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'readingTime' | 'createdAt'>[]
@@ -134,45 +135,35 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          {/* Stacked full-width rows, each split 50/50 into image and
-              text. Which half the image sits on is per-skill and
-              dashboard-controlled (imagePosition), not auto-alternated —
-              flex-row-reverse just swaps the two halves at md and up.
-              Mobile always stacks image-then-text regardless of the
-              setting, since "left/right" is meaningless in one column. */}
-          <div className="flex flex-col gap-6">
-            {skills.map((s, i) => (
-              <div
-                key={s.id}
-                className={cn(
-                  'flex flex-col rounded-2xl border border-[#1F2421] overflow-hidden group hover:border-[#3A3F3C] transition-colors duration-300',
-                  s.imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'
-                )}
-              >
-                {/* Image half: no background of its own, so a transparent
-                    PNG blends straight into the page with no visible box
-                    around it. Falls back to the skill's number when no
-                    image is uploaded yet. */}
-                <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto overflow-hidden shrink-0">
-                  {s.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={s.imageUrl} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
+          {/* Two complete arrangements, switched site-wide from
+              /admin/skills (siteSettings.skillsLayout). Not a per-skill
+              setting — the whole section is one or the other. */}
+          {siteSettings.skillsLayout === 'columns' ? (
+            /* Columns: unified card (one bg/border, no split), icon
+               centered above left-aligned title/desc, grid up to 3 across
+               on desktop. imagePosition is ignored here — it only means
+               something in the row layout. */
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {skills.map((s, i) => (
+                <div
+                  key={s.id}
+                  className="rounded-2xl border border-[#1F2421] p-8 group hover:border-[#3A3F3C] transition-colors duration-300"
+                >
+                  <div className="flex justify-center mb-6">
+                    {s.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={s.imageUrl} alt="" className="h-20 w-20 object-contain" />
+                    ) : (
                       <span
-                        className="text-[#2B302D] text-7xl font-bold group-hover:text-[#3DF49A]/30 transition-colors duration-300"
+                        className="text-[#2B302D] text-5xl font-bold group-hover:text-[#3DF49A]/30 transition-colors duration-300"
                         style={{ fontFamily: 'var(--font-clash)' }}
                       >
                         {String(i + 1).padStart(2, '0')}
                       </span>
-                    </div>
-                  )}
-                </div>
-                {/* Text half: solid background, the opposite of the image
-                    half beside it. */}
-                <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center bg-[#0A0C0B]">
+                    )}
+                  </div>
                   <h3
-                    className="text-xl md:text-2xl font-semibold text-[#F3F6F4] mb-3"
+                    className="text-xl font-semibold text-[#F3F6F4] mb-3"
                     style={{ fontFamily: 'var(--font-clash)' }}
                   >
                     {s.title}
@@ -184,14 +175,73 @@ export default async function HomePage() {
                     {s.desc}
                   </p>
                 </div>
-              </div>
-            ))}
-            {skills.length === 0 && (
-              <p className="text-[#3A3F3C] text-sm" style={{ fontFamily: 'var(--font-jakarta)' }}>
-                Nothing here yet.
-              </p>
-            )}
-          </div>
+              ))}
+              {skills.length === 0 && (
+                <p className="text-[#3A3F3C] text-sm" style={{ fontFamily: 'var(--font-jakarta)' }}>
+                  Nothing here yet.
+                </p>
+              )}
+            </div>
+          ) : (
+            /* Rows: stacked full-width rows, each split 50/50 into image
+               and text. Which half the image sits on is per-skill and
+               dashboard-controlled (imagePosition), not auto-alternated —
+               flex-row-reverse just swaps the two halves at md and up.
+               Mobile always stacks image-then-text regardless of the
+               setting, since "left/right" is meaningless in one column. */
+            <div className="flex flex-col gap-6">
+              {skills.map((s, i) => (
+                <div
+                  key={s.id}
+                  className={cn(
+                    'flex flex-col rounded-2xl border border-[#1F2421] overflow-hidden group hover:border-[#3A3F3C] transition-colors duration-300',
+                    s.imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'
+                  )}
+                >
+                  {/* Image half: no background of its own, so a transparent
+                      PNG blends straight into the page with no visible box
+                      around it. Falls back to the skill's number when no
+                      image is uploaded yet. */}
+                  <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto overflow-hidden shrink-0">
+                    {s.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={s.imageUrl} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span
+                          className="text-[#2B302D] text-7xl font-bold group-hover:text-[#3DF49A]/30 transition-colors duration-300"
+                          style={{ fontFamily: 'var(--font-clash)' }}
+                        >
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {/* Text half: solid background, the opposite of the image
+                      half beside it. */}
+                  <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center bg-[#0A0C0B]">
+                    <h3
+                      className="text-xl md:text-2xl font-semibold text-[#F3F6F4] mb-3"
+                      style={{ fontFamily: 'var(--font-clash)' }}
+                    >
+                      {s.title}
+                    </h3>
+                    <p
+                      className="text-[#8A938E] text-sm leading-relaxed"
+                      style={{ fontFamily: 'var(--font-jakarta)' }}
+                    >
+                      {s.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              {skills.length === 0 && (
+                <p className="text-[#3A3F3C] text-sm" style={{ fontFamily: 'var(--font-jakarta)' }}>
+                  Nothing here yet.
+                </p>
+              )}
+            </div>
+          )}
         </section>
 
         {/* ── PERSONALITY SECTION ── */}

@@ -9,6 +9,7 @@ import {
   deleteSkillAction,
   reorderSkillsAction,
   uploadSkillImageAction,
+  saveSiteSettingsAction,
 } from '@/app/admin/actions'
 import { MAX_AVATAR_BYTES } from '@/lib/constants'
 import { cn } from '@/lib/utils'
@@ -99,9 +100,32 @@ function Thumb({ url, size = 64 }: { url: string | null; size?: number }) {
   )
 }
 
-export default function SkillsManager({ initialSkills }: { initialSkills: Skill[] }) {
+export default function SkillsManager({
+  initialSkills,
+  initialLayout,
+}: {
+  initialSkills: Skill[]
+  initialLayout: string
+}) {
   const [skills, setSkills] = useState(initialSkills)
   const [pending, startTransition] = useTransition()
+
+  // Section-wide layout — not per-skill. Switches the whole "What I do"
+  // section on the home page between the two complete arrangements.
+  const [layout, setLayout] = useState<'rows' | 'columns'>(
+    initialLayout === 'columns' ? 'columns' : 'rows'
+  )
+  const [layoutSaving, setLayoutSaving] = useState(false)
+
+  function changeLayout(next: 'rows' | 'columns') {
+    if (next === layout) return
+    setLayout(next)
+    setLayoutSaving(true)
+    startTransition(async () => {
+      await saveSiteSettingsAction({ skillsLayout: next })
+      setLayoutSaving(false)
+    })
+  }
 
   const [modal, setModal] = useState<{ open: boolean; mode: 'create' | 'edit'; skill?: Skill }>({
     open: false,
@@ -191,14 +215,39 @@ export default function SkillsManager({ initialSkills }: { initialSkills: Skill[
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <p className="text-sm text-[#5C615E]">
-Each skill is a full-width row, split 50/50 into image and text — set which side the image sits on below. Phones always stack image above text. The image half has no background of its own, so a transparent PNG blends straight into the page; the text half sits on a solid background.
-        </p>
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <label className={labelCls}>Section layout</label>
+          <div className="flex gap-2">
+            {(['rows', 'columns'] as const).map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => changeLayout(opt)}
+                className={cn(
+                  'px-3 py-1.5 rounded-lg border text-sm capitalize transition-colors flex items-center gap-1.5',
+                  layout === opt
+                    ? 'border-[#3DF49A] text-[#3DF49A] bg-[#3DF49A]/10'
+                    : 'border-[#1F2421] text-[#8A938E] hover:border-[#3A3F3C]'
+                )}
+              >
+                {opt}
+                {layout === opt && layoutSaving && <Loader2 className="h-3 w-3 animate-spin" />}
+              </button>
+            ))}
+          </div>
+        </div>
         <button onClick={openCreate} className={btnPrimary}>
           <Plus className="h-4 w-4" /> New Skill
         </button>
       </div>
+
+      <p className="text-sm text-[#5C615E] mb-4">
+        {layout === 'rows'
+          ? 'Rows: each skill is a full-width row, split 50/50 into image and text — set which side the image sits on per skill below. Phones always stack image above text.'
+          : "Columns: a grid of cards, icon centered above the title. Each skill's image-side setting below is ignored in this layout."}
+        {' '}The image area has no background of its own, so a transparent PNG blends straight into the page.
+      </p>
 
       {skills.map((skill, idx) => (
         <SectionCard key={skill.id}>
@@ -281,7 +330,7 @@ Each skill is a full-width row, split 50/50 into image and text — set which si
             />
           </div>
           <div>
-            <label className={labelCls}>Image side (desktop)</label>
+            <label className={labelCls}>Image side (desktop, rows layout only)</label>
             <div className="flex gap-2">
               {(['left', 'right'] as const).map((side) => (
                 <button
@@ -299,7 +348,11 @@ Each skill is a full-width row, split 50/50 into image and text — set which si
                 </button>
               ))}
             </div>
-            <p className="text-xs text-[#3A3F3C] mt-1">Phones always stack image above text regardless of this setting.</p>
+            <p className="text-xs text-[#3A3F3C] mt-1">
+              {layout === 'columns'
+                ? 'Section layout above is set to "columns", so this has no visible effect right now.'
+                : 'Phones always stack image above text regardless of this setting.'}
+            </p>
           </div>
           {modal.mode === 'create' && (
             <p className="text-xs text-[#5C615E]">Save first, then upload a thumbnail from the card below.</p>
