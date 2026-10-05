@@ -41,9 +41,9 @@ export default async function HomePage() {
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              <span className="block text-[#F3F6F4]">Safety</span>
-              <span className="block text-[#F3F6F4]">Security</span>
-              <span className="block text-[#3DF49A]">Integrity</span>
+              <span className="block text-[#F3F6F4]">Build</span>
+              <span className="block text-[#F3F6F4]">Deploy</span>
+              <span className="block text-[#3DF49A]">Secure</span>
             </h1>
 
             {/* Sub */}
