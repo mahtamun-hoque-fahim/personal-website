@@ -47,6 +47,13 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-03 (projects page): status badges removed entirely, including from DB
+- Agent: claude-sonnet (chat)
+- Per screenshot, phrased as "gone for good": removed the LIVE/BETA/DEPRECATED/FUNDING pills shown on each project card, and -- unlike the credentials-timeline cleanup earlier, where unused columns were deliberately left in place -- this time dropped the underlying `status_badges` column from `projects` outright, since the instruction was for a permanent removal this time, not a soft deprecation.
+- Flagged before removing, since it wasn't purely decorative: `statusBadges` also gated a "this project is in beta, might be unstable" warning modal before opening a beta project's Live link (`BetaModal` in the old `ProjectCard.tsx`). That whole interaction is gone with the column -- Live links now always open directly. `ProjectCard.tsx` lost its `'use client'` directive too, since nothing in it needs client-side state anymore.
+- Swept the whole codebase for every reference, not just the obvious ones: the admin form's toggle buttons and list-view pills (`/admin/projects`'s `ProjectsManager.tsx`), the bulk-JSON import's parsing/validation and its example/doc text (`JsonHelpPanel.tsx`), and two sanitize helpers in `app/admin/actions.ts` (`sanitizeStatusBadges`, the `ALLOWED_BADGES` list) used by both the single-project and bulk-upsert actions.
+- `drizzle-kit generate` run immediately after the schema edit. Neon SQL (`DROP COLUMN`) provided separately, marked irreversible.
+
 ### 2026-10-03 (projects page): remove per-card type eyebrow
 - Agent: claude-sonnet (chat)
 - Per screenshot: removed the small uppercase `{project.type}` label (TOOL/WEB/EDUCATION) that sat above each project card's title, in `components/ProjectCard.tsx`. Since ProjectCard is shared, this clears it from both the main grid and the "By Type" breakdown section further down `/projects` in one place -- "the whole page" as asked.

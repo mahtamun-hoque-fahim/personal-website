@@ -12,7 +12,6 @@ const EXAMPLE_JSON = `{
       "description": "Whiteboard with a hand-drawn aesthetic. Multiplayer, AI sketch-to-diagram, EEE/BEE circuit library. Pure HTML + Canvas API.",
       "liveUrl": "https://neura-ashy.vercel.app",
       "repoUrl": "https://github.com/mahtamun-hoque-fahim/neura",
-      "statusBadges": ["live"],
       "collaborators": [
         { "name": "Tanvir Hossain", "url": "https://github.com/Tanvir83775757676" },
         "CoxMC"
@@ -109,10 +108,6 @@ export default function JsonHelpPanel() {
                 </li>
                 <li>
                   <code className="text-[#F3F6F4]">liveUrl</code> — string or null
-                </li>
-                <li>
-                  <code className="text-[#F3F6F4]">statusBadges</code> — subset of{' '}
-                  <code className="text-[#3DF49A]">["live","beta","deprecated","funding"]</code>
                 </li>
                 <li>
                   <code className="text-[#F3F6F4]">collaborators</code> — strings or{' '}
