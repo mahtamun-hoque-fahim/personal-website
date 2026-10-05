@@ -47,6 +47,12 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-03 (about page): removed "What I believe" and "How I got here"
+- Agent: claude-sonnet (chat)
+- Deleted both sections from `app/about/page.tsx` wholesale: the Values block ("What I believe", a 2-column grid partner to "The honest story") and the whole Timeline section ("How I got here", the 2019-2024+ history with the vertical line/dots). Removed their now-unused `values` and `timeline` data arrays too.
+- "The honest story" survives on its own, no longer paired in a 2-column grid -- changed that grid to a single `max-w-2xl` column so the remaining text isn't stretched full-width.
+- This page is fully static (no DB query, no admin page) -- nothing to clean up on the dashboard side, unlike the skills/projects/credentials removals earlier this conversation.
+
 ### 2026-10-03 (projects page): status badges removed entirely, including from DB
 - Agent: claude-sonnet (chat)
 - Per screenshot, phrased as "gone for good": removed the LIVE/BETA/DEPRECATED/FUNDING pills shown on each project card, and -- unlike the credentials-timeline cleanup earlier, where unused columns were deliberately left in place -- this time dropped the underlying `status_badges` column from `projects` outright, since the instruction was for a permanent removal this time, not a soft deprecation.
