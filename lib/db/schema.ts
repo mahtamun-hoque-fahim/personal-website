@@ -120,7 +120,6 @@ export const projects = pgTable(
     repoUrl: text('repo_url').notNull(),
     featured: boolean('featured').notNull().default(false),
     featuredOrder: integer('featured_order'),
-    statusBadges: text('status_badges').array().notNull().default(sql`'{}'::text[]`),
     collaborators: jsonb('collaborators')
       .$type<Array<{ name: string; url?: string | null }>>()
       .notNull()

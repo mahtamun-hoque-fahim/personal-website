@@ -24,7 +24,6 @@ type Project = {
   repoUrl: string
   featured: boolean
   featuredOrder: number | null
-  statusBadges: string[]
   collaborators: Collaborator[]
 }
 
@@ -36,12 +35,8 @@ type ProjectFormState = {
   type: string
   liveUrl: string
   repoUrl: string
-  statusBadges: string[]
   collaborators: Collaborator[]
 }
-
-const STATUS_BADGES = ['live', 'beta', 'deprecated', 'funding'] as const
-type StatusBadge = (typeof STATUS_BADGES)[number]
 
 const EMPTY_FORM: ProjectFormState = {
   name: '',
@@ -51,7 +46,6 @@ const EMPTY_FORM: ProjectFormState = {
   type: 'Web',
   liveUrl: '',
   repoUrl: '',
-  statusBadges: [],
   collaborators: [],
 }
 
@@ -139,7 +133,6 @@ export default function ProjectsManager({
       type: form.type.trim() || 'Web',
       liveUrl: form.liveUrl.trim() || null,
       repoUrl: form.repoUrl.trim(),
-      statusBadges: form.statusBadges,
       collaborators: form.collaborators
         .map((c) => ({
           name: c.name.trim(),
@@ -221,17 +214,6 @@ export default function ProjectsManager({
         : typeof tagsField === 'string'
         ? tagsField.split(',').map((t) => t.trim()).filter(Boolean)
         : []
-      const badgesField = r.statusBadges ?? r.status_badges ?? r.badges
-      const statusBadges = Array.isArray(badgesField)
-        ? badgesField
-            .map((b) => String(b).trim().toLowerCase())
-            .filter((b): b is StatusBadge => (STATUS_BADGES as readonly string[]).includes(b))
-        : typeof badgesField === 'string'
-        ? badgesField
-            .split(',')
-            .map((b) => b.trim().toLowerCase())
-            .filter((b): b is StatusBadge => (STATUS_BADGES as readonly string[]).includes(b))
-        : []
       const collabField = r.collaborators ?? r.collaborated_with ?? r.collaboratedWith
       const collaborators: Collaborator[] = Array.isArray(collabField)
         ? collabField
@@ -261,7 +243,6 @@ export default function ProjectsManager({
         type: String(r.type ?? 'Web').trim() || 'Web',
         liveUrl: liveUrlRaw ? liveUrlRaw : null,
         repoUrl: String(r.repoUrl ?? '').trim(),
-        statusBadges,
         collaborators,
       }
     })
@@ -401,7 +382,6 @@ export default function ProjectsManager({
                   type: editing.type,
                   liveUrl: editing.liveUrl ?? '',
                   repoUrl: editing.repoUrl,
-                  statusBadges: editing.statusBadges ?? [],
                   collaborators: (editing.collaborators ?? []).map((c) => ({
                     name: c.name,
                     url: c.url ?? '',
@@ -463,9 +443,6 @@ function ProjectRow({
             >
               {project.type}
             </span>
-            {project.statusBadges?.map((b) => (
-              <StatusPill key={b} badge={b} />
-            ))}
           </div>
           <p className="text-[#8A938E] text-sm truncate" style={{ fontFamily: 'var(--font-jakarta)' }}>
             {project.tagline}
@@ -629,43 +606,6 @@ function ProjectFormModal({
                 </Field>
               </div>
 
-              <Field label="Status badges">
-                <div className="flex flex-wrap gap-2">
-                  {STATUS_BADGES.map((badge) => {
-                    const on = form.statusBadges.includes(badge)
-                    return (
-                      <button
-                        key={badge}
-                        type="button"
-                        onClick={() =>
-                          setForm({
-                            ...form,
-                            statusBadges: on
-                              ? form.statusBadges.filter((b) => b !== badge)
-                              : [...form.statusBadges, badge],
-                          })
-                        }
-                        className={`px-3 py-1.5 text-xs rounded-full border transition-colors uppercase tracking-wider ${
-                          on
-                            ? badgeOnCls(badge)
-                            : 'bg-transparent border-[#1F2421] text-[#5C615E] hover:border-[#2B302D] hover:text-[#8A938E]'
-                        }`}
-                        style={{ fontFamily: 'var(--font-jetbrains)' }}
-                      >
-                        {on ? '✓ ' : ''}
-                        {badge}
-                      </button>
-                    )
-                  })}
-                </div>
-                <p
-                  className="text-[10px] text-[#5C615E] mt-1.5"
-                  style={{ fontFamily: 'var(--font-jakarta)' }}
-                >
-                  Toggle any combination, or none.
-                </p>
-              </Field>
-
               <Field label="Collaborators">
                 {form.collaborators.length === 0 && (
                   <p
@@ -820,7 +760,6 @@ function ProjectFormModal({
       "description": "Health platform for at-risk diabetics...",
       "liveUrl": null,
       "repoUrl": "https://github.com/Tanvir83775757676/D-SHASTHO",
-      "statusBadges": ["beta", "funding"],
       "collaborators": [
         "Tanvir Hossain",
         { "name": "Cox's Bazar Medical College", "url": "https://cbmc.edu.bd" }
@@ -829,11 +768,8 @@ function ProjectFormModal({
   ]
 }
 
-// statusBadges (optional): any subset of
-//   ["live", "beta", "deprecated", "funding"]
 // collaborators (optional): array of strings or
-//   { "name": "...", "url": "..." } objects.
-// Omit either field for none.`}
+//   { "name": "...", "url": "..." } objects. Omit for none.`}
                   </pre>
                 </details>
               </div>
@@ -941,35 +877,6 @@ function TabButton({
 
 const inputCls =
   "w-full px-4 py-2.5 bg-[#070807] border border-[#1F2421] rounded-lg text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors text-sm font-['Plus_Jakarta_Sans',sans-serif]"
-
-// Color palette per badge — used for both toggle (on state) and display pills.
-function badgeOnCls(badge: string): string {
-  switch (badge) {
-    case 'live':
-      return 'bg-[#3DF49A]/15 border-[#3DF49A]/40 text-[#3DF49A]'
-    case 'beta':
-      return 'bg-blue-500/15 border-blue-500/40 text-blue-400'
-    case 'deprecated':
-      return 'bg-[#1F2421] border-[#2B302D] text-[#8A938E]'
-    case 'funding':
-      return 'bg-amber-500/15 border-amber-500/40 text-amber-400'
-    default:
-      return 'bg-[#1F2421] border-[#2B302D] text-[#8A938E]'
-  }
-}
-
-function StatusPill({ badge }: { badge: string }) {
-  return (
-    <span
-      className={`text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider font-medium ${badgeOnCls(
-        badge,
-      )}`}
-      style={{ fontFamily: 'var(--font-jetbrains)' }}
-    >
-      {badge}
-    </span>
-  )
-}
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
