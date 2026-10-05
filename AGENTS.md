@@ -47,6 +47,10 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-03 (about page): removed "Tools & stack" too
+- Agent: claude-sonnet (chat)
+- Deleted the "Tools & stack" section from `app/about/page.tsx` (Design/Frontend/Backend/DevOps 4-column breakdown, inline data, no DB). Same page as last entry -- About is down to header, "The honest story", and the closing CTA now.
+
 ### 2026-10-03 (about page): removed "What I believe" and "How I got here"
 - Agent: claude-sonnet (chat)
 - Deleted both sections from `app/about/page.tsx` wholesale: the Values block ("What I believe", a 2-column grid partner to "The honest story") and the whole Timeline section ("How I got here", the 2019-2024+ history with the vertical line/dots). Removed their now-unused `values` and `timeline` data arrays too.

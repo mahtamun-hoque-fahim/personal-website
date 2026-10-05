@@ -81,44 +81,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── TOOLS ── */}
-        <section className="max-w-6xl mx-auto px-6 py-20">
-          <h2
-            className="text-4xl font-bold text-[#F3F6F4] mb-12"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            Tools & stack
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1F2421]">
-            {[
-              { cat: 'Design', tools: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'Framer', 'After Effects'] },
-              { cat: 'Frontend', tools: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
-              { cat: 'Backend', tools: ['Node.js', 'Neon (PostgreSQL)', 'Drizzle ORM', 'Better Auth', 'REST APIs'] },
-              { cat: 'DevOps', tools: ['Vercel', 'GitHub', 'Git', 'Docker (basics)', 'CI/CD'] },
-            ].map((col) => (
-              <div key={col.cat} className="bg-[#070807] p-6">
-                <p
-                  className="text-[#3DF49A] text-xs tracking-widest uppercase mb-4"
-                  style={{ fontFamily: 'var(--font-jetbrains)' }}
-                >
-                  {col.cat}
-                </p>
-                <ul className="space-y-2">
-                  {col.tools.map((t) => (
-                    <li
-                      key={t}
-                      className="text-[#8A938E] text-sm"
-                      style={{ fontFamily: 'var(--font-jakarta)' }}
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* ── CTA ── */}
         <section className="max-w-6xl mx-auto px-6 pb-24">
           <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border border-[#1F2421] rounded-xl p-8">
