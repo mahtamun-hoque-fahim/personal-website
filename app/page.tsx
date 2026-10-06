@@ -55,7 +55,7 @@ export default async function HomePage() {
                 >
                   I&apos;m{' '}
                   <span className="text-[#F3F6F4] font-medium">Mahtamun Hoque Fahim</span>
-                  {' '} - an Aspiring AI Engineer. I build better and secure web architecture.
+                  , an Aspiring AI Engineer. I build better, more secure web architecture.
                 </p>
               </div>
 
@@ -267,7 +267,7 @@ export default async function HomePage() {
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
                 I am obsessively curious about the space between pixels. I write code the way
-                I design — with intention. I love what I do, and coffee? More.
+                I design, with intention. I love what I do, and coffee? More.
               </p>
               <Link
                 href="/about"
@@ -486,8 +486,8 @@ Selected work
               className="text-[#8A938E] text-lg max-w-auto mx-auto mb-10"
               style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
-              We are in the epicenter of the AI era
-              Building polished software/SaaS is much harder nowdays.
+              We are in the epicenter of the AI era.
+              Building polished software/SaaS is much harder nowadays.
               Let's discuss what you have in mind.
             </p>
             <Link

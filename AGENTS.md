@@ -47,6 +47,17 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-06 (homepage review fixes): copy fixes in code, remaining ones are DB-side
+- Agent: claude-sonnet (chat)
+- Source: an external review of the live homepage, checked against the repo before editing. Branch `small-fixes` fast-forwarded to `main`, then `app/page.tsx` only.
+- Hero: "Fahim  - an Aspiring AI Engineer. I build better and secure web architecture." became "Fahim, an Aspiring AI Engineer. I build better, more secure web architecture." Comma instead of the review's suggested " - " because spaced hyphens fall under the dash cleanup; the old line also produced a double space.
+- Home about teaser: "the way I design — with intention" became "the way I design, with intention" (em dash out).
+- Contact CTA: added the missing period after "AI era" (the review wrongly put it after "harder") and fixed "nowdays" to "nowadays".
+- NOT fixable from code, still live and must be done in the dashboard: (1) `/admin/settings` keywords still contain "most handsome man in bangladesh" (the code defaults in `lib/db/queries.ts` are clean; the live value is the DB row); delete the whole keywords tag content if wanted, since Google ignores it. (2) `/admin/projects` Bindu description "better then NGL" should read "better than NGL". (3) `/admin/skills` "Web products" description "CMS,E-commerce" needs a space after the comma.
+- Deliberately not done: no project cards added (Fahim's call), D-SHASTHO "my role" line skipped until Fahim supplies a true one-sentence contribution.
+- Open: head metadata showed no og:image / twitter:image on the homepage despite `summary_large_image`; verify in view-source or a share debugger. The CTA button label rendered as "Start conversationStart a conversation" in a text scrape; check it is a hover-swap or sr-only span and not a double render.
+- Not run: `npx tsc --noEmit` / `npm run build` (string-only edits; Vercel build is the check).
+
 ### 2026-10-03 (about page): removed "Tools & stack" too
 - Agent: claude-sonnet (chat)
 - Deleted the "Tools & stack" section from `app/about/page.tsx` (Design/Frontend/Backend/DevOps 4-column breakdown, inline data, no DB). Same page as last entry -- About is down to header, "The honest story", and the closing CTA now.
