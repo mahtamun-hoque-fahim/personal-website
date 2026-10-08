@@ -132,6 +132,15 @@ export type AboutContentInput = Pick<
   | 'ctaText'
   | 'ctaPrimaryLabel'
   | 'ctaSecondaryLabel'
+  | 'homeHeading'
+  | 'homeParagraphOne'
+  | 'homeParagraphTwo'
+  | 'homeLinkLabel'
+  | 'homeCardRole'
+  | 'homeCardDescription'
+  | 'homeCardStack'
+  | 'homeCardAvailability'
+  | 'homeCardObsessions'
 >
 
 export async function saveAboutContentAction(input: AboutContentInput) {
@@ -148,6 +157,18 @@ export async function saveAboutContentAction(input: AboutContentInput) {
     if (!text) throw new Error(`${label} can't be empty.`)
     if (text.length > max) throw new Error(`${label} is too long (max ${max} characters).`)
     return text
+  }
+
+  const cleanList = (value: unknown, label: string) => {
+    const items = Array.isArray(value)
+      ? value.map((v) => (typeof v === 'string' ? v.trim() : '')).filter(Boolean)
+      : []
+    if (items.length === 0) throw new Error(`${label} needs at least one item.`)
+    if (items.length > 8) throw new Error(`${label} has too many items (max 8).`)
+    if (items.some((v) => v.length > 40)) {
+      throw new Error(`An item in ${label} is too long (max 40 characters).`)
+    }
+    return items
   }
 
   const paragraphs = Array.isArray(input.storyParagraphs)
@@ -169,9 +190,19 @@ export async function saveAboutContentAction(input: AboutContentInput) {
     ctaText: clean(input.ctaText, 300, 'CTA text'),
     ctaPrimaryLabel: clean(input.ctaPrimaryLabel, 40, 'Primary button label'),
     ctaSecondaryLabel: clean(input.ctaSecondaryLabel, 40, 'Secondary button label'),
+    homeHeading: clean(input.homeHeading, 120, 'Homepage heading'),
+    homeParagraphOne: clean(input.homeParagraphOne, 600, 'Homepage first paragraph'),
+    homeParagraphTwo: clean(input.homeParagraphTwo, 600, 'Homepage second paragraph'),
+    homeLinkLabel: clean(input.homeLinkLabel, 40, 'Homepage link label'),
+    homeCardRole: clean(input.homeCardRole, 40, 'Card role'),
+    homeCardDescription: cleanList(input.homeCardDescription, 'Card description'),
+    homeCardStack: cleanList(input.homeCardStack, 'Card stack'),
+    homeCardAvailability: cleanList(input.homeCardAvailability, 'Card availability'),
+    homeCardObsessions: cleanList(input.homeCardObsessions, 'Card obsessions'),
   })
 
   revalidateTag('about-content', 'max')
+  revalidatePath('/')
   revalidatePath('/about')
   revalidatePath('/admin/about')
   return updated

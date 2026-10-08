@@ -47,6 +47,15 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-06 (homepage teaser editable from dashboard)
+- Agent: claude-sonnet (chat)
+- Request (Fahim): "make editable" for the homepage block left hardcoded in the previous entry ("Design can't be separated from engineering", the two paragraphs, "Full story" link and the code-style card).
+- Extended `about_content` with 9 columns: `home_heading`, `home_paragraph_one`, `home_paragraph_two`, `home_link_label`, `home_card_role`, and four `text[]` lists (`home_card_description`, `home_card_stack`, `home_card_availability`, `home_card_obsessions`). Defaults equal the previous hardcoded copy. New migration `drizzle/0010_about_homepage_teaser.sql` (+ snapshot); `0009` was left untouched because it was already pushed.
+- `app/page.tsx` now reads `getCachedAboutContent()` in its existing `Promise.all`; a small `quoteList()` helper renders the card lists as `'a', 'b'`. The card keys (`role`, `description`, ...), brackets, and the `/about` link stay in code.
+- `/admin/about` gained a "Homepage teaser" section above the About page fields. Card lists are comma-separated inputs (max 8 items, 40 chars each, parsed client-side and re-validated in `saveAboutContentAction`). The save action now also revalidates `/`.
+- MUST DO: run BOTH `0009` and `0010` (`npx drizzle-kit migrate`, back up first). If only `0009` is applied, `select *` hits missing columns, the catch returns the defaults, and saving errors, so the dashboard looks inert.
+- Verified: `npx tsc --noEmit` clean. Not run: `npm run build`, browser test.
+
 ### 2026-10-06 (about page editable from dashboard)
 - Agent: claude-sonnet (chat)
 - Request (Fahim): make the About section texts editable from the dashboard. Interpreted as the `/about` page (header, story, call to action). The homepage "Design can't be separated from engineering" block is NOT included; it is still hardcoded in `app/page.tsx`.

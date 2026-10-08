@@ -662,6 +662,17 @@ export const DEFAULT_ABOUT_CONTENT: AboutContent = {
   ctaText: "I'm selective about what I take on, which means I care about what you're building.",
   ctaPrimaryLabel: 'Get in touch',
   ctaSecondaryLabel: 'See portfolio',
+  homeHeading: "Design can't be separated from engineering.",
+  homeParagraphOne:
+    "Most designers hand off to developers. Most developers leave security for last. I do it all, because I don't rest till I build the best.",
+  homeParagraphTwo:
+    'I am obsessively curious about the space between pixels. I write code the way I design, with intention. I love what I do, and coffee? More.',
+  homeLinkLabel: 'Full story',
+  homeCardRole: 'Polymath',
+  homeCardDescription: ['Design', 'Develop', 'Secure'],
+  homeCardStack: ['Next.js', 'Figma', 'Postgres'],
+  homeCardAvailability: ['Remote', 'Hybrid', 'Onsite'],
+  homeCardObsessions: ['Sky', 'Grass', 'coffee'],
   updatedAt: new Date(0),
 }
 
