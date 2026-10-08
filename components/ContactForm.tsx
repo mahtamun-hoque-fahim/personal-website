@@ -106,7 +106,7 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Your name"
             className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] focus:shadow-[0_0_0_3px_rgba(61,244,154,0.12)] transition-[border-color,box-shadow] duration-200"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
         </div>
@@ -125,7 +125,7 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="your@email.com"
             className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] focus:shadow-[0_0_0_3px_rgba(61,244,154,0.12)] transition-[border-color,box-shadow] duration-200"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
         </div>
@@ -144,7 +144,7 @@ export default function ContactForm() {
           value={form.subject}
           onChange={handleChange}
           className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                     focus:outline-none focus:border-[#3DF49A] transition-colors"
+                     focus:outline-none focus:border-[#3DF49A] focus:shadow-[0_0_0_3px_rgba(61,244,154,0.12)] transition-[border-color,box-shadow] duration-200"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         >
           <option value="">Select a topic</option>
@@ -171,7 +171,7 @@ export default function ContactForm() {
           onChange={handleChange}
           placeholder="Tell me about what you're building..."
           className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                     placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors resize-none"
+                     placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] focus:shadow-[0_0_0_3px_rgba(61,244,154,0.12)] transition-[border-color,box-shadow] duration-200 resize-none"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         />
       </div>

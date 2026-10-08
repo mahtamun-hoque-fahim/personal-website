@@ -381,3 +381,11 @@ body::before {
 .blur-stagger > :nth-child(5) { --reveal-delay: 280ms; }
 .blur-stagger > :nth-child(6) { --reveal-delay: 350ms; }
 .blur-stagger > :nth-child(n + 7) { --reveal-delay: 420ms; }
+
+/* Keyboard focus: one visible, consistent ring for every interactive
+   element. :focus-visible means mouse clicks do not show it. Inputs
+   draw their own ring (see ContactForm), so they are not listed here. */
+:where(a, button, [role='button'], summary):focus-visible {
+  outline: 2px solid #3df49a;
+  outline-offset: 3px;
+}
