@@ -47,7 +47,7 @@ export default async function ProjectsPage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-y border-[#1F2421]">
+          <div className="grid grid-cols-3 gap-4 md:gap-8 py-8 border-y border-[#1F2421]">
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
@@ -88,20 +88,6 @@ export default async function ProjectsPage() {
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Technologies
-              </p>
-            </div>
-            <div>
-              <p
-                className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                {new Set(allProjects.map(p => p.type)).size}
-              </p>
-              <p
-                className="text-[#8A938E] text-sm mt-2"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
-              >
-                Types
               </p>
             </div>
           </div>
