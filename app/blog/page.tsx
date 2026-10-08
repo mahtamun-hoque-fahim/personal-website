@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { getBlogPosts, getBlogPostBySlug, type BlogPost } from '@/lib/db/queries'
 import { formatDate } from '@/lib/utils'
 import { getCoverUrl } from '@/lib/blog-image'
+import BlurWords from '@/components/BlurWords'
+import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -37,15 +39,10 @@ export default async function BlogPage() {
           >
             Blog
           </p>
-          <h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            Things I think about
-          </h1>
+          <BlurWords as="h1" text="Things I think about" mode="load" className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
           <p
-            className="text-[#8A938E] text-lg max-w-xl leading-relaxed"
-            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+            className="blur-load text-[#8A938E] text-lg max-w-xl leading-relaxed"
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '140ms' } as CSSProperties}
           >
             Writing about design systems, creative process, building products, and whatever
             I&apos;m obsessing over this month.

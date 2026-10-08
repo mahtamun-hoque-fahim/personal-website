@@ -10,6 +10,8 @@ import {
   getCredentialCommunity,
   getCredentialContributions,
 } from '@/lib/db/queries'
+import BlurWords from '@/components/BlurWords'
+import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
   title: 'Credentials & Journey',
@@ -376,15 +378,10 @@ export default async function CredentialsPage() {
         {/* ── HERO ──────────────────────────────────────────────────── */}
         <section className="max-w-6xl mx-auto px-6 pb-20">
 
-          <h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-8"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            The Long Game.
-          </h1>
+          <BlurWords as="h1" text="The Long Game." mode="load" className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-8" style={{ fontFamily: 'var(--font-clash)' }} />
           <p
-            className="text-[#8A938E] text-xl max-w-2xl leading-relaxed mb-12"
-            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+            className="blur-load text-[#8A938E] text-xl max-w-2xl leading-relaxed mb-12"
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '140ms' } as CSSProperties}
           >
             7+ years designing. 4+ years building. Every cert, role, and field 
             experience — in one place.
@@ -399,12 +396,7 @@ export default async function CredentialsPage() {
         <section className="bg-[#090A09] border-t border-b border-[#1F2421]">
           <div className="max-w-6xl mx-auto px-6 py-20">
             <div className="flex items-center gap-3 mb-4">
-              <h2
-                className="text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                Experience & Education
-              </h2>
+              <BlurWords as="h2" text="Experience & Education" className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }} />
             </div>
             <p
               className="text-[#8A938E] text-sm mb-16"
@@ -498,12 +490,7 @@ export default async function CredentialsPage() {
 
         {/* ── CREDENTIAL CLUSTERS ───────────────────────────────────── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
-          <h2
-            className="text-4xl font-bold text-[#F3F6F4] mb-4"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            Certifications
-          </h2>
+          <BlurWords as="h2" text="Certifications" className="text-4xl font-bold text-[#F3F6F4] mb-4" style={{ fontFamily: 'var(--font-clash)' }} />
           <p
             className="text-[#8A938E] text-sm mb-16"
             style={{ fontFamily: 'var(--font-jakarta)' }}
@@ -594,12 +581,7 @@ export default async function CredentialsPage() {
         {/* ── COMMUNITY & SERVICE ───────────────────────────────────── */}
         <section className="bg-[#090A09] border-t border-b border-[#1F2421]">
           <div className="max-w-6xl mx-auto px-6 py-20">
-            <h2
-              className="text-4xl font-bold text-[#F3F6F4] mb-4"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              Community & Service
-            </h2>
+            <BlurWords as="h2" text="Community & Service" className="text-4xl font-bold text-[#F3F6F4] mb-4" style={{ fontFamily: 'var(--font-clash)' }} />
             <p
               className="text-[#8A938E] text-sm mb-12"
               style={{ fontFamily: 'var(--font-jakarta)' }}
@@ -674,12 +656,7 @@ export default async function CredentialsPage() {
         <section className="max-w-6xl mx-auto px-6 py-20">
           <div className="flex items-center gap-3 mb-4">
             <Star className="w-5 h-5 text-[#3DF49A]" />
-            <h2
-              className="text-4xl font-bold text-[#F3F6F4]"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              Notable Contributions
-            </h2>
+            <BlurWords as="h2" text="Notable Contributions" className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }} />
           </div>
           <p
             className="text-[#8A938E] text-sm mb-12"

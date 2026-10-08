@@ -6,6 +6,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProjectCard from '@/components/ProjectCard'
 import { getAllProjects } from '@/lib/db/queries'
+import BlurWords from '@/components/BlurWords'
+import type { CSSProperties } from 'react'
 
 export const metadata = {
   title: 'Projects',
@@ -24,15 +26,10 @@ export default async function ProjectsPage() {
         {/* ── HERO ── */}
         <section className="max-w-6xl mx-auto px-6 py-24 pt-32">
           <div className="mb-16">
-            <h1
-              className="text-5xl md:text-7xl font-bold text-[#F3F6F4] mb-6"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              All Projects
-            </h1>
+            <BlurWords as="h1" text="All Projects" mode="load" className="text-5xl md:text-7xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
             <p
-              className="text-[#8A938E] text-lg max-w-2xl"
-              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+              className="blur-load text-[#8A938E] text-lg max-w-2xl"
+              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '140ms' } as CSSProperties}
             >
               A collection of everything I've shipped — from web apps and tools to learning platforms and browser extensions. Each project represents something I wanted to build and share with the world.
             </p>
@@ -110,12 +107,7 @@ export default async function ProjectsPage() {
 
         {/* ── PROJECT TYPES BREAKDOWN ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
-          <h2
-            className="text-4xl font-bold text-[#F3F6F4] mb-12"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            By Type
-          </h2>
+          <BlurWords as="h2" text="By Type" className="text-4xl font-bold text-[#F3F6F4] mb-12" style={{ fontFamily: 'var(--font-clash)' }} />
 
           {/* Group projects by type */}
           {Array.from(new Set(allProjects.map(p => p.type))).map((type) => {
@@ -140,12 +132,7 @@ export default async function ProjectsPage() {
 
         {/* ── TECH STACK ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
-          <h2
-            className="text-4xl font-bold text-[#F3F6F4] mb-8"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            Technologies
-          </h2>
+          <BlurWords as="h2" text="Technologies" className="text-4xl font-bold text-[#F3F6F4] mb-8" style={{ fontFamily: 'var(--font-clash)' }} />
           <p
             className="text-[#8A938E] text-lg mb-12"
             style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
