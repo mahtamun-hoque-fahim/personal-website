@@ -310,3 +310,59 @@ body::before {
     transition-delay: 0ms !important;
   }
 }
+
+/* ── Blur reveal ──────────────────────────────────────────────────────
+   Fade + blur + a small rise. Used per word (BlurWords) and per block
+   (Reveal). The animation ends on `filter: none` and `transform: none`
+   so no blur layer or stacking context is left behind once it is done.
+   The hidden state only applies when scripting is enabled, so without
+   JS the content simply shows. Reduced motion is handled by the global
+   guard above (animations collapse to 0.01ms). */
+@keyframes blur-reveal {
+  from {
+    opacity: 0;
+    filter: blur(var(--blur-from, 6px));
+    transform: translateY(var(--reveal-y, 8px));
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+.blur-word {
+  display: inline-block;
+}
+
+@media (scripting: enabled) {
+  .blur-reveal,
+  .blur-words:not(.blur-words-load) .blur-word {
+    opacity: 0;
+    filter: blur(var(--blur-from, 6px));
+    transform: translateY(var(--reveal-y, 8px));
+  }
+}
+
+.blur-reveal[data-revealed='true'] {
+  animation: blur-reveal var(--reveal-duration, 600ms) var(--ease-out)
+    var(--reveal-delay, 0ms) both;
+}
+
+.blur-words[data-revealed='true'] .blur-word {
+  animation: blur-reveal var(--word-duration, 550ms) var(--ease-out)
+    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 45ms)) both;
+}
+
+/* Above the fold: plays on first paint, no JS needed. */
+.blur-words-load .blur-word {
+  opacity: 0;
+  animation: blur-reveal var(--word-duration, 550ms) var(--ease-out)
+    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 45ms)) both;
+}
+
+.blur-load {
+  opacity: 0;
+  animation: blur-reveal var(--reveal-duration, 600ms) var(--ease-out)
+    var(--reveal-delay, 0ms) both;
+}

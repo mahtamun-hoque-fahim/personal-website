@@ -5,8 +5,10 @@ export const revalidate = 60
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
+import BlurWords from '@/components/BlurWords'
 import { getFeaturedProjects, getSkills, getCachedSiteSettings, getCachedAboutContent } from '@/lib/db/queries'
 import { cn } from '@/lib/utils'
 
@@ -45,14 +47,14 @@ export default async function HomePage() {
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              <span className="block text-[#F3F6F4]">Build</span>
-              <span className="block text-[#F3F6F4]">Deploy</span>
-              <span className="block text-[#3DF49A]">Secure</span>
+              <BlurWords text="Build" mode="load" className="block text-[#F3F6F4]" />
+              <BlurWords text="Deploy" mode="load" delay={90} className="block text-[#F3F6F4]" />
+              <BlurWords text="Secure" mode="load" delay={180} className="block text-[#3DF49A]" />
             </h1>
 
             {/* Sub */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-12">
-              <div className="max-w-md">
+              <div className="max-w-md blur-load" style={{ '--reveal-delay': '220ms' } as CSSProperties}>
                 <p
                   className="text-[#8A938E] text-lg leading-relaxed"
                   style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
@@ -63,7 +65,7 @@ export default async function HomePage() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 blur-load" style={{ '--reveal-delay': '320ms' } as CSSProperties}>
                 <Link
                   href="/contact"
                   className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
@@ -84,7 +86,7 @@ export default async function HomePage() {
             </div>
 
             {/* Horizontal rule with stat */}
-            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12">
+            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12 blur-load" style={{ '--reveal-delay': '420ms' } as CSSProperties}>
               {[
                 { num: '9+', label: 'Years of designing' },
                 { num: '2+', label: 'Years of building' },
