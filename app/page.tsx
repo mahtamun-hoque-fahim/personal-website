@@ -19,6 +19,10 @@ const skills = [
   'Neon', 'PostgreSQL', 'Node.js', 'Brand Identity', 'Motion Design', 'Framer',
 ]
 
+// Hero call-to-action buttons (Let's talk / About me). Hidden for now while the
+// portrait layout settles; flip to `true` to bring them back (nothing else to change).
+const SHOW_HERO_CTAS = false
+
 const ticker = [...skills, ...skills]
 
 // Renders ['a', 'b'] items as: 'a', 'b' (code-card style)
@@ -71,24 +75,26 @@ export default async function HomePage() {
                   </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 blur-load" style={{ '--reveal-delay': '480ms' } as CSSProperties}>
-                  <Link
-                    href="/contact"
-                    className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                               hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
-                    style={{ fontFamily: 'var(--font-jakarta)' }}
-                  >
-                    Let&apos;s talk
-                  </Link>
-                  <Link
-                    href="/about"
-                    className="w-full sm:w-auto text-center px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-                               hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
-                    style={{ fontFamily: 'var(--font-jakarta)' }}
-                  >
-                    About me
-                  </Link>
-                </div>
+                {SHOW_HERO_CTAS && (
+                  <div className="flex flex-col sm:flex-row gap-4 blur-load" style={{ '--reveal-delay': '480ms' } as CSSProperties}>
+                    <Link
+                      href="/contact"
+                      className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
+                                 hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
+                      style={{ fontFamily: 'var(--font-jakarta)' }}
+                    >
+                      Let&apos;s talk
+                    </Link>
+                    <Link
+                      href="/about"
+                      className="w-full sm:w-auto text-center px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+                                 hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
+                      style={{ fontFamily: 'var(--font-jakarta)' }}
+                    >
+                      About me
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
 

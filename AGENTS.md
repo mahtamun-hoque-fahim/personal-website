@@ -48,6 +48,14 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (face-reveal, placement): portrait moved to the drawn spot, hero buttons hidden, branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Request (Fahim, with a screenshot drawn over in red): put the portrait in the marked area; he does not know what to do with the buttons, hide them for now and unhide them when he says so.
+- Reading of the drawing (an interpretation, not a measurement): top aligned with the top of "Build", and the figure in the column between the two vertical lines (about x 812 to 1115 at 1366px wide), bottom still on the stats rule. So the portrait moved left, away from the right edge, and grew slightly in height (about 527px at 1366px, was 519px).
+- Done: `HeroPortrait.tsx` now sets `top` from the h1 font size (0.31 x, measured from the screenshot: cap top y=145 vs line-box top y=103 at a 136.6px font), `bottom-[-4rem]`, `right-[11.5%]`, `aspect-[571/907]` for the width, and the img fills it (`object-contain object-bottom`). If the head sits a few px high or low against "Build", adjust the 0.31.
+- Hero buttons: `const SHOW_HERO_CTAS = false` at the top of `app/page.tsx` wraps the buttons div. TO UNHIDE: set it to `true`. The buttons' JSX, delays and styles are untouched. While hidden, the homepage has no direct "contact" link above the fold (the nav still has Contact).
+- Verified: `npx tsc --noEmit` clean; Tailwind CLI generates the new arbitrary classes. NOT verified in a browser: the `aspect-ratio` width derivation from a `top`+`bottom` absolute box (supported in current browsers, but check the figure is not stretched or offset at 1366, 1024 and 768 widths), and the head alignment with "Build".
+
 ### 2026-10-08 (face-reveal, revision): natural scale, no added glow, branch `face-reveal`
 - Agent: claude-sonnet (chat)
 - Feedback (Fahim): the photo feels zoomed, keep it normal; use the glow that existed before.

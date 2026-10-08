@@ -359,7 +359,12 @@ Fade + 6px blur + 8px rise. The keyframes define only `from` and use `backwards`
 
 ### Hero portrait
 
-`components/HeroPortrait.tsx`, used once in the homepage hero. The full figure at natural proportions (`public/images/fahim-hero.webp`, transparent WebP, about 32 KB, cropped from the original), no zoom and no mask. It lives inside a `relative` wrapper around the headline and intro row, anchored to that wrapper's bottom-right and pushed down 4rem (`bottom-[-4rem]`) so it lands exactly on the stats rule below; that 4rem is the `mt-16` above the rule in `app/page.tsx`, so change one with the other. The photo is cut off at the waist and the cut sits on the rule, so he reads as standing on the line. No extra glow: the page's existing `MintGlow` is the only light behind him. Height `clamp(320px, 38vw, 540px)`, behind the headline (`-z-10`), hidden below `sm`. Enters with `.blur-load` (220ms delay, 1.2s, 4px blur), so the route arrival gate holds it too. Plain `<img>` with `fetchPriority="high"`, not `next/image` (the site does not use it). To change the photo, replace the WebP and update `width`/`height` in the component.
+`components/HeroPortrait.tsx`, used once in the homepage hero. The full figure at natural proportions (`public/images/fahim-hero.webp`, transparent WebP, about 32 KB), no zoom, no mask, no extra glow (the page's `MintGlow` is the only light behind him). It lives inside a `relative` wrapper around the headline and intro row.
+- **Vertical:** the top is aligned with the top of the "Build" capitals (`top` = 0.31 x the h1 font size, measured from the live page and following the headline's `clamp(3.5rem, 10vw, 9rem)`); the bottom is pushed down 4rem (`bottom-[-4rem]`) so the waist cut lands exactly on the stats rule. The 4rem is the `mt-16` above the rule in `app/page.tsx`, and the 0.31 and the clamp must match the h1 there. Height comes from the layout and `aspect-[571/907]` derives the width.
+- **Horizontal:** `right-[11.5%]` of the container, so he stands in the free column right of the headline, not against the edge.
+- Behind the headline (`-z-10`), hidden below `sm`. Enters with `.blur-load` (220ms delay, 1.2s, 4px blur), so the route arrival gate holds it too. Plain `<img>` with `fetchPriority="high"` (the site does not use `next/image`). To change the photo, replace the WebP and update `width`/`height`.
+
+The hero "Let's talk" / "About me" buttons are behind `const SHOW_HERO_CTAS = false` at the top of `app/page.tsx`. Set it to `true` to bring them back; nothing else changes.
 
 ### Other motion
 
