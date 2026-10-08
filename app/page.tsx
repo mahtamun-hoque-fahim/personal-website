@@ -42,51 +42,56 @@ export default async function HomePage() {
         <section className="min-h-screen flex flex-col justify-end pb-20 px-6 pt-32 relative overflow-hidden">
 
 
-          <div className="max-w-6xl mx-auto w-full relative">
-            <HeroPortrait />
+          <div className="max-w-6xl mx-auto w-full">
 
-            {/* Main heading */}
-            <h1
-              className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              <BlurWords text="Build" mode="load" className="block text-[#F3F6F4]" />
-              <BlurWords text="Deploy" mode="load" delay={140} className="block text-[#F3F6F4]" />
-              <BlurWords text="Secure" mode="load" delay={280} className="block text-[#3DF49A]" />
-            </h1>
+            {/* Headline + intro. `relative` anchors the portrait, which stands on the stats rule below. */}
+            <div className="relative">
+              <HeroPortrait />
 
-            {/* Sub */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-12">
-              <div className="max-w-md blur-load" style={{ '--reveal-delay': '340ms' } as CSSProperties}>
-                <p
-                  className="text-[#8A938E] text-lg leading-relaxed"
-                  style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
-                >
-                  I&apos;m{' '}
-                  <span className="text-[#F3F6F4] font-medium">Mahtamun Hoque Fahim</span>
-                  , an Aspiring AI Engineer. I build better, more secure web architecture.
-                </p>
-              </div>
+              {/* Main heading */}
+              <h1
+                className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
+                style={{ fontFamily: 'var(--font-clash)' }}
+              >
+                <BlurWords text="Build" mode="load" className="block text-[#F3F6F4]" />
+                <BlurWords text="Deploy" mode="load" delay={140} className="block text-[#F3F6F4]" />
+                <BlurWords text="Secure" mode="load" delay={280} className="block text-[#3DF49A]" />
+              </h1>
 
-              <div className="flex flex-col sm:flex-row gap-4 blur-load" style={{ '--reveal-delay': '480ms' } as CSSProperties}>
-                <Link
-                  href="/contact"
-                  className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                             hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
-                  style={{ fontFamily: 'var(--font-jakarta)' }}
-                >
-                  Let&apos;s talk
-                </Link>
-                <Link
-                  href="/about"
-                  className="w-full sm:w-auto text-center px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-                             hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
-                  style={{ fontFamily: 'var(--font-jakarta)' }}
-                >
-                  About me
-                </Link>
+              {/* Sub */}
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-12">
+                <div className="max-w-md blur-load" style={{ '--reveal-delay': '340ms' } as CSSProperties}>
+                  <p
+                    className="text-[#8A938E] text-lg leading-relaxed"
+                    style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+                  >
+                    I&apos;m{' '}
+                    <span className="text-[#F3F6F4] font-medium">Mahtamun Hoque Fahim</span>
+                    , an Aspiring AI Engineer. I build better, more secure web architecture.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 blur-load" style={{ '--reveal-delay': '480ms' } as CSSProperties}>
+                  <Link
+                    href="/contact"
+                    className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
+                               hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
+                  >
+                    Let&apos;s talk
+                  </Link>
+                  <Link
+                    href="/about"
+                    className="w-full sm:w-auto text-center px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+                               hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
+                    style={{ fontFamily: 'var(--font-jakarta)' }}
+                  >
+                    About me
+                  </Link>
+                </div>
               </div>
             </div>
+
 
             {/* Horizontal rule with stat */}
             <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12 blur-load" style={{ '--reveal-delay': '620ms' } as CSSProperties}>

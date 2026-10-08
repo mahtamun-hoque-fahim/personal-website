@@ -48,6 +48,14 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (face-reveal, revision): natural scale, no added glow, branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Feedback (Fahim): the photo feels zoomed, keep it normal; use the glow that existed before.
+- Changes: (1) Removed the mint radial glow I had added behind the head and the bottom `mask-image`; the page's existing `MintGlow` is the only glow now. (2) Re-exported the asset as the FULL figure (571x907, 32 KB) instead of the head-and-chest crop, and shrank it: `clamp(320px, 38vw, 540px)` high, so the head is about two thirds of its previous size. (3) Because the photo is cut off at the waist, the cut now sits exactly on the stats rule so he stands on the line instead of fading out: the headline + intro row is wrapped in a new `relative` div (re-indented), the portrait is anchored to its bottom and pushed down `4rem` to match the `mt-16` above the rule. If either value changes, change both.
+- Known trade-off: the "Let's talk" / "About me" buttons now sit over the lower part of the jacket and hands. They are above the portrait in the stacking order, so they stay clickable and readable (the filled mint button especially), but check it looks acceptable. Option if not: move the buttons next to the intro text.
+- Not done: nothing below `sm` (phones); no `srcset`.
+- Verified: `npx tsc --noEmit` clean; a Python mock at 1366x768 (no site glow in it) showed the proportions. NOT verified in a browser.
+
 ### 2026-10-08 (face-reveal): hero portrait, branch `face-reveal` (off `motion-polish`)
 - Agent: claude-sonnet (chat)
 - Request (Fahim): create a new branch `face-reveal` and try his photo (transparent B&W cutout, uploaded) in the empty right side of the homepage hero.
