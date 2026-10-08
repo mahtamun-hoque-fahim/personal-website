@@ -6,6 +6,7 @@ type BlurWordsProps = {
   text: string
   as?: ElementType
   className?: string
+  style?: CSSProperties
   /**
    * 'scroll': plays once when the text enters the viewport.
    * 'load': plays immediately, in pure CSS, for above-the-fold text
@@ -30,6 +31,7 @@ export default function BlurWords({
   text,
   as: Tag = 'span',
   className,
+  style: extraStyle,
   mode = 'scroll',
   delay = 0,
   stagger = 45,
@@ -38,6 +40,7 @@ export default function BlurWords({
   const words = text.split(/\s+/).filter(Boolean)
 
   const style = {
+    ...extraStyle,
     '--delay': `${delay}ms`,
     '--stagger': `${stagger}ms`,
     '--word-duration': `${duration}ms`,

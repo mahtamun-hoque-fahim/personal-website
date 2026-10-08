@@ -337,6 +337,7 @@ body::before {
 
 @media (scripting: enabled) {
   .blur-reveal,
+  .blur-stagger > *,
   .blur-words:not(.blur-words-load) .blur-word {
     opacity: 0;
     filter: blur(var(--blur-from, 6px));
@@ -366,3 +367,17 @@ body::before {
   animation: blur-reveal var(--reveal-duration, 600ms) var(--ease-out)
     var(--reveal-delay, 0ms) both;
 }
+
+/* Independent cards in a list: each child reveals in turn once the
+   container is in view. Not for gap-px grids, where the grid colour
+   would show through the hidden cells; reveal those as one block. */
+.blur-stagger[data-revealed='true'] > * {
+  animation: blur-reveal var(--reveal-duration, 600ms) var(--ease-out)
+    var(--reveal-delay, 0ms) both;
+}
+.blur-stagger > :nth-child(2) { --reveal-delay: 70ms; }
+.blur-stagger > :nth-child(3) { --reveal-delay: 140ms; }
+.blur-stagger > :nth-child(4) { --reveal-delay: 210ms; }
+.blur-stagger > :nth-child(5) { --reveal-delay: 280ms; }
+.blur-stagger > :nth-child(6) { --reveal-delay: 350ms; }
+.blur-stagger > :nth-child(n + 7) { --reveal-delay: 420ms; }
