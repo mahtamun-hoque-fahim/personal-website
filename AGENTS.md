@@ -48,6 +48,16 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (motion pass, follow-up): slower reveals and per-card reveals, same branch `motion-polish`
+- Agent: claude-sonnet (chat)
+- Request (Fahim): the reveal is too fast, make it a bit slower, and give the cards the same blur reveal.
+- Slower (commit "Slow the blur reveal"): block reveal 600ms to 900ms, per-word 550ms to 800ms, word stagger 45ms to 70ms, `.blur-stagger` steps 70ms to 110ms (cap 420ms to 660ms), hero delays 220/320/420ms to 340/480/620ms, h1 line delays 90/180ms to 140/280ms, inner-page lead text 140ms to 220ms. All of it is CSS variables or the numeric `delay` props, so it is a one-line retime if it still feels off.
+- Bug found while adding cards, fixed in its own commit: the reveal keyframes used `to { opacity: 1 }` with `both` fill, which pinned `opacity: 1` after the animation and would have overridden the dimmed foundational certs (`opacity-50 hover:opacity-70`) on `/credentials`. Keyframes are now `from`-only with `backwards` fill and the hidden state is dropped via `:not([data-revealed='true'])`, so the end state is always the element's own style. Do not change the fill back to `both`.
+- Cards (commit "Cards reveal one by one"): `ProjectCard` (home + both grids on `/projects`) and the home blog teaser cards keep their cell (background, 1px grid lines, hover) and blur only their content in, per card, as each scrolls into view; cards in the same row stagger by 180ms (`index` prop on `ProjectCard`). Removed the grid-level `Reveal` wrappers from those two homepage grids (a hidden wrapper would have hidden the cards too). `/blog` list: each card wrapped in its own `Reveal` (col-span moved to the wrapper, `h-full` on the `Link`), `--blur-from: 3px` because of the large cover images. `/credentials`: cert, community and contribution grids use `.blur-stagger`.
+- Skipped on purpose: the credentials timeline (vertical, continuous, per-item reveal would fight the line) and the skills cards (already revealed individually).
+- Docs: DESIGN_GUIDE.md section 8 (new durations, fill-mode warning, the three card patterns), PLANNER.md timeline row.
+- Verified: `npx tsc --noEmit` clean after each commit; Tailwind CLI compile confirms the new hidden/revealed selectors. NOT verified: `npm run build` (no Google Fonts egress here), browser, real feel of the new timings.
+
 ### 2026-10-08 (motion pass): blur-fade reveals and microinteractions, branch `motion-polish`
 - Agent: claude-sonnet (chat)
 - Request (Fahim): add motion/animation to the site, audit first, approve, then implement in small commits. Fahim's own direction: he loves scroll-triggered faded-blur reveals (seen in motion-primitives' Text Effect "speed" demo) and asked for it to be applied his own way, not by importing that library. Approved the suggested cut (items 1-6, 8, 10); skipped card hover polish, skeleton `loading.tsx` and the beta popup animation.

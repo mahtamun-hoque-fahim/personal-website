@@ -322,7 +322,7 @@ cf:typegen  wrangler types -> cloudflare-env.d.ts
 | Dashboard-driven About content | [x]   | `about_content` table + `/admin/about`, read by `app/about/page.tsx` and the homepage teaser through a cached query |
 | Avatar upload (Cloudinary)    | [x]    | Signed upload via Web Crypto (no Node SDK), fixed public_id, wired into AuthorCard + Person JSON-LD |
 | Blog AuthorCard + JSON-LD     | [x]    | `AuthorCard.tsx` on post pages, Article schema with nested author added |
-| Motion pass (branch `motion-polish`) | [x] | CSS-only blur-fade reveals (`Reveal`, `BlurWords`), hero entrance, route fade, button press, focus rings, navbar menu, contact form states, reduced-motion guard. No framer-motion. |
+| Motion pass (branch `motion-polish`) | [x] | CSS-only blur-fade reveals (`Reveal`, `BlurWords`, slowed to 900ms/800ms after review), per-card reveals, hero entrance, route fade, button press, focus rings, navbar menu, contact form states, reduced-motion guard. No framer-motion. |
 
 ---
 

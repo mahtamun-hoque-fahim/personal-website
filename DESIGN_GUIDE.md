@@ -340,18 +340,20 @@ Blog post content is rendered from Markdown via a custom `renderMarkdown()` func
 | `--ease-out` / `ease-ui-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | entrances, press feedback |
 | `--ease-in-out` / `ease-ui-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | on-screen movement (hamburger bars) |
 
-Durations: press 200ms, hover 150-300ms, route fade 180ms, reveal 550-600ms, headline stagger 45ms per word.
+Durations: press 200ms, hover 150-300ms, route fade 180ms, block reveal 900ms, per-word reveal 800ms with a 70ms stagger between words. Hero delays: sub text 340ms, buttons 480ms, stats 620ms. Everything is driven by CSS variables (`--reveal-duration`, `--word-duration`, `--stagger`, `--reveal-delay`) with the defaults in `globals.css`, so retiming is a one-line change.
 
 ### Blur reveal (the signature effect)
 
-Fade + 6px blur + 8px rise, resolving to `filter: none; transform: none` (no leftover blur layer or stacking context).
+Fade + 6px blur + 8px rise. The keyframes define only `from` and use `backwards` fill, so the end state is the element's normal style: no leftover blur layer or stacking context, and elements with their own opacity (dimmed cards) or hover styles keep working. Do not switch the fill to `both`/`forwards`: that pins `opacity: 1` and silently overrides those.
 
 | Piece | What it does |
 |-------|--------------|
 | `components/BlurWords.tsx` | Per-word blur-in. `mode="load"` is pure CSS (above the fold, no wait for hydration); `mode="scroll"` waits for view. Knobs: `delay`, `stagger` (ms between words), `duration` (ms per word). |
 | `components/Reveal.tsx` | Client wrapper, one IntersectionObserver, sets `data-revealed` once. Props: `as`, `delay`, `blurSelf={false}` for wrappers whose children animate. |
 | `.blur-load` | CSS-only entrance for above-the-fold blocks; delay via `--reveal-delay`. |
-| `.blur-stagger` | On a `Reveal` container of independent cards: children reveal in turn (70ms steps, capped). Do NOT use on `gap-px` grids, where the grid colour shows through hidden cells; reveal those as one block. |
+| `.blur-stagger` | On a `Reveal` container of a small set of independent cards (skills, credentials grids): children reveal in turn (110ms steps, capped at 660ms). Observed once for the whole container, so do not use it on tall lists. |
+| Card in a `gap-px` grid | The cell (background, 1px lines, hover) stays visible; wrap only the card CONTENT in `<Reveal>` so each card blurs in on its own as it scrolls into view (see `ProjectCard`, home blog teaser). Hiding the cell itself would show the grid colour through it. Stagger cards that share a row with `delay={(index % columns) * 180}`. |
+| Tall list of bordered cards | Wrap each card in its own `<Reveal>` (see `/blog`); image cards use `--blur-from: 3px` to keep the reveal cheap. |
 
 ### Other motion
 
