@@ -26,6 +26,19 @@ export default function AboutForm({ about }: Props) {
   const [ctaPrimaryLabel, setCtaPrimaryLabel] = useState(about.ctaPrimaryLabel)
   const [ctaSecondaryLabel, setCtaSecondaryLabel] = useState(about.ctaSecondaryLabel)
 
+  const [homeHeading, setHomeHeading] = useState(about.homeHeading)
+  const [homeParagraphOne, setHomeParagraphOne] = useState(about.homeParagraphOne)
+  const [homeParagraphTwo, setHomeParagraphTwo] = useState(about.homeParagraphTwo)
+  const [homeLinkLabel, setHomeLinkLabel] = useState(about.homeLinkLabel)
+  const [homeCardRole, setHomeCardRole] = useState(about.homeCardRole)
+  // Card lists are edited as comma-separated text.
+  const [homeCardDescription, setHomeCardDescription] = useState(about.homeCardDescription.join(', '))
+  const [homeCardStack, setHomeCardStack] = useState(about.homeCardStack.join(', '))
+  const [homeCardAvailability, setHomeCardAvailability] = useState(about.homeCardAvailability.join(', '))
+  const [homeCardObsessions, setHomeCardObsessions] = useState(about.homeCardObsessions.join(', '))
+
+  const toList = (value: string) => value.split(',').map((v) => v.trim()).filter(Boolean)
+
   const paragraphCount = story.split(/\n\s*\n/).filter((p) => p.trim()).length
 
   const handleSave = async () => {
@@ -44,6 +57,15 @@ export default function AboutForm({ about }: Props) {
         ctaText,
         ctaPrimaryLabel,
         ctaSecondaryLabel,
+        homeHeading,
+        homeParagraphOne,
+        homeParagraphTwo,
+        homeLinkLabel,
+        homeCardRole,
+        homeCardDescription: toList(homeCardDescription),
+        homeCardStack: toList(homeCardStack),
+        homeCardAvailability: toList(homeCardAvailability),
+        homeCardObsessions: toList(homeCardObsessions),
       })
     } catch (e) {
       setSaving(false)
@@ -58,6 +80,108 @@ export default function AboutForm({ about }: Props) {
 
   return (
     <div className="space-y-10">
+      {/* Homepage teaser */}
+      <section className="space-y-5">
+        <SectionTitle>Homepage teaser</SectionTitle>
+        <p className="text-xs text-[#8A938E]" style={{ fontFamily: 'var(--font-jakarta)' }}>
+          The two-column block on the homepage: text on the left, code-style card on the right.
+        </p>
+        <Field label="Heading">
+          <input
+            type="text"
+            value={homeHeading}
+            onChange={(e) => setHomeHeading(e.target.value)}
+            className={inputClass}
+            style={{ fontFamily: 'var(--font-jakarta)' }}
+          />
+        </Field>
+        <Field label="First paragraph">
+          <textarea
+            value={homeParagraphOne}
+            onChange={(e) => setHomeParagraphOne(e.target.value)}
+            rows={3}
+            className={`${inputClass} resize-none`}
+            style={{ fontFamily: 'var(--font-jakarta)' }}
+          />
+        </Field>
+        <Field label="Second paragraph">
+          <textarea
+            value={homeParagraphTwo}
+            onChange={(e) => setHomeParagraphTwo(e.target.value)}
+            rows={3}
+            className={`${inputClass} resize-none`}
+            style={{ fontFamily: 'var(--font-jakarta)' }}
+          />
+        </Field>
+        <Field label="Link label">
+          <input
+            type="text"
+            value={homeLinkLabel}
+            onChange={(e) => setHomeLinkLabel(e.target.value)}
+            className={inputClass}
+            style={{ fontFamily: 'var(--font-jakarta)' }}
+          />
+          <Hint>Links to /about. The arrow is added automatically.</Hint>
+        </Field>
+
+        <div className="pt-2 space-y-5">
+          <p
+            className="text-xs text-[#8A938E] tracking-widest uppercase"
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
+          >
+            Code card
+          </p>
+          <Field label="role">
+            <input
+              type="text"
+              value={homeCardRole}
+              onChange={(e) => setHomeCardRole(e.target.value)}
+              className={inputClass}
+              style={{ fontFamily: 'var(--font-jakarta)' }}
+            />
+          </Field>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Field label="description">
+              <input
+                type="text"
+                value={homeCardDescription}
+                onChange={(e) => setHomeCardDescription(e.target.value)}
+                className={inputClass}
+                style={{ fontFamily: 'var(--font-jakarta)' }}
+              />
+            </Field>
+            <Field label="stack">
+              <input
+                type="text"
+                value={homeCardStack}
+                onChange={(e) => setHomeCardStack(e.target.value)}
+                className={inputClass}
+                style={{ fontFamily: 'var(--font-jakarta)' }}
+              />
+            </Field>
+            <Field label="availability">
+              <input
+                type="text"
+                value={homeCardAvailability}
+                onChange={(e) => setHomeCardAvailability(e.target.value)}
+                className={inputClass}
+                style={{ fontFamily: 'var(--font-jakarta)' }}
+              />
+            </Field>
+            <Field label="obsessions">
+              <input
+                type="text"
+                value={homeCardObsessions}
+                onChange={(e) => setHomeCardObsessions(e.target.value)}
+                className={inputClass}
+                style={{ fontFamily: 'var(--font-jakarta)' }}
+              />
+            </Field>
+          </div>
+          <Hint>Separate list items with commas, up to 8 each. The keys and brackets stay fixed.</Hint>
+        </div>
+      </section>
+
       {/* Header */}
       <section className="space-y-5">
         <SectionTitle>Header</SectionTitle>

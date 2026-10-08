@@ -71,6 +71,13 @@
       "when": 1791427347363,
       "tag": "0009_about_content",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1791431567963,
+      "tag": "0010_about_homepage_teaser",
+      "breakpoints": true
     }
   ]
 }

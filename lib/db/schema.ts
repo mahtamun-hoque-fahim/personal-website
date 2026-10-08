@@ -326,6 +326,38 @@ export const aboutContent = pgTable('about_content', {
     .default("I'm selective about what I take on, which means I care about what you're building."),
   ctaPrimaryLabel: text('cta_primary_label').notNull().default('Get in touch'),
   ctaSecondaryLabel: text('cta_secondary_label').notNull().default('See portfolio'),
+  // Homepage teaser ("personality" section) and its code-style card
+  homeHeading: text('home_heading')
+    .notNull()
+    .default("Design can't be separated from engineering."),
+  homeParagraphOne: text('home_paragraph_one')
+    .notNull()
+    .default(
+      "Most designers hand off to developers. Most developers leave security for last. I do it all, because I don't rest till I build the best."
+    ),
+  homeParagraphTwo: text('home_paragraph_two')
+    .notNull()
+    .default(
+      'I am obsessively curious about the space between pixels. I write code the way I design, with intention. I love what I do, and coffee? More.'
+    ),
+  homeLinkLabel: text('home_link_label').notNull().default('Full story'),
+  homeCardRole: text('home_card_role').notNull().default('Polymath'),
+  homeCardDescription: text('home_card_description')
+    .array()
+    .notNull()
+    .default(sql`ARRAY['Design','Develop','Secure']::text[]`),
+  homeCardStack: text('home_card_stack')
+    .array()
+    .notNull()
+    .default(sql`ARRAY['Next.js','Figma','Postgres']::text[]`),
+  homeCardAvailability: text('home_card_availability')
+    .array()
+    .notNull()
+    .default(sql`ARRAY['Remote','Hybrid','Onsite']::text[]`),
+  homeCardObsessions: text('home_card_obsessions')
+    .array()
+    .notNull()
+    .default(sql`ARRAY['Sky','Grass','coffee']::text[]`),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 })
 

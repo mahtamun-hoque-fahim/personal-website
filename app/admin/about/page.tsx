@@ -24,13 +24,13 @@ export default async function AdminAboutPage() {
           className="text-4xl font-bold text-[#F3F6F4]"
           style={{ fontFamily: 'var(--font-clash)' }}
         >
-          About page<span className="text-[#3DF49A]">.</span>
+          About content<span className="text-[#3DF49A]">.</span>
         </h1>
         <p
           className="text-sm text-[#8A938E] mt-2"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         >
-          Every piece of text on the public About page. Cached for an hour on
+          Text for the homepage teaser block and the public About page. Cached for an hour on
           the public site; saving here refreshes it immediately.
         </p>
       </div>

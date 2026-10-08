@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
-import { getFeaturedProjects, getSkills, getCachedSiteSettings } from '@/lib/db/queries'
+import { getFeaturedProjects, getSkills, getCachedSiteSettings, getCachedAboutContent } from '@/lib/db/queries'
 import { cn } from '@/lib/utils'
 
 const skills = [
@@ -17,12 +17,16 @@ const skills = [
 
 const ticker = [...skills, ...skills]
 
+// Renders ['a', 'b'] items as: 'a', 'b' (code-card style)
+const quoteList = (items: string[]) => items.map((item) => `'${item}'`).join(', ')
+
 export default async function HomePage() {
-  const [allPosts, featuredProjects, skills, siteSettings] = await Promise.all([
+  const [allPosts, featuredProjects, skills, siteSettings, about] = await Promise.all([
     getBlogPosts({ publishedOnly: true, limit: 3 }),
     getFeaturedProjects(),
     getSkills(),
     getCachedSiteSettings(),
+    getCachedAboutContent(),
   ])
 
   const recentPosts = allPosts as Pick<BlogPost, 'id' | 'title' | 'slug' | 'excerpt' | 'tags' | 'readingTime' | 'createdAt'>[]
@@ -253,28 +257,26 @@ export default async function HomePage() {
                 className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
                 style={{ fontFamily: 'var(--font-clash)' }}
               >
-               Design can&apos;t be separated from engineering.
+                {about.homeHeading}
               </h2>
               <p
                 className="text-[#8A938E] text-base leading-relaxed mb-6"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
-                Most designers hand off to developers. Most developers leave security for last.
-                I do it all, because I don&apos;t rest till I build the best.
+                {about.homeParagraphOne}
               </p>
               <p
                 className="text-[#8A938E] text-base leading-relaxed mb-10"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
-                I am obsessively curious about the space between pixels. I write code the way
-                I design, with intention. I love what I do, and coffee? More.
+                {about.homeParagraphTwo}
               </p>
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 text-[#3DF49A] text-sm group"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
-                Full story
+                {about.homeLinkLabel}
                 <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
               </Link>
             </div>
@@ -296,32 +298,32 @@ export default async function HomePage() {
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">role</span>:{' '}
-                <span className="text-[#3DF49A]">&apos;Polymath&apos;</span>,
+                <span className="text-[#3DF49A]">&apos;{about.homeCardRole}&apos;</span>,
               </p>
               
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">description</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;Design&apos;, &apos;Develop&apos;, &apos;Secure&apos;
+                  {quoteList(about.homeCardDescription)}
                 </span>],
               </p>
               
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">stack</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;Next.js&apos;, &apos;Figma&apos;, &apos;Postgres&apos;
+                  {quoteList(about.homeCardStack)}
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">availability</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;Remote&apos;, &apos;Hybrid&apos;, &apos;Onsite&apos;
+                  {quoteList(about.homeCardAvailability)}
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm ml-4 mb-1">
                 <span className="text-[#F3F6F4]">obsessions</span>: [
                 <span className="text-[#3DF49A]">
-                  &apos;Sky&apos;, &apos;Grass&apos;, &apos;coffee&apos;
+                  {quoteList(about.homeCardObsessions)}
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm">{'}'}</p>
