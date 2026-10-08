@@ -5,7 +5,11 @@ import { useEffect, useRef } from 'react'
 /**
  * MintGlow — fixed, full-page ambient light source.
  *
- * A single large mint radial orb sits in the upper-right area of the
+ * The colour is light gray (see GLOW_RGB below; it was mint, rgb 61,244,154,
+ * and the component name predates the change). To retint or revert, change
+ * that one constant.
+ *
+ * A single large radial orb sits in the upper-right area of the
  * viewport. On scroll, it translates downward at 30% of the scroll
  * speed (parallax factor 0.3), so it lags behind the content and
  * gradually moves toward — then past — code blocks as the user reads.
@@ -18,6 +22,8 @@ import { useEffect, useRef } from 'react'
  * Rendered in RootLayout so it appears on every page without any
  * per-page wiring.
  */
+const GLOW_RGB = '214, 220, 216' // light gray with a hint of the page's cool tint
+
 export default function MintGlow() {
   const orbRef = useRef<HTMLDivElement>(null)
 
@@ -66,7 +72,7 @@ export default function MintGlow() {
           width: 'clamp(500px, 60vw, 900px)',
           height: 'clamp(500px, 60vw, 900px)',
           background:
-            'radial-gradient(circle, rgba(61,244,154,0.07) 0%, rgba(61,244,154,0.025) 45%, transparent 72%)',
+            `radial-gradient(circle, rgba(${GLOW_RGB},0.06) 0%, rgba(${GLOW_RGB},0.02) 45%, transparent 72%)`,
           borderRadius: '50%',
         }}
       />
@@ -79,7 +85,7 @@ export default function MintGlow() {
           width: 'clamp(300px, 40vw, 600px)',
           height: 'clamp(300px, 40vw, 600px)',
           background:
-            'radial-gradient(circle, rgba(61,244,154,0.04) 0%, transparent 70%)',
+            `radial-gradient(circle, rgba(${GLOW_RGB},0.03) 0%, transparent 70%)`,
           borderRadius: '50%',
         }}
       />
