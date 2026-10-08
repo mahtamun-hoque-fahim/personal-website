@@ -48,6 +48,13 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (motion pass, fix): navbar lost its background blur, branch `motion-polish`
+- Agent: claude-sonnet (chat)
+- Report (Fahim): the navbar lost its background blur. `backdrop-blur-md` is still on the pill, so the cause is an ancestor. My `app/template.tsx` wrapped every page, navbar included, in a `div` animating opacity with `both` fill (it stays applied after the fade). An element with an opacity animation becomes a backdrop root, which restricts what a descendant's `backdrop-filter` can see, and Chromium keeps that state while the animation fills forward.
+- Fix: the fade now targets `.route-enter > main` and `.route-enter > footer` (every public page renders Navbar, `<main>`, Footer as siblings), the wrapper itself no longer animates, and the keyframes are `from`-only with `backwards` fill.
+- Rule to keep: never put an opacity, filter, mask or transform animation on an ancestor of the navbar.
+- Verified: `npx tsc --noEmit` clean. NOT verified in a browser (none available here): confirm on the preview that the pill blurs the hero and cards behind it on first load and after navigating between pages.
+
 ### 2026-10-08 (motion pass, follow-up): slower reveals and per-card reveals, same branch `motion-polish`
 - Agent: claude-sonnet (chat)
 - Request (Fahim): the reveal is too fast, make it a bit slower, and give the cards the same blur reveal.

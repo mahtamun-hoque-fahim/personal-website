@@ -359,7 +359,7 @@ Fade + 6px blur + 8px rise. The keyframes define only `from` and use `backwards`
 
 | Where | Behavior |
 |-------|----------|
-| Route change | `app/template.tsx`: 180ms opacity fade on enter, replayed every navigation. Enter-only (exit animations need a router-freezing hack). Skipped on `/admin`. |
+| Route change | `app/template.tsx`: 180ms opacity fade on enter, replayed every navigation, applied to `<main>` and `<footer>` only (never an ancestor of the navbar: an opacity animation on an ancestor kills the navbar's `backdrop-filter`). Enter-only (exit animations need a router-freezing hack). Skipped on `/admin`. |
 | Buttons | `active:scale-[0.97]` press. No hover grow. |
 | Keyboard focus | `:focus-visible` mint outline (2px, 3px offset) on links and buttons; form fields use a soft 3px mint ring. |
 | Contact form | Spinner while sending; success circle pops in and the check draws (`.pop-in`, `.check-draw`); error message eases in with `role="alert"`. |

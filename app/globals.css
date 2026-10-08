@@ -394,13 +394,17 @@ body::before {
 }
 
 /* Route enter: short opacity fade, replayed by app/template.tsx on every
-   navigation. Opacity only, so it creates no containing block. */
+   navigation. It targets <main> and <footer> only, never the wrapper:
+   the navbar is a sibling of <main> and uses backdrop-filter, and an
+   ancestor with an opacity animation becomes a "backdrop root" that cuts
+   that blur off. `from`-only keyframes plus `backwards` fill also release
+   the animation when it ends instead of pinning `opacity: 1`. */
 @keyframes route-enter {
   from { opacity: 0; }
-  to { opacity: 1; }
 }
-.route-enter {
-  animation: route-enter 180ms var(--ease-out) both;
+.route-enter > main,
+.route-enter > footer {
+  animation: route-enter 180ms var(--ease-out) backwards;
 }
 
 /* Contact form success: the circle pops in, then the check draws itself.
