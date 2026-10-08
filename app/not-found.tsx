@@ -30,7 +30,7 @@ export default function NotFound() {
           <Link
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                       hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200"
+                       hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             ← Back home

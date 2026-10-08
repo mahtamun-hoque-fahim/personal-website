@@ -70,7 +70,7 @@ export default async function HomePage() {
                 <Link
                   href="/contact"
                   className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                             hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 hover:scale-105 active:scale-95"
+                             hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   Let&apos;s talk
@@ -78,7 +78,7 @@ export default async function HomePage() {
                 <Link
                   href="/about"
                   className="w-full sm:w-auto text-center px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-                             hover:border-[#8A938E] transition-[border-color,color] duration-200"
+                             hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   About me
@@ -474,7 +474,7 @@ Selected work
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 whitespace-nowrap px-6 min-[380px]:px-8 py-4 bg-[#3DF49A] text-[#06160E] font-semibold rounded-full
-                         hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 hover:scale-105 active:scale-95 text-sm"
+                         hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97] text-sm"
               style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               {/* One line always: full label from 380px up, shorter label below it */}

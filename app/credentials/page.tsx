@@ -725,7 +725,7 @@ export default async function CredentialsPage() {
               <Link
                 href="/contact"
                 className="w-full sm:w-auto text-center px-6 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                           hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200"
+                           hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Get in touch
@@ -735,7 +735,7 @@ export default async function CredentialsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto justify-center px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-                           hover:border-[#8A938E] transition-[border-color,color] duration-200 inline-flex items-center gap-1.5"
+                           hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97] inline-flex items-center gap-1.5"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 LinkedIn
