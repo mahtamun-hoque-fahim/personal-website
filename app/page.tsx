@@ -9,6 +9,7 @@ import type { CSSProperties } from 'react'
 import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
 import BlurWords from '@/components/BlurWords'
+import HeroPortrait from '@/components/HeroPortrait'
 import Reveal from '@/components/Reveal'
 import { getFeaturedProjects, getSkills, getCachedSiteSettings, getCachedAboutContent } from '@/lib/db/queries'
 import { cn } from '@/lib/utils'
@@ -41,8 +42,9 @@ export default async function HomePage() {
         <section className="min-h-screen flex flex-col justify-end pb-20 px-6 pt-32 relative overflow-hidden">
 
 
-          <div className="max-w-6xl mx-auto w-full">
-            
+          <div className="max-w-6xl mx-auto w-full relative">
+            <HeroPortrait />
+
             {/* Main heading */}
             <h1
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
