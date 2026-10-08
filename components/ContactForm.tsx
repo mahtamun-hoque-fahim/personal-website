@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
 import { submitContactMessage } from '@/app/contact/actions'
 
 type FormState = 'idle' | 'loading' | 'success' | 'error'
@@ -47,9 +48,9 @@ export default function ContactForm() {
 
   if (state === 'success') {
     return (
-      <div className="flex flex-col items-start justify-center h-full py-12">
+      <div className="flex flex-col items-start justify-center h-full py-12 blur-load">
         <div
-          className="w-12 h-12 rounded-full bg-[#3DF49A]/10 border border-[#3DF49A]/30 flex items-center justify-center mb-6"
+          className="w-12 h-12 rounded-full bg-[#3DF49A]/10 border border-[#3DF49A]/30 flex items-center justify-center mb-6 pop-in"
           aria-hidden="true"
         >
           <svg
@@ -62,7 +63,7 @@ export default function ContactForm() {
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <polyline points="20 6 9 17 4 12" />
+            <polyline className="check-draw" pathLength="1" points="20 6 9 17 4 12" />
           </svg>
         </div>
         <h3
@@ -178,7 +179,8 @@ export default function ContactForm() {
 
       {state === 'error' && (
         <p
-          className="text-red-400 text-sm"
+          role="alert"
+          className="text-red-400 text-sm blur-load"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         >
           {error}
@@ -188,12 +190,21 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={state === 'loading'}
+        aria-busy={state === 'loading'}
         className="w-full py-3.5 bg-[#3DF49A] text-[#06160E] font-semibold text-sm rounded-lg
+                   inline-flex items-center justify-center gap-2
                    hover:bg-[#5BFBA8] transition-[background-color,transform,opacity] duration-200 disabled:opacity-50 disabled:cursor-not-allowed
                    active:scale-[0.98]"
         style={{ fontFamily: 'var(--font-jakarta)' }}
       >
-        {state === 'loading' ? 'Sending...' : 'Send message →'}
+        {state === 'loading' ? (
+          <>
+            <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+            Sending...
+          </>
+        ) : (
+          'Send message →'
+        )}
       </button>
     </form>
   )
