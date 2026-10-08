@@ -29,7 +29,7 @@ export default async function ProjectsPage() {
             <BlurWords as="h1" text="All Projects" mode="load" className="text-5xl md:text-7xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
             <p
               className="blur-load text-[#8A938E] text-lg max-w-2xl"
-              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '140ms' } as CSSProperties}
+              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '220ms' } as CSSProperties}
             >
               A collection of everything I've shipped — from web apps and tools to learning platforms and browser extensions. Each project represents something I wanted to build and share with the world.
             </p>

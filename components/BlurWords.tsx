@@ -34,8 +34,8 @@ export default function BlurWords({
   style: extraStyle,
   mode = 'scroll',
   delay = 0,
-  stagger = 45,
-  duration = 550,
+  stagger = 70,
+  duration = 800,
 }: BlurWordsProps) {
   const words = text.split(/\s+/).filter(Boolean)
 

@@ -34,11 +34,11 @@ export default async function AboutPage() {
           </p>
           <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-10" style={{ fontFamily: 'var(--font-clash)' }}>
             <BlurWords text={about.headlineTop} mode="load" className="block" />
-            <BlurWords text={about.headlineAccent} mode="load" delay={90} className="block text-[#3DF49A]" />
+            <BlurWords text={about.headlineAccent} mode="load" delay={140} className="block text-[#3DF49A]" />
           </h1>
           <p
             className="blur-load text-[#8A938E] text-xl max-w-2xl leading-relaxed"
-            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '140ms' } as CSSProperties}
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '220ms' } as CSSProperties}
           >
             {about.intro}
           </p>

@@ -381,7 +381,7 @@ export default async function CredentialsPage() {
           <BlurWords as="h1" text="The Long Game." mode="load" className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-8" style={{ fontFamily: 'var(--font-clash)' }} />
           <p
             className="blur-load text-[#8A938E] text-xl max-w-2xl leading-relaxed mb-12"
-            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '140ms' } as CSSProperties}
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '220ms' } as CSSProperties}
           >
             7+ years designing. 4+ years building. Every cert, role, and field 
             experience — in one place.

@@ -49,13 +49,13 @@ export default async function HomePage() {
               style={{ fontFamily: 'var(--font-clash)' }}
             >
               <BlurWords text="Build" mode="load" className="block text-[#F3F6F4]" />
-              <BlurWords text="Deploy" mode="load" delay={90} className="block text-[#F3F6F4]" />
-              <BlurWords text="Secure" mode="load" delay={180} className="block text-[#3DF49A]" />
+              <BlurWords text="Deploy" mode="load" delay={140} className="block text-[#F3F6F4]" />
+              <BlurWords text="Secure" mode="load" delay={280} className="block text-[#3DF49A]" />
             </h1>
 
             {/* Sub */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-12">
-              <div className="max-w-md blur-load" style={{ '--reveal-delay': '220ms' } as CSSProperties}>
+              <div className="max-w-md blur-load" style={{ '--reveal-delay': '340ms' } as CSSProperties}>
                 <p
                   className="text-[#8A938E] text-lg leading-relaxed"
                   style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
@@ -66,7 +66,7 @@ export default async function HomePage() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 blur-load" style={{ '--reveal-delay': '320ms' } as CSSProperties}>
+              <div className="flex flex-col sm:flex-row gap-4 blur-load" style={{ '--reveal-delay': '480ms' } as CSSProperties}>
                 <Link
                   href="/contact"
                   className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
@@ -87,7 +87,7 @@ export default async function HomePage() {
             </div>
 
             {/* Horizontal rule with stat */}
-            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12 blur-load" style={{ '--reveal-delay': '420ms' } as CSSProperties}>
+            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12 blur-load" style={{ '--reveal-delay': '620ms' } as CSSProperties}>
               {[
                 { num: '9+', label: 'Years of designing' },
                 { num: '2+', label: 'Years of building' },
@@ -252,13 +252,13 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
               <BlurWords as="h2" text={about.homeHeading} className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight" style={{ fontFamily: 'var(--font-clash)' }} />
-              <Reveal as="p" delay={80}
+              <Reveal as="p" delay={120}
                 className="text-[#8A938E] text-base leading-relaxed mb-6"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
                 {about.homeParagraphOne}
               </Reveal>
-              <Reveal as="p" delay={140}
+              <Reveal as="p" delay={210}
                 className="text-[#8A938E] text-base leading-relaxed mb-10"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
@@ -278,7 +278,7 @@ export default async function HomePage() {
             <Reveal
               className="bg-[#0F0F0F] border border-[#1F2421] rounded-xl p-8"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
-              delay={120}
+              delay={180}
             >
               <div className="flex gap-2 mb-6">
                 <span className="w-3 h-3 rounded-full bg-[#ff5f56]" />
@@ -463,7 +463,7 @@ Selected work
               }}
             />
             <BlurWords as="h2" text="Reach Out!" className="text-4xl md:text-6xl font-bold text-[#F3F6F4] mb-6 leading-tight" style={{ fontFamily: 'var(--font-clash)' }} />
-            <Reveal as="p" delay={80}
+            <Reveal as="p" delay={120}
               className="text-[#8A938E] text-lg max-w-auto mx-auto mb-10"
               style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >

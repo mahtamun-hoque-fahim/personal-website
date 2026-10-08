@@ -346,25 +346,25 @@ body::before {
 }
 
 .blur-reveal[data-revealed='true'] {
-  animation: blur-reveal var(--reveal-duration, 600ms) var(--ease-out)
+  animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
     var(--reveal-delay, 0ms) both;
 }
 
 .blur-words[data-revealed='true'] .blur-word {
-  animation: blur-reveal var(--word-duration, 550ms) var(--ease-out)
-    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 45ms)) both;
+  animation: blur-reveal var(--word-duration, 800ms) var(--ease-out)
+    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 70ms)) both;
 }
 
 /* Above the fold: plays on first paint, no JS needed. */
 .blur-words-load .blur-word {
   opacity: 0;
-  animation: blur-reveal var(--word-duration, 550ms) var(--ease-out)
-    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 45ms)) both;
+  animation: blur-reveal var(--word-duration, 800ms) var(--ease-out)
+    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 70ms)) both;
 }
 
 .blur-load {
   opacity: 0;
-  animation: blur-reveal var(--reveal-duration, 600ms) var(--ease-out)
+  animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
     var(--reveal-delay, 0ms) both;
 }
 
@@ -372,15 +372,16 @@ body::before {
    container is in view. Not for gap-px grids, where the grid colour
    would show through the hidden cells; reveal those as one block. */
 .blur-stagger[data-revealed='true'] > * {
-  animation: blur-reveal var(--reveal-duration, 600ms) var(--ease-out)
+  animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
     var(--reveal-delay, 0ms) both;
 }
-.blur-stagger > :nth-child(2) { --reveal-delay: 70ms; }
-.blur-stagger > :nth-child(3) { --reveal-delay: 140ms; }
-.blur-stagger > :nth-child(4) { --reveal-delay: 210ms; }
-.blur-stagger > :nth-child(5) { --reveal-delay: 280ms; }
-.blur-stagger > :nth-child(6) { --reveal-delay: 350ms; }
-.blur-stagger > :nth-child(n + 7) { --reveal-delay: 420ms; }
+/* 110ms steps, capped at 660ms so long lists do not drag */
+.blur-stagger > :nth-child(2) { --reveal-delay: 110ms; }
+.blur-stagger > :nth-child(3) { --reveal-delay: 220ms; }
+.blur-stagger > :nth-child(4) { --reveal-delay: 330ms; }
+.blur-stagger > :nth-child(5) { --reveal-delay: 440ms; }
+.blur-stagger > :nth-child(6) { --reveal-delay: 550ms; }
+.blur-stagger > :nth-child(n + 7) { --reveal-delay: 660ms; }
 
 /* Keyboard focus: one visible, consistent ring for every interactive
    element. :focus-visible means mouse clicks do not show it. Inputs

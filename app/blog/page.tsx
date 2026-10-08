@@ -42,7 +42,7 @@ export default async function BlogPage() {
           <BlurWords as="h1" text="Things I think about" mode="load" className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
           <p
             className="blur-load text-[#8A938E] text-lg max-w-xl leading-relaxed"
-            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '140ms' } as CSSProperties}
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '220ms' } as CSSProperties}
           >
             Writing about design systems, creative process, building products, and whatever
             I&apos;m obsessing over this month.
