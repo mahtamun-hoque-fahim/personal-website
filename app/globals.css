@@ -313,21 +313,24 @@ body::before {
 
 /* ── Blur reveal ──────────────────────────────────────────────────────
    Fade + blur + a small rise. Used per word (BlurWords) and per block
-   (Reveal). The animation ends on `filter: none` and `transform: none`
-   so no blur layer or stacking context is left behind once it is done.
-   The hidden state only applies when scripting is enabled, so without
-   JS the content simply shows. Reduced motion is handled by the global
-   guard above (animations collapse to 0.01ms). */
+   (Reveal).
+
+   The keyframes only define `from`. The end state is whatever the element
+   normally looks like (the implicit `to` frame), and `backwards` fill only
+   holds the hidden `from` frame during the delay. So once a reveal ends,
+   the animation lets go completely: no leftover blur layer, stacking
+   context or forced `opacity: 1`, and elements with their own opacity
+   (dimmed cards) or hover styles keep working.
+
+   The hidden state is dropped the moment `data-revealed` is set, and it
+   only applies when scripting is enabled, so without JS the content simply
+   shows. Reduced motion is handled by the global guard above (animations
+   collapse to 0.01ms). */
 @keyframes blur-reveal {
   from {
     opacity: 0;
     filter: blur(var(--blur-from, 6px));
     transform: translateY(var(--reveal-y, 8px));
-  }
-  to {
-    opacity: 1;
-    filter: none;
-    transform: none;
   }
 }
 
@@ -336,9 +339,9 @@ body::before {
 }
 
 @media (scripting: enabled) {
-  .blur-reveal,
-  .blur-stagger > *,
-  .blur-words:not(.blur-words-load) .blur-word {
+  .blur-reveal:not([data-revealed='true']),
+  .blur-stagger:not([data-revealed='true']) > *,
+  .blur-words:not(.blur-words-load):not([data-revealed='true']) .blur-word {
     opacity: 0;
     filter: blur(var(--blur-from, 6px));
     transform: translateY(var(--reveal-y, 8px));
@@ -347,25 +350,24 @@ body::before {
 
 .blur-reveal[data-revealed='true'] {
   animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
-    var(--reveal-delay, 0ms) both;
+    var(--reveal-delay, 0ms) backwards;
 }
 
 .blur-words[data-revealed='true'] .blur-word {
   animation: blur-reveal var(--word-duration, 800ms) var(--ease-out)
-    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 70ms)) both;
+    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 70ms)) backwards;
 }
 
-/* Above the fold: plays on first paint, no JS needed. */
+/* Above the fold: plays on first paint, no JS needed. `backwards` fill
+   keeps the words hidden during their delay without a hidden base state. */
 .blur-words-load .blur-word {
-  opacity: 0;
   animation: blur-reveal var(--word-duration, 800ms) var(--ease-out)
-    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 70ms)) both;
+    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 70ms)) backwards;
 }
 
 .blur-load {
-  opacity: 0;
   animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
-    var(--reveal-delay, 0ms) both;
+    var(--reveal-delay, 0ms) backwards;
 }
 
 /* Independent cards in a list: each child reveals in turn once the
@@ -373,7 +375,7 @@ body::before {
    would show through the hidden cells; reveal those as one block. */
 .blur-stagger[data-revealed='true'] > * {
   animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
-    var(--reveal-delay, 0ms) both;
+    var(--reveal-delay, 0ms) backwards;
 }
 /* 110ms steps, capped at 660ms so long lists do not drag */
 .blur-stagger > :nth-child(2) { --reveal-delay: 110ms; }
