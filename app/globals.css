@@ -407,6 +407,15 @@ body::before {
   animation: route-enter 180ms var(--ease-out) backwards;
 }
 
+/* Arrival gate (set by app/template.tsx): when a page mounts while still
+   scrolled down, hold the timer-based hero entrance until the smooth
+   scroll-to-top arrives. A paused animation with `backwards` fill stays on
+   its hidden `from` frame. */
+.route-enter[data-await-top] .blur-load,
+.route-enter[data-await-top] .blur-words-load .blur-word {
+  animation-play-state: paused;
+}
+
 /* Contact form success: the circle pops in, then the check draws itself.
    Both end in their normal resting state, so reduced motion (animations
    collapsed to 0.01ms) lands on the finished check with no extra rules. */

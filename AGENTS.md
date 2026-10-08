@@ -48,6 +48,14 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (motion pass, fix): hero entrance missed after clicking a nav link from the bottom of a page, branch `motion-polish`
+- Agent: claude-sonnet (chat)
+- Report (Fahim): after scrolling to the bottom of a page and clicking a nav link, the page scrolls up on its own (wanted) but the hero entrance is missed. He asked for the animation to start once the scroll reaches the top, and chose to keep the smooth scroll-up.
+- Cause (read from code and the Next source, not reproduced in a browser): `html` has `scroll-behavior: smooth` and no `data-scroll-behavior="smooth"` attribute. In Next 16.2.6, `disableSmoothScrollDuringRouteTransition` only forces an instant scroll when that attribute is present, so the route-change scroll-to-top is smooth. The hero entrance (`.blur-load`, `BlurWords mode="load"`) is timer-based and starts at mount, so it finished before the scroll arrived.
+- Fix: `app/template.tsx` (client) runs a layout effect: if the page mounts with `scrollY > 24`, it sets `data-await-top` on the wrapper before first paint; CSS pauses the hero entrance while that attribute is present (`globals.css`); a passive scroll listener releases it at `scrollY <= 24`, with a 2s safety timeout for manual scrolling, `#anchor` navigation or a stalled scroll. At the top on mount nothing is gated, so first paint and no-JS visitors are unaffected. Not gated: the 180ms route fade and scroll-triggered reveals (they fire when in view).
+- Alternative not taken: `data-scroll-behavior="smooth"` on `<html>` would make route changes jump instantly (one attribute) but removes the smooth scroll-up he likes. Still available if the gate ever misbehaves.
+- Verified: `npx tsc --noEmit` clean. NOT verified in a browser: check on the preview from the bottom of `/credentials` (long page) and from a short page, plus a reload mid-page.
+
 ### 2026-10-08 (motion pass, fix): navbar lost its background blur, branch `motion-polish`
 - Agent: claude-sonnet (chat)
 - Report (Fahim): the navbar lost its background blur. `backdrop-blur-md` is still on the pill, so the cause is an ancestor. My `app/template.tsx` wrapped every page, navbar included, in a `div` animating opacity with `both` fill (it stays applied after the fade). An element with an opacity animation becomes a backdrop root, which restricts what a descendant's `backdrop-filter` can see, and Chromium keeps that state while the animation fills forward.
