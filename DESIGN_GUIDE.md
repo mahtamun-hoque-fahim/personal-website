@@ -357,6 +357,10 @@ Fade + 6px blur + 8px rise. The keyframes define only `from` and use `backwards`
 | Card in a `gap-px` grid | The cell (background, 1px lines, hover) stays visible; wrap only the card CONTENT in `<Reveal>` so each card blurs in on its own as it scrolls into view (see `ProjectCard`, home blog teaser). Hiding the cell itself would show the grid colour through it. Stagger cards that share a row with `delay={(index % columns) * 180}`. |
 | Tall list of bordered cards | Wrap each card in its own `<Reveal>` (see `/blog`); image cards use `--blur-from: 3px` to keep the reveal cheap. |
 
+### Hero portrait
+
+`components/HeroPortrait.tsx`, used once in the homepage hero. A transparent cutout (`public/images/fahim-hero.webp`, cropped from the original and compressed to about 25 KB) top-aligned with the first headline line at the right edge of the hero container (the parent must be `relative`). Behind the headline (`-z-10`), hidden below `sm`. A mint radial glow sits behind the head so the near-black jacket has an edge, and a bottom `mask-image` (opaque to 45%, gone by 92%) dissolves the torso so it never fights the buttons or stats. Height is `clamp(300px, 40vw, 560px)`. Enters with `.blur-load` (220ms delay, 1.2s, 4px blur), so the route arrival gate holds it too. Plain `<img>` with `fetchPriority="high"`, not `next/image` (the site does not use it). To change the photo, replace the WebP and update the `width`/`height` in the component.
+
 ### Other motion
 
 | Where | Behavior |

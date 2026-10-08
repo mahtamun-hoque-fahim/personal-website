@@ -48,6 +48,16 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (face-reveal): hero portrait, branch `face-reveal` (off `motion-polish`)
+- Agent: claude-sonnet (chat)
+- Request (Fahim): create a new branch `face-reveal` and try his photo (transparent B&W cutout, uploaded) in the empty right side of the homepage hero.
+- Branch: `face-reveal` was cut from `motion-polish`, not `main`, because the hero uses `.blur-load` and the arrival gate that only exist there. A PR for `face-reveal` therefore also contains the unmerged motion commits: merge `motion-polish` first, or target it.
+- Asset: the upload already had real transparency (70% of pixels alpha 0). Cropped to the subject (head to upper chest/arms, 571x629) and saved as `public/images/fahim-hero.webp`, quality 88 with alpha: 25 KB vs 245 KB for the PNG. Source resolution is the limit: it is slightly soft on 2x screens.
+- Component: `components/HeroPortrait.tsx` (see DESIGN_GUIDE "Hero portrait"). `app/page.tsx`: hero container gets `relative` and renders `<HeroPortrait />` first. Plain `<img>` because the repo does not use `next/image` anywhere (Vercel + Cloudflare dual deploy).
+- Design reasoning: a small circle would look like a sticker next to 9rem type, so it is a large cutout; the jacket is near-black on a near-black page, so a mint radial glow behind the head provides the silhouette and a bottom mask dissolves the torso before the CTA buttons.
+- Not done: nothing is shown below `sm` (phones); a mobile placement is undecided. No `srcset`/second size.
+- Verified: `npx tsc --noEmit` clean; Tailwind CLI generates the arbitrary classes used; an approximate mock rendered in Python (not a browser) looked right at 1366x768. NOT verified in a browser: check overlap with the headline at 1024 and 768 widths, the CTA buttons over the faded torso, and that the glow does not look like a hard disc.
+
 ### 2026-10-08 (projects page + dashboard): `type` removed everywhere, branch `motion-polish`
 - Agent: claude-sonnet (chat)
 - Request (Fahim, answering "remove the Types stat and the `type` field from the dashboard, with or without the DB column?"): "yes, remove". Read as all of it, including the column, following the 2026-10 credentials-timeline cleanup precedent (schema edit, `drizzle-kit generate`, Neon SQL given separately and run by hand).
