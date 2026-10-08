@@ -48,6 +48,14 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (face-reveal, alignment + glow colour): branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Feedback (Fahim, screenshot with two red lines): the head sat at the lower line (y about 173 at 1361px wide), he wants it at the upper line (about y 125-135, level with the top of "Build"). Also: change the mint glow to light gray.
+- Why my earlier alignment was 34px low: I estimated the headline block height as h1 + `mb-8` (32) + sub row `mt-12` (48) = 80px between them, but adjacent sibling margins collapse, so the gap is 48px, not 80. That made the wrapper shorter than I assumed, so the `0.31 x font-size` offset I derived from the first screenshot was measured against the wrong wrapper top. The aspect-ratio width derivation itself was fine (it matched the rendered width). Fix: measured from the second screenshot instead: wrapper top at about y 131, "Build" glyph top at about y 140, so `top` is now `-0.04 x font-size` (head top about y 130). Portrait grows to about 535px high at 1361px wide (was 490). Horizontal `right` moved 11.5% to 10.5% so the centre stays where it was while the figure gets wider.
+- Glow: the ambient glow is the site-wide fixed `components/MintGlow.tsx` (not hero-only), so every page changes. Colour is now one constant, `GLOW_RGB = '214, 220, 216'` (light gray), alphas lowered a little (0.07/0.025/0.04 became 0.06/0.02/0.03) because light gray reads brighter than mint at the same alpha. To revert to mint: `'61, 244, 154'`. The component is still called MintGlow; renaming it was left out to avoid churn.
+- Not changed: the accent colour `#3DF49A` itself, `.border-glow`, and `DESIGN_GUIDE.md` "Accent Glow" (a separate CSS utility) are still mint.
+- Verified: `npx tsc --noEmit` clean after each commit. NOT verified in a browser: head-to-"Build" alignment, and whether the gray glow is too strong/weak.
+
 ### 2026-10-08 (face-reveal, placement): portrait moved to the drawn spot, hero buttons hidden, branch `face-reveal`
 - Agent: claude-sonnet (chat)
 - Request (Fahim, with a screenshot drawn over in red): put the portrait in the marked area; he does not know what to do with the buttons, hide them for now and unhide them when he says so.
