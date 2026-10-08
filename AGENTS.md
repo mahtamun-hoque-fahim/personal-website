@@ -48,6 +48,15 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (projects page): "By Type" section removed, dashboard connection checked, branch `motion-polish`
+- Agent: claude-sonnet (chat)
+- Request (Fahim): on `/projects` remove everything after "By Type", along with it; check whether anything removed so far was also connected to the dashboard and, if so, remove it there too.
+- Done: deleted the "By Type" section (heading plus the per-type groups of `ProjectCard` grids). Nothing was left after it (the Technologies section went in the previous change). `/projects` is now: hero (title, lead, stats, technologies ticker) and the all-projects grid. `public/llms.txt` described the page as "filtered by type"; reworded so the AEO summary matches the page.
+- Dashboard check (grepped `app/admin`, `lib`, `components`, `app/api`, and the repo for both section names): neither removed section had any dashboard control, setting or table. Their headings and intro text were hardcoded in `app/projects/page.tsx`; their content was computed from each project's `tags` and `type`.
+  - `tags`: still fully live (card chips, the Technologies stat, the hero ticker). Nothing to remove.
+  - `type`: after this change it only feeds the "Types" stat in the hero, the small type badge in `/admin/projects`, the admin form field, JSON import and the `type` column (NOT NULL, no default). It is the one thing that became close to dead. NOT removed yet: removing the field while keeping the "Types" stat would leave a stale number, so removing it means removing that stat too, and removing the column means a drizzle migration plus Neon SQL (as in the 2026-10 credentials-timeline cleanup). Waiting on Fahim's call.
+- Verified: `npx tsc --noEmit` clean. NOT verified in a browser.
+
 ### 2026-10-08 (projects page): technologies ticker in the hero, Technologies section removed, branch `motion-polish`
 - Agent: claude-sonnet (chat)
 - Request (Fahim, with a screenshot of the `/projects` preview): remove the Technologies section on `/projects` and put a marquee of technologies in the hero, just below the numbers.

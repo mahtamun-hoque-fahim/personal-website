@@ -121,31 +121,6 @@ export default async function ProjectsPage() {
             ))}
           </div>
         </section>
-
-        {/* ── PROJECT TYPES BREAKDOWN ── */}
-        <section className="max-w-6xl mx-auto px-6 py-20">
-          <BlurWords as="h2" text="By Type" className="text-4xl font-bold text-[#F3F6F4] mb-12" style={{ fontFamily: 'var(--font-clash)' }} />
-
-          {/* Group projects by type */}
-          {Array.from(new Set(allProjects.map(p => p.type))).map((type) => {
-            const projectsByType = allProjects.filter(p => p.type === type)
-            return (
-              <div key={type} className="mb-20">
-                <h3
-                  className="text-2xl font-semibold text-[#F3F6F4] mb-6"
-                  style={{ fontFamily: 'var(--font-clash)' }}
-                >
-                  {type}
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
-                  {projectsByType.map((project, i) => (
-                    <ProjectCard key={project.name} project={project} index={i} />
-                  ))}
-                </div>
-              </div>
-            )
-          })}
-        </section>
       </main>
       <Footer />
     </>
