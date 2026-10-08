@@ -389,3 +389,13 @@ body::before {
   outline: 2px solid #3df49a;
   outline-offset: 3px;
 }
+
+/* Route enter: short opacity fade, replayed by app/template.tsx on every
+   navigation. Opacity only, so it creates no containing block. */
+@keyframes route-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.route-enter {
+  animation: route-enter 180ms var(--ease-out) both;
+}
