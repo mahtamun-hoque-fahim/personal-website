@@ -70,6 +70,7 @@ app/
 │       └── MarkReadButton.tsx
 ├── api/auth/[...all]/route.ts   toNextJsHandler(auth)
 ├── layout.tsx
+├── template.tsx                 route enter fade (opacity only, skipped on /admin)
 ├── not-found.tsx
 ├── robots.ts
 └── sitemap.ts
@@ -79,6 +80,8 @@ components/
 ├── ContactForm.tsx              client; calls submitContactMessage action
 ├── ProjectCard.tsx              status pill display, conditional BetaModal
 ├── ProjectsSection.tsx
+├── Reveal.tsx                   client; scroll-triggered blur-fade reveal (one IntersectionObserver, plays once)
+├── BlurWords.tsx                per-word blur-in; mode 'load' (pure CSS) or 'scroll' (via Reveal)
 └── CopyCodeInit.tsx
 docs/
 └── PROJECT_JSON_SCHEMA.md       bulk-import schema reference (paste into Paste JSON tab)
@@ -319,11 +322,14 @@ cf:typegen  wrangler types -> cloudflare-env.d.ts
 | Dashboard-driven About content | [x]   | `about_content` table + `/admin/about`, read by `app/about/page.tsx` and the homepage teaser through a cached query |
 | Avatar upload (Cloudinary)    | [x]    | Signed upload via Web Crypto (no Node SDK), fixed public_id, wired into AuthorCard + Person JSON-LD |
 | Blog AuthorCard + JSON-LD     | [x]    | `AuthorCard.tsx` on post pages, Article schema with nested author added |
+| Motion pass (branch `motion-polish`) | [x] | CSS-only blur-fade reveals (`Reveal`, `BlurWords`), hero entrance, route fade, button press, focus rings, navbar menu, contact form states, reduced-motion guard. No framer-motion. |
 
 ---
 
 ## Next steps
 
+- Review `motion-polish` on a Vercel preview (real fonts, real DB): scroll reveals, hero on slow 4G, mobile menu, reduced-motion, and `npm run build` (which cannot run in a sandbox without Google Fonts egress). Not done in the motion pass: card hover polish, `loading.tsx` skeletons (needs a Navbar decision, since each page renders its own), beta popup enter animation (check the popup is still reachable first).
+- `framer-motion` is still in `package.json` but imported nowhere. Remove it if the CSS-only approach stays.
 - Apply the `status_badges` + `collaborators` migrations on production Neon if not already done (`npm run db:push` or run ALTER TABLEs)
 - Apply migration `0002` (`site_settings`) on production Neon — `npx drizzle-kit migrate`. Until then `getSiteSettings()` falls back to hardcoded defaults matching current content, so nothing breaks, but `/admin/settings` writes will fail until the table exists.
 - Apply migration `0003` (`site_settings.avatar_url`) at the same time.

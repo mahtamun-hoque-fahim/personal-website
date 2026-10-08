@@ -36,6 +36,7 @@ npm run dev
 - Admin routes follow the server/client split established in `app/admin/posts`: a server `page.tsx` does the auth check (`isAuthenticated()` from `lib/auth-utils.ts`, redirect to `/admin/login`) and data fetch, a client component owns the form/state and calls a `'use server'` action from `app/admin/actions.ts`.
 - Dark-first palette: `#070807` background, `#3DF49A` mint accent. Fonts: Syne (`--font-clash`) for headings, Plus Jakarta Sans (`--font-jakarta`) for body, JetBrains Mono (`--font-jetbrains`) for labels/meta.
 - No emojis anywhere in code or UI — lucide-react icons only.
+- Motion is CSS-first (no animation library). Never `transition-all`: list the properties. Scroll reveals use `components/Reveal.tsx` / `BlurWords.tsx` (blur-fade, once per view); above-the-fold entrances use the CSS-only `.blur-load` / `BlurWords mode="load"`. Hidden states live under `@media (scripting: enabled)`, and `prefers-reduced-motion` is handled globally in `globals.css`. Full rules in DESIGN_GUIDE.md section 8. Do not use `.blur-stagger` on `gap-px` grids.
 - Migrations are generated with `drizzle-kit generate`, never hand-skipped — see the Security/Gotchas note below on why `0001` broke that rule and what that costs.
 
 ## Security / Gotchas
@@ -46,6 +47,26 @@ npm run dev
 - Build verification (`npx tsc --noEmit` + `npm run build`) requires network access to `fonts.googleapis.com` (next/font/google) and to Neon (`DATABASE_URL`) for any DB-touching build step — both are unavailable in sandboxed dev environments without egress; run the full build locally or let Vercel's build do it.
 
 ## Session Log
+
+### 2026-10-08 (motion pass): blur-fade reveals and microinteractions, branch `motion-polish`
+- Agent: claude-sonnet (chat)
+- Request (Fahim): add motion/animation to the site, audit first, approve, then implement in small commits. Fahim's own direction: he loves scroll-triggered faded-blur reveals (seen in motion-primitives' Text Effect "speed" demo) and asked for it to be applied his own way, not by importing that library. Approved the suggested cut (items 1-6, 8, 10); skipped card hover polish, skeleton `loading.tsx` and the beta popup animation.
+- Audit findings that drove the work: `framer-motion` installed but imported nowhere; `animate-fade-up`/`fade-in` defined but unused; no `prefers-reduced-motion` handling; no `loading.tsx`/`error.tsx`/`template.tsx`; 19 `transition-all` uses; no hero entrance; mobile menu links set `animationDelay` with no animation class (dead stagger); inputs removed the outline and only changed border colour.
+- Decision: CSS-only, no `framer-motion` (about 17 KB gzipped saved by my estimate, not measured). `Navbar`/`Footer` stay per-page (moving them into the layout is a structural change outside a motion pass).
+- Commits, one concern each, `npx tsc --noEmit` clean after every one:
+  1. Foundation: `--ease-out`/`--ease-in-out` tokens (+ `ease-ui-out`/`ease-ui-in-out` in `tailwind.config.ts`), global reduced-motion guard, MintGlow parallax skips under reduced motion, `transition-all` replaced with explicit properties on every public page and component (Navbar done in its own commit), marquee pauses on hover.
+  2. Blur reveal primitives: `components/Reveal.tsx` (client, one IntersectionObserver, sets `data-revealed` on the DOM node, plays once), `components/BlurWords.tsx` (per-word, `mode` load/scroll, `delay`/`stagger`/`duration` knobs), CSS in `globals.css`. Hero h1 words plus sub text, CTAs and stats enter in pure CSS (no wait for hydration, h1 first line has no delay so first paint is not held back).
+  3. Homepage section headings blur in per word on scroll; teaser paragraphs, code card, skills list (`.blur-stagger`) and the two `gap-px` grids (as one block) reveal on scroll. Inner pages (`/about`, `/projects`, `/blog`, `/contact`, `/credentials`): h1 per-word on load, lead paragraph `.blur-load`, below-the-fold h2s on scroll. About/contact h1 used `<br />` plus an accent `<span>`; now two `block` BlurWords lines (same layout).
+  4. Buttons: `active:scale-[0.97]` press everywhere, hover grow (`hover:scale-105`, `scale-[1.01]`) removed.
+  5. Focus: global mint `:focus-visible` outline for links/buttons; contact inputs get a soft 3px mint ring (they already removed the outline).
+  6. Navbar: passive scroll listener and initial state on mount, outer nav no longer transitions, underline slides in on hover (stays on for the active page), mobile menu links now really stagger (opacity + rise + blur via `transitionDelay`, immediate on close), closed menu is `invisible` (links leave the tab order), Esc closes, body scroll locked while open, `aria-expanded`/`aria-controls`/state-aware label.
+  7. `app/template.tsx`: 180ms enter-only opacity fade on every navigation (skipped on `/admin`). Enter-only because the App Router unmounts the old page first; an exit animation would need a router-freezing hack.
+  8. Contact form: `Loader2` spinner while sending, success circle pops and the check draws (`pathLength` stroke animation), error message eases in and now has `role="alert"`.
+- Gotchas worth remembering: the hidden state for reveals is only applied under `@media (scripting: enabled)`, so no-JS visitors see everything. Reveals end on `filter: none` / `transform: none` so no stacking context is left behind. `.blur-stagger` must not wrap a `gap-px` grid (the grid colour shows through hidden cells), which is why the projects and blog teaser grids reveal as one block.
+- Docs: DESIGN_GUIDE.md section 8 rewritten (principles, tokens, blur reveal, other motion), button/navbar snippets updated, changelog row added. PLANNER.md: architecture tree, timeline row, next steps.
+- Verified: `npx tsc --noEmit` clean at baseline and after each commit. Tailwind CLI compile confirmed the new utilities are generated (`ease-ui-out`, `active:scale-[0.97]`, the arbitrary `transition-[...]` lists, `blur-[6px]`, `scale-x-100`).
+- NOT verified: `npm run build` fails in the sandbox on `next/font` (Google Fonts unreachable), the known limitation noted under Security/Gotchas. No browser test, no Lighthouse run, no real bundle-size measurement, no ESLint (the repo has no ESLint config). Needs a Vercel preview check, see the test checklist in the PR.
+- Open follow-ups: skeleton `loading.tsx` (each skeleton would need its own Navbar since pages render it themselves), beta popup in `ProjectsSection` may be dead code since the status badges were removed, `framer-motion` can be removed from `package.json` if the CSS-only approach stays.
 
 ### 2026-10-06 (homepage teaser editable from dashboard)
 - Agent: claude-sonnet (chat)
