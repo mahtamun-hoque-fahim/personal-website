@@ -439,7 +439,7 @@ export default async function CredentialsPage() {
                       {/* Dot */}
                       <div className="relative z-10 shrink-0 hidden md:block mt-1.5">
                         <div
-                          className="w-3 h-3 rounded-full border-2 transition-all duration-200 group-hover:scale-125"
+                          className="w-3 h-3 rounded-full border-2 transition-[transform,border-color,background-color] duration-200 group-hover:scale-125"
                           style={{
                             borderColor: event.isCurrent ? '#3DF49A' : isLast ? '#2B302D' : '#2B302D',
                             background: event.isCurrent ? '#3DF49A' : '#070807',
@@ -692,7 +692,7 @@ export default async function CredentialsPage() {
             {contributions.map((item) => (
               <div
                 key={item.title}
-                className="border border-[#1F2421] rounded-xl p-8 hover:border-[#3DF49A]/30 transition-all duration-300 group"
+                className="border border-[#1F2421] rounded-xl p-8 hover:border-[#3DF49A]/30 transition-[border-color] duration-300 group"
               >
                 <p
                   className="text-[10px] text-[#3DF49A] tracking-[0.15em] uppercase mb-3"
@@ -748,7 +748,7 @@ export default async function CredentialsPage() {
               <Link
                 href="/contact"
                 className="w-full sm:w-auto text-center px-6 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                           hover:bg-[#5BFBA8] transition-all duration-200"
+                           hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Get in touch
@@ -758,7 +758,7 @@ export default async function CredentialsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto justify-center px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-                           hover:border-[#8A938E] transition-all duration-200 inline-flex items-center gap-1.5"
+                           hover:border-[#8A938E] transition-[border-color,color] duration-200 inline-flex items-center gap-1.5"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 LinkedIn

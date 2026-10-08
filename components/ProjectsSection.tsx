@@ -177,14 +177,14 @@ export default function ProjectsSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setPopup(null)}
-                className="flex-1 text-center px-5 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full hover:bg-[#5BFBA8] transition-all duration-200"
+                className="flex-1 text-center px-5 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Yeah, let&apos;s go →
               </a>
               <button
                 onClick={() => setPopup(null)}
-                className="flex-1 px-5 py-2.5 border border-[#1F2421] text-[#8A938E] text-sm rounded-full hover:border-[#8A938E] hover:text-[#F3F6F4] transition-all duration-200"
+                className="flex-1 px-5 py-2.5 border border-[#1F2421] text-[#8A938E] text-sm rounded-full hover:border-[#8A938E] hover:text-[#F3F6F4] transition-[border-color,color] duration-200"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Maybe later

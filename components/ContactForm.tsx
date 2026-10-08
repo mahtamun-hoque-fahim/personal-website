@@ -189,7 +189,7 @@ export default function ContactForm() {
         type="submit"
         disabled={state === 'loading'}
         className="w-full py-3.5 bg-[#3DF49A] text-[#06160E] font-semibold text-sm rounded-lg
-                   hover:bg-[#5BFBA8] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
+                   hover:bg-[#5BFBA8] transition-[background-color,transform,opacity] duration-200 disabled:opacity-50 disabled:cursor-not-allowed
                    hover:scale-[1.01] active:scale-[0.99]"
         style={{ fontFamily: 'var(--font-jakarta)' }}
       >
