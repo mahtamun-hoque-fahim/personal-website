@@ -300,6 +300,35 @@ export const siteSettings = pgTable('site_settings', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 })
 
+// ──────────────────────────────────────────────────────────
+// About page content (single row, id always 1 — dashboard-driven copy)
+// ──────────────────────────────────────────────────────────
+
+export const aboutContent = pgTable('about_content', {
+  id: integer('id').primaryKey().default(1),
+  headlineTop: text('headline_top').notNull().default('Designer who codes.'),
+  headlineAccent: text('headline_accent').notNull().default('Developer who designs.'),
+  intro: text('intro')
+    .notNull()
+    .default(
+      "I'm Mahtamun Hoque Fahim. I grew up in Bangladesh with an internet connection and an obsession with how things look and work. That combination became a career."
+    ),
+  storyHeading: text('story_heading').notNull().default('The honest story'),
+  storyParagraphs: text('story_paragraphs')
+    .array()
+    .notNull()
+    .default(
+      sql`ARRAY['I didn''t study design in a formal school. I learned by obsessively reverse-engineering things I loved: breaking down why a logo felt trustworthy, why a website felt fast, why some interfaces made you feel calm.','I started building websites because I couldn''t communicate what I wanted to developers. I started designing seriously because I couldn''t stand ugly interfaces. Both accidents became strengths.','Being from Bangladesh sharpened me. I couldn''t rely on proximity to opportunity, so I had to be undeniably good. That''s still the standard I hold myself to.','I care about work that ships, that works, that people actually use. Beautiful for its own sake doesn''t interest me. Beautiful and functional? That''s the whole game.']::text[]`
+    ),
+  ctaHeading: text('cta_heading').notNull().default('Want to work together?'),
+  ctaText: text('cta_text')
+    .notNull()
+    .default("I'm selective about what I take on, which means I care about what you're building."),
+  ctaPrimaryLabel: text('cta_primary_label').notNull().default('Get in touch'),
+  ctaSecondaryLabel: text('cta_secondary_label').notNull().default('See portfolio'),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
 // ── Inferred types ────────────────────────────────────────
 export type BlogPost = typeof blogPosts.$inferSelect
 export type NewBlogPost = typeof blogPosts.$inferInsert
@@ -324,3 +353,5 @@ export type CredentialContribution = typeof credentialContributions.$inferSelect
 export type NewCredentialContribution = typeof credentialContributions.$inferInsert
 export type SiteSettings = typeof siteSettings.$inferSelect
 export type NewSiteSettings = typeof siteSettings.$inferInsert
+export type AboutContent = typeof aboutContent.$inferSelect
+export type NewAboutContent = typeof aboutContent.$inferInsert

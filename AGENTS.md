@@ -47,6 +47,17 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-06 (about page editable from dashboard)
+- Agent: claude-sonnet (chat)
+- Request (Fahim): make the About section texts editable from the dashboard. Interpreted as the `/about` page (header, story, call to action). The homepage "Design can't be separated from engineering" block is NOT included; it is still hardcoded in `app/page.tsx`.
+- New `about_content` table (single row, `id=1`): `headline_top`, `headline_accent`, `intro`, `story_heading`, `story_paragraphs text[]`, `cta_heading`, `cta_text`, `cta_primary_label`, `cta_secondary_label`, `updated_at`. Column defaults equal the previous hardcoded copy, with the three em dashes replaced (colon, comma) to match the dash cleanup. Migration `drizzle/0009_about_content.sql` plus `0009_snapshot.json`, generated cleanly (only the new table).
+- `lib/db/queries.ts`: `DEFAULT_ABOUT_CONTENT`, `getAboutContent()` (uncached, creates the row on first read, falls back to defaults on any error), `getCachedAboutContent()` (1h `unstable_cache`, tag `about-content`), `updateAboutContent()`.
+- `app/about/page.tsx` is now an async server component rendering from `getCachedAboutContent()`. The "About" eyebrow label and the button links (`/contact`, the design portfolio) stay in code.
+- New admin route `/admin/about` (`page.tsx` + `AboutForm.tsx`), sidebar entry "About". Story paragraphs are one textarea, blank line between paragraphs, max 12.
+- `saveAboutContentAction` in `app/admin/actions.ts` checks `isAuthenticated()` itself (unlike `saveSiteSettingsAction`, which relies on the page gate), validates and length-caps each field, and copies known fields only. Revalidates tag `about-content`, `/about`, `/admin/about`.
+- MUST DO before the dashboard works: run `npx drizzle-kit migrate` against Neon (back up first with `npx tsx scripts/export-backup.ts`). Until then `/about` renders the defaults and the admin form loads but saving errors.
+- Verified: `npx tsc --noEmit` clean. Not run: `npm run build` (needs Neon and Google Fonts egress), no browser test. The repo has no ESLint config, so lint was skipped.
+
 ### 2026-10-06 (homepage review fixes): copy fixes in code, remaining ones are DB-side
 - Agent: claude-sonnet (chat)
 - Source: an external review of the live homepage, checked against the repo before editing. Branch `small-fixes` fast-forwarded to `main`, then `app/page.tsx` only.

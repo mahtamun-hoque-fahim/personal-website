@@ -18,6 +18,7 @@ import {
   updateProject,
   updateProjectFeatured as updateProjectFeaturedDb,
   updateSiteSettings,
+  updateAboutContent,
   createSkill,
   updateSkill,
   deleteSkill,
@@ -29,6 +30,7 @@ import {
   type NewBlogPost,
   type NewProject,
   type NewSiteSettings,
+  type AboutContent,
   type NewSkill,
   type NewFooterLink,
 } from '@/lib/db/queries'
@@ -116,6 +118,62 @@ export async function saveSiteSettingsAction(updates: Partial<NewSiteSettings>) 
   revalidateTag('site-settings', 'max')
   revalidatePath('/')
   revalidatePath('/admin/settings')
+  return updated
+}
+
+export type AboutContentInput = Pick<
+  AboutContent,
+  | 'headlineTop'
+  | 'headlineAccent'
+  | 'intro'
+  | 'storyHeading'
+  | 'storyParagraphs'
+  | 'ctaHeading'
+  | 'ctaText'
+  | 'ctaPrimaryLabel'
+  | 'ctaSecondaryLabel'
+>
+
+export async function saveAboutContentAction(input: AboutContentInput) {
+  // Server actions are public POST endpoints, so gate explicitly instead of
+  // trusting the calling page, and copy only known fields (never spread the
+  // client object into the update, or a crafted request could set `id` etc.).
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    throw new Error('Not authenticated.')
+  }
+
+  const clean = (value: unknown, max: number, label: string) => {
+    const text = typeof value === 'string' ? value.trim() : ''
+    if (!text) throw new Error(`${label} can't be empty.`)
+    if (text.length > max) throw new Error(`${label} is too long (max ${max} characters).`)
+    return text
+  }
+
+  const paragraphs = Array.isArray(input.storyParagraphs)
+    ? input.storyParagraphs.map((p) => (typeof p === 'string' ? p.trim() : '')).filter(Boolean)
+    : []
+  if (paragraphs.length === 0) throw new Error('Add at least one story paragraph.')
+  if (paragraphs.length > 12) throw new Error('Too many story paragraphs (max 12).')
+  if (paragraphs.some((p) => p.length > 1500)) {
+    throw new Error('A story paragraph is too long (max 1500 characters).')
+  }
+
+  const updated = await updateAboutContent({
+    headlineTop: clean(input.headlineTop, 120, 'Headline'),
+    headlineAccent: clean(input.headlineAccent, 120, 'Accent headline'),
+    intro: clean(input.intro, 800, 'Intro'),
+    storyHeading: clean(input.storyHeading, 120, 'Story heading'),
+    storyParagraphs: paragraphs,
+    ctaHeading: clean(input.ctaHeading, 120, 'CTA heading'),
+    ctaText: clean(input.ctaText, 300, 'CTA text'),
+    ctaPrimaryLabel: clean(input.ctaPrimaryLabel, 40, 'Primary button label'),
+    ctaSecondaryLabel: clean(input.ctaSecondaryLabel, 40, 'Secondary button label'),
+  })
+
+  revalidateTag('about-content', 'max')
+  revalidatePath('/about')
+  revalidatePath('/admin/about')
   return updated
 }
 

@@ -125,6 +125,7 @@ scripts/
 - `contact_messages`: uuid, name, email, subject, message, country, read, created_at
 - `projects`: uuid, name (unique), tagline, description, tags[], type, live_url, repo_url, featured, featured_order, **status_badges text[]** (default `{}`), **collaborators jsonb** (default `[]`, shape `[{ name, url? }]`), timestamps
 - `site_settings`: integer id (always `1`, single row), title, description, job_title, **avatar_url** (nullable), keywords text[], og_title, og_description, updated_at — feeds `generateMetadata()` in `app/layout.tsx`, the root layout's Person JSON-LD, and the blog post JSON-LD author block. Read through `getCachedSiteSettings()` (`unstable_cache`, 1h revalidate, tag `site-settings`); written via admin `/admin/settings`.
+- `about_content`: integer id (always `1`, single row), headline_top, headline_accent, intro, story_heading, story_paragraphs text[], cta_heading, cta_text, cta_primary_label, cta_secondary_label, updated_at. Feeds the public `/about` page; column defaults equal the previous hardcoded copy
 
 All Drizzle reads return camelCase fields; column mapping (snake_case in DB) handled by `casing: 'snake_case'` in the Drizzle client config.
 
@@ -137,6 +138,7 @@ All Drizzle reads return camelCase fields; column mapping (snake_case in DB) han
 | —     | `projects.collaborators` (jsonb)      | `db:push` / ALTER      |
 | 0002  | `site_settings` table                 | `drizzle-kit generate` (hand-trimmed — see AGENTS.md Security/Gotchas for why) |
 | 0003  | `site_settings.avatar_url` (text, nullable) | `drizzle-kit generate` (clean diff — 0002_snapshot repaired the chain) |
+| 0009  | `about_content` table                 | `drizzle-kit generate` (clean diff, only the new table) |
 
 > **IMPORTANT:** Always run `npx tsx scripts/export-backup.ts` before any DB migration
 > or ORM change.
@@ -182,6 +184,13 @@ This writes directly through Better Auth (bypassing the UI), but still passes th
 - Active route highlight via `usePathname`
 - Sections: brand, Manage nav (Dashboard / Posts / Projects / Messages / Credentials / Settings), footer (Back to site / Logout)
 - Login/forgot/reset routes render full-bleed (no sidebar)
+
+**About page (`/admin/about`)**
+
+- Single-row form over the `about_content` table: header (two headline lines, intro), story (heading plus paragraphs, one textarea with blank lines between paragraphs), call to action (heading, text, two button labels). Button links stay fixed in code
+- `page.tsx` does the auth check and fetch; client `AboutForm.tsx` owns form state and calls `saveAboutContentAction`, which re-checks auth itself, validates and length-caps every field, and writes only known columns
+- Save revalidates the `about-content` cache tag and `/about`; the public page otherwise refreshes on a 1h `unstable_cache` window
+- `getAboutContent()` falls back to hardcoded defaults if the table is missing or the DB is unreachable, so `/about` renders before migration `0009` is applied
 
 **Site settings (`/admin/settings`)**
 
@@ -306,6 +315,7 @@ cf:typegen  wrangler types -> cloudflare-env.d.ts
 | Beta-gated live link modal    | ✅     | BetaModal only fires when badge='beta'     |
 | Collaborators                 | ✅     | jsonb column, name + optional URL          |
 | Dashboard-driven metadata     | [x]    | `site_settings` table + `/admin/settings`, wired into `generateMetadata()` and JSON-LD |
+| Dashboard-driven About page   | [x]    | `about_content` table + `/admin/about`, read by `app/about/page.tsx` through a cached query |
 | Avatar upload (Cloudinary)    | [x]    | Signed upload via Web Crypto (no Node SDK), fixed public_id, wired into AuthorCard + Person JSON-LD |
 | Blog AuthorCard + JSON-LD     | [x]    | `AuthorCard.tsx` on post pages, Article schema with nested author added |
 
@@ -316,6 +326,7 @@ cf:typegen  wrangler types -> cloudflare-env.d.ts
 - Apply the `status_badges` + `collaborators` migrations on production Neon if not already done (`npm run db:push` or run ALTER TABLEs)
 - Apply migration `0002` (`site_settings`) on production Neon — `npx drizzle-kit migrate`. Until then `getSiteSettings()` falls back to hardcoded defaults matching current content, so nothing breaks, but `/admin/settings` writes will fail until the table exists.
 - Apply migration `0003` (`site_settings.avatar_url`) at the same time.
+- Apply migration `0009` (`about_content`) with `npx drizzle-kit migrate`. Until then `/about` shows the built-in defaults and `/admin/about` shows "Showing built-in defaults"; saving will fail until the table exists.
 - Set `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` in Vercel and Cloudflare env vars — avatar upload throws a clear error if these are missing, but won't work until set.
 - Regenerate `drizzle/meta/0001_snapshot.json` properly so the migration chain no longer has a gap between `0000` and `0002` (see AGENTS.md Security/Gotchas)
 - Bulk-import the project list using `docs/PROJECT_JSON_SCHEMA.md` as reference

@@ -13,6 +13,9 @@ import {
   credentialCommunity,
   credentialContributions,
   siteSettings,
+  aboutContent,
+  type AboutContent,
+  type NewAboutContent,
   type BlogPost,
   type NewBlogPost,
   type NewContactMessage,
@@ -640,6 +643,68 @@ export async function updateSiteSettings(
   return created[0]
 }
 
+// ── About page content (single row, id=1) ────────────────
+
+export const DEFAULT_ABOUT_CONTENT: AboutContent = {
+  id: 1,
+  headlineTop: 'Designer who codes.',
+  headlineAccent: 'Developer who designs.',
+  intro:
+    "I'm Mahtamun Hoque Fahim. I grew up in Bangladesh with an internet connection and an obsession with how things look and work. That combination became a career.",
+  storyHeading: 'The honest story',
+  storyParagraphs: [
+    "I didn't study design in a formal school. I learned by obsessively reverse-engineering things I loved: breaking down why a logo felt trustworthy, why a website felt fast, why some interfaces made you feel calm.",
+    "I started building websites because I couldn't communicate what I wanted to developers. I started designing seriously because I couldn't stand ugly interfaces. Both accidents became strengths.",
+    "Being from Bangladesh sharpened me. I couldn't rely on proximity to opportunity, so I had to be undeniably good. That's still the standard I hold myself to.",
+    "I care about work that ships, that works, that people actually use. Beautiful for its own sake doesn't interest me. Beautiful and functional? That's the whole game.",
+  ],
+  ctaHeading: 'Want to work together?',
+  ctaText: "I'm selective about what I take on, which means I care about what you're building.",
+  ctaPrimaryLabel: 'Get in touch',
+  ctaSecondaryLabel: 'See portfolio',
+  updatedAt: new Date(0),
+}
+
+/**
+ * Reads the single about_content row (id=1), creating it with defaults on
+ * first read. Falls back to the hardcoded defaults if the table is missing
+ * (migration not applied yet) or the DB is unreachable, so /about never breaks.
+ */
+export async function getAboutContent(): Promise<AboutContent> {
+  try {
+    const rows = await db.select().from(aboutContent).where(eq(aboutContent.id, 1)).limit(1)
+    if (rows[0]) return rows[0]
+    const created = await db.insert(aboutContent).values({ id: 1 }).returning()
+    return created[0] ?? DEFAULT_ABOUT_CONTENT
+  } catch (error) {
+    console.error('getAboutContent error:', error)
+    return DEFAULT_ABOUT_CONTENT
+  }
+}
+
+/** Cached read for the public /about page; cleared by revalidateTag('about-content'). */
+export const getCachedAboutContent = unstable_cache(
+  async () => getAboutContent(),
+  ['about-content'],
+  { revalidate: 3600, tags: ['about-content'] }
+)
+
+export async function updateAboutContent(
+  updates: Partial<NewAboutContent>
+): Promise<AboutContent> {
+  const rows = await db
+    .update(aboutContent)
+    .set({ ...updates, updatedAt: new Date() })
+    .where(eq(aboutContent.id, 1))
+    .returning()
+  if (rows[0]) return rows[0]
+  const created = await db
+    .insert(aboutContent)
+    .values({ id: 1, ...updates })
+    .returning()
+  return created[0]
+}
+
 // Re-export the inferred types for convenience
 export type {
   BlogPost,
@@ -664,4 +729,6 @@ export type {
   NewCredentialContribution,
   SiteSettings,
   NewSiteSettings,
+  AboutContent,
+  NewAboutContent,
 } from './schema'
