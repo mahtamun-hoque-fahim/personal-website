@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import { getCachedAboutContent } from '@/lib/db/queries'
 
 export const metadata: Metadata = {
   title: 'About',
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
   },
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const about = await getCachedAboutContent()
+
   return (
     <>
       <Navbar />
@@ -31,16 +34,15 @@ export default function AboutPage() {
             className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-10"
             style={{ fontFamily: 'var(--font-clash)' }}
           >
-            Designer who codes.
+            {about.headlineTop}
             <br />
-            <span className="text-[#3DF49A]">Developer who designs.</span>
+            <span className="text-[#3DF49A]">{about.headlineAccent}</span>
           </h1>
           <p
             className="text-[#8A938E] text-xl max-w-2xl leading-relaxed"
             style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
           >
-            I&apos;m Mahtamun Hoque Fahim. I grew up in Bangladesh with an internet connection
-            and an obsession with how things look and work. That combination became a career.
+            {about.intro}
           </p>
         </section>
 
@@ -52,30 +54,15 @@ export default function AboutPage() {
                 className="text-3xl font-bold text-[#F3F6F4] mb-6"
                 style={{ fontFamily: 'var(--font-clash)' }}
               >
-                The honest story
+                {about.storyHeading}
               </h2>
               <div
                 className="text-[#8A938E] leading-relaxed space-y-4 text-base"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
-                <p>
-                  I didn&apos;t study design in a formal school. I learned by obsessively reverse-engineering
-                  things I loved — breaking down why a logo felt trustworthy, why a website felt fast, why
-                  some interfaces made you feel calm.
-                </p>
-                <p>
-                  I started building websites because I couldn&apos;t communicate what I wanted to developers.
-                  I started designing seriously because I couldn&apos;t stand ugly interfaces. Both accidents
-                  became strengths.
-                </p>
-                <p>
-                  Being from Bangladesh sharpened me. I couldn&apos;t rely on proximity to opportunity —
-                  I had to be undeniably good. That&apos;s still the standard I hold myself to.
-                </p>
-                <p>
-                  I care about work that ships, that works, that people actually use. Beautiful for its own
-                  sake doesn&apos;t interest me. Beautiful and functional? That&apos;s the whole game.
-                </p>
+                {about.storyParagraphs.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
               </div>
             </div>
           </div>
@@ -89,13 +76,13 @@ export default function AboutPage() {
                 className="text-2xl font-bold text-[#F3F6F4] mb-1"
                 style={{ fontFamily: 'var(--font-clash)' }}
               >
-                Want to work together?
+                {about.ctaHeading}
               </h3>
               <p
                 className="text-[#8A938E] text-sm"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
-                I&apos;m selective about what I take on — which means I care about what you&apos;re building.
+                {about.ctaText}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto shrink-0">
@@ -105,7 +92,7 @@ export default function AboutPage() {
                            hover:bg-[#5BFBA8] transition-all duration-200"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
-                Get in touch
+                {about.ctaPrimaryLabel}
               </Link>
               <a
                 href="https://mahtamundesigns.vercel.app"
@@ -115,7 +102,7 @@ export default function AboutPage() {
                            hover:border-[#8A938E] transition-all duration-200"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
-                See portfolio ↗
+                {about.ctaSecondaryLabel} ↗
               </a>
             </div>
           </div>
