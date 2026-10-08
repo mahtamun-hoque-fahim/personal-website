@@ -346,11 +346,11 @@ Selected work
             </Link>
           </div>
 
-          <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.name} project={project} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
+            {featuredProjects.map((project, i) => (
+              <ProjectCard key={project.name} project={project} index={i} />
             ))}
-          </Reveal>
+          </div>
         </section>
 
         {/* ── RECENT BLOG TEASER ── */}
@@ -383,13 +383,14 @@ Selected work
               </Link>
             </div>
           ) : (
-            <Reveal className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1F2421]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#1F2421]">
               {recentPosts.map((post, i) => (
                 <Link
                   key={post.id}
                   href={`/blog/${post.slug}`}
-                  className="bg-[#070807] p-8 flex flex-col justify-between group hover:bg-[#0F0F0F] transition-colors duration-300 min-h-[260px]"
+                  className="bg-[#070807] p-8 flex flex-col group hover:bg-[#0F0F0F] transition-colors duration-300 min-h-[260px]"
                 >
+                  <Reveal className="flex flex-1 flex-col justify-between" delay={(i % 3) * 180}>
                   <div>
                     {post.tags?.length > 0 && (
                       <span
@@ -432,6 +433,7 @@ Selected work
                       {post.readingTime} min
                     </span>
                   </div>
+                  </Reveal>
                 </Link>
               ))}
               {/* Fill remaining slots to keep grid full when < 3 posts */}
@@ -448,7 +450,7 @@ Selected work
                   </span>
                 </div>
               ))}
-            </Reveal>
+            </div>
           )}
         </section>
 

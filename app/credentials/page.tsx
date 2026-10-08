@@ -11,6 +11,7 @@ import {
   getCredentialContributions,
 } from '@/lib/db/queries'
 import BlurWords from '@/components/BlurWords'
+import Reveal from '@/components/Reveal'
 import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
@@ -516,7 +517,7 @@ export default async function CredentialsPage() {
                 </div>
 
                 {/* Cert cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <Reveal blurSelf={false} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 blur-stagger">
                   {cluster.certs.map((cert) => (
                     <div
                       key={cert.name}
@@ -572,7 +573,7 @@ export default async function CredentialsPage() {
                       </div>
                     </div>
                   ))}
-                </div>
+                </Reveal>
               </div>
             ))}
           </div>
@@ -589,7 +590,7 @@ export default async function CredentialsPage() {
               Beyond the screen.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Reveal blurSelf={false} className="grid grid-cols-1 md:grid-cols-2 gap-4 blur-stagger">
               {communityRoles.map((role) => (
                 <div
                   key={role.title}
@@ -648,7 +649,7 @@ export default async function CredentialsPage() {
                   )}
                 </div>
               ))}
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -665,7 +666,7 @@ export default async function CredentialsPage() {
             Third-party shipped work. Not portfolio pieces — actual releases.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Reveal blurSelf={false} className="grid grid-cols-1 md:grid-cols-2 gap-6 blur-stagger">
             {contributions.map((item) => (
               <div
                 key={item.title}
@@ -701,7 +702,7 @@ export default async function CredentialsPage() {
                 </a>
               </div>
             ))}
-          </div>
+          </Reveal>
         </section>
 
         {/* ── CTA ───────────────────────────────────────────────────── */}

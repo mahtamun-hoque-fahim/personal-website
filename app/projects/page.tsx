@@ -99,8 +99,8 @@ export default async function ProjectsPage() {
         {/* ── ALL PROJECTS GRID ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
-            {allProjects.map((project) => (
-              <ProjectCard key={project.name} project={project} />
+            {allProjects.map((project, i) => (
+              <ProjectCard key={project.name} project={project} index={i} />
             ))}
           </div>
         </section>
@@ -121,8 +121,8 @@ export default async function ProjectsPage() {
                   {type}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
-                  {projectsByType.map((project) => (
-                    <ProjectCard key={project.name} project={project} />
+                  {projectsByType.map((project, i) => (
+                    <ProjectCard key={project.name} project={project} index={i} />
                   ))}
                 </div>
               </div>

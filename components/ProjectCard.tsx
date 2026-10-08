@@ -1,8 +1,15 @@
 import type { Project } from '@/lib/db/queries'
+import Reveal from '@/components/Reveal'
 
-export default function ProjectCard({ project }: { project: Project }) {
+/**
+ * The cell (background, 1px grid lines, hover) is always visible; only the
+ * content blurs in, once, when this card scrolls into view. `index` staggers
+ * cards that share a row (2 columns at md and up).
+ */
+export default function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   return (
-    <div className="bg-[#070807] p-8 group hover:bg-[#0F0F0F] transition-colors duration-300 flex flex-col justify-between min-h-[280px]">
+    <div className="bg-[#070807] p-8 group hover:bg-[#0F0F0F] transition-colors duration-300 flex flex-col min-h-[280px]">
+      <Reveal className="flex flex-1 flex-col justify-between" delay={(index % 2) * 180}>
       <div>
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
@@ -88,6 +95,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           </a>
         </div>
       </div>
+      </Reveal>
     </div>
   )
 }

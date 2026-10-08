@@ -8,6 +8,7 @@ import { getBlogPosts, getBlogPostBySlug, type BlogPost } from '@/lib/db/queries
 import { formatDate } from '@/lib/utils'
 import { getCoverUrl } from '@/lib/blog-image'
 import BlurWords from '@/components/BlurWords'
+import Reveal from '@/components/Reveal'
 import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
@@ -71,12 +72,18 @@ export default async function BlogPage() {
               const isLastOdd = i === posts.length - 1 && posts.length % 2 === 1
 
               return (
+                <Reveal
+                  key={post.id}
+                  className={isLastOdd ? 'md:col-span-2' : ''}
+                  delay={(i % 2) * 180}
+                  // cover images are large: a lighter blur keeps the reveal cheap
+                  style={{ '--blur-from': '3px' } as CSSProperties}
+                >
                 <Link
                   href={`/blog/${post.slug}`}
-                  key={post.id}
-                  className={`group block rounded-xl border border-[#1F2421] bg-[#0F0F0F] overflow-hidden
+                  className={`group block h-full rounded-xl border border-[#1F2421] bg-[#0F0F0F] overflow-hidden
                               hover:border-[#3DF49A]/40 transition-colors duration-200
-                              ${isLastOdd ? 'md:col-span-2 md:flex md:items-stretch' : ''}`}
+                              ${isLastOdd ? 'md:flex md:items-stretch' : ''}`}
                 >
                   {/* Cover image */}
                   <div
@@ -155,6 +162,7 @@ export default async function BlogPage() {
                     </p>
                   </div>
                 </Link>
+                </Reveal>
               )
             })}
           </div>
