@@ -268,7 +268,9 @@ Terminal-style card used in the homepage personality section:
 </div>
 ```
 
-The `animate-marquee` keyframe runs `translateX(0% → -50%)` over 30s. Array must be doubled (`[...skills, ...skills]`) for seamless looping.
+The `animate-marquee` keyframe runs `translateX(0% → -50%)` over 30s. Array must be doubled (`[...skills, ...skills]`) for seamless looping, and the track must be `w-max`: `translateX(-50%)` is half of the track's OWN width, so a track that is only as wide as its container loops at the wrong point.
+
+`components/TechMarquee.tsx` is the reusable version (used on `/projects`, directly under the hero stats): it doubles the list itself, marks the second copy `aria-hidden`, fades both edges with a `mask-image`, pauses on hover, and scales `animationDuration` with the item count (2.5s per item) so the speed stays constant for long lists. Items on `/projects` are the unique project tags, most used first.
 
 ### Navbar
 

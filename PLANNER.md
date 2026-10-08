@@ -82,6 +82,7 @@ components/
 ├── ProjectsSection.tsx
 ├── Reveal.tsx                   client; scroll-triggered blur-fade reveal (one IntersectionObserver, plays once)
 ├── BlurWords.tsx                per-word blur-in; mode 'load' (pure CSS) or 'scroll' (via Reveal)
+├── TechMarquee.tsx              looping name ticker (used under the /projects hero stats)
 └── CopyCodeInit.tsx
 docs/
 └── PROJECT_JSON_SCHEMA.md       bulk-import schema reference (paste into Paste JSON tab)

@@ -48,6 +48,14 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (projects page): technologies ticker in the hero, Technologies section removed, branch `motion-polish`
+- Agent: claude-sonnet (chat)
+- Request (Fahim, with a screenshot of the `/projects` preview): remove the Technologies section on `/projects` and put a marquee of technologies in the hero, just below the numbers.
+- Done: deleted the "Technologies" chip-grid section (below "By Type"). New `components/TechMarquee.tsx` (server component): list doubled for a seamless loop, track is `w-max`, second copy `aria-hidden`, edge fade via `mask-image`, hover pause, duration scales with item count. It sits inside the hero section directly under the stats grid, `blur-load` entrance, bottom border so stats and ticker read as one band. Items are the unique project tags, most used first then alphabetical (the removed section was alphabetical).
+- Kept on purpose: the "Technologies" stat number in the hero (he only asked to remove the section). Say so if the stat should go too.
+- Noticed, not changed: the homepage ticker (`app/page.tsx`) has no `w-max` on its track, so `translateX(-50%)` is half the container width, not half the content width, and the loop probably jumps at the seam. Fix is adding `w-max` to that div (and swapping in `TechMarquee` would remove the duplication).
+- Verified: `npx tsc --noEmit` clean; Tailwind CLI generates `w-max`, the mask utility and `animate-marquee`. NOT verified in a browser: check the ticker speed, the edge fade, the loop seam and the hover pause on the preview, plus how the hero looks with the section removed on mobile.
+
 ### 2026-10-08 (motion pass, fix): hero entrance missed after clicking a nav link from the bottom of a page, branch `motion-polish`
 - Agent: claude-sonnet (chat)
 - Report (Fahim): after scrolling to the bottom of a page and clicking a nav link, the page scrolls up on its own (wanted) but the hero entrance is missed. He asked for the animation to start once the scroll reaches the top, and chose to keep the smooth scroll-up.

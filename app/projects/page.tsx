@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import ProjectCard from '@/components/ProjectCard'
 import { getAllProjects } from '@/lib/db/queries'
 import BlurWords from '@/components/BlurWords'
+import TechMarquee from '@/components/TechMarquee'
 import type { CSSProperties } from 'react'
 
 export const metadata = {
@@ -19,6 +20,16 @@ export const metadata = {
 
 export default async function ProjectsPage() {
   const allProjects = await getAllProjects()
+
+  // Unique tags, most used first (ties alphabetical), for the hero ticker.
+  const tagCounts = new Map<string, number>()
+  for (const tag of allProjects.flatMap((p) => p.tags ?? [])) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1)
+  }
+  const technologies = Array.from(tagCounts.entries())
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([tag]) => tag)
+
   return (
     <>
       <Navbar />
@@ -94,6 +105,12 @@ export default async function ProjectsPage() {
               </p>
             </div>
           </div>
+
+          {/* Technologies ticker, directly under the numbers. Most used first. */}
+          <TechMarquee
+            items={technologies}
+            className="blur-load border-b border-[#1F2421] py-4"
+          />
         </section>
 
         {/* ── ALL PROJECTS GRID ── */}
@@ -128,35 +145,6 @@ export default async function ProjectsPage() {
               </div>
             )
           })}
-        </section>
-
-        {/* ── TECH STACK ── */}
-        <section className="max-w-6xl mx-auto px-6 py-20">
-          <BlurWords as="h2" text="Technologies" className="text-4xl font-bold text-[#F3F6F4] mb-8" style={{ fontFamily: 'var(--font-clash)' }} />
-          <p
-            className="text-[#8A938E] text-lg mb-12"
-            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
-          >
-            I specialize in modern full-stack development. Here are the tech stacks powering these projects.
-          </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {Array.from(new Set(allProjects.flatMap(p => p.tags)))
-              .sort()
-              .map((tag) => (
-                <div
-                  key={tag}
-                  className="bg-[#0F0F0F] border border-[#1F2421] rounded-lg p-4 hover:border-[#3DF49A] transition-colors"
-                >
-                  <p
-                    className="text-[#F3F6F4] font-medium"
-                    style={{ fontFamily: 'var(--font-jakarta)' }}
-                  >
-                    {tag}
-                  </p>
-                </div>
-              ))}
-          </div>
         </section>
       </main>
       <Footer />
