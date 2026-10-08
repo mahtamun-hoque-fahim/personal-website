@@ -19,7 +19,6 @@ type Project = {
   tagline: string
   description: string
   tags: string[]
-  type: string
   liveUrl: string | null
   repoUrl: string
   featured: boolean
@@ -32,7 +31,6 @@ type ProjectFormState = {
   tagline: string
   description: string
   tags: string // comma-separated in the form
-  type: string
   liveUrl: string
   repoUrl: string
   collaborators: Collaborator[]
@@ -43,7 +41,6 @@ const EMPTY_FORM: ProjectFormState = {
   tagline: '',
   description: '',
   tags: '',
-  type: 'Web',
   liveUrl: '',
   repoUrl: '',
   collaborators: [],
@@ -130,7 +127,6 @@ export default function ProjectsManager({
         .split(',')
         .map((t) => t.trim())
         .filter(Boolean),
-      type: form.type.trim() || 'Web',
       liveUrl: form.liveUrl.trim() || null,
       repoUrl: form.repoUrl.trim(),
       collaborators: form.collaborators
@@ -240,7 +236,6 @@ export default function ProjectsManager({
         tagline: String(r.tagline ?? '').trim(),
         description: String(r.description ?? '').trim(),
         tags,
-        type: String(r.type ?? 'Web').trim() || 'Web',
         liveUrl: liveUrlRaw ? liveUrlRaw : null,
         repoUrl: String(r.repoUrl ?? '').trim(),
         collaborators,
@@ -379,7 +374,6 @@ export default function ProjectsManager({
                   tagline: editing.tagline,
                   description: editing.description,
                   tags: editing.tags.join(', '),
-                  type: editing.type,
                   liveUrl: editing.liveUrl ?? '',
                   repoUrl: editing.repoUrl,
                   collaborators: (editing.collaborators ?? []).map((c) => ({
@@ -437,12 +431,6 @@ function ProjectRow({
             <p className="text-[#F3F6F4] font-medium truncate" style={{ fontFamily: 'var(--font-clash)' }}>
               {project.name}
             </p>
-            <span
-              className="text-[10px] px-1.5 py-0.5 bg-[#1F2421] text-[#8A938E] rounded uppercase tracking-wider"
-              style={{ fontFamily: 'var(--font-jetbrains)' }}
-            >
-              {project.type}
-            </span>
           </div>
           <p className="text-[#8A938E] text-sm truncate" style={{ fontFamily: 'var(--font-jakarta)' }}>
             {project.tagline}
@@ -587,24 +575,14 @@ function ProjectFormModal({
                 />
               </Field>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Type">
-                  <input
-                    value={form.type}
-                    onChange={(e) => setForm({ ...form, type: e.target.value })}
-                    className={inputCls}
-                    placeholder="Web, Mobile, CLI..."
-                  />
-                </Field>
-                <Field label="Tags (comma-separated)">
-                  <input
-                    value={form.tags}
-                    onChange={(e) => setForm({ ...form, tags: e.target.value })}
-                    className={inputCls}
-                    placeholder="Next.js, TypeScript, Health"
-                  />
-                </Field>
-              </div>
+              <Field label="Tags (comma-separated)">
+                <input
+                  value={form.tags}
+                  onChange={(e) => setForm({ ...form, tags: e.target.value })}
+                  className={inputCls}
+                  placeholder="Next.js, TypeScript, Health"
+                />
+              </Field>
 
               <Field label="Collaborators">
                 {form.collaborators.length === 0 && (

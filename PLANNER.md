@@ -127,7 +127,7 @@ scripts/
 
 - `blog_posts`: uuid, title, slug (unique), excerpt, content, cover_image, published, tags[], reading_time, timestamps
 - `contact_messages`: uuid, name, email, subject, message, country, read, created_at
-- `projects`: uuid, name (unique), tagline, description, tags[], type, live_url, repo_url, featured, featured_order, **status_badges text[]** (default `{}`), **collaborators jsonb** (default `[]`, shape `[{ name, url? }]`), timestamps
+- `projects`: uuid, name (unique), tagline, description, tags[], live_url, repo_url, featured, featured_order, **status_badges text[]** (default `{}`), **collaborators jsonb** (default `[]`, shape `[{ name, url? }]`), timestamps
 - `site_settings`: integer id (always `1`, single row), title, description, job_title, **avatar_url** (nullable), keywords text[], og_title, og_description, updated_at — feeds `generateMetadata()` in `app/layout.tsx`, the root layout's Person JSON-LD, and the blog post JSON-LD author block. Read through `getCachedSiteSettings()` (`unstable_cache`, 1h revalidate, tag `site-settings`); written via admin `/admin/settings`.
 - `about_content`: integer id (always `1`, single row), headline_top, headline_accent, intro, story_heading, story_paragraphs text[], cta_heading, cta_text, cta_primary_label, cta_secondary_label, **home_heading, home_paragraph_one, home_paragraph_two, home_link_label, home_card_role, home_card_description text[], home_card_stack text[], home_card_availability text[], home_card_obsessions text[]**, updated_at. Feeds the public `/about` page and the homepage teaser block; column defaults equal the previous hardcoded copy
 
@@ -208,7 +208,7 @@ This writes directly through Better Auth (bypassing the UI), but still passes th
 **Projects manager (`/admin/projects`)**
 
 - Full CRUD: Create / Edit / Delete / Feature toggle / Reorder (↑↓)
-- Form fields: name, type, tags (CSV), tagline, description, liveUrl, repoUrl, statusBadges, collaborators
+- Form fields: name, tags (CSV), tagline, description, liveUrl, repoUrl, statusBadges, collaborators
 - **Status badges**: 4 toggleable pills (`live` / `beta` / `deprecated` / `funding`) — any combination
 - **Collaborators**: repeater of `{ name, url? }` entries — strings or objects
 - **JSON bulk import tab**: upsert by `name`, accepts single object / array / `{ projects: [...] }`, per-row outcome panel (✓ new / ↻ updated / ✗ error)

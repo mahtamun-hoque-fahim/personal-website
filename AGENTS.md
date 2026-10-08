@@ -48,6 +48,16 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (projects page + dashboard): `type` removed everywhere, branch `motion-polish`
+- Agent: claude-sonnet (chat)
+- Request (Fahim, answering "remove the Types stat and the `type` field from the dashboard, with or without the DB column?"): "yes, remove". Read as all of it, including the column, following the 2026-10 credentials-timeline cleanup precedent (schema edit, `drizzle-kit generate`, Neon SQL given separately and run by hand).
+- Commits: (1) `/projects` hero: "Types" stat removed, stats row is now three columns (`grid-cols-3`, so no orphan on mobile). (2) `type` removed from `/admin/projects` (form field, list badge, JSON import normalisation, JSON help panel and its example), from `lib/db/schema.ts`, and `drizzle/0011_remove_project_type.sql` generated (`ALTER TABLE "projects" DROP COLUMN "type";`) with its snapshot and journal entry. Tags field now sits full width in the form. `PLANNER.md` schema and form-field lines updated.
+- NOT applied to the database. The migration is not run by the build (`db:migrate` is manual), so nothing changes in Neon until Fahim runs SQL. ORDER MATTERS, because Vercel previews and production share one database:
+  1. Now, before using the dashboard on the preview: `ALTER TABLE projects ALTER COLUMN type DROP NOT NULL;` (safe for both the old and new code; without it, creating a project from the new code fails because `type` is NOT NULL with no default).
+  2. Only AFTER this branch is merged and production has redeployed: `ALTER TABLE projects DROP COLUMN type;` (irreversible). Doing it earlier breaks production, whose code still reads the column.
+- Left alone: `components/ProjectsSection.tsx` has its own hardcoded demo data with a `type` field and is not imported anywhere (dead code, not connected to the database). Old exports/backups still containing `type` are harmless: the JSON import ignores unknown keys.
+- Verified: `npx tsc --noEmit` clean after each commit; drizzle-kit generated exactly one statement. NOT verified in a browser or against the database: after SQL step 1, create and edit a project on the preview, and run a JSON import.
+
 ### 2026-10-08 (projects page): "By Type" section removed, dashboard connection checked, branch `motion-polish`
 - Agent: claude-sonnet (chat)
 - Request (Fahim): on `/projects` remove everything after "By Type", along with it; check whether anything removed so far was also connected to the dashboard and, if so, remove it there too.
