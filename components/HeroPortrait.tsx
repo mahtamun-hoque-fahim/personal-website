@@ -2,15 +2,16 @@
  * Homepage hero portrait: transparent cutout standing on the stats rule.
  *
  * - The parent must be `relative` and contain the headline + intro row.
- * - Vertical: the top is aligned with the top of the "Build" capitals
- *   (`top` = 0.31 x the h1 font size, measured from the live page, so it
- *   follows the headline's `clamp(3.5rem, 10vw, 9rem)`), and the bottom is
- *   pushed down 4rem (`bottom-[-4rem]`) to land exactly on the stats rule
- *   underneath. That 4rem is the `mt-16` between the intro row and the rule
- *   in app/page.tsx; the 0.31 and the clamp must match the h1 there too.
- *   Height therefore comes from the layout, and `aspect-[571/907]` derives
- *   the width, so the figure keeps its proportions at every width.
- * - Horizontal: `right-[11.5%]` of the container puts the figure in the free
+ * - Vertical: the top sits just above the wrapper's top edge (`top` =
+ *   -0.04 x the h1 font size, so it follows the headline's
+ *   `clamp(3.5rem, 10vw, 9rem)`), which puts the top of the head level with
+ *   the top of the "Build" ascenders. The bottom is pushed down 4rem
+ *   (`bottom-[-4rem]`) to land exactly on the stats rule underneath. That
+ *   4rem is the `mt-16` between the intro row and the rule in app/page.tsx;
+ *   the clamp must match the h1 there too. Height therefore comes from the
+ *   layout, and `aspect-[571/907]` derives the width, so the figure keeps
+ *   its proportions at every width.
+ * - Horizontal: `right-[10.5%]` of the container puts the figure in the free
  *   column to the right of the headline, not hard against the edge.
  * - Full figure, natural proportions, no zoom, no mask, no extra glow (the
  *   page's MintGlow is the only light). The photo is cut at the waist; the
@@ -25,7 +26,7 @@
 export default function HeroPortrait() {
   return (
     <div
-      className="blur-load pointer-events-none absolute right-[11.5%] top-[calc(clamp(3.5rem,10vw,9rem)*0.31)] bottom-[-4rem] -z-10 hidden aspect-[571/907] sm:block"
+      className="blur-load pointer-events-none absolute right-[10.5%] top-[calc(clamp(3.5rem,10vw,9rem)*-0.04)] bottom-[-4rem] -z-10 hidden aspect-[571/907] sm:block"
       style={
         {
           '--reveal-delay': '220ms',
