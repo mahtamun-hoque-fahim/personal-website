@@ -89,8 +89,8 @@ export default async function BlogPage() {
                   <div
                     className={
                       isLastOdd
-                        ? 'aspect-[1200/630] md:aspect-auto md:w-2/5 md:shrink-0 overflow-hidden bg-[#111111]'
-                        : 'aspect-[1200/630] w-full overflow-hidden bg-[#111111]'
+                        ? 'aspect-[1200/630] md:aspect-auto md:w-2/5 md:shrink-0 overflow-hidden bg-[#000000]'
+                        : 'aspect-[1200/630] w-full overflow-hidden bg-[#000000]'
                     }
                   >
                     {true ? (

@@ -130,7 +130,7 @@ export default function JsonHelpPanel() {
               </button>
             </div>
             <pre
-              className="text-[11px] bg-[#111111] border border-[#333333] rounded-lg p-3 overflow-x-auto text-[#8A938E] leading-relaxed"
+              className="text-[11px] bg-[#000000] border border-[#333333] rounded-lg p-3 overflow-x-auto text-[#8A938E] leading-relaxed"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               {EXAMPLE_JSON}

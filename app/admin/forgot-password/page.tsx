@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6 bg-[#111111]">
+      <div className="min-h-screen flex items-center justify-center px-6 bg-[#000000]">
         <div className="w-full max-w-md">
           <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
             <Logo height={26} />
@@ -91,7 +91,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 bg-[#111111]">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-[#000000]">
       <div className="w-full max-w-md">
         <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
           <Logo height={26} />
@@ -136,7 +136,7 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="w-full px-4 py-3 bg-[#111111] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                className="w-full px-4 py-3 bg-[#000000] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               />
             </div>

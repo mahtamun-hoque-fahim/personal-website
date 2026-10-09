@@ -34,7 +34,7 @@ export default function AdminSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed top-0 left-0 z-40 h-screen w-60 border-r border-[#333333] bg-[#111111] flex flex-col">
+    <aside className="fixed top-0 left-0 z-40 h-screen w-60 border-r border-[#333333] bg-[#000000] flex flex-col">
       {/* Brand */}
       <div className="px-5 pt-6 pb-4 border-b border-[#333333]">
         <Link href="/admin" className="flex items-center gap-2">

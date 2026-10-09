@@ -8,7 +8,7 @@ import Reveal from '@/components/Reveal'
  */
 export default function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   return (
-    <div className="bg-[#111111] p-8 group hover:bg-[#222222] transition-colors duration-300 flex flex-col min-h-[280px]">
+    <div className="bg-[#000000] p-8 group hover:bg-[#222222] transition-colors duration-300 flex flex-col min-h-[280px]">
       <Reveal className="flex flex-1 flex-col justify-between" delay={(index % 2) * 180}>
       <div>
         <div className="flex items-start justify-between mb-4">

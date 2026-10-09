@@ -19,7 +19,7 @@ function ResetPasswordInner() {
 
   if (!token) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6 bg-[#111111]">
+      <div className="min-h-screen flex items-center justify-center px-6 bg-[#000000]">
         <div className="w-full max-w-md text-center">
           <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
             <Logo height={26} className="mx-auto" />
@@ -75,7 +75,7 @@ function ResetPasswordInner() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6 bg-[#111111]">
+      <div className="min-h-screen flex items-center justify-center px-6 bg-[#000000]">
         <div className="w-full max-w-md text-center">
           <div
             className="w-12 h-12 rounded-full bg-[#3DF49A]/10 border border-[#3DF49A]/30 flex items-center justify-center mx-auto mb-6"
@@ -109,7 +109,7 @@ function ResetPasswordInner() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 bg-[#111111]">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-[#000000]">
       <div className="w-full max-w-md">
         <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
           <Logo height={26} />
@@ -155,7 +155,7 @@ function ResetPasswordInner() {
                 placeholder="••••••••"
                 required
                 minLength={8}
-                className="w-full px-4 py-3 bg-[#111111] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                className="w-full px-4 py-3 bg-[#000000] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               />
             </div>
@@ -174,7 +174,7 @@ function ResetPasswordInner() {
                 placeholder="••••••••"
                 required
                 minLength={8}
-                className="w-full px-4 py-3 bg-[#111111] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                className="w-full px-4 py-3 bg-[#000000] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               />
             </div>

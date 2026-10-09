@@ -401,7 +401,7 @@ Selected work
                 <Link
                   key={post.id}
                   href={`/blog/${post.slug}`}
-                  className="bg-[#111111] p-8 flex flex-col group hover:bg-[#222222] transition-colors duration-300 min-h-[260px]"
+                  className="bg-[#000000] p-8 flex flex-col group hover:bg-[#222222] transition-colors duration-300 min-h-[260px]"
                 >
                   <Reveal className="flex flex-1 flex-col justify-between" delay={(i % 3) * 180}>
                   <div>
@@ -453,7 +453,7 @@ Selected work
               {recentPosts.length < 3 && Array.from({ length: 3 - recentPosts.length }).map((_, i) => (
                 <div
                   key={`empty-${i}`}
-                  className="bg-[#111111] p-8 min-h-[260px] flex items-center justify-center"
+                  className="bg-[#000000] p-8 min-h-[260px] flex items-center justify-center"
                 >
                   <span
                     className="text-[#333333] text-xs tracking-widest uppercase"

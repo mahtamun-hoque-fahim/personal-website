@@ -20,7 +20,7 @@ const inputCls =
   'w-full bg-[#222222] border border-[#333333] rounded-lg px-3 py-2 text-sm text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors'
 const labelCls = 'block text-xs font-medium text-[#5C615E] mb-1 uppercase tracking-wider'
 const btnPrimary =
-  'flex items-center gap-2 px-4 py-2 rounded-lg bg-[#3DF49A] text-[#111111] text-sm font-semibold hover:bg-[#2de088] transition-colors disabled:opacity-50'
+  'flex items-center gap-2 px-4 py-2 rounded-lg bg-[#3DF49A] text-[#000000] text-sm font-semibold hover:bg-[#2de088] transition-colors disabled:opacity-50'
 const btnSecondary =
   'flex items-center gap-2 px-3 py-2 rounded-lg border border-[#333333] text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:border-[#444444] transition-colors'
 
@@ -81,7 +81,7 @@ function ReorderBtns({
   )
 }
 
-// Thumbnail slot: background is a shade lighter than the page (#111111),
+// Thumbnail slot: background is a shade lighter than the page (#000000),
 // on purpose — a transparent PNG upload needs *some* contrast to read as a
 // card and not empty space, without looking like a hard-edged box.
 function Thumb({ url, size = 64 }: { url: string | null; size?: number }) {
