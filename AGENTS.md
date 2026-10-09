@@ -48,6 +48,13 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-09 (glow drift not adopted): back to the steady glow, branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Decision (Fahim): undo the random glow drift, but keep the `glow-drift` branch.
+- Done: nothing to revert in code. The drift only ever existed on `glow-drift` (commits `2ad28ca` and `ffc7af9`, built on `face-reveal` at `f60c6c0`); `face-reveal` never contained it, so the steady `#444444` glow in `components/MintGlow.tsx` is what ships from here. `glow-drift` was deliberately left untouched on the remote so the experiment can be revisited (tuning knobs: `DRIFT_*` / `SOFT_*` constants at the top of `MintGlow.tsx` there).
+- Consequence: `glow-drift` no longer contains the tip of `face-reveal` (it lacks this note). Harmless; if it is ever resurrected, merge `face-reveal` into it first. Do not re-add the drift without being asked.
+- Work from `face-reveal` (and its preview deployment), not `glow-drift`.
+
 ### 2026-10-08 (palette): new neutral palette, branch `face-reveal`
 - Agent: claude-sonnet (chat)
 - Request (Fahim): background `#111111`; everything else `#222222` and `#333333`; glow `#444444`. (Triggered by his question whether the background was `#000000`; it was `#070807`.)
