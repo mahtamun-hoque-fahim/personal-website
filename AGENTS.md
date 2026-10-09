@@ -48,6 +48,21 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-08 (palette): new neutral palette, branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Request (Fahim): background `#111111`; everything else `#222222` and `#333333`; glow `#444444`. (Triggered by his question whether the background was `#000000`; it was `#070807`.)
+- How I read it: a four-step gray ladder. `#111111` page; `#222222` surfaces/fills; `#333333` lines; `#444444` glow. Text colours (`#F3F6F4`, `#8A938E`, `#5C615E`, `#C7CCCA`) and the mint accent `#3DF49A` were NOT in the request and are unchanged.
+- Mapping applied (role-aware, via a throwaway script; roles read from the Tailwind utility or CSS property):
+  - `#070807` (page, grid cells, nav) to `#111111`.
+  - Fills `#0F0F0F`, `#0A0C0B`, `#090A09`, `#0F1210`, `#141712`, `#121312`, `#0C0D0C` to `#222222`.
+  - Lines `#1F2421` to `#333333` (borders, dividers, the `gap-px` grid colour, decorative separators). Reason: a border must differ from the surface under it, and surfaces are now `#222222`.
+  - `#2B302D` / `#3A3F3C` by role: as border or hover-border to `#444444` (so hover still reads as a step up from the new `#333333` borders), as fill to `#333333`, as TEXT or placeholder to `#5C615E` (the existing dim-text tone; `#333333` text on `#222222` would be about 1.3:1 and unreadable). `#3B3F3D` / `#474C49` text to `#5C615E`.
+  - `--bg`, `--surface`, `--border` in `globals.css` updated; `rgba(31,36,33,.8)` pre border to `rgba(51,51,51,.8)`; code block background `rgba(0,0,0,.45)` to `rgba(34,34,34,.6)`; favicon glyph (light mode) to `#111111`.
+- Glow: `components/MintGlow.tsx` `GLOW_RGB` is `'68, 68, 68'` (`#444444`). Alphas raised (0.06/0.02/0.03 became 0.24/0.08/0.12) because `#444444` over `#111111` needs about 4x the alpha to give the same faint lift the light-gray glow gave; if it reads too strong or too faint, tune those three numbers. The closing "Reach Out!" section glow (`app/page.tsx`) was mint and is now `rgba(68,68,68,0.28)`.
+- Scope: public site and the admin dashboard (they share these tokens), as two separate commits so the admin one can be dropped. NOT changed: `lib/email.ts` (transactional emails keep the old dark palette), mint accent usages (buttons, focus rings, `.border-glow`, credential dot glow).
+- Judgement calls Fahim may want to revisit: the hover-border `#444444`, placeholders at `#5C615E`, and the hero ticker band being `#222222` (a visibly lighter strip than the page).
+- Verified: `npx tsc --noEmit` clean after each commit; Tailwind CLI compile contains the new utilities and none of the old hex values; grep finds no old neutral left in `app/`, `components/` (emails excepted). NOT verified in a browser: contrast and overall feel, especially cards (`#222222` on `#111111`), the gray glow strength, and the portrait against the lighter page.
+
 ### 2026-10-08 (face-reveal, alignment + glow colour): branch `face-reveal`
 - Agent: claude-sonnet (chat)
 - Feedback (Fahim, screenshot with two red lines): the head sat at the lower line (y about 173 at 1361px wide), he wants it at the upper line (about y 125-135, level with the top of "Build"). Also: change the mint glow to light gray.
