@@ -48,6 +48,12 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-09 (cleanup): `glow-drift` branch deleted, branch `glow-roam`
+- Agent: claude-sonnet (chat)
+- Decision (Fahim, after being told it held the only copy of the drift code): delete `glow-drift`, local and remote. Deleted at tip `ffc7af9` (commits `2ad28ca` drift code, `ffc7af9` docs). If the random softness drift is ever wanted again: `git fetch origin ffc7af9 && git branch glow-drift ffc7af9` works only while GitHub still serves the commit (not guaranteed, no PR was opened), otherwise rebuild from the description in the 2026-10-08 glow-drift entry above (two soft gradient layers, opacity cross-fade on random 6-14s timers, independent per orb).
+- Earlier entries that say `glow-drift` was "kept for later" are history; the branch no longer exists. The roaming glow on `glow-roam` supersedes it.
+- Remaining remote branches: `main`, `small-fixes` (already merged into `main`, 0 commits of its own, safe to delete), `motion-polish`, `face-reveal`, `glow-roam` (stacked in that order).
+
 ### 2026-10-09 (glow-roam): one softer, roaming background glow that starts behind the portrait, branch `glow-roam` (off `face-reveal`)
 - Agent: claude-sonnet (chat)
 - Request (Fahim): keep only the right-side glow, make it a bit more blurred, let it roam around the background, always starting from behind his picture and staying there for 3 seconds at the beginning.
