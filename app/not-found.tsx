@@ -9,7 +9,7 @@ export default function NotFound() {
       <Navbar />
       <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
         <p
-          className="text-[#1F2421] text-[clamp(8rem,25vw,20rem)] font-bold leading-none select-none"
+          className="text-[#333333] text-[clamp(8rem,25vw,20rem)] font-bold leading-none select-none"
           style={{ fontFamily: 'var(--font-clash)' }}
         >
           404

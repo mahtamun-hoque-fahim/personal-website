@@ -8,8 +8,8 @@ type Props = {
 
 export default function AuthorCard({ jobTitle, avatarUrl }: Props) {
   return (
-    <div className="mt-16 pt-8 border-t border-[#1F2421]">
-      <div className="flex items-start gap-4 bg-[#0F0F0F] border border-[#1F2421] rounded-xl p-6">
+    <div className="mt-16 pt-8 border-t border-[#333333]">
+      <div className="flex items-start gap-4 bg-[#222222] border border-[#333333] rounded-xl p-6">
         {avatarUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -17,11 +17,11 @@ export default function AuthorCard({ jobTitle, avatarUrl }: Props) {
             alt="Mahtamun Hoque Fahim"
             width={56}
             height={56}
-            className="w-14 h-14 rounded-full object-cover shrink-0 border border-[#1F2421]"
+            className="w-14 h-14 rounded-full object-cover shrink-0 border border-[#333333]"
           />
         ) : (
           <div
-            className="w-14 h-14 rounded-full bg-[#1F2421] flex items-center justify-center text-lg font-bold
+            className="w-14 h-14 rounded-full bg-[#333333] flex items-center justify-center text-lg font-bold
                        text-[#3DF49A] shrink-0"
             style={{ fontFamily: 'var(--font-clash)' }}
           >

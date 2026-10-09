@@ -110,7 +110,7 @@ export default async function BlogPostPage({
 
           {true && (
             <div
-              className="mb-12 rounded-lg overflow-hidden border border-[#1F2421] bg-[#0F0F0F]"
+              className="mb-12 rounded-lg overflow-hidden border border-[#333333] bg-[#222222]"
               style={{ aspectRatio: '1200 / 630' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -132,7 +132,7 @@ export default async function BlogPostPage({
           <CopyCodeInit />
 
           {post.tags && post.tags.length > 0 && (
-            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap items-center gap-2">
+            <div className="mt-16 pt-8 border-t border-[#333333] flex flex-wrap items-center gap-2">
               <span
                 className="text-xs text-[#8A938E] mr-1"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
@@ -142,7 +142,7 @@ export default async function BlogPostPage({
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-2 py-1 border border-[#1F2421] text-[#8A938E] rounded
+                  className="text-xs px-2 py-1 border border-[#333333] text-[#8A938E] rounded
                              whitespace-nowrap flex-shrink-0
                              hover:text-[#3DF49A] hover:border-[#3DF49A] transition-colors duration-150"
                   style={{ fontFamily: 'var(--font-jetbrains)' }}

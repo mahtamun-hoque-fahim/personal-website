@@ -15,7 +15,7 @@ export default async function Footer() {
   }
 
   return (
-    <footer className="border-t border-[#1F2421] mt-24 py-12 px-6">
+    <footer className="border-t border-[#333333] mt-24 py-12 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Brand + link columns: side by side on desktop (brand fixed width,
             columns share the rest), stacked full-width on phones. */}
@@ -68,7 +68,7 @@ export default async function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-[#1F2421] mt-10 pt-6 text-center">
+        <div className="border-t border-[#333333] mt-10 pt-6 text-center">
           <p className="text-[#8A938E] text-xs" style={{ fontFamily: 'var(--font-jakarta)' }}>
             © {year} Mahtamun Hoque Fahim
           </p>

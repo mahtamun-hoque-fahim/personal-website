@@ -72,15 +72,15 @@ export default function ProjectsSection() {
         </a>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#333333]">
         {projects.map((project) => (
           <div
             key={project.name}
-            className="bg-[#070807] p-8 group hover:bg-[#0F0F0F] transition-colors duration-300 flex flex-col justify-between min-h-[280px]"
+            className="bg-[#111111] p-8 group hover:bg-[#222222] transition-colors duration-300 flex flex-col justify-between min-h-[280px]"
           >
             <div>
               <span
-                className="text-[#2B302D] text-xs tracking-[0.15em] uppercase block mb-1 group-hover:text-[#3DF49A] transition-colors duration-300"
+                className="text-[#5C615E] text-xs tracking-[0.15em] uppercase block mb-1 group-hover:text-[#3DF49A] transition-colors duration-300"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 {project.type}
@@ -105,12 +105,12 @@ export default function ProjectsSection() {
               </p>
             </div>
 
-            <div className="mt-6 pt-6 border-t border-[#1F2421]">
+            <div className="mt-6 pt-6 border-t border-[#333333]">
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs px-2 py-0.5 border border-[#1F2421] text-[#8A938E] rounded"
+                    className="text-xs px-2 py-0.5 border border-[#333333] text-[#8A938E] rounded"
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     {tag}
@@ -149,7 +149,7 @@ export default function ProjectsSection() {
         >
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           <div
-            className="relative bg-[#0F0F0F] border border-[#1F2421] rounded-2xl p-8 max-w-md w-full"
+            className="relative bg-[#222222] border border-[#333333] rounded-2xl p-8 max-w-md w-full"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#3DF49A] to-transparent" />
@@ -184,7 +184,7 @@ export default function ProjectsSection() {
               </a>
               <button
                 onClick={() => setPopup(null)}
-                className="flex-1 px-5 py-2.5 border border-[#1F2421] text-[#8A938E] text-sm rounded-full hover:border-[#8A938E] hover:text-[#F3F6F4] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
+                className="flex-1 px-5 py-2.5 border border-[#333333] text-[#8A938E] text-sm rounded-full hover:border-[#8A938E] hover:text-[#F3F6F4] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Maybe later

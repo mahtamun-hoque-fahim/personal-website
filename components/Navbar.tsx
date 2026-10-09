@@ -56,10 +56,10 @@ export default function Navbar() {
       <nav className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6">
         <div
           className={cn(
-            'max-w-6xl mx-auto rounded-full border border-[#1F2421] backdrop-blur-md px-5 sm:px-6 py-3 flex items-center justify-between transition-[background-color,box-shadow] duration-300',
+            'max-w-6xl mx-auto rounded-full border border-[#333333] backdrop-blur-md px-5 sm:px-6 py-3 flex items-center justify-between transition-[background-color,box-shadow] duration-300',
             scrolled
-              ? 'bg-[#0A0C0B]/70 shadow-lg shadow-black/40'
-              : 'bg-[#0A0C0B]/40'
+              ? 'bg-[#222222]/70 shadow-lg shadow-black/40'
+              : 'bg-[#222222]/40'
           )}
         >
           {/* Logo */}
@@ -134,7 +134,7 @@ export default function Navbar() {
       <div
         id="mobile-menu"
         className={cn(
-          'fixed inset-0 z-40 bg-[#070807] flex flex-col justify-center items-center gap-10 transition-[opacity,visibility] duration-300',
+          'fixed inset-0 z-40 bg-[#111111] flex flex-col justify-center items-center gap-10 transition-[opacity,visibility] duration-300',
           // invisible (not just transparent) so closed links leave the tab order
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         )}

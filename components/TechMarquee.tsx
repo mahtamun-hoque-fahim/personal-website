@@ -41,7 +41,7 @@ export default function TechMarquee({ items, className }: TechMarqueeProps) {
             }}
           >
             {name}
-            <span className="ml-12 text-[#1F2421]" aria-hidden="true">
+            <span className="ml-12 text-[#333333]" aria-hidden="true">
               ◆
             </span>
           </span>

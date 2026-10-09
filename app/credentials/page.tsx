@@ -394,7 +394,7 @@ export default async function CredentialsPage() {
         </section>
 
         {/* ── JOURNEY TIMELINE ──────────────────────────────────────── */}
-        <section className="bg-[#090A09] border-t border-b border-[#1F2421]">
+        <section className="bg-[#222222] border-t border-b border-[#333333]">
           <div className="max-w-6xl mx-auto px-6 py-20">
             <div className="flex items-center gap-3 mb-4">
               <BlurWords as="h2" text="Experience & Education" className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }} />
@@ -408,7 +408,7 @@ export default async function CredentialsPage() {
 
             <div className="relative">
               {/* Vertical line */}
-              <div className="absolute left-[52px] top-0 bottom-0 w-px bg-[#1F2421] hidden md:block" />
+              <div className="absolute left-[52px] top-0 bottom-0 w-px bg-[#333333] hidden md:block" />
 
               <div className="space-y-10">
                 {timelineEvents.map((event, i) => {
@@ -434,15 +434,15 @@ export default async function CredentialsPage() {
                         <div
                           className="w-3 h-3 rounded-full border-2 transition-[transform,border-color,background-color] duration-200 group-hover:scale-125"
                           style={{
-                            borderColor: event.isCurrent ? '#3DF49A' : isLast ? '#2B302D' : '#2B302D',
-                            background: event.isCurrent ? '#3DF49A' : '#070807',
+                            borderColor: event.isCurrent ? '#3DF49A' : '#444444',
+                            background: event.isCurrent ? '#3DF49A' : '#111111',
                             boxShadow: event.isCurrent ? '0 0 8px rgba(61,244,154,0.4)' : 'none',
                           }}
                         />
                       </div>
 
                       {/* Content */}
-                      <div className="flex-1 border-l-2 border-transparent hover:border-[#1F2421] transition-colors duration-200 pl-0 md:pl-0 md:border-0">
+                      <div className="flex-1 border-l-2 border-transparent hover:border-[#333333] transition-colors duration-200 pl-0 md:pl-0 md:border-0">
                         {/* Mobile year */}
                         <p
                           className="text-xs text-[#5C615E] mb-1 md:hidden"
@@ -503,7 +503,7 @@ export default async function CredentialsPage() {
             {credentialClusters.map((cluster) => (
               <div key={cluster.id}>
                 {/* Cluster header */}
-                <div className="flex flex-wrap items-start gap-4 mb-6 pb-4 border-b border-[#1F2421]">
+                <div className="flex flex-wrap items-start gap-4 mb-6 pb-4 border-b border-[#333333]">
                   <div className="flex items-center gap-2.5">
                     {clusterIcon(cluster.id)}
                     <h3
@@ -521,7 +521,7 @@ export default async function CredentialsPage() {
                   {cluster.certs.map((cert) => (
                     <div
                       key={cert.name}
-                      className={`border border-[#1F2421] rounded-lg p-4 hover:border-[#3DF49A]/25 transition-colors duration-200 ${
+                      className={`border border-[#333333] rounded-lg p-4 hover:border-[#3DF49A]/25 transition-colors duration-200 ${
                         cert.isFoundational ? 'opacity-50 hover:opacity-70' : ''
                       }`}
                     >
@@ -556,7 +556,7 @@ export default async function CredentialsPage() {
                         </span>
                         {cert.credentialId && (
                           <span
-                            className="text-[#3B3F3D] text-[10px]"
+                            className="text-[#5C615E] text-[10px]"
                             style={{ fontFamily: 'var(--font-jetbrains)' }}
                           >
                             · {cert.credentialId}
@@ -564,7 +564,7 @@ export default async function CredentialsPage() {
                         )}
                         {cert.isFoundational && (
                           <span
-                            className="text-[10px] text-[#3B3F3D] italic"
+                            className="text-[10px] text-[#5C615E] italic"
                             style={{ fontFamily: 'var(--font-jakarta)' }}
                           >
                             foundational
@@ -580,7 +580,7 @@ export default async function CredentialsPage() {
         </section>
 
         {/* ── COMMUNITY & SERVICE ───────────────────────────────────── */}
-        <section className="bg-[#090A09] border-t border-b border-[#1F2421]">
+        <section className="bg-[#222222] border-t border-b border-[#333333]">
           <div className="max-w-6xl mx-auto px-6 py-20">
             <BlurWords as="h2" text="Community & Service" className="text-4xl font-bold text-[#F3F6F4] mb-4" style={{ fontFamily: 'var(--font-clash)' }} />
             <p
@@ -594,7 +594,7 @@ export default async function CredentialsPage() {
               {communityRoles.map((role) => (
                 <div
                   key={role.title}
-                  className="border border-[#1F2421] rounded-lg p-6 hover:border-[#3DF49A]/20 transition-colors duration-200"
+                  className="border border-[#333333] rounded-lg p-6 hover:border-[#3DF49A]/20 transition-colors duration-200"
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <h3
@@ -628,7 +628,7 @@ export default async function CredentialsPage() {
                     {role.period}
                   </p>
                   <span
-                    className="text-[10px] text-[#5C615E] border border-[#1F2421] px-2 py-0.5 rounded"
+                    className="text-[10px] text-[#5C615E] border border-[#333333] px-2 py-0.5 rounded"
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     {role.category}
@@ -641,7 +641,7 @@ export default async function CredentialsPage() {
                           className="text-[11px] text-[#5C615E] flex items-center gap-1.5"
                           style={{ fontFamily: 'var(--font-jetbrains)' }}
                         >
-                          <span className="w-1 h-1 rounded-full bg-[#2B302D] shrink-0" />
+                          <span className="w-1 h-1 rounded-full bg-[#333333] shrink-0" />
                           {d}
                         </li>
                       ))}
@@ -670,7 +670,7 @@ export default async function CredentialsPage() {
             {contributions.map((item) => (
               <div
                 key={item.title}
-                className="border border-[#1F2421] rounded-xl p-8 hover:border-[#3DF49A]/30 transition-[border-color] duration-300 group"
+                className="border border-[#333333] rounded-xl p-8 hover:border-[#3DF49A]/30 transition-[border-color] duration-300 group"
               >
                 <p
                   className="text-[10px] text-[#3DF49A] tracking-[0.15em] uppercase mb-3"
@@ -707,7 +707,7 @@ export default async function CredentialsPage() {
 
         {/* ── CTA ───────────────────────────────────────────────────── */}
         <section className="max-w-6xl mx-auto px-6 pb-24">
-          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border border-[#1F2421] rounded-xl p-8">
+          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border border-[#333333] rounded-xl p-8">
             <div>
               <h3
                 className="text-2xl font-bold text-[#F3F6F4] mb-1"
@@ -735,7 +735,7 @@ export default async function CredentialsPage() {
                 href="https://linkedin.com/in/mahtamun-hoque-fahim"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto justify-center px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+                className="w-full sm:w-auto justify-center px-6 py-2.5 border border-[#333333] text-[#F3F6F4] text-sm rounded-full
                            hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97] inline-flex items-center gap-1.5"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
