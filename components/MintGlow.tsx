@@ -7,43 +7,35 @@ import { usePathname } from 'next/navigation'
  * MintGlow: fixed, full-page ambient light source (the name predates the
  * colour changes: it was mint, then light gray, and is now #444444).
  *
- * One soft orb, behind everything (`z-index: 0`), so code blocks with
- * `backdrop-filter: blur` visibly "catch" it as it passes behind them.
+ * ONE soft orb, behind everything (`z-index: 0`), so code blocks with
+ * `backdrop-filter: blur` visibly "catch" it. Its softness is fixed: a smooth
+ * Gaussian-style falloff (many stops, no hard edge). Nothing about it varies
+ * over time.
  *
- * Roaming
- * - On load the orb is placed behind the hero portrait (the element marked
- *   `data-glow-anchor`, see HeroPortrait), fades in, rests there for 3
- *   seconds, then starts to roam: every 16-26 seconds it eases to a new random
- *   point in the viewport, at least ~30% of the screen diagonal away so every
- *   move is perceptible. Pages without a portrait start from the resting
- *   position in the upper right instead.
- * - The component lives in RootLayout, so it survives client navigation and
- *   keeps roaming from page to page. Navigating TO a page that has the
- *   portrait (the homepage) glides it back behind the portrait, rests 3
- *   seconds, and roams again.
- * - Reduced motion: no roaming and no glide; the orb just sits at its start
- *   position. New legs are not scheduled while the tab is hidden.
+ * Position
+ * - On pages that have the hero portrait (the element marked
+ *   `data-glow-anchor`, see HeroPortrait) it is centred behind it, biased
+ *   toward the face and shoulders. It is measured on load, on resize, and
+ *   when you navigate, so it stays behind the portrait at any screen width.
+ * - On other pages it sits where it always lived: upper right.
+ * - It fades in once placed, so it never flashes at the wrong spot; changing
+ *   page glides it to its new position instead of jumping.
+ * - Scroll parallax: it follows scroll at 28% speed (skipped for reduced
+ *   motion). The parallax is a second, separate `transform` on a zero-size
+ *   wrapper so the two never fight.
+ * - Without JS it shows at the upper-right default.
  *
- * Performance: the only animated property is `transform` (compositor-only),
- * from a handful of timers per minute. Scroll parallax is a second, separate
- * `transform` on a zero-size wrapper so the two never fight.
- *
- * Softness: the gradient is a smooth Gaussian-style falloff (many stops, no
- * hard edge), not a linear fade clipped by a border radius, which is what
- * makes it read as more blurred than before.
+ * (Earlier versions roamed around the background, or drifted in softness;
+ * the roaming one is in git history on this branch at 14cec60.)
  *
  * Rendered in RootLayout so it appears on every page without per-page wiring.
  */
 const GLOW_RGB = '68, 68, 68' // #444444
-const GLOW_PEAK = 0.22 // alpha at the centre
+const GLOW_PEAK = 0.22 // alpha at the centre; raise for a stronger glow
 const GLOW_SIZE = 'clamp(560px, 66vw, 980px)'
 
-const HOLD_MS = 3000 // rest behind the portrait before the first move
-const GLIDE_MS = 2200 // glide back to the portrait on navigation
+const GLIDE_MS = 1200 // move between pages with / without the portrait
 const FADE_IN_MS = 1400
-const ROAM_MIN_MS = 16000
-const ROAM_SPAN_MS = 10000
-const ROAM_EASE = 'cubic-bezier(0.45, 0.05, 0.55, 0.95)'
 const PARALLAX = 0.28 // orb follows scroll at 28% speed
 
 // Smooth falloff, precomputed once: alpha = peak * exp(-(r / 0.5)^2).
@@ -64,7 +56,6 @@ export default function MintGlow() {
   const parallaxRef = useRef<HTMLDivElement>(null)
   const orbRef = useRef<HTMLDivElement>(null)
   const readyRef = useRef(false)
-  const positionRef = useRef<Point | null>(null)
 
   // Scroll parallax (decoration: skipped for reduced motion).
   useEffect(() => {
@@ -94,13 +85,12 @@ export default function MintGlow() {
     }
   }, [])
 
-  // Placement and roaming. Re-runs on navigation (see header comment).
+  // Placement: on load, on every navigation, and on resize.
   useEffect(() => {
     const orb = orbRef.current
     if (!orb) return
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const timers: number[] = []
 
     function parallaxOffset() {
       return reduced ? 0 : window.scrollY * PARALLAX
@@ -121,63 +111,48 @@ export default function MintGlow() {
     // Where the orb rests when there is no portrait: upper right, as before.
     function defaultPoint(): Point {
       const size = orb!.offsetWidth
-      return { x: window.innerWidth + 0.05 * window.innerWidth - size / 2, y: -0.1 * window.innerHeight + size / 2 }
+      return {
+        x: window.innerWidth + 0.05 * window.innerWidth - size / 2,
+        y: -0.1 * window.innerHeight + size / 2,
+      }
     }
 
-    function moveTo(p: Point, durationMs: number) {
+    function place(durationMs: number) {
+      const p = findAnchor() ?? defaultPoint()
       const size = orb!.offsetWidth
       orb!.style.transition =
         durationMs > 0
-          ? `opacity ${FADE_IN_MS}ms ease-out, transform ${durationMs}ms ${ROAM_EASE}`
+          ? `opacity ${FADE_IN_MS}ms ease-out, transform ${durationMs}ms cubic-bezier(0.45, 0.05, 0.55, 0.95)`
           : `opacity ${FADE_IN_MS}ms ease-out`
       orb!.style.transform = `translate3d(${Math.round(p.x - size / 2)}px, ${Math.round(
         p.y - size / 2 - parallaxOffset()
       )}px, 0)`
-      positionRef.current = p
     }
 
-    function pickTarget(from: Point): Point {
-      const w = window.innerWidth
-      const h = window.innerHeight
-      const minDistance = Math.hypot(w, h) * 0.3
-      for (let i = 0; i < 8; i++) {
-        const p = { x: w * (0.08 + Math.random() * 0.9), y: h * (0.05 + Math.random() * 0.9) }
-        if (Math.hypot(p.x - from.x, p.y - from.y) >= minDistance) return p
-      }
-      return { x: w * 0.5, y: h * 0.5 }
-    }
-
-    function roam() {
-      if (document.hidden) {
-        timers.push(window.setTimeout(roam, 1000))
-        return
-      }
-      const from = positionRef.current ?? defaultPoint()
-      const duration = ROAM_MIN_MS + Math.random() * ROAM_SPAN_MS
-      moveTo(pickTarget(from), Math.round(duration))
-      timers.push(window.setTimeout(roam, duration))
-    }
-
-    const first = !readyRef.current
-    const anchor = findAnchor()
-
-    if (first) {
+    if (!readyRef.current) {
       // Instant placement while still invisible, then fade in.
-      moveTo(anchor ?? defaultPoint(), 0)
+      place(0)
       void orb.offsetWidth // commit the position before the fade starts
       orb.dataset.ready = 'true'
       readyRef.current = true
-    } else if (anchor) {
-      // Navigated to a page with the portrait: glide back behind it.
-      moveTo(anchor, reduced ? 0 : GLIDE_MS)
+    } else {
+      place(reduced ? 0 : GLIDE_MS)
     }
 
-    if (!reduced) {
-      const delay = first || anchor ? HOLD_MS : 0
-      timers.push(window.setTimeout(roam, delay))
+    // Keep it behind the portrait when the window changes size.
+    let rafId = 0
+    function onResize() {
+      if (rafId) return
+      rafId = requestAnimationFrame(() => {
+        rafId = 0
+        place(0)
+      })
     }
-
-    return () => timers.forEach((t) => window.clearTimeout(t))
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
   }, [pathname])
 
   return (
