@@ -393,6 +393,18 @@ body::before {
   outline-offset: 3px;
 }
 
+/* Ambient glow orb (components/MintGlow.tsx): hidden until JS has placed it
+   behind the portrait, so it never flashes at the wrong spot. Without JS it
+   simply shows at its default position. */
+.glow-orb {
+  transition: opacity 1400ms ease-out;
+}
+@media (scripting: enabled) {
+  .glow-orb:not([data-ready='true']) {
+    opacity: 0;
+  }
+}
+
 /* Route enter: short opacity fade, replayed by app/template.tsx on every
    navigation. It targets <main> and <footer> only, never the wrapper:
    the navbar is a sibling of <main> and uses backdrop-filter, and an

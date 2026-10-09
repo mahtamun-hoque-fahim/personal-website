@@ -380,6 +380,7 @@ The hero "Let's talk" / "About me" buttons are behind `const SHOW_HERO_CTAS = fa
 | Keyboard focus | `:focus-visible` mint outline (2px, 3px offset) on links and buttons; form fields use a soft 3px mint ring. |
 | Contact form | Spinner while sending; success circle pops in and the check draws (`.pop-in`, `.check-draw`); error message eases in with `role="alert"`. |
 | Skills ticker | Pauses on hover. |
+| Ambient glow | `components/MintGlow.tsx`: ONE soft `#444444` orb behind everything (the lower-left echo orb was removed). Smooth Gaussian-style falloff (11 stops, no clipped edge), about 66vw wide. On load it is placed instantly behind the hero portrait (the element marked `data-glow-anchor`), fades in over 1.4s, rests 3s, then roams: every 16-26s it eases (compositor-only `transform`) to a random viewport point at least 30% of the screen diagonal away. It survives client navigation; navigating to the homepage glides it back behind the portrait, rests 3s, roams again. Pages without a portrait start from the old upper-right spot. Scroll parallax (28%) lives on a separate zero-size wrapper so the two transforms never fight. Reduced motion: no roaming, no glide. No-JS: shows at the upper-right default. Tuning constants (`HOLD_MS`, `GLIDE_MS`, `ROAM_*`, `GLOW_PEAK`, `GLOW_SIZE`) are at the top of the file. |
 
 ### Tailwind keyframes (`tailwind.config.ts`)
 

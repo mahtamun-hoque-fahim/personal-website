@@ -22,10 +22,14 @@
  *   keeps it from loading late.
  * - Enters with blur-load, so the route "arrival gate" in app/template.tsx
  *   holds it too.
+ * - `data-glow-anchor` marks this box for components/MintGlow.tsx: the
+ *   roaming background glow starts centred behind it (and glides back to it
+ *   when you navigate to the homepage).
  */
 export default function HeroPortrait() {
   return (
     <div
+      data-glow-anchor
       className="blur-load pointer-events-none absolute right-[10.5%] top-[calc(clamp(3.5rem,10vw,9rem)*-0.04)] bottom-[-4rem] -z-10 hidden aspect-[571/907] sm:block"
       style={
         {

@@ -48,6 +48,15 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-09 (glow-roam): one softer, roaming background glow that starts behind the portrait, branch `glow-roam` (off `face-reveal`)
+- Agent: claude-sonnet (chat)
+- Request (Fahim): keep only the right-side glow, make it a bit more blurred, let it roam around the background, always starting from behind his picture and staying there for 3 seconds at the beginning.
+- Done (`components/MintGlow.tsx` rewritten): (1) the lower-left echo orb is removed; (2) the remaining orb uses a smooth Gaussian-style falloff (11 stops, `closest-side`, no border-radius clip) and is about 13% larger, which is what "more blurred" means here (the old linear fade ended at a faintly visible disc edge); (3) roaming: placed instantly behind the portrait, fades in over 1.4s, rests 3s, then every 16-26s eases to a random viewport point at least 30% of the diagonal from where it is; (4) the portrait carries `data-glow-anchor`, and MintGlow centres on it (biased to face and shoulders, 38% down); (5) MintGlow lives in RootLayout, so it persists across client navigation: navigating to a page that has the portrait (the homepage) glides it back behind the portrait over 2.2s, rests 3s, then roams again; on other pages it keeps roaming.
+- Implementation notes: only `transform` animates (CSS transition, compositor-only); scroll parallax moved to a separate zero-size wrapper so two transforms never fight; the orb is hidden (`.glow-orb`, `@media (scripting: enabled)`) until JS positions it so it never flashes at the wrong spot, and shows at the old upper-right position without JS. If the portrait is hidden (phones, below 640px) or scrolled out of view at load, it starts from the upper-right default instead. Reduced motion: no roaming, no glide, no parallax.
+- Left alone: the separate faint glow at the bottom of the homepage closing "Reach Out!" section (`app/page.tsx`), because he spoke about the two background glows. The earlier random softness drift stays only on `glow-drift` (not adopted).
+- Housekeeping: an earlier attempt in the same session had left a duplicate `data-glow-anchor` attribute/comment and an unused `glow-in` keyframes block; both removed before committing.
+- Verified: `npx tsc --noEmit` clean. NOT verified in a browser: that the glow really starts behind the portrait (the anchor point is the portrait box centre, 38% down), that the pace feels like roaming and not drifting-too-fast/slow, and that the hold-then-glide feels right after navigating Home.
+
 ### 2026-10-09 (glow drift not adopted): back to the steady glow, branch `face-reveal`
 - Agent: claude-sonnet (chat)
 - Decision (Fahim): undo the random glow drift, but keep the `glow-drift` branch.
