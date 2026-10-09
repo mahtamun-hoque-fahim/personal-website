@@ -285,7 +285,7 @@ export default function AboutForm({ about }: Props) {
         </div>
       </section>
 
-      <div className="flex items-center justify-between pt-4 border-t border-[#1F2421]">
+      <div className="flex items-center justify-between pt-4 border-t border-[#333333]">
         <p className="text-xs text-[#8A938E]" style={{ fontFamily: 'var(--font-jetbrains)' }}>
           {new Date(about.updatedAt).getTime() === 0
             ? 'Showing built-in defaults'
@@ -319,13 +319,13 @@ export default function AboutForm({ about }: Props) {
 }
 
 const inputClass =
-  'w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4] ' +
-  'placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors'
+  'w-full bg-[#222222] border border-[#333333] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4] ' +
+  'placeholder:text-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors'
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <h2
-      className="text-lg font-bold text-[#F3F6F4] pb-2 border-b border-[#1F2421]"
+      className="text-lg font-bold text-[#F3F6F4] pb-2 border-b border-[#333333]"
       style={{ fontFamily: 'var(--font-clash)' }}
     >
       {children}
@@ -349,7 +349,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function Hint({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-xs text-[#2B302D] mt-1.5" style={{ fontFamily: 'var(--font-jakarta)' }}>
+    <p className="text-xs text-[#5C615E] mt-1.5" style={{ fontFamily: 'var(--font-jakarta)' }}>
       {children}
     </p>
   )

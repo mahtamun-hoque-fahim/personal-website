@@ -34,10 +34,10 @@ export default function JsonHelpPanel() {
   }
 
   return (
-    <div className="mb-8 bg-[#0F0F0F] border border-[#1F2421] rounded-xl overflow-hidden">
+    <div className="mb-8 bg-[#222222] border border-[#333333] rounded-xl overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-5 py-3 hover:bg-[#0F0F0F] transition-colors"
+        className="w-full flex items-center justify-between px-5 py-3 hover:bg-[#222222] transition-colors"
         style={{ fontFamily: 'var(--font-jakarta)' }}
       >
         <div className="flex items-center gap-3">
@@ -55,7 +55,7 @@ export default function JsonHelpPanel() {
       </button>
 
       {open && (
-        <div className="px-5 py-5 border-t border-[#1F2421] space-y-5">
+        <div className="px-5 py-5 border-t border-[#333333] space-y-5">
           <div>
             <p
               className="text-[#8A938E] text-sm leading-relaxed mb-3"
@@ -123,14 +123,14 @@ export default function JsonHelpPanel() {
               </p>
               <button
                 onClick={handleCopy}
-                className="text-[10px] uppercase tracking-widest px-2 py-1 bg-[#1F2421] text-[#8A938E] hover:text-[#3DF49A] hover:bg-[#3DF49A]/10 rounded transition-colors"
+                className="text-[10px] uppercase tracking-widest px-2 py-1 bg-[#333333] text-[#8A938E] hover:text-[#3DF49A] hover:bg-[#3DF49A]/10 rounded transition-colors"
                 style={{ fontFamily: 'var(--font-jetbrains)' }}
               >
                 {copied ? '✓ copied' : 'Copy'}
               </button>
             </div>
             <pre
-              className="text-[11px] bg-[#070807] border border-[#1F2421] rounded-lg p-3 overflow-x-auto text-[#8A938E] leading-relaxed"
+              className="text-[11px] bg-[#111111] border border-[#333333] rounded-lg p-3 overflow-x-auto text-[#8A938E] leading-relaxed"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               {EXAMPLE_JSON}

@@ -21,14 +21,14 @@ import {
 
 // ── Shared UI ─────────────────────────────────────────────
 
-const inputCls = 'w-full bg-[#0F1210] border border-[#1F2421] rounded-lg px-3 py-2 text-sm text-[#F3F6F4] placeholder-[#3A3F3C] focus:outline-none focus:border-[#3DF49A] transition-colors'
+const inputCls = 'w-full bg-[#222222] border border-[#333333] rounded-lg px-3 py-2 text-sm text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors'
 const labelCls = 'block text-xs font-medium text-[#5C615E] mb-1 uppercase tracking-wider'
-const btnPrimary = 'flex items-center gap-2 px-4 py-2 rounded-lg bg-[#3DF49A] text-[#070807] text-sm font-semibold hover:bg-[#2de088] transition-colors disabled:opacity-50'
-const btnSecondary = 'flex items-center gap-2 px-3 py-2 rounded-lg border border-[#1F2421] text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:border-[#3A3F3C] transition-colors'
+const btnPrimary = 'flex items-center gap-2 px-4 py-2 rounded-lg bg-[#3DF49A] text-[#111111] text-sm font-semibold hover:bg-[#2de088] transition-colors disabled:opacity-50'
+const btnSecondary = 'flex items-center gap-2 px-3 py-2 rounded-lg border border-[#333333] text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:border-[#444444] transition-colors'
 const btnDanger = 'flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-400 hover:bg-red-500/10 transition-colors'
 
 function SectionCard({ children }: { children: React.ReactNode }) {
-  return <div className="bg-[#0A0C0B] border border-[#1F2421] rounded-xl p-4 mb-3">{children}</div>
+  return <div className="bg-[#222222] border border-[#333333] rounded-xl p-4 mb-3">{children}</div>
 }
 
 function Modal({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: React.ReactNode }) {
@@ -36,8 +36,8 @@ function Modal({ open, onClose, title, children }: { open: boolean; onClose: () 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
-      <div className="relative bg-[#0A0C0B] border border-[#1F2421] rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div className="flex items-center justify-between p-5 border-b border-[#1F2421]">
+      <div className="relative bg-[#222222] border border-[#333333] rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="flex items-center justify-between p-5 border-b border-[#333333]">
           <h3 className="font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }}>{title}</h3>
           <button onClick={onClose} className="text-[#5C615E] hover:text-[#F3F6F4] transition-colors"><X className="h-4 w-4" /></button>
         </div>
@@ -386,7 +386,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
                   <div className="flex-1">
                     <span className="font-semibold text-[#F3F6F4] text-sm">{cluster.title}</span>
                     {cluster.badge && <span className="ml-2 text-xs text-[#5C615E]">{cluster.badge}</span>}
-                    <span className="ml-2 text-xs text-[#3A3F3C]">icon: {cluster.iconId}</span>
+                    <span className="ml-2 text-xs text-[#5C615E]">icon: {cluster.iconId}</span>
                   </div>
                   <div className="flex gap-1">
                     <button onClick={() => { setCertForm({ clusterId: cluster.id, name: '', issuer: '', date: '', isFoundational: false }); setCertJsonMode(false); setCertModal({ open: true, mode: 'create', clusterId: cluster.id }) }} className={btnSecondary}><Plus className="h-3 w-3" /> Add Cert</button>
@@ -412,7 +412,7 @@ export default function CredentialsManager({ initialTimeline, initialClusters, i
                       </div>
                     </SectionCard>
                   ))}
-                  {clusterCerts.length === 0 && <p className="text-xs text-[#3A3F3C] py-3 pl-2">No certs in this cluster yet.</p>}
+                  {clusterCerts.length === 0 && <p className="text-xs text-[#5C615E] py-3 pl-2">No certs in this cluster yet.</p>}
                 </div>
               </div>
             )

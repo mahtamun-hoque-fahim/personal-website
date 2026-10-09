@@ -20,13 +20,13 @@ export default async function AdminMessagesPage() {
       </h1>
 
       {messages.length === 0 ? (
-        <div className="border border-[#1F2421] rounded-xl p-16 text-center">
+        <div className="border border-[#333333] rounded-xl p-16 text-center">
           <p className="text-[#8A938E] text-sm" style={{ fontFamily: 'var(--font-jakarta)' }}>No messages yet.</p>
         </div>
       ) : (
         <div className="space-y-3">
           {messages.map((msg) => (
-            <div key={msg.id} className={`border rounded-xl p-6 transition-colors ${msg.read ? 'border-[#1F2421] bg-[#0F0F0F]' : 'border-[#3DF49A]/20 bg-[#0F0F0F]'}`}>
+            <div key={msg.id} className={`border rounded-xl p-6 transition-colors ${msg.read ? 'border-[#333333] bg-[#222222]' : 'border-[#3DF49A]/20 bg-[#222222]'}`}>
               <div className="flex items-start justify-between gap-6">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
@@ -34,10 +34,10 @@ export default async function AdminMessagesPage() {
                     <span className="font-semibold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }}>{msg.name}</span>
                     <a href={`mailto:${msg.email}`} className="text-[#8A938E] text-sm hover:text-[#3DF49A] transition-colors" style={{ fontFamily: 'var(--font-jakarta)' }}>{msg.email}</a>
                     <div className="ml-auto flex items-center gap-3">
-                      {msg.country && <span className="text-xs px-2 py-0.5 border border-[#1F2421] text-[#8A938E] rounded" style={{ fontFamily: 'var(--font-jetbrains)' }}>({msg.country})</span>}
+                      {msg.country && <span className="text-xs px-2 py-0.5 border border-[#333333] text-[#8A938E] rounded" style={{ fontFamily: 'var(--font-jetbrains)' }}>({msg.country})</span>}
                       <div className="text-right">
-                        <p className="text-[#2B302D] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDateTime(msg.createdAt).date}</p>
-                        <p className="text-[#2B302D] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDateTime(msg.createdAt).time}</p>
+                        <p className="text-[#5C615E] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDateTime(msg.createdAt).date}</p>
+                        <p className="text-[#5C615E] text-xs" style={{ fontFamily: 'var(--font-jetbrains)' }}>{formatDateTime(msg.createdAt).time}</p>
                       </div>
                     </div>
                   </div>
@@ -46,7 +46,7 @@ export default async function AdminMessagesPage() {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0">
                   {!msg.read && <MarkReadButton id={msg.id} />}
-                  <a href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject || 'Your message')}`} className="text-xs text-[#8A938E] hover:text-[#3DF49A] transition-colors px-3 py-1.5 border border-[#1F2421] rounded-lg text-center" style={{ fontFamily: 'var(--font-jakarta)' }}>Reply ↗</a>
+                  <a href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject || 'Your message')}`} className="text-xs text-[#8A938E] hover:text-[#3DF49A] transition-colors px-3 py-1.5 border border-[#333333] rounded-lg text-center" style={{ fontFamily: 'var(--font-jakarta)' }}>Reply ↗</a>
                 </div>
               </div>
             </div>

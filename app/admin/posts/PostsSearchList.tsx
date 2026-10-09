@@ -63,7 +63,7 @@ export default function PostsSearchList({ posts }: Props) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by title, excerpt, slug or tag..."
-            className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg pl-10 pr-9 py-2.5 text-sm text-[#F3F6F4] placeholder:text-[#8A938E] focus:outline-none focus:border-[#3DF49A]/40 transition-colors"
+            className="w-full bg-[#222222] border border-[#333333] rounded-lg pl-10 pr-9 py-2.5 text-sm text-[#F3F6F4] placeholder:text-[#8A938E] focus:outline-none focus:border-[#3DF49A]/40 transition-colors"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
           {query && (
@@ -85,7 +85,7 @@ export default function PostsSearchList({ posts }: Props) {
         </div>
 
         {/* Status pills */}
-        <div className="flex items-center gap-1 bg-[#0F0F0F] border border-[#1F2421] rounded-lg p-1 shrink-0">
+        <div className="flex items-center gap-1 bg-[#222222] border border-[#333333] rounded-lg p-1 shrink-0">
           {(['all', 'published', 'draft'] as FilterStatus[]).map((s) => (
             <button
               key={s}
@@ -126,7 +126,7 @@ export default function PostsSearchList({ posts }: Props) {
 
       {/* Posts list */}
       {filtered.length === 0 ? (
-        <div className="border border-[#1F2421] rounded-xl p-16 text-center">
+        <div className="border border-[#333333] rounded-xl p-16 text-center">
           {filtersActive ? (
             <>
               <p
@@ -166,7 +166,7 @@ export default function PostsSearchList({ posts }: Props) {
           {filtered.map((post) => (
             <div
               key={post.id}
-              className="bg-[#0F0F0F] border border-[#1F2421] rounded-xl px-6 py-5 flex items-center gap-6 hover:border-[#2B302D] transition-colors"
+              className="bg-[#222222] border border-[#333333] rounded-xl px-6 py-5 flex items-center gap-6 hover:border-[#444444] transition-colors"
             >
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-1">
@@ -174,14 +174,14 @@ export default function PostsSearchList({ posts }: Props) {
                     className={`text-xs px-2 py-0.5 rounded-full ${
                       post.published
                         ? 'bg-[#3DF49A]/10 text-[#3DF49A] border border-[#3DF49A]/20'
-                        : 'bg-[#2B302D] text-[#8A938E] border border-[#1F2421]'
+                        : 'bg-[#333333] text-[#8A938E] border border-[#333333]'
                     }`}
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     {post.published ? 'Published' : 'Draft'}
                   </span>
                   <span
-                    className="text-[#2B302D] text-xs"
+                    className="text-[#5C615E] text-xs"
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
                   >
                     {formatDate(post.createdAt)}
@@ -213,7 +213,7 @@ export default function PostsSearchList({ posts }: Props) {
                 )}
                 <Link
                   href={`/admin/posts/${post.id}`}
-                  className="text-xs text-[#8A938E] hover:text-[#3DF49A] transition-colors px-3 py-1.5 border border-[#1F2421] rounded-lg"
+                  className="text-xs text-[#8A938E] hover:text-[#3DF49A] transition-colors px-3 py-1.5 border border-[#333333] rounded-lg"
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   Edit

@@ -17,15 +17,15 @@ import { cn } from '@/lib/utils'
 // ── Shared UI (matches CredentialsManager / ProjectsManager) ──────────────
 
 const inputCls =
-  'w-full bg-[#0F1210] border border-[#1F2421] rounded-lg px-3 py-2 text-sm text-[#F3F6F4] placeholder-[#3A3F3C] focus:outline-none focus:border-[#3DF49A] transition-colors'
+  'w-full bg-[#222222] border border-[#333333] rounded-lg px-3 py-2 text-sm text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors'
 const labelCls = 'block text-xs font-medium text-[#5C615E] mb-1 uppercase tracking-wider'
 const btnPrimary =
-  'flex items-center gap-2 px-4 py-2 rounded-lg bg-[#3DF49A] text-[#070807] text-sm font-semibold hover:bg-[#2de088] transition-colors disabled:opacity-50'
+  'flex items-center gap-2 px-4 py-2 rounded-lg bg-[#3DF49A] text-[#111111] text-sm font-semibold hover:bg-[#2de088] transition-colors disabled:opacity-50'
 const btnSecondary =
-  'flex items-center gap-2 px-3 py-2 rounded-lg border border-[#1F2421] text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:border-[#3A3F3C] transition-colors'
+  'flex items-center gap-2 px-3 py-2 rounded-lg border border-[#333333] text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:border-[#444444] transition-colors'
 
 function SectionCard({ children }: { children: React.ReactNode }) {
-  return <div className="bg-[#0A0C0B] border border-[#1F2421] rounded-xl p-4 mb-3">{children}</div>
+  return <div className="bg-[#222222] border border-[#333333] rounded-xl p-4 mb-3">{children}</div>
 }
 
 function Modal({
@@ -43,8 +43,8 @@ function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
-      <div className="relative bg-[#0A0C0B] border border-[#1F2421] rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div className="flex items-center justify-between p-5 border-b border-[#1F2421]">
+      <div className="relative bg-[#222222] border border-[#333333] rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="flex items-center justify-between p-5 border-b border-[#333333]">
           <h3 className="font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }}>
             {title}
           </h3>
@@ -81,20 +81,20 @@ function ReorderBtns({
   )
 }
 
-// Thumbnail slot: background is a shade lighter than the page (#070807),
+// Thumbnail slot: background is a shade lighter than the page (#111111),
 // on purpose — a transparent PNG upload needs *some* contrast to read as a
 // card and not empty space, without looking like a hard-edged box.
 function Thumb({ url, size = 64 }: { url: string | null; size?: number }) {
   return (
     <div
-      className="rounded-lg border border-[#1F2421] bg-[#141712] flex items-center justify-center shrink-0 overflow-hidden"
+      className="rounded-lg border border-[#333333] bg-[#222222] flex items-center justify-center shrink-0 overflow-hidden"
       style={{ width: size, height: size }}
     >
       {url ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={url} alt="" className="w-full h-full object-contain" />
       ) : (
-        <ImageIcon className="h-5 w-5 text-[#3A3F3C]" />
+        <ImageIcon className="h-5 w-5 text-[#5C615E]" />
       )}
     </div>
   )
@@ -228,7 +228,7 @@ export default function SkillsManager({
                   'px-3 py-1.5 rounded-lg border text-sm capitalize transition-colors flex items-center gap-1.5',
                   layout === opt
                     ? 'border-[#3DF49A] text-[#3DF49A] bg-[#3DF49A]/10'
-                    : 'border-[#1F2421] text-[#8A938E] hover:border-[#3A3F3C]'
+                    : 'border-[#333333] text-[#8A938E] hover:border-[#444444]'
                 )}
               >
                 {opt}
@@ -301,7 +301,7 @@ export default function SkillsManager({
           </div>
         </SectionCard>
       ))}
-      {skills.length === 0 && <p className="text-sm text-[#3A3F3C] py-6 text-center">No skills yet.</p>}
+      {skills.length === 0 && <p className="text-sm text-[#5C615E] py-6 text-center">No skills yet.</p>}
 
       {/* ── CREATE / EDIT MODAL ── */}
       <Modal
@@ -341,14 +341,14 @@ export default function SkillsManager({
                     'flex-1 px-3 py-2 rounded-lg border text-sm capitalize transition-colors',
                     (form.imagePosition ?? 'left') === side
                       ? 'border-[#3DF49A] text-[#3DF49A] bg-[#3DF49A]/10'
-                      : 'border-[#1F2421] text-[#8A938E] hover:border-[#3A3F3C]'
+                      : 'border-[#333333] text-[#8A938E] hover:border-[#444444]'
                   )}
                 >
                   {side}
                 </button>
               ))}
             </div>
-            <p className="text-xs text-[#3A3F3C] mt-1">
+            <p className="text-xs text-[#5C615E] mt-1">
               {layout === 'columns'
                 ? 'Section layout above is set to "columns", so this has no visible effect right now.'
                 : 'Phones always stack image above text regardless of this setting.'}

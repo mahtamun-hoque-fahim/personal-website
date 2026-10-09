@@ -32,13 +32,13 @@ export default function ForgotPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6 bg-[#070807]">
+      <div className="min-h-screen flex items-center justify-center px-6 bg-[#111111]">
         <div className="w-full max-w-md">
           <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
             <Logo height={26} />
           </Link>
 
-          <div className="bg-[#0F0F0F] border border-[#1F2421] rounded-2xl p-8 text-center">
+          <div className="bg-[#222222] border border-[#333333] rounded-2xl p-8 text-center">
             <div
               className="w-12 h-12 rounded-full bg-[#3DF49A]/10 border border-[#3DF49A]/30 flex items-center justify-center mx-auto mb-6"
               aria-hidden="true"
@@ -91,13 +91,13 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 bg-[#070807]">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-[#111111]">
       <div className="w-full max-w-md">
         <Link href="/" className="inline-block mb-12" aria-label="Mahtamun — home">
           <Logo height={26} />
         </Link>
 
-        <div className="bg-[#0F0F0F] border border-[#1F2421] rounded-2xl p-8">
+        <div className="bg-[#222222] border border-[#333333] rounded-2xl p-8">
           <h1
             className="text-2xl font-bold text-[#F3F6F4] mb-2"
             style={{ fontFamily: 'var(--font-clash)' }}
@@ -136,7 +136,7 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="w-full px-4 py-3 bg-[#070807] border border-[#1F2421] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                className="w-full px-4 py-3 bg-[#111111] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#8A938E] focus:outline-none focus:border-[#3DF49A] transition-colors"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               />
             </div>

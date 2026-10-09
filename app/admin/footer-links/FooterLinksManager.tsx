@@ -13,12 +13,12 @@ import {
 // ── Shared UI (matches SkillsManager / CredentialsManager) ────────────────
 
 const inputCls =
-  'w-full bg-[#0F1210] border border-[#1F2421] rounded-lg px-3 py-2 text-sm text-[#F3F6F4] placeholder-[#3A3F3C] focus:outline-none focus:border-[#3DF49A] transition-colors'
+  'w-full bg-[#222222] border border-[#333333] rounded-lg px-3 py-2 text-sm text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors'
 const labelCls = 'block text-xs font-medium text-[#5C615E] mb-1 uppercase tracking-wider'
 const btnPrimary =
-  'flex items-center gap-2 px-4 py-2 rounded-lg bg-[#3DF49A] text-[#070807] text-sm font-semibold hover:bg-[#2de088] transition-colors disabled:opacity-50'
+  'flex items-center gap-2 px-4 py-2 rounded-lg bg-[#3DF49A] text-[#111111] text-sm font-semibold hover:bg-[#2de088] transition-colors disabled:opacity-50'
 const btnSecondary =
-  'flex items-center gap-2 px-3 py-2 rounded-lg border border-[#1F2421] text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:border-[#3A3F3C] transition-colors'
+  'flex items-center gap-2 px-3 py-2 rounded-lg border border-[#333333] text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:border-[#444444] transition-colors'
 
 function Modal({
   open,
@@ -35,8 +35,8 @@ function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
-      <div className="relative bg-[#0A0C0B] border border-[#1F2421] rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div className="flex items-center justify-between p-5 border-b border-[#1F2421]">
+      <div className="relative bg-[#222222] border border-[#333333] rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="flex items-center justify-between p-5 border-b border-[#333333]">
           <h3 className="font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }}>
             {title}
           </h3>
@@ -170,7 +170,7 @@ export default function FooterLinksManager({ initialLinks }: { initialLinks: Foo
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {groups.map(([groupLabel, items]) => (
-          <div key={groupLabel} className="bg-[#0A0C0B] border border-[#1F2421] rounded-xl p-4">
+          <div key={groupLabel} className="bg-[#222222] border border-[#333333] rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-[#5C615E]">{groupLabel}</h4>
               <button
@@ -181,7 +181,7 @@ export default function FooterLinksManager({ initialLinks }: { initialLinks: Foo
               </button>
             </div>
             {items.map((link, idx) => (
-              <div key={link.id} className="flex items-center gap-2 py-2 border-t border-[#1F2421] first:border-t-0">
+              <div key={link.id} className="flex items-center gap-2 py-2 border-t border-[#333333] first:border-t-0">
                 <ReorderBtns
                   onUp={() => reorderWithinGroup(items, idx, -1)}
                   onDown={() => reorderWithinGroup(items, idx, 1)}
@@ -205,10 +205,10 @@ export default function FooterLinksManager({ initialLinks }: { initialLinks: Foo
                 </div>
               </div>
             ))}
-            {items.length === 0 && <p className="text-xs text-[#3A3F3C] py-2">No links yet.</p>}
+            {items.length === 0 && <p className="text-xs text-[#5C615E] py-2">No links yet.</p>}
           </div>
         ))}
-        {groups.length === 0 && <p className="text-sm text-[#3A3F3C] py-6 text-center col-span-2">No footer links yet.</p>}
+        {groups.length === 0 && <p className="text-sm text-[#5C615E] py-6 text-center col-span-2">No footer links yet.</p>}
       </div>
 
       {/* ── CREATE / EDIT MODAL ── */}
@@ -232,7 +232,7 @@ export default function FooterLinksManager({ initialLinks }: { initialLinks: Foo
                 <option key={g} value={g} />
               ))}
             </datalist>
-            <p className="text-xs text-[#3A3F3C] mt-1">Type an existing group to add to that column, or a new name to start one.</p>
+            <p className="text-xs text-[#5C615E] mt-1">Type an existing group to add to that column, or a new name to start one.</p>
           </div>
           <div>
             <label className={labelCls}>Label</label>

@@ -34,9 +34,9 @@ export default function AdminSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed top-0 left-0 z-40 h-screen w-60 border-r border-[#1F2421] bg-[#070807] flex flex-col">
+    <aside className="fixed top-0 left-0 z-40 h-screen w-60 border-r border-[#333333] bg-[#111111] flex flex-col">
       {/* Brand */}
-      <div className="px-5 pt-6 pb-4 border-b border-[#1F2421]">
+      <div className="px-5 pt-6 pb-4 border-b border-[#333333]">
         <Link href="/admin" className="flex items-center gap-2">
           <span
             className="text-xl font-bold text-[#F3F6F4]"
@@ -75,7 +75,7 @@ export default function AdminSidebar() {
                   className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                     active
                       ? 'bg-[#3DF49A]/10 text-[#3DF49A]'
-                      : 'text-[#8A938E] hover:text-[#F3F6F4] hover:bg-[#0F0F0F]'
+                      : 'text-[#8A938E] hover:text-[#F3F6F4] hover:bg-[#222222]'
                   }`}
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
@@ -89,10 +89,10 @@ export default function AdminSidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="px-3 py-4 border-t border-[#1F2421] space-y-1">
+      <div className="px-3 py-4 border-t border-[#333333] space-y-1">
         <Link
           href="/"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:bg-[#0F0F0F] transition-colors"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#8A938E] hover:text-[#F3F6F4] hover:bg-[#222222] transition-colors"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         >
           <ChevronLeft className="h-4 w-4 shrink-0" strokeWidth={2} />
