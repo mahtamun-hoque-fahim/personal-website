@@ -54,7 +54,7 @@ npm run dev
 - Request (Fahim): edit AGENTS.md so the agent is "Claude Vivaldi" for every single entry, from now on and in future.
 - Done: all 42 existing entries had `Agent: claude-sonnet (chat)` and were changed to `Agent: Claude Vivaldi` (a plain find-and-replace, nothing else in those entries touched; the rest of each entry, including model names mentioned in its text, is unchanged). Added a Conventions bullet saying the field is always `Claude Vivaldi`. Every future entry uses it.
 - Not changeable from here: the `repo-maintainer` skill's own template lives outside the repo, so the rule is carried by this Conventions bullet and by Fahim's saved preferences.
-- Verified: `grep -c "claude-sonnet (chat)" AGENTS.md` is 0 after the change; entry count unchanged.
+- Verified: no `- Agent: claude-sonnet (chat)` line remains (the only remaining mentions of that string are this explanation and the Conventions bullet); 43 entries, 43 `- Agent: Claude Vivaldi` lines.
 
 ### 2026-10-09 (static glow + black): single fixed glow, background #000000, branch `glow-roam`
 - Agent: Claude Vivaldi
