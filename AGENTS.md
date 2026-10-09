@@ -34,7 +34,7 @@ npm run dev
 - DB access always goes through `lib/db/queries.ts` — no raw Drizzle calls from route/component files.
 - Public-facing DB reads that feed metadata or layout should go through an `unstable_cache`-wrapped function (see `getCachedSiteSettings`) with an explicit tag, and admin save actions must `revalidateTag(tag, 'max')` — in this Next.js version `revalidateTag` requires the two-arg form.
 - Admin routes follow the server/client split established in `app/admin/posts`: a server `page.tsx` does the auth check (`isAuthenticated()` from `lib/auth-utils.ts`, redirect to `/admin/login`) and data fetch, a client component owns the form/state and calls a `'use server'` action from `app/admin/actions.ts`.
-- Dark-first palette: neutrals are a four-step gray ladder (`#111111` page, `#222222` surfaces, `#333333` lines, `#444444` glow and hover borders), `#3DF49A` mint accent. See DESIGN_GUIDE.md section 2. Fonts: Syne (`--font-clash`) for headings, Plus Jakarta Sans (`--font-jakarta`) for body, JetBrains Mono (`--font-jetbrains`) for labels/meta.
+- Dark-first palette: the page is true black (`#000000`) with a gray ladder above it (`#222222` surfaces, `#333333` lines, `#444444` glow and hover borders), `#3DF49A` mint accent. See DESIGN_GUIDE.md section 2. Fonts: Syne (`--font-clash`) for headings, Plus Jakarta Sans (`--font-jakarta`) for body, JetBrains Mono (`--font-jetbrains`) for labels/meta.
 - No emojis anywhere in code or UI — lucide-react icons only.
 - Motion is CSS-first (no animation library). Never `transition-all`: list the properties. Scroll reveals use `components/Reveal.tsx` / `BlurWords.tsx` (blur-fade, once per view); above-the-fold entrances use the CSS-only `.blur-load` / `BlurWords mode="load"`. Hidden states live under `@media (scripting: enabled)`, and `prefers-reduced-motion` is handled globally in `globals.css`. Full rules in DESIGN_GUIDE.md section 8. Do not use `.blur-stagger` on `gap-px` grids.
 - Migrations are generated with `drizzle-kit generate`, never hand-skipped — see the Security/Gotchas note below on why `0001` broke that rule and what that costs.
@@ -47,6 +47,15 @@ npm run dev
 - Build verification (`npx tsc --noEmit` + `npm run build`) requires network access to `fonts.googleapis.com` (next/font/google) and to Neon (`DATABASE_URL`) for any DB-touching build step — both are unavailable in sandboxed dev environments without egress; run the full build locally or let Vercel's build do it.
 
 ## Session Log
+
+### 2026-10-09 (static glow + black): single fixed glow, background #000000, branch `glow-roam`
+- Agent: claude-sonnet (chat)
+- Request (Fahim): single glow, fixed blur, background `#000000`. Context: he asked whether the roaming branch is redundant if the blur drift is off; answered that drift (blur over time) and roam (position over time) are different, and he chose a static glow.
+- Glow: `components/MintGlow.tsx` rewritten again. One orb, fixed Gaussian-style softness, no roaming, no drift, no hold timer. It is centred behind the hero portrait (`data-glow-anchor`), re-measured on load, resize and navigation, glides 1.2s between the portrait spot and the upper-right default used on pages without a portrait, fades in once placed, keeps the 28% scroll parallax. The roaming version is in git history at `14cec60`. The branch name `glow-roam` is now misleading (rename it if wanted; nothing depends on the name).
+- Background: every `#111111` (public site and admin, 28 occurrences in 18 files, plus `--bg` and the favicon glyph) became `#000000`. `lib/email.ts` still has the old palette. Surfaces `#222222`, lines `#333333`, hover borders and glow `#444444` unchanged: he only specified the background, so the ladder is now black, 222, 333, 444 (a bigger jump from the page to the first surface than before).
+- Check: the suit in the portrait averages about `#212121` (lower torso about `#111111`), so on pure black it stays visible, where it nearly vanished on `#111111`. The glow's centre colour is lower on black (alpha 0.22 of `#444444` is about `#0F0F0F`, was about `#1C1C1C` on `#111111`) though its lift over the page is a bit larger; raise `GLOW_PEAK` if it reads too faint.
+- Docs: DESIGN_GUIDE palette (tokens, text, snippets) and the Ambient glow row updated; the 2026-06-29 changelog row was restored to its true `#070807` (an earlier bulk remap had rewritten it).
+- Verified: `npx tsc --noEmit` clean after each commit; grep finds no `#111111` left outside the email template. NOT verified in a browser: how the portrait and glow read on pure black, and that the glow lands behind the portrait at 1024, 1366 and 1920 widths.
 
 ### 2026-10-09 (cleanup): `glow-drift` branch deleted, branch `glow-roam`
 - Agent: claude-sonnet (chat)

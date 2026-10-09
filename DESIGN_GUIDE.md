@@ -25,7 +25,7 @@ All colors are defined as CSS variables in `app/globals.css` and extended into `
 :root {
   --accent:     #3DF49A;   /* primary green — CTAs, active states, highlights */
   --accent-dim: #5BFBA8;   /* hover/pressed state for accent */
-  --bg:         #111111;   /* page background */
+  --bg:         #000000;   /* page background */
   --surface:    #222222;   /* card / panel background */
   --border:     #333333;   /* default border color */
   --text:       #F3F6F4;   /* primary text — warm white, not pure #fff */
@@ -35,13 +35,13 @@ All colors are defined as CSS variables in `app/globals.css` and extended into `
 
 ### Named Palette (reference)
 
-The neutrals are a strict four-step gray ladder: `#111111` (page), `#222222` (surfaces), `#333333` (lines and raised hover fills), `#444444` (ambient glow, and the stronger/hover border). Text keeps its own tones; the accent is unchanged.
+The page is true black, with a three-step gray ladder above it: `#000000` (page), `#222222` (surfaces), `#333333` (lines and raised hover fills), `#444444` (ambient glow, and the stronger/hover border). Text keeps its own tones; the accent is unchanged.
 
 | Token          | Hex       | Usage                                              |
 |----------------|-----------|----------------------------------------------------|
 | `--accent`     | `#3DF49A` | CTAs, active nav underline, icons, eyebrow labels  |
 | `--accent-dim` | `#5BFBA8` | Accent hover / pressed states                      |
-| `--bg`         | `#111111` | Body background, the cells of `gap-px` grids       |
+| `--bg`         | `#000000` | Body background, the cells of `gap-px` grids       |
 | `--surface`    | `#222222` | Cards, panels, inputs, code blocks, admin panels, the ticker band, hover fill on grid cells |
 | `--border`     | `#333333` | All borders, dividers, grid lines (the `bg` of a `gap-px` grid), decorative separators |
 | (no token)     | `#444444` | Ambient glow colour (`GLOW_RGB` in `MintGlow.tsx`, plus the closing-CTA glow), stronger/hover borders, the timeline dot border |
@@ -50,7 +50,7 @@ The neutrals are a strict four-step gray ladder: `#111111` (page), `#222222` (su
 | `#5C615E`      | —         | Dim text: placeholders, ghost numbers (post index, inactive states), the old dark-gray text tones |
 | `#C7CCCA`      | —         | Body copy inside `prose-dark` blog content         |
 
-Rule of thumb: a border must differ from the surface it sits on. Surfaces are `#222222`, so their borders are `#333333`; on a `#111111` page, `#333333` hairlines are the visible-but-quiet default.
+Rule of thumb: a border must differ from the surface it sits on. Surfaces are `#222222`, so their borders are `#333333`; on a `#000000` page, `#333333` hairlines are the visible-but-quiet default.
 
 ### Convention: Hardcoded Hex Over Mapped Tokens
 
@@ -149,7 +149,7 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 
 ### Grid System
 
-- **3-column service grid:** `grid-cols-1 md:grid-cols-3 gap-px bg-[#333333]` with `bg-[#111111]` children — creates seamless 1px separators
+- **3-column service grid:** `grid-cols-1 md:grid-cols-3 gap-px bg-[#333333]` with `bg-[#000000]` children — creates seamless 1px separators
 - **2-column content split:** `grid-cols-1 md:grid-cols-2 gap-16`
 - **Blog list:** `space-y-0` with `border-b border-[#333333]` per row
 
@@ -279,7 +279,7 @@ The `animate-marquee` keyframe runs `translateX(0% → -50%)` over 30s. Array mu
 ### Navbar
 
 - Fixed, `z-50`, transparent by default
-- On scroll (`window.scrollY > 40`): `bg-[#111111]/90 backdrop-blur-xl border-b border-[#333333]`
+- On scroll (`window.scrollY > 40`): `bg-[#000000]/90 backdrop-blur-xl border-b border-[#333333]`
 - Logo: `fahim` + `.` in `#3DF49A`
 - Active link: `text-[#3DF49A]` + `1px` underline via absolute `<span>`; other links slide the same underline in from the left on hover (`scale-x-0` to `scale-x-100`, `origin-left`)
 - Hidden on `/admin/*` routes
@@ -380,7 +380,7 @@ The hero "Let's talk" / "About me" buttons are behind `const SHOW_HERO_CTAS = fa
 | Keyboard focus | `:focus-visible` mint outline (2px, 3px offset) on links and buttons; form fields use a soft 3px mint ring. |
 | Contact form | Spinner while sending; success circle pops in and the check draws (`.pop-in`, `.check-draw`); error message eases in with `role="alert"`. |
 | Skills ticker | Pauses on hover. |
-| Ambient glow | `components/MintGlow.tsx`: ONE soft `#444444` orb behind everything (the lower-left echo orb was removed). Smooth Gaussian-style falloff (11 stops, no clipped edge), about 66vw wide. On load it is placed instantly behind the hero portrait (the element marked `data-glow-anchor`), fades in over 1.4s, rests 3s, then roams: every 16-26s it eases (compositor-only `transform`) to a random viewport point at least 30% of the screen diagonal away. It survives client navigation; navigating to the homepage glides it back behind the portrait, rests 3s, roams again. Pages without a portrait start from the old upper-right spot. Scroll parallax (28%) lives on a separate zero-size wrapper so the two transforms never fight. Reduced motion: no roaming, no glide. No-JS: shows at the upper-right default. Tuning constants (`HOLD_MS`, `GLIDE_MS`, `ROAM_*`, `GLOW_PEAK`, `GLOW_SIZE`) are at the top of the file. |
+| Ambient glow | `components/MintGlow.tsx`: ONE soft `#444444` orb behind everything, fixed softness (smooth Gaussian-style falloff, 11 stops, no clipped edge), about 66vw wide. Nothing about it varies over time. It is centred behind the hero portrait (the element marked `data-glow-anchor`), measured on load, on resize and on navigation, so it stays behind the portrait at any width; pages without a portrait keep it at the old upper-right position, and it glides between the two (1.2s). It fades in once placed so it never flashes at the wrong spot. Scroll parallax (28%) lives on a separate zero-size wrapper. Reduced motion: no glide, no parallax. No-JS: shows at the upper-right default. Tuning constants (`GLOW_PEAK`, `GLOW_SIZE`, `GLIDE_MS`) are at the top of the file. Earlier roaming and softness-drift versions are in git history (roam: `14cec60` on this branch). |
 
 ### Tailwind keyframes (`tailwind.config.ts`)
 
@@ -472,7 +472,7 @@ CF_PAGES=1
 | 2026-04-04 | Supabase client refactored for Edge safety — no singleton, Realtime disabled, `persistSession: false`. Fixes CF Pages blog crash. |
 | 2026-04-04 | `DESIGN_GUIDE.md` created — consolidated design system documentation   |
 | 2026-05-15 | Better Auth UI added — login, forgot password, reset password pages use existing design tokens (no new colors required) |
-| 2026-06-29 | Full palette + typeface rebrand: adopted the academic-line system from `learnDE`'s `DESIGN_GUIDE.md` — accent green `#3DF49A`→mint, `#111111` bg, Plus Jakarta Sans replacing Syne + Onest (JetBrains Mono unchanged). Every hardcoded hex and font reference updated across `app/`, `components/`, `lib/email.ts`, and this file. Scoped to color tokens + typography only — component structure (button shapes, badge sizes, spacing scale) was left as this project's own, not migrated to match learnDE's dashboard-oriented patterns. |
+| 2026-06-29 | Full palette + typeface rebrand: adopted the academic-line system from `learnDE`'s `DESIGN_GUIDE.md` — accent green `#3DF49A`→mint, `#070807` bg, Plus Jakarta Sans replacing Syne + Onest (JetBrains Mono unchanged). Every hardcoded hex and font reference updated across `app/`, `components/`, `lib/email.ts`, and this file. Scoped to color tokens + typography only — component structure (button shapes, badge sizes, spacing scale) was left as this project's own, not migrated to match learnDE's dashboard-oriented patterns. |
 | 2026-09-28 | `small-ui-fixes` branch (off `main`): "What I do" section moved from a hardcoded array to a `skills` table, CRUD-able from `/admin/skills`. Each skill has an optional thumbnail (Cloudinary, own `skill-<id>` public_id per skill). Section layout changed from a 3-column grid to a single-column list of rows: image beside text on desktop, image above text on phones. Thumbnail slot background (`#222222`) is a shade lighter than the page so transparent PNG uploads still read as a tile. |
 | 2026-06-29 | Display font split back out from body: every heading/display element that was originally Syne (recovered from git history, not guessed) now uses Clash Display via Fontshare's CDN link; Plus Jakarta Sans stays for body/UI text. `--font-clash` added to `:root` with a Jakarta/sans-serif fallback chain. |
 | 2026-10-08 | Motion pass (`motion-polish`): CSS-only blur-fade reveal system, motion tokens, global reduced-motion guard, route fade, button press and focus states, navbar menu and contact form state animations. Section 8 rewritten; button snippets no longer use `transition-all` or hover grow. |
