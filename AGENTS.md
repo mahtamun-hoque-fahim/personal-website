@@ -49,6 +49,14 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-10 (database state): `projects.type` is already gone from production, merge #19 is urgent, branch `glow-roam`
+- Agent: Claude Edge
+- Trigger (Fahim, screenshot of the Neon SQL editor, production branch): `ALTER TABLE projects ALTER COLUMN type DROP NOT NULL;` failed with `column "type" of relation "projects" does not exist`. Neon's query history shows both statements were run on Oct 9 at 5:27am (the NOT NULL drop, then `remove type column from projects table`). So the production database is ALREADY in the final state the removal expects; no further SQL is needed, before or after merging.
+- What this means: the SQL ordering I wrote earlier (nullable first, drop only after the merge deploys) assumed neither statement had run. The drop ran first, which is the unsafe order for the code on `main`: `lib/db/queries.ts` there still does `db.select().from(projects)` with `type` in the schema, and `getAllProjects` / `getFeaturedProjects` catch the error and return `[]`. Pages using them have `revalidate = 60`, so after the next regeneration the live homepage "Selected work" and `/projects` render with no projects, silently (no error page). Previews are fine: they run the new schema against the same database. Also affected on `main`: the `/admin/projects` list, and anything that counts projects (`/llms.txt`, stats).
+- Fix: merge PR #19 (`motion-polish`, which removes `type` from the schema, the dashboard and every query); production redeploys from `main` and the pages regenerate correctly. PR #19's description was corrected to say no SQL is needed.
+- Not run by me: no database access from here; this is read from the screenshot only. NOT verified: whether the live site is showing empty project lists right now (check `/projects` on production).
+- Lesson for future migrations on this repo: when code and database must change together, drop the column only after the code that stops reading it is live (expand, deploy, then contract), and tell the person to run exactly one statement at a time.
+
 ### 2026-10-10 (palette): page background back to #111111, branch `glow-roam`
 - Agent: Claude Edge
 - Request (Fahim): go back to `#111111`; AGENTS.md `Agent` field is `Claude Edge` on every entry (already done earlier today, see the log-convention entry below); then help merge the branches.
