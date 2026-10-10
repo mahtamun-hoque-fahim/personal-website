@@ -25,7 +25,7 @@ All colors are defined as CSS variables in `app/globals.css` and extended into `
 :root {
   --accent:     #3DF49A;   /* primary green — CTAs, active states, highlights */
   --accent-dim: #5BFBA8;   /* hover/pressed state for accent */
-  --bg:         #000000;   /* page background */
+  --bg:         #111111;   /* page background */
   --surface:    #222222;   /* card / panel background */
   --border:     #333333;   /* default border color */
   --text:       #F3F6F4;   /* primary text — warm white, not pure #fff */
@@ -35,13 +35,13 @@ All colors are defined as CSS variables in `app/globals.css` and extended into `
 
 ### Named Palette (reference)
 
-The page is true black, with a three-step gray ladder above it: `#000000` (page), `#222222` (surfaces), `#333333` (lines and raised hover fills), `#444444` (ambient glow, and the stronger/hover border). Text keeps its own tones; the accent is unchanged.
+The neutrals are a strict four-step gray ladder: `#111111` (page), `#222222` (surfaces), `#333333` (lines and raised hover fills), `#444444` (ambient glow, and the stronger/hover border). Text keeps its own tones; the accent is unchanged.
 
 | Token          | Hex       | Usage                                              |
 |----------------|-----------|----------------------------------------------------|
 | `--accent`     | `#3DF49A` | CTAs, active nav underline, icons, eyebrow labels  |
 | `--accent-dim` | `#5BFBA8` | Accent hover / pressed states                      |
-| `--bg`         | `#000000` | Body background, the cells of `gap-px` grids       |
+| `--bg`         | `#111111` | Body background, the cells of `gap-px` grids       |
 | `--surface`    | `#222222` | Cards, panels, inputs, code blocks, admin panels, the ticker band, hover fill on grid cells |
 | `--border`     | `#333333` | All borders, dividers, grid lines (the `bg` of a `gap-px` grid), decorative separators |
 | (no token)     | `#444444` | Ambient glow colour (`GLOW_RGB` in `MintGlow.tsx`, plus the closing-CTA glow), stronger/hover borders, the timeline dot border |
@@ -50,7 +50,7 @@ The page is true black, with a three-step gray ladder above it: `#000000` (page)
 | `#5C615E`      | —         | Dim text: placeholders, ghost numbers (post index, inactive states), the old dark-gray text tones |
 | `#C7CCCA`      | —         | Body copy inside `prose-dark` blog content         |
 
-Rule of thumb: a border must differ from the surface it sits on. Surfaces are `#222222`, so their borders are `#333333`; on a `#000000` page, `#333333` hairlines are the visible-but-quiet default.
+Rule of thumb: a border must differ from the surface it sits on. Surfaces are `#222222`, so their borders are `#333333`; on a `#111111` page, `#333333` hairlines are the visible-but-quiet default.
 
 ### Convention: Hardcoded Hex Over Mapped Tokens
 
@@ -149,7 +149,7 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 
 ### Grid System
 
-- **3-column service grid:** `grid-cols-1 md:grid-cols-3 gap-px bg-[#333333]` with `bg-[#000000]` children — creates seamless 1px separators
+- **3-column service grid:** `grid-cols-1 md:grid-cols-3 gap-px bg-[#333333]` with `bg-[#111111]` children — creates seamless 1px separators
 - **2-column content split:** `grid-cols-1 md:grid-cols-2 gap-16`
 - **Blog list:** `space-y-0` with `border-b border-[#333333]` per row
 
@@ -279,7 +279,7 @@ The `animate-marquee` keyframe runs `translateX(0% → -50%)` over 30s. Array mu
 ### Navbar
 
 - Fixed, `z-50`, transparent by default
-- On scroll (`window.scrollY > 40`): `bg-[#000000]/90 backdrop-blur-xl border-b border-[#333333]`
+- On scroll (`window.scrollY > 40`): `bg-[#111111]/90 backdrop-blur-xl border-b border-[#333333]`
 - Logo: `fahim` + `.` in `#3DF49A`
 - Active link: `text-[#3DF49A]` + `1px` underline via absolute `<span>`; other links slide the same underline in from the left on hover (`scale-x-0` to `scale-x-100`, `origin-left`)
 - Hidden on `/admin/*` routes

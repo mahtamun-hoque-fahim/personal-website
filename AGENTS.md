@@ -34,7 +34,7 @@ npm run dev
 - DB access always goes through `lib/db/queries.ts` — no raw Drizzle calls from route/component files.
 - Public-facing DB reads that feed metadata or layout should go through an `unstable_cache`-wrapped function (see `getCachedSiteSettings`) with an explicit tag, and admin save actions must `revalidateTag(tag, 'max')` — in this Next.js version `revalidateTag` requires the two-arg form.
 - Admin routes follow the server/client split established in `app/admin/posts`: a server `page.tsx` does the auth check (`isAuthenticated()` from `lib/auth-utils.ts`, redirect to `/admin/login`) and data fetch, a client component owns the form/state and calls a `'use server'` action from `app/admin/actions.ts`.
-- Dark-first palette: the page is true black (`#000000`) with a gray ladder above it (`#222222` surfaces, `#333333` lines, `#444444` glow and hover borders), `#3DF49A` mint accent. See DESIGN_GUIDE.md section 2. Fonts: Syne (`--font-clash`) for headings, Plus Jakarta Sans (`--font-jakarta`) for body, JetBrains Mono (`--font-jetbrains`) for labels/meta.
+- Dark-first palette: neutrals are a four-step gray ladder (`#111111` page, `#222222` surfaces, `#333333` lines, `#444444` glow and hover borders), `#3DF49A` mint accent. See DESIGN_GUIDE.md section 2. Fonts: Syne (`--font-clash`) for headings, Plus Jakarta Sans (`--font-jakarta`) for body, JetBrains Mono (`--font-jetbrains`) for labels/meta.
 - No emojis anywhere in code or UI — lucide-react icons only.
 - Session Log entries: the `Agent:` field is ALWAYS `Claude Edge` (Fahim's rule). It applies to every entry, past and future; never write a model name or surface name (such as `claude-sonnet (chat)`) there.
 - Motion is CSS-first (no animation library). Never `transition-all`: list the properties. Scroll reveals use `components/Reveal.tsx` / `BlurWords.tsx` (blur-fade, once per view); above-the-fold entrances use the CSS-only `.blur-load` / `BlurWords mode="load"`. Hidden states live under `@media (scripting: enabled)`, and `prefers-reduced-motion` is handled globally in `globals.css`. Full rules in DESIGN_GUIDE.md section 8. Do not use `.blur-stagger` on `gap-px` grids.
@@ -48,6 +48,13 @@ npm run dev
 - Build verification (`npx tsc --noEmit` + `npm run build`) requires network access to `fonts.googleapis.com` (next/font/google) and to Neon (`DATABASE_URL`) for any DB-touching build step — both are unavailable in sandboxed dev environments without egress; run the full build locally or let Vercel's build do it.
 
 ## Session Log
+
+### 2026-10-10 (palette): page background back to #111111, branch `glow-roam`
+- Agent: Claude Edge
+- Request (Fahim): go back to `#111111`; AGENTS.md `Agent` field is `Claude Edge` on every entry (already done earlier today, see the log-convention entry below); then help merge the branches.
+- Done: `git revert` of `f2d3f90` ("page background #000000"), so all 18 files (public site, admin, favicon glyph, `--bg` in `globals.css`) have `#111111` again; no `#000000` hex is left in `app/`, `components/` or `public/`. `lib/email.ts` was never changed. DESIGN_GUIDE section 2 (tokens, table, snippets, the "four-step ladder" wording) and the AGENTS.md Conventions palette line are back to `#111111`. The glow keeps its current tuning (`GLOW_PEAK` 0.22 of `#444444`), which was originally set against `#111111`, so the "centre looks darker on black" caveat in the previous entry no longer applies.
+- History kept: the black-background commit and its revert both stay in the branch history; the older entry below describing the black background is a record of that attempt, not the current state.
+- Verified: `npx tsc --noEmit` clean after the revert; grep shows 0 `#000000` and 33 `#111111` hex values in code. NOT verified in a browser.
 
 ### 2026-10-09 (log convention): Agent field is "Claude Edge" on every entry, branch `glow-roam`
 - Agent: Claude Edge
