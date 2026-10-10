@@ -87,8 +87,8 @@ export default function PostEditor({ post }: Props) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Post title"
-            className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
+            className="w-full bg-[#222222] border border-[#333333] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
+                       placeholder:text-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
         </div>
@@ -104,8 +104,8 @@ export default function PostEditor({ post }: Props) {
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
             placeholder="post-slug"
-            className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
+            className="w-full bg-[#222222] border border-[#333333] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
+                       placeholder:text-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors"
             style={{ fontFamily: 'var(--font-jetbrains)' }}
           />
         </div>
@@ -124,8 +124,8 @@ export default function PostEditor({ post }: Props) {
             value={tags}
             onChange={(e) => setTags(e.target.value)}
             placeholder="design, process, ui"
-            className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
+            className="w-full bg-[#222222] border border-[#333333] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
+                       placeholder:text-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
         </div>
@@ -141,12 +141,12 @@ export default function PostEditor({ post }: Props) {
             value={coverImage}
             onChange={(e) => setCoverImage(e.target.value)}
             placeholder="png"
-            className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
+            className="w-full bg-[#222222] border border-[#333333] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4]
+                       placeholder:text-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
           <p
-            className="text-xs text-[#2B302D] mt-1.5"
+            className="text-xs text-[#5C615E] mt-1.5"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             Extension only — e.g. “png”, “jpg”, “webp”. Leave blank to default to .png.
@@ -168,8 +168,8 @@ export default function PostEditor({ post }: Props) {
           value={excerpt}
           onChange={(e) => setExcerpt(e.target.value)}
           placeholder="Short description shown on the blog listing..."
-          className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                     placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors resize-none"
+          className="w-full bg-[#222222] border border-[#333333] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
+                     placeholder:text-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors resize-none"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         />
       </div>
@@ -207,18 +207,18 @@ export default function PostEditor({ post }: Props) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder={"Write your post in Markdown...\n\n## Heading\n\nSome **bold** text and `code`."}
-            className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-4 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors resize-none leading-relaxed"
+            className="w-full bg-[#222222] border border-[#333333] rounded-lg px-4 py-4 text-sm text-[#F3F6F4]
+                       placeholder:text-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors resize-none leading-relaxed"
             style={{ fontFamily: 'var(--font-jetbrains)' }}
           />
         ) : (
           <>
             <div
-              className="min-h-[480px] bg-[#0F0F0F] border border-[#1F2421] rounded-lg p-6 prose-dark"
+              className="min-h-[480px] bg-[#222222] border border-[#333333] rounded-lg p-6 prose-dark"
               dangerouslySetInnerHTML={{
                 __html: content
                   ? renderMarkdown(content)
-                  : '<p style="color:#2B302D">Nothing to preview yet.</p>',
+                  : '<p style="color:#5C615E">Nothing to preview yet.</p>',
               }}
             />
             <CopyCodeInit />
@@ -227,11 +227,11 @@ export default function PostEditor({ post }: Props) {
       </div>
 
       {/* Footer actions */}
-      <div className="flex items-center justify-between pt-4 border-t border-[#1F2421]">
+      <div className="flex items-center justify-between pt-4 border-t border-[#333333]">
         <label className="flex items-center gap-3 cursor-pointer group">
           <div
             className={`relative w-10 h-6 rounded-full transition-colors duration-200 ${
-              published ? 'bg-[#3DF49A]' : 'bg-[#2B302D]'
+              published ? 'bg-[#3DF49A]' : 'bg-[#333333]'
             }`}
             onClick={() => setPublished(!published)}
           >
@@ -252,7 +252,7 @@ export default function PostEditor({ post }: Props) {
         <div className="flex gap-4">
           <button
             onClick={() => router.back()}
-            className="px-5 py-2.5 border border-[#1F2421] text-[#8A938E] text-sm rounded-lg hover:border-[#2B302D] hover:text-[#F3F6F4] transition-colors"
+            className="px-5 py-2.5 border border-[#333333] text-[#8A938E] text-sm rounded-lg hover:border-[#444444] hover:text-[#F3F6F4] transition-colors"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             Cancel

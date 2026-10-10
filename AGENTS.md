@@ -34,7 +34,7 @@ npm run dev
 - DB access always goes through `lib/db/queries.ts` — no raw Drizzle calls from route/component files.
 - Public-facing DB reads that feed metadata or layout should go through an `unstable_cache`-wrapped function (see `getCachedSiteSettings`) with an explicit tag, and admin save actions must `revalidateTag(tag, 'max')` — in this Next.js version `revalidateTag` requires the two-arg form.
 - Admin routes follow the server/client split established in `app/admin/posts`: a server `page.tsx` does the auth check (`isAuthenticated()` from `lib/auth-utils.ts`, redirect to `/admin/login`) and data fetch, a client component owns the form/state and calls a `'use server'` action from `app/admin/actions.ts`.
-- Dark-first palette: `#070807` background, `#3DF49A` mint accent. Fonts: Syne (`--font-clash`) for headings, Plus Jakarta Sans (`--font-jakarta`) for body, JetBrains Mono (`--font-jetbrains`) for labels/meta.
+- Dark-first palette: neutrals are a four-step gray ladder (`#111111` page, `#222222` surfaces, `#333333` lines, `#444444` glow and hover borders), `#3DF49A` mint accent. See DESIGN_GUIDE.md section 2. Fonts: Syne (`--font-clash`) for headings, Plus Jakarta Sans (`--font-jakarta`) for body, JetBrains Mono (`--font-jetbrains`) for labels/meta.
 - No emojis anywhere in code or UI — lucide-react icons only.
 - Motion is CSS-first (no animation library). Never `transition-all`: list the properties. Scroll reveals use `components/Reveal.tsx` / `BlurWords.tsx` (blur-fade, once per view); above-the-fold entrances use the CSS-only `.blur-load` / `BlurWords mode="load"`. Hidden states live under `@media (scripting: enabled)`, and `prefers-reduced-motion` is handled globally in `globals.css`. Full rules in DESIGN_GUIDE.md section 8. Do not use `.blur-stagger` on `gap-px` grids.
 - Migrations are generated with `drizzle-kit generate`, never hand-skipped — see the Security/Gotchas note below on why `0001` broke that rule and what that costs.
@@ -47,6 +47,62 @@ npm run dev
 - Build verification (`npx tsc --noEmit` + `npm run build`) requires network access to `fonts.googleapis.com` (next/font/google) and to Neon (`DATABASE_URL`) for any DB-touching build step — both are unavailable in sandboxed dev environments without egress; run the full build locally or let Vercel's build do it.
 
 ## Session Log
+
+### 2026-10-09 (glow drift not adopted): back to the steady glow, branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Decision (Fahim): undo the random glow drift, but keep the `glow-drift` branch.
+- Done: nothing to revert in code. The drift only ever existed on `glow-drift` (commits `2ad28ca` and `ffc7af9`, built on `face-reveal` at `f60c6c0`); `face-reveal` never contained it, so the steady `#444444` glow in `components/MintGlow.tsx` is what ships from here. `glow-drift` was deliberately left untouched on the remote so the experiment can be revisited (tuning knobs: `DRIFT_*` / `SOFT_*` constants at the top of `MintGlow.tsx` there).
+- Consequence: `glow-drift` no longer contains the tip of `face-reveal` (it lacks this note). Harmless; if it is ever resurrected, merge `face-reveal` into it first. Do not re-add the drift without being asked.
+- Work from `face-reveal` (and its preview deployment), not `glow-drift`.
+
+### 2026-10-08 (palette): new neutral palette, branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Request (Fahim): background `#111111`; everything else `#222222` and `#333333`; glow `#444444`. (Triggered by his question whether the background was `#000000`; it was `#070807`.)
+- How I read it: a four-step gray ladder. `#111111` page; `#222222` surfaces/fills; `#333333` lines; `#444444` glow. Text colours (`#F3F6F4`, `#8A938E`, `#5C615E`, `#C7CCCA`) and the mint accent `#3DF49A` were NOT in the request and are unchanged.
+- Mapping applied (role-aware, via a throwaway script; roles read from the Tailwind utility or CSS property):
+  - `#070807` (page, grid cells, nav) to `#111111`.
+  - Fills `#0F0F0F`, `#0A0C0B`, `#090A09`, `#0F1210`, `#141712`, `#121312`, `#0C0D0C` to `#222222`.
+  - Lines `#1F2421` to `#333333` (borders, dividers, the `gap-px` grid colour, decorative separators). Reason: a border must differ from the surface under it, and surfaces are now `#222222`.
+  - `#2B302D` / `#3A3F3C` by role: as border or hover-border to `#444444` (so hover still reads as a step up from the new `#333333` borders), as fill to `#333333`, as TEXT or placeholder to `#5C615E` (the existing dim-text tone; `#333333` text on `#222222` would be about 1.3:1 and unreadable). `#3B3F3D` / `#474C49` text to `#5C615E`.
+  - `--bg`, `--surface`, `--border` in `globals.css` updated; `rgba(31,36,33,.8)` pre border to `rgba(51,51,51,.8)`; code block background `rgba(0,0,0,.45)` to `rgba(34,34,34,.6)`; favicon glyph (light mode) to `#111111`.
+- Glow: `components/MintGlow.tsx` `GLOW_RGB` is `'68, 68, 68'` (`#444444`). Alphas raised (0.06/0.02/0.03 became 0.24/0.08/0.12) because `#444444` over `#111111` needs about 4x the alpha to give the same faint lift the light-gray glow gave; if it reads too strong or too faint, tune those three numbers. The closing "Reach Out!" section glow (`app/page.tsx`) was mint and is now `rgba(68,68,68,0.28)`.
+- Scope: public site and the admin dashboard (they share these tokens), as two separate commits so the admin one can be dropped. NOT changed: `lib/email.ts` (transactional emails keep the old dark palette), mint accent usages (buttons, focus rings, `.border-glow`, credential dot glow).
+- Judgement calls Fahim may want to revisit: the hover-border `#444444`, placeholders at `#5C615E`, and the hero ticker band being `#222222` (a visibly lighter strip than the page).
+- Verified: `npx tsc --noEmit` clean after each commit; Tailwind CLI compile contains the new utilities and none of the old hex values; grep finds no old neutral left in `app/`, `components/` (emails excepted). NOT verified in a browser: contrast and overall feel, especially cards (`#222222` on `#111111`), the gray glow strength, and the portrait against the lighter page.
+
+### 2026-10-08 (face-reveal, alignment + glow colour): branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Feedback (Fahim, screenshot with two red lines): the head sat at the lower line (y about 173 at 1361px wide), he wants it at the upper line (about y 125-135, level with the top of "Build"). Also: change the mint glow to light gray.
+- Why my earlier alignment was 34px low: I estimated the headline block height as h1 + `mb-8` (32) + sub row `mt-12` (48) = 80px between them, but adjacent sibling margins collapse, so the gap is 48px, not 80. That made the wrapper shorter than I assumed, so the `0.31 x font-size` offset I derived from the first screenshot was measured against the wrong wrapper top. The aspect-ratio width derivation itself was fine (it matched the rendered width). Fix: measured from the second screenshot instead: wrapper top at about y 131, "Build" glyph top at about y 140, so `top` is now `-0.04 x font-size` (head top about y 130). Portrait grows to about 535px high at 1361px wide (was 490). Horizontal `right` moved 11.5% to 10.5% so the centre stays where it was while the figure gets wider.
+- Glow: the ambient glow is the site-wide fixed `components/MintGlow.tsx` (not hero-only), so every page changes. Colour is now one constant, `GLOW_RGB = '214, 220, 216'` (light gray), alphas lowered a little (0.07/0.025/0.04 became 0.06/0.02/0.03) because light gray reads brighter than mint at the same alpha. To revert to mint: `'61, 244, 154'`. The component is still called MintGlow; renaming it was left out to avoid churn.
+- Not changed: the accent colour `#3DF49A` itself, `.border-glow`, and `DESIGN_GUIDE.md` "Accent Glow" (a separate CSS utility) are still mint.
+- Verified: `npx tsc --noEmit` clean after each commit. NOT verified in a browser: head-to-"Build" alignment, and whether the gray glow is too strong/weak.
+
+### 2026-10-08 (face-reveal, placement): portrait moved to the drawn spot, hero buttons hidden, branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Request (Fahim, with a screenshot drawn over in red): put the portrait in the marked area; he does not know what to do with the buttons, hide them for now and unhide them when he says so.
+- Reading of the drawing (an interpretation, not a measurement): top aligned with the top of "Build", and the figure in the column between the two vertical lines (about x 812 to 1115 at 1366px wide), bottom still on the stats rule. So the portrait moved left, away from the right edge, and grew slightly in height (about 527px at 1366px, was 519px).
+- Done: `HeroPortrait.tsx` now sets `top` from the h1 font size (0.31 x, measured from the screenshot: cap top y=145 vs line-box top y=103 at a 136.6px font), `bottom-[-4rem]`, `right-[11.5%]`, `aspect-[571/907]` for the width, and the img fills it (`object-contain object-bottom`). If the head sits a few px high or low against "Build", adjust the 0.31.
+- Hero buttons: `const SHOW_HERO_CTAS = false` at the top of `app/page.tsx` wraps the buttons div. TO UNHIDE: set it to `true`. The buttons' JSX, delays and styles are untouched. While hidden, the homepage has no direct "contact" link above the fold (the nav still has Contact).
+- Verified: `npx tsc --noEmit` clean; Tailwind CLI generates the new arbitrary classes. NOT verified in a browser: the `aspect-ratio` width derivation from a `top`+`bottom` absolute box (supported in current browsers, but check the figure is not stretched or offset at 1366, 1024 and 768 widths), and the head alignment with "Build".
+
+### 2026-10-08 (face-reveal, revision): natural scale, no added glow, branch `face-reveal`
+- Agent: claude-sonnet (chat)
+- Feedback (Fahim): the photo feels zoomed, keep it normal; use the glow that existed before.
+- Changes: (1) Removed the mint radial glow I had added behind the head and the bottom `mask-image`; the page's existing `MintGlow` is the only glow now. (2) Re-exported the asset as the FULL figure (571x907, 32 KB) instead of the head-and-chest crop, and shrank it: `clamp(320px, 38vw, 540px)` high, so the head is about two thirds of its previous size. (3) Because the photo is cut off at the waist, the cut now sits exactly on the stats rule so he stands on the line instead of fading out: the headline + intro row is wrapped in a new `relative` div (re-indented), the portrait is anchored to its bottom and pushed down `4rem` to match the `mt-16` above the rule. If either value changes, change both.
+- Known trade-off: the "Let's talk" / "About me" buttons now sit over the lower part of the jacket and hands. They are above the portrait in the stacking order, so they stay clickable and readable (the filled mint button especially), but check it looks acceptable. Option if not: move the buttons next to the intro text.
+- Not done: nothing below `sm` (phones); no `srcset`.
+- Verified: `npx tsc --noEmit` clean; a Python mock at 1366x768 (no site glow in it) showed the proportions. NOT verified in a browser.
+
+### 2026-10-08 (face-reveal): hero portrait, branch `face-reveal` (off `motion-polish`)
+- Agent: claude-sonnet (chat)
+- Request (Fahim): create a new branch `face-reveal` and try his photo (transparent B&W cutout, uploaded) in the empty right side of the homepage hero.
+- Branch: `face-reveal` was cut from `motion-polish`, not `main`, because the hero uses `.blur-load` and the arrival gate that only exist there. A PR for `face-reveal` therefore also contains the unmerged motion commits: merge `motion-polish` first, or target it.
+- Asset: the upload already had real transparency (70% of pixels alpha 0). Cropped to the subject (head to upper chest/arms, 571x629) and saved as `public/images/fahim-hero.webp`, quality 88 with alpha: 25 KB vs 245 KB for the PNG. Source resolution is the limit: it is slightly soft on 2x screens.
+- Component: `components/HeroPortrait.tsx` (see DESIGN_GUIDE "Hero portrait"). `app/page.tsx`: hero container gets `relative` and renders `<HeroPortrait />` first. Plain `<img>` because the repo does not use `next/image` anywhere (Vercel + Cloudflare dual deploy).
+- Design reasoning: a small circle would look like a sticker next to 9rem type, so it is a large cutout; the jacket is near-black on a near-black page, so a mint radial glow behind the head provides the silhouette and a bottom mask dissolves the torso before the CTA buttons.
+- Not done: nothing is shown below `sm` (phones); a mobile placement is undecided. No `srcset`/second size.
+- Verified: `npx tsc --noEmit` clean; Tailwind CLI generates the arbitrary classes used; an approximate mock rendered in Python (not a browser) looked right at 1366x768. NOT verified in a browser: check overlap with the headline at 1024 and 768 widths, the CTA buttons over the faded torso, and that the glow does not look like a hard disc.
 
 ### 2026-10-08 (projects page + dashboard): `type` removed everywhere, branch `motion-polish`
 - Agent: claude-sonnet (chat)

@@ -33,7 +33,7 @@ export default async function BlogPage() {
       <Navbar />
       <main className="pt-32 max-w-6xl mx-auto px-6">
         {/* Header */}
-        <div className="pb-16 border-b border-[#1F2421] mb-16">
+        <div className="pb-16 border-b border-[#333333] mb-16">
           <p
             className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-6"
             style={{ fontFamily: 'var(--font-jetbrains)' }}
@@ -54,7 +54,7 @@ export default async function BlogPage() {
         {posts.length === 0 ? (
           <div className="py-32 text-center">
             <p
-              className="text-[#2B302D] text-8xl font-bold mb-6"
+              className="text-[#5C615E] text-8xl font-bold mb-6"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
               Soon.
@@ -81,7 +81,7 @@ export default async function BlogPage() {
                 >
                 <Link
                   href={`/blog/${post.slug}`}
-                  className={`group block h-full rounded-xl border border-[#1F2421] bg-[#0F0F0F] overflow-hidden
+                  className={`group block h-full rounded-xl border border-[#333333] bg-[#222222] overflow-hidden
                               hover:border-[#3DF49A]/40 transition-colors duration-200
                               ${isLastOdd ? 'md:flex md:items-stretch' : ''}`}
                 >
@@ -89,8 +89,8 @@ export default async function BlogPage() {
                   <div
                     className={
                       isLastOdd
-                        ? 'aspect-[1200/630] md:aspect-auto md:w-2/5 md:shrink-0 overflow-hidden bg-[#070807]'
-                        : 'aspect-[1200/630] w-full overflow-hidden bg-[#070807]'
+                        ? 'aspect-[1200/630] md:aspect-auto md:w-2/5 md:shrink-0 overflow-hidden bg-[#111111]'
+                        : 'aspect-[1200/630] w-full overflow-hidden bg-[#111111]'
                     }
                   >
                     {true ? (
@@ -107,7 +107,7 @@ export default async function BlogPage() {
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <span
-                          className="text-[#2B302D] text-4xl font-bold"
+                          className="text-[#5C615E] text-4xl font-bold"
                           style={{ fontFamily: 'var(--font-clash)' }}
                         >
                           {post.title.slice(0, 1)}
@@ -123,7 +123,7 @@ export default async function BlogPage() {
                         {post.tags?.slice(0, 2).map((tag) => (
                           <span
                             key={tag}
-                            className="text-xs px-2 py-0.5 border border-[#1F2421] rounded-full text-[#8A938E] truncate"
+                            className="text-xs px-2 py-0.5 border border-[#333333] rounded-full text-[#8A938E] truncate"
                             style={{ fontFamily: 'var(--font-jakarta)' }}
                           >
                             {tag}
@@ -131,7 +131,7 @@ export default async function BlogPage() {
                         ))}
                       </div>
                       <p
-                        className="text-[#2B302D] text-xs shrink-0"
+                        className="text-[#5C615E] text-xs shrink-0"
                         style={{ fontFamily: 'var(--font-jetbrains)' }}
                       >
                         {post.readingTime} min read

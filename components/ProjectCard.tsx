@@ -8,7 +8,7 @@ import Reveal from '@/components/Reveal'
  */
 export default function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   return (
-    <div className="bg-[#070807] p-8 group hover:bg-[#0F0F0F] transition-colors duration-300 flex flex-col min-h-[280px]">
+    <div className="bg-[#111111] p-8 group hover:bg-[#222222] transition-colors duration-300 flex flex-col min-h-[280px]">
       <Reveal className="flex flex-1 flex-col justify-between" delay={(index % 2) * 180}>
       <div>
         <div className="flex items-start justify-between mb-4">
@@ -60,12 +60,12 @@ export default function ProjectCard({ project, index = 0 }: { project: Project; 
         )}
       </div>
 
-      <div className="mt-6 pt-6 border-t border-[#1F2421]">
+      <div className="mt-6 pt-6 border-t border-[#333333]">
         <div className="flex flex-wrap gap-2 mb-4">
           {(project.tags || []).map((tag) => (
             <span
               key={tag}
-              className="text-xs px-2 py-0.5 border border-[#1F2421] text-[#8A938E] rounded"
+              className="text-xs px-2 py-0.5 border border-[#333333] text-[#8A938E] rounded"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
             >
               {tag}

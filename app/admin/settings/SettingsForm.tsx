@@ -120,11 +120,11 @@ export default function SettingsForm({ settings }: Props) {
               alt="Avatar"
               width={64}
               height={64}
-              className="w-16 h-16 rounded-full object-cover border border-[#1F2421]"
+              className="w-16 h-16 rounded-full object-cover border border-[#333333]"
             />
           ) : (
             <div
-              className="w-16 h-16 rounded-full bg-[#1F2421] flex items-center justify-center text-lg font-bold text-[#3DF49A]"
+              className="w-16 h-16 rounded-full bg-[#333333] flex items-center justify-center text-lg font-bold text-[#3DF49A]"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
               MH
@@ -143,7 +143,7 @@ export default function SettingsForm({ settings }: Props) {
             />
             <label
               htmlFor="avatar-upload"
-              className="flex items-center gap-2 px-4 py-2 bg-[#0F0F0F] border border-[#1F2421] rounded-lg text-sm
+              className="flex items-center gap-2 px-4 py-2 bg-[#222222] border border-[#333333] rounded-lg text-sm
                          text-[#F3F6F4] hover:border-[#3DF49A] transition-colors cursor-pointer disabled:opacity-50"
               style={{ fontFamily: 'var(--font-jakarta)' }}
             >
@@ -243,7 +243,7 @@ export default function SettingsForm({ settings }: Props) {
         </Field>
       </div>
 
-      <div className="flex items-center justify-between pt-4 border-t border-[#1F2421]">
+      <div className="flex items-center justify-between pt-4 border-t border-[#333333]">
         <p
           className="text-xs text-[#8A938E]"
           style={{ fontFamily: 'var(--font-jetbrains)' }}
@@ -276,8 +276,8 @@ export default function SettingsForm({ settings }: Props) {
 }
 
 const inputClass =
-  'w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4] ' +
-  'placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors'
+  'w-full bg-[#222222] border border-[#333333] rounded-lg px-4 py-2.5 text-sm text-[#F3F6F4] ' +
+  'placeholder:text-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors'
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -296,7 +296,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function Hint({ children }: { children: React.ReactNode }) {
   return (
     <p
-      className="text-xs text-[#2B302D] mt-1.5"
+      className="text-xs text-[#5C615E] mt-1.5"
       style={{ fontFamily: 'var(--font-jakarta)' }}
     >
       {children}

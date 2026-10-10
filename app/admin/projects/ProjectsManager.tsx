@@ -297,7 +297,7 @@ export default function ProjectsManager({
       )}
 
       {projects.length === 0 && (
-        <div className="bg-[#0F0F0F] border border-dashed border-[#1F2421] rounded-xl p-12 text-center">
+        <div className="bg-[#222222] border border-dashed border-[#333333] rounded-xl p-12 text-center">
           <p className="text-[#F3F6F4] mb-2" style={{ fontFamily: 'var(--font-clash)' }}>
             No projects yet
           </p>
@@ -424,7 +424,7 @@ function ProjectRow({
   onDelete: () => void
 }) {
   return (
-    <div className="bg-[#0F0F0F] border border-[#1F2421] rounded-lg p-4 hover:border-[#2B302D] transition-colors">
+    <div className="bg-[#222222] border border-[#333333] rounded-lg p-4 hover:border-[#444444] transition-colors">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -450,7 +450,7 @@ function ProjectRow({
             <>
               <IconBtn label="↑" disabled={isPending || isFirst} onClick={onReorderUp} title="Move up" />
               <IconBtn label="↓" disabled={isPending || isLast} onClick={onReorderDown} title="Move down" />
-              <div className="w-px h-6 bg-[#1F2421] mx-1" />
+              <div className="w-px h-6 bg-[#333333] mx-1" />
             </>
           )}
           <button
@@ -459,7 +459,7 @@ function ProjectRow({
             className={`px-3 py-1.5 text-xs rounded font-medium transition-colors disabled:opacity-50 ${
               project.featured
                 ? 'bg-[#3DF49A]/10 text-[#3DF49A] hover:bg-[#3DF49A]/20'
-                : 'bg-[#1F2421] text-[#8A938E] hover:bg-[#3DF49A] hover:text-[#06160E]'
+                : 'bg-[#333333] text-[#8A938E] hover:bg-[#3DF49A] hover:text-[#06160E]'
             }`}
             style={{ fontFamily: 'var(--font-jakarta)' }}
           >
@@ -468,7 +468,7 @@ function ProjectRow({
           <button
             onClick={onEdit}
             disabled={isPending}
-            className="px-3 py-1.5 text-xs bg-[#1F2421] text-[#F3F6F4] rounded hover:bg-[#2B302D] disabled:opacity-50 transition-colors"
+            className="px-3 py-1.5 text-xs bg-[#333333] text-[#F3F6F4] rounded hover:bg-[#333333] disabled:opacity-50 transition-colors"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             Edit
@@ -476,7 +476,7 @@ function ProjectRow({
           <button
             onClick={onDelete}
             disabled={isPending}
-            className="px-3 py-1.5 text-xs bg-[#1F2421] text-red-400 rounded hover:bg-red-500/20 disabled:opacity-50 transition-colors"
+            className="px-3 py-1.5 text-xs bg-[#333333] text-red-400 rounded hover:bg-red-500/20 disabled:opacity-50 transition-colors"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           >
             Delete
@@ -503,7 +503,7 @@ function IconBtn({
       onClick={onClick}
       disabled={disabled}
       title={title}
-      className="w-8 h-8 flex items-center justify-center text-xs bg-[#1F2421] text-[#8A938E] rounded hover:bg-[#2B302D] disabled:opacity-30 transition-colors"
+      className="w-8 h-8 flex items-center justify-center text-xs bg-[#333333] text-[#8A938E] rounded hover:bg-[#333333] disabled:opacity-30 transition-colors"
     >
       {label}
     </button>
@@ -540,7 +540,7 @@ function ProjectFormModal({
       onClick={onCancel}
     >
       <div
-        className="bg-[#0F0F0F] border border-[#1F2421] rounded-2xl w-full max-w-3xl p-8 my-8"
+        className="bg-[#222222] border border-[#333333] rounded-2xl w-full max-w-3xl p-8 my-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">
@@ -551,7 +551,7 @@ function ProjectFormModal({
             {isEdit ? 'Edit project' : 'New project'}
           </h2>
           {!isEdit && (
-            <div className="flex items-center bg-[#070807] border border-[#1F2421] rounded-lg p-1">
+            <div className="flex items-center bg-[#111111] border border-[#333333] rounded-lg p-1">
               <TabButton active={tab === 'form'} onClick={() => setTab('form')}>
                 Form
               </TabButton>
@@ -641,7 +641,7 @@ function ProjectFormModal({
                       collaborators: [...form.collaborators, { name: '', url: '' }],
                     })
                   }
-                  className="mt-2 px-3 py-1.5 text-xs border border-dashed border-[#1F2421] text-[#8A938E] hover:text-[#3DF49A] hover:border-[#3DF49A]/40 rounded-lg transition-colors"
+                  className="mt-2 px-3 py-1.5 text-xs border border-dashed border-[#333333] text-[#8A938E] hover:text-[#3DF49A] hover:border-[#3DF49A]/40 rounded-lg transition-colors"
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   + Add collaborator
@@ -687,7 +687,7 @@ function ProjectFormModal({
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-[#1F2421]">
+            <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-[#333333]">
               <button
                 onClick={onCancel}
                 disabled={isPending}
@@ -713,7 +713,7 @@ function ProjectFormModal({
           <>
             <div className="space-y-4">
               <div
-                className="text-xs text-[#8A938E] space-y-2 bg-[#070807] border border-[#1F2421] rounded-lg p-3"
+                className="text-xs text-[#8A938E] space-y-2 bg-[#111111] border border-[#333333] rounded-lg p-3"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 <p>
@@ -765,7 +765,7 @@ function ProjectFormModal({
               </Field>
 
               {bulkOutcomes && bulkOutcomes.length > 0 && (
-                <div className="bg-[#070807] border border-[#1F2421] rounded-lg p-3 max-h-40 overflow-y-auto">
+                <div className="bg-[#111111] border border-[#333333] rounded-lg p-3 max-h-40 overflow-y-auto">
                   <p
                     className="text-[10px] uppercase tracking-widest text-[#8A938E] mb-2"
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
@@ -804,7 +804,7 @@ function ProjectFormModal({
               )}
             </div>
 
-            <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-[#1F2421]">
+            <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-[#333333]">
               <button
                 onClick={onCancel}
                 disabled={isPending}
@@ -854,7 +854,7 @@ function TabButton({
 }
 
 const inputCls =
-  "w-full px-4 py-2.5 bg-[#070807] border border-[#1F2421] rounded-lg text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors text-sm font-['Plus_Jakarta_Sans',sans-serif]"
+  "w-full px-4 py-2.5 bg-[#111111] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors text-sm font-['Plus_Jakarta_Sans',sans-serif]"
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (

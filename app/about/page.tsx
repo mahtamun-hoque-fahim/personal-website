@@ -45,7 +45,7 @@ export default async function AboutPage() {
         </section>
 
         {/* ── STORY SECTION ── */}
-        <section className="border-t border-[#1F2421]">
+        <section className="border-t border-[#333333]">
           <div className="max-w-6xl mx-auto px-6 py-20">
             <div className="max-w-2xl">
               <BlurWords as="h2" text={about.storyHeading} className="text-3xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
@@ -63,7 +63,7 @@ export default async function AboutPage() {
 
         {/* ── CTA ── */}
         <section className="max-w-6xl mx-auto px-6 pb-24">
-          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border border-[#1F2421] rounded-xl p-8">
+          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border border-[#333333] rounded-xl p-8">
             <div>
               <h3
                 className="text-2xl font-bold text-[#F3F6F4] mb-1"
@@ -91,7 +91,7 @@ export default async function AboutPage() {
                 href="https://mahtamundesigns.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto text-center px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+                className="w-full sm:w-auto text-center px-6 py-2.5 border border-[#333333] text-[#F3F6F4] text-sm rounded-full
                            hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >

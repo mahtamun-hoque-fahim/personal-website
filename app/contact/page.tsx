@@ -23,7 +23,7 @@ export default function ContactPage() {
         <div className="max-w-6xl mx-auto px-6">
 
           {/* Header */}
-          <div className="pb-16 border-b border-[#1F2421] mb-16">
+          <div className="pb-16 border-b border-[#333333] mb-16">
             <p
               className="text-[#3DF49A] text-xs tracking-[0.2em] uppercase mb-6"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
@@ -86,7 +86,7 @@ export default function ContactPage() {
                 ))}
               </div>
 
-              <div className="border border-[#1F2421] rounded-xl p-6">
+              <div className="border border-[#333333] rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="w-2 h-2 rounded-full bg-[#3DF49A] animate-pulse" />
                   <span

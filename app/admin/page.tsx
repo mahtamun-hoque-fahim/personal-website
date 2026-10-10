@@ -104,7 +104,7 @@ export default async function AdminDashboard() {
             <Link
               key={p.id}
               href={`/admin/posts/${p.id}`}
-              className="flex items-center justify-between py-3 border-b border-[#1F2421] last:border-0 hover:text-[#3DF49A] transition-colors group"
+              className="flex items-center justify-between py-3 border-b border-[#333333] last:border-0 hover:text-[#3DF49A] transition-colors group"
             >
               <div className="flex-1 min-w-0 mr-4">
                 <p
@@ -136,7 +136,7 @@ export default async function AdminDashboard() {
             <Link
               key={m.id}
               href="/admin/messages"
-              className="flex items-center justify-between py-3 border-b border-[#1F2421] last:border-0 group"
+              className="flex items-center justify-between py-3 border-b border-[#333333] last:border-0 group"
             >
               <div className="flex-1 min-w-0 mr-4">
                 <p
@@ -198,8 +198,8 @@ function StatCard({
   return (
     <Link
       href={href}
-      className={`block bg-[#0F0F0F] border rounded-xl p-5 transition-colors ${
-        accent ? 'border-[#3DF49A]/40 hover:border-[#3DF49A]' : 'border-[#1F2421] hover:border-[#2B302D]'
+      className={`block bg-[#222222] border rounded-xl p-5 transition-colors ${
+        accent ? 'border-[#3DF49A]/40 hover:border-[#3DF49A]' : 'border-[#333333] hover:border-[#444444]'
       }`}
     >
       <p
@@ -236,7 +236,7 @@ function Panel({
   children?: React.ReactNode
 }) {
   return (
-    <div className="bg-[#0F0F0F] border border-[#1F2421] rounded-xl p-5">
+    <div className="bg-[#222222] border border-[#333333] rounded-xl p-5">
       <div className="flex items-center justify-between mb-2">
         <h3
           className="text-base font-bold text-[#F3F6F4]"
@@ -277,7 +277,7 @@ function Badge({
 }) {
   const styles = {
     live: 'bg-[#3DF49A]/10 text-[#3DF49A]',
-    draft: 'bg-[#1F2421] text-[#8A938E]',
+    draft: 'bg-[#333333] text-[#8A938E]',
     unread: 'bg-[#3DF49A] text-[#06160E]',
   }[variant]
   return (
@@ -305,7 +305,7 @@ function QuickAction({
     <Link
       href={href}
       target={external ? '_blank' : undefined}
-      className="bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 hover:border-[#3DF49A]/40 transition-colors group flex items-center justify-between"
+      className="bg-[#222222] border border-[#333333] rounded-lg px-4 py-3 hover:border-[#3DF49A]/40 transition-colors group flex items-center justify-between"
     >
       <span
         className="text-[#F3F6F4] text-sm group-hover:text-[#3DF49A] transition-colors"
@@ -343,7 +343,7 @@ function SecondaryLink({ href, children }: { href: string; children: React.React
   return (
     <Link
       href={href}
-      className="px-4 py-2 text-sm bg-[#1F2421] text-[#F3F6F4] rounded-lg font-medium hover:bg-[#2B302D] transition-colors"
+      className="px-4 py-2 text-sm bg-[#333333] text-[#F3F6F4] rounded-lg font-medium hover:bg-[#333333] transition-colors"
       style={{ fontFamily: 'var(--font-jakarta)' }}
     >
       {children}

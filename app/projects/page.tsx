@@ -47,7 +47,7 @@ export default async function ProjectsPage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 md:gap-8 py-8 border-y border-[#1F2421]">
+          <div className="grid grid-cols-3 gap-4 md:gap-8 py-8 border-y border-[#333333]">
             <div>
               <p
                 className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
@@ -95,13 +95,13 @@ export default async function ProjectsPage() {
           {/* Technologies ticker, directly under the numbers. Most used first. */}
           <TechMarquee
             items={technologies}
-            className="blur-load border-b border-[#1F2421] py-4"
+            className="blur-load border-b border-[#333333] py-4"
           />
         </section>
 
         {/* ── ALL PROJECTS GRID ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#333333]">
             {allProjects.map((project, i) => (
               <ProjectCard key={project.name} project={project} index={i} />
             ))}

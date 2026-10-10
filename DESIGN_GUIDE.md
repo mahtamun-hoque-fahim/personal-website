@@ -25,9 +25,9 @@ All colors are defined as CSS variables in `app/globals.css` and extended into `
 :root {
   --accent:     #3DF49A;   /* primary green — CTAs, active states, highlights */
   --accent-dim: #5BFBA8;   /* hover/pressed state for accent */
-  --bg:         #070807;   /* page background */
-  --surface:    #0F0F0F;   /* card / panel background */
-  --border:     #1F2421;   /* default border color */
+  --bg:         #111111;   /* page background */
+  --surface:    #222222;   /* card / panel background */
+  --border:     #333333;   /* default border color */
   --text:       #F3F6F4;   /* primary text — warm white, not pure #fff */
   --muted:      #8A938E;   /* secondary / supporting text */
 }
@@ -35,18 +35,22 @@ All colors are defined as CSS variables in `app/globals.css` and extended into `
 
 ### Named Palette (reference)
 
+The neutrals are a strict four-step gray ladder: `#111111` (page), `#222222` (surfaces), `#333333` (lines and raised hover fills), `#444444` (ambient glow, and the stronger/hover border). Text keeps its own tones; the accent is unchanged.
+
 | Token          | Hex       | Usage                                              |
 |----------------|-----------|----------------------------------------------------|
 | `--accent`     | `#3DF49A` | CTAs, active nav underline, icons, eyebrow labels  |
 | `--accent-dim` | `#5BFBA8` | Accent hover / pressed states                      |
-| `--bg`         | `#070807` | Body background                                    |
-| `--surface`    | `#0F0F0F` | Cards, code blocks, admin panels                   |
-| `--border`     | `#1F2421` | All borders, dividers, grid lines                  |
+| `--bg`         | `#111111` | Body background, the cells of `gap-px` grids       |
+| `--surface`    | `#222222` | Cards, panels, inputs, code blocks, admin panels, the ticker band, hover fill on grid cells |
+| `--border`     | `#333333` | All borders, dividers, grid lines (the `bg` of a `gap-px` grid), decorative separators |
+| (no token)     | `#444444` | Ambient glow colour (`GLOW_RGB` in `MintGlow.tsx`, plus the closing-CTA glow), stronger/hover borders, the timeline dot border |
 | `--text`       | `#F3F6F4` | Primary readable text                              |
-| `--muted`      | `#8A938E` | Secondary text, meta info, placeholders            |
-| `#2B302D`      | —         | Ghost/faded numbers (post index, inactive states)  |
-| `#090A09`      | —         | Hover bg on list rows (slightly off `--bg`)        |
+| `--muted`      | `#8A938E` | Secondary text, meta info                          |
+| `#5C615E`      | —         | Dim text: placeholders, ghost numbers (post index, inactive states), the old dark-gray text tones |
 | `#C7CCCA`      | —         | Body copy inside `prose-dark` blog content         |
+
+Rule of thumb: a border must differ from the surface it sits on. Surfaces are `#222222`, so their borders are `#333333`; on a `#111111` page, `#333333` hairlines are the visible-but-quiet default.
 
 ### Convention: Hardcoded Hex Over Mapped Tokens
 
@@ -141,13 +145,13 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 | Page top (navbar) | `pt-32` (clears fixed nav)|
 | Section vertical  | `py-16` – `py-28`         |
 | Card inner        | `p-6` – `p-8`             |
-| Border gaps       | `gap-px bg-[#1F2421]` (CSS grid trick for 1px dividers between cards) |
+| Border gaps       | `gap-px bg-[#333333]` (CSS grid trick for 1px dividers between cards) |
 
 ### Grid System
 
-- **3-column service grid:** `grid-cols-1 md:grid-cols-3 gap-px bg-[#1F2421]` with `bg-[#070807]` children — creates seamless 1px separators
+- **3-column service grid:** `grid-cols-1 md:grid-cols-3 gap-px bg-[#333333]` with `bg-[#111111]` children — creates seamless 1px separators
 - **2-column content split:** `grid-cols-1 md:grid-cols-2 gap-16`
-- **Blog list:** `space-y-0` with `border-b border-[#1F2421]` per row
+- **Blog list:** `space-y-0` with `border-b border-[#333333]` per row
 
 ---
 
@@ -167,7 +171,7 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 
 // Secondary — ghost border, rounded-full
 <button
-  className="px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
+  className="px-7 py-3 border border-[#333333] text-[#F3F6F4] text-sm rounded-full
              hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
 >
@@ -176,7 +180,7 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 
 // Admin / small action — border, rounded-lg
 <button
-  className="text-xs px-3 py-1.5 border border-[#1F2421] rounded-lg text-[#8A938E]
+  className="text-xs px-3 py-1.5 border border-[#333333] rounded-lg text-[#8A938E]
              hover:text-[#3DF49A] hover:border-[#3DF49A] transition-colors"
   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
 >
@@ -187,12 +191,12 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 ### Cards / Surface Panels
 
 ```tsx
-<div className="bg-[#0F0F0F] border border-[#1F2421] rounded-xl p-6 md:p-8">
+<div className="bg-[#222222] border border-[#333333] rounded-xl p-6 md:p-8">
   ...
 </div>
 ```
 
-Hover state on interactive cards: `hover:bg-[#090A09]` or `hover:border-[#2B302D]`.
+Hover state on interactive cards: `hover:bg-[#222222]` or `hover:border-[#444444]`.
 
 ### Status Badges
 
@@ -204,7 +208,7 @@ Hover state on interactive cards: `hover:bg-[#090A09]` or `hover:border-[#2B302D
 </span>
 
 // Draft / inactive
-<span className="text-xs px-2 py-0.5 bg-[#2B302D] text-[#8A938E] border border-[#1F2421] rounded-full"
+<span className="text-xs px-2 py-0.5 bg-[#333333] text-[#8A938E] border border-[#333333] rounded-full"
   style={{ fontFamily: "'JetBrains Mono', monospace" }}>
   Draft
 </span>
@@ -222,15 +226,15 @@ Hover state on interactive cards: `hover:bg-[#090A09]` or `hover:border-[#2B302D
 </div>
 ```
 
-### Accent Glow (radial background)
+### CTA glow (radial background)
 
-Used on hero and CTA sections:
+A faint `#444444` glow at the bottom of the closing "Reach Out!" section on the homepage (it was mint before the 2026-10 palette change). The page-wide ambient glow is separate: `components/MintGlow.tsx`, constant `GLOW_RGB`.
 
 ```tsx
 <div
   className="absolute inset-0 pointer-events-none"
   style={{
-    background: 'radial-gradient(ellipse at center bottom, rgba(61,244,154,0.07) 0%, transparent 70%)',
+    background: 'radial-gradient(ellipse at center bottom, rgba(68,68,68,0.28) 0%, transparent 70%)',
   }}
 />
 ```
@@ -240,7 +244,7 @@ Used on hero and CTA sections:
 Terminal-style card used in the homepage personality section:
 
 ```tsx
-<div className="bg-[#0F0F0F] border border-[#1F2421] rounded-xl p-8"
+<div className="bg-[#222222] border border-[#333333] rounded-xl p-8"
   style={{ fontFamily: "'JetBrains Mono', monospace" }}>
   {/* Traffic light dots */}
   <div className="flex gap-2 mb-6">
@@ -255,13 +259,13 @@ Terminal-style card used in the homepage personality section:
 ### Skills Ticker (Marquee)
 
 ```tsx
-<div className="overflow-hidden border-y border-[#1F2421] py-4 bg-[#090A09]">
+<div className="overflow-hidden border-y border-[#333333] py-4 bg-[#222222]">
   <div className="flex gap-12 animate-marquee whitespace-nowrap">
     {ticker.map((skill, i) => (
       <span key={i} className="text-sm tracking-widest uppercase shrink-0"
         style={{ color: i % 3 === 0 ? '#3DF49A' : '#8A938E' }}>
         {skill}
-        <span className="ml-12 text-[#1F2421]">◆</span>
+        <span className="ml-12 text-[#333333]">◆</span>
       </span>
     ))}
   </div>
@@ -275,7 +279,7 @@ The `animate-marquee` keyframe runs `translateX(0% → -50%)` over 30s. Array mu
 ### Navbar
 
 - Fixed, `z-50`, transparent by default
-- On scroll (`window.scrollY > 40`): `bg-[#070807]/90 backdrop-blur-xl border-b border-[#1F2421]`
+- On scroll (`window.scrollY > 40`): `bg-[#111111]/90 backdrop-blur-xl border-b border-[#333333]`
 - Logo: `fahim` + `.` in `#3DF49A`
 - Active link: `text-[#3DF49A]` + `1px` underline via absolute `<span>`; other links slide the same underline in from the left on hover (`scale-x-0` to `scale-x-100`, `origin-left`)
 - Hidden on `/admin/*` routes
@@ -283,7 +287,7 @@ The `animate-marquee` keyframe runs `translateX(0% → -50%)` over 30s. Array mu
 
 ### Footer
 
-- `border-t border-[#1F2421] mt-24 py-12 px-6`
+- `border-t border-[#333333] mt-24 py-12 px-6`
 - Three columns: logo + tagline | nav links | copyright year
 - Year is dynamically rendered: `new Date().getFullYear()`
 
@@ -356,6 +360,15 @@ Fade + 6px blur + 8px rise. The keyframes define only `from` and use `backwards`
 | `.blur-stagger` | On a `Reveal` container of a small set of independent cards (skills, credentials grids): children reveal in turn (110ms steps, capped at 660ms). Observed once for the whole container, so do not use it on tall lists. |
 | Card in a `gap-px` grid | The cell (background, 1px lines, hover) stays visible; wrap only the card CONTENT in `<Reveal>` so each card blurs in on its own as it scrolls into view (see `ProjectCard`, home blog teaser). Hiding the cell itself would show the grid colour through it. Stagger cards that share a row with `delay={(index % columns) * 180}`. |
 | Tall list of bordered cards | Wrap each card in its own `<Reveal>` (see `/blog`); image cards use `--blur-from: 3px` to keep the reveal cheap. |
+
+### Hero portrait
+
+`components/HeroPortrait.tsx`, used once in the homepage hero. The full figure at natural proportions (`public/images/fahim-hero.webp`, transparent WebP, about 32 KB), no zoom, no mask, no extra glow (the page's ambient glow component, `MintGlow`, is the only light behind him; it is light gray now, see its `GLOW_RGB` constant). It lives inside a `relative` wrapper around the headline and intro row.
+- **Vertical:** the top sits just above the wrapper's top edge (`top` = -0.04 x the h1 font size, following the headline's `clamp(3.5rem, 10vw, 9rem)`), which puts the top of the head level with the top of the "Build" ascenders; the bottom is pushed down 4rem (`bottom-[-4rem]`) so the waist cut lands exactly on the stats rule. The 4rem is the `mt-16` above the rule in `app/page.tsx`, and the clamp must match the h1 there. Height comes from the layout and `aspect-[571/907]` derives the width.
+- **Horizontal:** `right-[10.5%]` of the container, so he stands in the free column right of the headline, not against the edge.
+- Behind the headline (`-z-10`), hidden below `sm`. Enters with `.blur-load` (220ms delay, 1.2s, 4px blur), so the route arrival gate holds it too. Plain `<img>` with `fetchPriority="high"` (the site does not use `next/image`). To change the photo, replace the WebP and update `width`/`height`.
+
+The hero "Let's talk" / "About me" buttons are behind `const SHOW_HERO_CTAS = false` at the top of `app/page.tsx`. Set it to `true` to bring them back; nothing else changes.
 
 ### Other motion
 
@@ -458,8 +471,8 @@ CF_PAGES=1
 | 2026-04-04 | Supabase client refactored for Edge safety — no singleton, Realtime disabled, `persistSession: false`. Fixes CF Pages blog crash. |
 | 2026-04-04 | `DESIGN_GUIDE.md` created — consolidated design system documentation   |
 | 2026-05-15 | Better Auth UI added — login, forgot password, reset password pages use existing design tokens (no new colors required) |
-| 2026-06-29 | Full palette + typeface rebrand: adopted the academic-line system from `learnDE`'s `DESIGN_GUIDE.md` — accent green `#3DF49A`→mint, `#070807` bg, Plus Jakarta Sans replacing Syne + Onest (JetBrains Mono unchanged). Every hardcoded hex and font reference updated across `app/`, `components/`, `lib/email.ts`, and this file. Scoped to color tokens + typography only — component structure (button shapes, badge sizes, spacing scale) was left as this project's own, not migrated to match learnDE's dashboard-oriented patterns. |
-| 2026-09-28 | `small-ui-fixes` branch (off `main`): "What I do" section moved from a hardcoded array to a `skills` table, CRUD-able from `/admin/skills`. Each skill has an optional thumbnail (Cloudinary, own `skill-<id>` public_id per skill). Section layout changed from a 3-column grid to a single-column list of rows: image beside text on desktop, image above text on phones. Thumbnail slot background (`#141712`) is a shade lighter than the page so transparent PNG uploads still read as a tile. |
+| 2026-06-29 | Full palette + typeface rebrand: adopted the academic-line system from `learnDE`'s `DESIGN_GUIDE.md` — accent green `#3DF49A`→mint, `#111111` bg, Plus Jakarta Sans replacing Syne + Onest (JetBrains Mono unchanged). Every hardcoded hex and font reference updated across `app/`, `components/`, `lib/email.ts`, and this file. Scoped to color tokens + typography only — component structure (button shapes, badge sizes, spacing scale) was left as this project's own, not migrated to match learnDE's dashboard-oriented patterns. |
+| 2026-09-28 | `small-ui-fixes` branch (off `main`): "What I do" section moved from a hardcoded array to a `skills` table, CRUD-able from `/admin/skills`. Each skill has an optional thumbnail (Cloudinary, own `skill-<id>` public_id per skill). Section layout changed from a 3-column grid to a single-column list of rows: image beside text on desktop, image above text on phones. Thumbnail slot background (`#222222`) is a shade lighter than the page so transparent PNG uploads still read as a tile. |
 | 2026-06-29 | Display font split back out from body: every heading/display element that was originally Syne (recovered from git history, not guessed) now uses Clash Display via Fontshare's CDN link; Plus Jakarta Sans stays for body/UI text. `--font-clash` added to `:root` with a Jakarta/sans-serif fallback chain. |
 | 2026-10-08 | Motion pass (`motion-polish`): CSS-only blur-fade reveal system, motion tokens, global reduced-motion guard, route fade, button press and focus states, navbar menu and contact form state animations. Section 8 rewritten; button snippets no longer use `transition-all` or hover grow. |
 
