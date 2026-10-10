@@ -4,7 +4,11 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Upload, X } from 'lucide-react'
 import type { SiteSettings, NewSiteSettings } from '@/lib/db/queries'
-import { MAX_AVATAR_BYTES } from '@/lib/constants'
+import {
+  MARQUEE_SPEED_MAX,
+  MARQUEE_SPEED_MIN,
+  MAX_AVATAR_BYTES,
+} from '@/lib/constants'
 import { saveSiteSettingsAction, uploadAvatarAction, removeAvatarAction } from '@/app/admin/actions'
 
 type Props = {
@@ -27,6 +31,7 @@ export default function SettingsForm({ settings }: Props) {
   const [keywords, setKeywords] = useState(settings.keywords.join(', '))
   const [ogTitle, setOgTitle] = useState(settings.ogTitle)
   const [ogDescription, setOgDescription] = useState(settings.ogDescription)
+  const [marqueeSpeed, setMarqueeSpeed] = useState(settings.marqueeSpeed)
 
   const handleSave = async () => {
     if (!title.trim() || !description.trim()) {
@@ -47,6 +52,7 @@ export default function SettingsForm({ settings }: Props) {
         .filter(Boolean),
       ogTitle: ogTitle.trim(),
       ogDescription: ogDescription.trim(),
+      marqueeSpeed,
     }
 
     try {
@@ -242,6 +248,32 @@ export default function SettingsForm({ settings }: Props) {
           />
         </Field>
       </div>
+
+      <Field label="Strip speed">
+        <div className="flex items-center gap-4">
+          <input
+            type="range"
+            min={MARQUEE_SPEED_MIN}
+            max={MARQUEE_SPEED_MAX}
+            step={5}
+            value={marqueeSpeed}
+            onChange={(e) => setMarqueeSpeed(Number(e.target.value))}
+            className="w-full accent-[#3DF49A]"
+            aria-label="Strip speed in pixels per second"
+          />
+          <span
+            className="w-20 shrink-0 text-right text-sm text-[#F3F6F4]"
+            style={{ fontFamily: 'var(--font-jetbrains)' }}
+          >
+            {marqueeSpeed} px/s
+          </span>
+        </div>
+        <Hint>
+          How fast the scrolling strips move (the skills strip on the homepage
+          and the technologies strip on /projects). One value for both, so they
+          always match. Higher is faster.
+        </Hint>
+      </Field>
 
       <div className="flex items-center justify-between pt-4 border-t border-[#333333]">
         <p

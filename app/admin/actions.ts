@@ -1,5 +1,10 @@
 'use server'
 
+import {
+  MARQUEE_SPEED_DEFAULT,
+  MARQUEE_SPEED_MAX,
+  MARQUEE_SPEED_MIN,
+} from '@/lib/constants'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { revalidatePath, revalidateTag } from 'next/cache'
@@ -111,12 +116,21 @@ export async function removeAvatarAction() {
 }
 
 export async function saveSiteSettingsAction(updates: Partial<NewSiteSettings>) {
+  // Strip speed is the only numeric setting: keep it inside the range the
+  // dashboard offers, whatever a client sends.
+  if (updates.marqueeSpeed !== undefined) {
+    const speed = Math.round(Number(updates.marqueeSpeed))
+    updates.marqueeSpeed = Number.isFinite(speed)
+      ? Math.min(Math.max(speed, MARQUEE_SPEED_MIN), MARQUEE_SPEED_MAX)
+      : MARQUEE_SPEED_DEFAULT
+  }
   const updated = await updateSiteSettings(updates)
   // The public site reads settings through the cached getCachedSiteSettings()
   // (unstable_cache, 1h revalidate) — revalidateTag clears that cache entry
   // immediately; revalidatePath('/') refreshes the homepage render on top.
   revalidateTag('site-settings', 'max')
   revalidatePath('/')
+  revalidatePath('/projects')
   revalidatePath('/admin/settings')
   return updated
 }

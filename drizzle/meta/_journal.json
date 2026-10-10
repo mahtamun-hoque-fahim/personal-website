@@ -85,6 +85,13 @@
       "when": 1791501986085,
       "tag": "0011_remove_project_type",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1791647206719,
+      "tag": "0012_site_marquee_speed",
+      "breakpoints": true
     }
   ]
 }
