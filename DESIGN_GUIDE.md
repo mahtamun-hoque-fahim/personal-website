@@ -361,6 +361,10 @@ Fade + 6px blur + 8px rise. The keyframes define only `from` and use `backwards`
 | Card in a `gap-px` grid | The cell (background, 1px lines, hover) stays visible; wrap only the card CONTENT in `<Reveal>` so each card blurs in on its own as it scrolls into view (see `ProjectCard`, home blog teaser). Hiding the cell itself would show the grid colour through it. Stagger cards that share a row with `delay={(index % columns) * 180}`. |
 | Tall list of bordered cards | Wrap each card in its own `<Reveal>` (see `/blog`); image cards use `--blur-from: 3px` to keep the reveal cheap. |
 
+### About page blocks
+
+Two text blocks above the call to action, laid out as a wireframe (the cell borders in that wireframe were only explanatory; the real page has none): the EXTRA block (new) is image on the left (36.5% of the width) and heading plus text on the right; the STORY block is text on the left (63.5%) and image on the right. Both images are square (`aspect-square`, `object-cover`, `rounded-xl`), lazy-loaded, reveal with a light blur, and stack on phones (image first for the extra block, text first for the story). Every part is optional: the extra block does not render while its heading and text are both empty, and a block without an image lets the text take the full width. Everything comes from `about_content` and is edited in Admin > About (including the two image uploads, stored in Cloudinary at `personal-website/about/about-extra` and `about-story`). `squareImage()` in `app/about/page.tsx` asks Cloudinary for a 900px smart-cropped (`g_auto`), compressed, best-format version instead of the raw upload.
+
 ### Hero portrait
 
 `components/HeroPortrait.tsx`, used once in the homepage hero. The full figure at natural proportions (`public/images/fahim-hero.webp`, transparent WebP, about 32 KB), no zoom, no mask, no extra glow (the page's ambient glow component, `MintGlow`, is the only light behind him; it is light gray now, see its `GLOW_RGB` constant). It lives inside a `relative` wrapper around the headline and intro row.
