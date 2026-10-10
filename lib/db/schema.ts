@@ -115,7 +115,6 @@ export const projects = pgTable(
     tagline: text('tagline').notNull(),
     description: text('description').notNull(),
     tags: text('tags').array().notNull().default(sql`'{}'::text[]`),
-    type: text('type').notNull(),
     liveUrl: text('live_url'),
     repoUrl: text('repo_url').notNull(),
     featured: boolean('featured').notNull().default(false),

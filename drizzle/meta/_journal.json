@@ -78,6 +78,13 @@
       "when": 1791431567963,
       "tag": "0010_about_homepage_teaser",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1791501986085,
+      "tag": "0011_remove_project_type",
+      "breakpoints": true
     }
   ]
 }

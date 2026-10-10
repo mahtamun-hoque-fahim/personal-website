@@ -70,6 +70,7 @@ app/
 │       └── MarkReadButton.tsx
 ├── api/auth/[...all]/route.ts   toNextJsHandler(auth)
 ├── layout.tsx
+├── template.tsx                 route enter fade (opacity only, skipped on /admin)
 ├── not-found.tsx
 ├── robots.ts
 └── sitemap.ts
@@ -79,6 +80,9 @@ components/
 ├── ContactForm.tsx              client; calls submitContactMessage action
 ├── ProjectCard.tsx              status pill display, conditional BetaModal
 ├── ProjectsSection.tsx
+├── Reveal.tsx                   client; scroll-triggered blur-fade reveal (one IntersectionObserver, plays once)
+├── BlurWords.tsx                per-word blur-in; mode 'load' (pure CSS) or 'scroll' (via Reveal)
+├── TechMarquee.tsx              looping name ticker (used under the /projects hero stats)
 └── CopyCodeInit.tsx
 docs/
 └── PROJECT_JSON_SCHEMA.md       bulk-import schema reference (paste into Paste JSON tab)
@@ -123,7 +127,7 @@ scripts/
 
 - `blog_posts`: uuid, title, slug (unique), excerpt, content, cover_image, published, tags[], reading_time, timestamps
 - `contact_messages`: uuid, name, email, subject, message, country, read, created_at
-- `projects`: uuid, name (unique), tagline, description, tags[], type, live_url, repo_url, featured, featured_order, **status_badges text[]** (default `{}`), **collaborators jsonb** (default `[]`, shape `[{ name, url? }]`), timestamps
+- `projects`: uuid, name (unique), tagline, description, tags[], live_url, repo_url, featured, featured_order, **status_badges text[]** (default `{}`), **collaborators jsonb** (default `[]`, shape `[{ name, url? }]`), timestamps
 - `site_settings`: integer id (always `1`, single row), title, description, job_title, **avatar_url** (nullable), keywords text[], og_title, og_description, updated_at — feeds `generateMetadata()` in `app/layout.tsx`, the root layout's Person JSON-LD, and the blog post JSON-LD author block. Read through `getCachedSiteSettings()` (`unstable_cache`, 1h revalidate, tag `site-settings`); written via admin `/admin/settings`.
 - `about_content`: integer id (always `1`, single row), headline_top, headline_accent, intro, story_heading, story_paragraphs text[], cta_heading, cta_text, cta_primary_label, cta_secondary_label, **home_heading, home_paragraph_one, home_paragraph_two, home_link_label, home_card_role, home_card_description text[], home_card_stack text[], home_card_availability text[], home_card_obsessions text[]**, updated_at. Feeds the public `/about` page and the homepage teaser block; column defaults equal the previous hardcoded copy
 
@@ -204,7 +208,7 @@ This writes directly through Better Auth (bypassing the UI), but still passes th
 **Projects manager (`/admin/projects`)**
 
 - Full CRUD: Create / Edit / Delete / Feature toggle / Reorder (↑↓)
-- Form fields: name, type, tags (CSV), tagline, description, liveUrl, repoUrl, statusBadges, collaborators
+- Form fields: name, tags (CSV), tagline, description, liveUrl, repoUrl, statusBadges, collaborators
 - **Status badges**: 4 toggleable pills (`live` / `beta` / `deprecated` / `funding`) — any combination
 - **Collaborators**: repeater of `{ name, url? }` entries — strings or objects
 - **JSON bulk import tab**: upsert by `name`, accepts single object / array / `{ projects: [...] }`, per-row outcome panel (✓ new / ↻ updated / ✗ error)
@@ -319,11 +323,14 @@ cf:typegen  wrangler types -> cloudflare-env.d.ts
 | Dashboard-driven About content | [x]   | `about_content` table + `/admin/about`, read by `app/about/page.tsx` and the homepage teaser through a cached query |
 | Avatar upload (Cloudinary)    | [x]    | Signed upload via Web Crypto (no Node SDK), fixed public_id, wired into AuthorCard + Person JSON-LD |
 | Blog AuthorCard + JSON-LD     | [x]    | `AuthorCard.tsx` on post pages, Article schema with nested author added |
+| Motion pass (branch `motion-polish`) | [x] | CSS-only blur-fade reveals (`Reveal`, `BlurWords`, slowed to 900ms/800ms after review), per-card reveals, hero entrance, route fade, button press, focus rings, navbar menu, contact form states, reduced-motion guard. No framer-motion. |
 
 ---
 
 ## Next steps
 
+- Review `motion-polish` on a Vercel preview (real fonts, real DB): scroll reveals, hero on slow 4G, mobile menu, reduced-motion, and `npm run build` (which cannot run in a sandbox without Google Fonts egress). Not done in the motion pass: card hover polish, `loading.tsx` skeletons (needs a Navbar decision, since each page renders its own), beta popup enter animation (check the popup is still reachable first).
+- `framer-motion` is still in `package.json` but imported nowhere. Remove it if the CSS-only approach stays.
 - Apply the `status_badges` + `collaborators` migrations on production Neon if not already done (`npm run db:push` or run ALTER TABLEs)
 - Apply migration `0002` (`site_settings`) on production Neon — `npx drizzle-kit migrate`. Until then `getSiteSettings()` falls back to hardcoded defaults matching current content, so nothing breaks, but `/admin/settings` writes will fail until the table exists.
 - Apply migration `0003` (`site_settings.avatar_url`) at the same time.

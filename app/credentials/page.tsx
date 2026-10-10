@@ -10,6 +10,9 @@ import {
   getCredentialCommunity,
   getCredentialContributions,
 } from '@/lib/db/queries'
+import BlurWords from '@/components/BlurWords'
+import Reveal from '@/components/Reveal'
+import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
   title: 'Credentials & Journey',
@@ -376,15 +379,10 @@ export default async function CredentialsPage() {
         {/* ── HERO ──────────────────────────────────────────────────── */}
         <section className="max-w-6xl mx-auto px-6 pb-20">
 
-          <h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-8"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            The Long Game.
-          </h1>
+          <BlurWords as="h1" text="The Long Game." mode="load" className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-8" style={{ fontFamily: 'var(--font-clash)' }} />
           <p
-            className="text-[#8A938E] text-xl max-w-2xl leading-relaxed mb-12"
-            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+            className="blur-load text-[#8A938E] text-xl max-w-2xl leading-relaxed mb-12"
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '220ms' } as CSSProperties}
           >
             7+ years designing. 4+ years building. Every cert, role, and field 
             experience — in one place.
@@ -399,12 +397,7 @@ export default async function CredentialsPage() {
         <section className="bg-[#090A09] border-t border-b border-[#1F2421]">
           <div className="max-w-6xl mx-auto px-6 py-20">
             <div className="flex items-center gap-3 mb-4">
-              <h2
-                className="text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                Experience & Education
-              </h2>
+              <BlurWords as="h2" text="Experience & Education" className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }} />
             </div>
             <p
               className="text-[#8A938E] text-sm mb-16"
@@ -439,7 +432,7 @@ export default async function CredentialsPage() {
                       {/* Dot */}
                       <div className="relative z-10 shrink-0 hidden md:block mt-1.5">
                         <div
-                          className="w-3 h-3 rounded-full border-2 transition-all duration-200 group-hover:scale-125"
+                          className="w-3 h-3 rounded-full border-2 transition-[transform,border-color,background-color] duration-200 group-hover:scale-125"
                           style={{
                             borderColor: event.isCurrent ? '#3DF49A' : isLast ? '#2B302D' : '#2B302D',
                             background: event.isCurrent ? '#3DF49A' : '#070807',
@@ -498,12 +491,7 @@ export default async function CredentialsPage() {
 
         {/* ── CREDENTIAL CLUSTERS ───────────────────────────────────── */}
         <section className="max-w-6xl mx-auto px-6 py-20">
-          <h2
-            className="text-4xl font-bold text-[#F3F6F4] mb-4"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            Certifications
-          </h2>
+          <BlurWords as="h2" text="Certifications" className="text-4xl font-bold text-[#F3F6F4] mb-4" style={{ fontFamily: 'var(--font-clash)' }} />
           <p
             className="text-[#8A938E] text-sm mb-16"
             style={{ fontFamily: 'var(--font-jakarta)' }}
@@ -529,7 +517,7 @@ export default async function CredentialsPage() {
                 </div>
 
                 {/* Cert cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <Reveal blurSelf={false} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 blur-stagger">
                   {cluster.certs.map((cert) => (
                     <div
                       key={cert.name}
@@ -585,7 +573,7 @@ export default async function CredentialsPage() {
                       </div>
                     </div>
                   ))}
-                </div>
+                </Reveal>
               </div>
             ))}
           </div>
@@ -594,12 +582,7 @@ export default async function CredentialsPage() {
         {/* ── COMMUNITY & SERVICE ───────────────────────────────────── */}
         <section className="bg-[#090A09] border-t border-b border-[#1F2421]">
           <div className="max-w-6xl mx-auto px-6 py-20">
-            <h2
-              className="text-4xl font-bold text-[#F3F6F4] mb-4"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              Community & Service
-            </h2>
+            <BlurWords as="h2" text="Community & Service" className="text-4xl font-bold text-[#F3F6F4] mb-4" style={{ fontFamily: 'var(--font-clash)' }} />
             <p
               className="text-[#8A938E] text-sm mb-12"
               style={{ fontFamily: 'var(--font-jakarta)' }}
@@ -607,7 +590,7 @@ export default async function CredentialsPage() {
               Beyond the screen.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Reveal blurSelf={false} className="grid grid-cols-1 md:grid-cols-2 gap-4 blur-stagger">
               {communityRoles.map((role) => (
                 <div
                   key={role.title}
@@ -666,7 +649,7 @@ export default async function CredentialsPage() {
                   )}
                 </div>
               ))}
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -674,12 +657,7 @@ export default async function CredentialsPage() {
         <section className="max-w-6xl mx-auto px-6 py-20">
           <div className="flex items-center gap-3 mb-4">
             <Star className="w-5 h-5 text-[#3DF49A]" />
-            <h2
-              className="text-4xl font-bold text-[#F3F6F4]"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              Notable Contributions
-            </h2>
+            <BlurWords as="h2" text="Notable Contributions" className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }} />
           </div>
           <p
             className="text-[#8A938E] text-sm mb-12"
@@ -688,11 +666,11 @@ export default async function CredentialsPage() {
             Third-party shipped work. Not portfolio pieces — actual releases.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Reveal blurSelf={false} className="grid grid-cols-1 md:grid-cols-2 gap-6 blur-stagger">
             {contributions.map((item) => (
               <div
                 key={item.title}
-                className="border border-[#1F2421] rounded-xl p-8 hover:border-[#3DF49A]/30 transition-all duration-300 group"
+                className="border border-[#1F2421] rounded-xl p-8 hover:border-[#3DF49A]/30 transition-[border-color] duration-300 group"
               >
                 <p
                   className="text-[10px] text-[#3DF49A] tracking-[0.15em] uppercase mb-3"
@@ -724,7 +702,7 @@ export default async function CredentialsPage() {
                 </a>
               </div>
             ))}
-          </div>
+          </Reveal>
         </section>
 
         {/* ── CTA ───────────────────────────────────────────────────── */}
@@ -748,7 +726,7 @@ export default async function CredentialsPage() {
               <Link
                 href="/contact"
                 className="w-full sm:w-auto text-center px-6 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                           hover:bg-[#5BFBA8] transition-all duration-200"
+                           hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 Get in touch
@@ -758,7 +736,7 @@ export default async function CredentialsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto justify-center px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-                           hover:border-[#8A938E] transition-all duration-200 inline-flex items-center gap-1.5"
+                           hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97] inline-flex items-center gap-1.5"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 LinkedIn

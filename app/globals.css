@@ -11,6 +11,10 @@
   --text: #F3F6F4;
   --muted: #8A938E;
   --font-clash: var(--font-syne), sans-serif; /* title-font comparison: Syne instead of Clash Display */
+
+  /* Motion tokens (see DESIGN_GUIDE.md section 8) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);     /* entrances, press feedback */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement */
 }
 
 * {
@@ -287,4 +291,146 @@ body::before {
 
 .prose-dark tr:hover td {
   background: #121312;
+}
+
+/* Reduced motion: no movement, no blur, no looping. State changes stay
+   instant so nothing depends on an animation finishing. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+/* ── Blur reveal ──────────────────────────────────────────────────────
+   Fade + blur + a small rise. Used per word (BlurWords) and per block
+   (Reveal).
+
+   The keyframes only define `from`. The end state is whatever the element
+   normally looks like (the implicit `to` frame), and `backwards` fill only
+   holds the hidden `from` frame during the delay. So once a reveal ends,
+   the animation lets go completely: no leftover blur layer, stacking
+   context or forced `opacity: 1`, and elements with their own opacity
+   (dimmed cards) or hover styles keep working.
+
+   The hidden state is dropped the moment `data-revealed` is set, and it
+   only applies when scripting is enabled, so without JS the content simply
+   shows. Reduced motion is handled by the global guard above (animations
+   collapse to 0.01ms). */
+@keyframes blur-reveal {
+  from {
+    opacity: 0;
+    filter: blur(var(--blur-from, 6px));
+    transform: translateY(var(--reveal-y, 8px));
+  }
+}
+
+.blur-word {
+  display: inline-block;
+}
+
+@media (scripting: enabled) {
+  .blur-reveal:not([data-revealed='true']),
+  .blur-stagger:not([data-revealed='true']) > *,
+  .blur-words:not(.blur-words-load):not([data-revealed='true']) .blur-word {
+    opacity: 0;
+    filter: blur(var(--blur-from, 6px));
+    transform: translateY(var(--reveal-y, 8px));
+  }
+}
+
+.blur-reveal[data-revealed='true'] {
+  animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
+    var(--reveal-delay, 0ms) backwards;
+}
+
+.blur-words[data-revealed='true'] .blur-word {
+  animation: blur-reveal var(--word-duration, 800ms) var(--ease-out)
+    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 70ms)) backwards;
+}
+
+/* Above the fold: plays on first paint, no JS needed. `backwards` fill
+   keeps the words hidden during their delay without a hidden base state. */
+.blur-words-load .blur-word {
+  animation: blur-reveal var(--word-duration, 800ms) var(--ease-out)
+    calc(var(--delay, 0ms) + var(--i, 0) * var(--stagger, 70ms)) backwards;
+}
+
+.blur-load {
+  animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
+    var(--reveal-delay, 0ms) backwards;
+}
+
+/* Independent cards in a list: each child reveals in turn once the
+   container is in view. Not for gap-px grids, where the grid colour
+   would show through the hidden cells; reveal those as one block. */
+.blur-stagger[data-revealed='true'] > * {
+  animation: blur-reveal var(--reveal-duration, 900ms) var(--ease-out)
+    var(--reveal-delay, 0ms) backwards;
+}
+/* 110ms steps, capped at 660ms so long lists do not drag */
+.blur-stagger > :nth-child(2) { --reveal-delay: 110ms; }
+.blur-stagger > :nth-child(3) { --reveal-delay: 220ms; }
+.blur-stagger > :nth-child(4) { --reveal-delay: 330ms; }
+.blur-stagger > :nth-child(5) { --reveal-delay: 440ms; }
+.blur-stagger > :nth-child(6) { --reveal-delay: 550ms; }
+.blur-stagger > :nth-child(n + 7) { --reveal-delay: 660ms; }
+
+/* Keyboard focus: one visible, consistent ring for every interactive
+   element. :focus-visible means mouse clicks do not show it. Inputs
+   draw their own ring (see ContactForm), so they are not listed here. */
+:where(a, button, [role='button'], summary):focus-visible {
+  outline: 2px solid #3df49a;
+  outline-offset: 3px;
+}
+
+/* Route enter: short opacity fade, replayed by app/template.tsx on every
+   navigation. It targets <main> and <footer> only, never the wrapper:
+   the navbar is a sibling of <main> and uses backdrop-filter, and an
+   ancestor with an opacity animation becomes a "backdrop root" that cuts
+   that blur off. `from`-only keyframes plus `backwards` fill also release
+   the animation when it ends instead of pinning `opacity: 1`. */
+@keyframes route-enter {
+  from { opacity: 0; }
+}
+.route-enter > main,
+.route-enter > footer {
+  animation: route-enter 180ms var(--ease-out) backwards;
+}
+
+/* Arrival gate (set by app/template.tsx): when a page mounts while still
+   scrolled down, hold the timer-based hero entrance until the smooth
+   scroll-to-top arrives. A paused animation with `backwards` fill stays on
+   its hidden `from` frame. */
+.route-enter[data-await-top] .blur-load,
+.route-enter[data-await-top] .blur-words-load .blur-word {
+  animation-play-state: paused;
+}
+
+/* Contact form success: the circle pops in, then the check draws itself.
+   Both end in their normal resting state, so reduced motion (animations
+   collapsed to 0.01ms) lands on the finished check with no extra rules. */
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes check-draw {
+  to { stroke-dashoffset: 0; }
+}
+.pop-in {
+  animation: pop-in 420ms var(--ease-out) both;
+}
+.check-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: check-draw 420ms var(--ease-out) 220ms forwards;
 }

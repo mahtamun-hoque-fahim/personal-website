@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
 import { submitContactMessage } from '@/app/contact/actions'
 
 type FormState = 'idle' | 'loading' | 'success' | 'error'
@@ -47,9 +48,9 @@ export default function ContactForm() {
 
   if (state === 'success') {
     return (
-      <div className="flex flex-col items-start justify-center h-full py-12">
+      <div className="flex flex-col items-start justify-center h-full py-12 blur-load">
         <div
-          className="w-12 h-12 rounded-full bg-[#3DF49A]/10 border border-[#3DF49A]/30 flex items-center justify-center mb-6"
+          className="w-12 h-12 rounded-full bg-[#3DF49A]/10 border border-[#3DF49A]/30 flex items-center justify-center mb-6 pop-in"
           aria-hidden="true"
         >
           <svg
@@ -62,7 +63,7 @@ export default function ContactForm() {
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <polyline points="20 6 9 17 4 12" />
+            <polyline className="check-draw" pathLength="1" points="20 6 9 17 4 12" />
           </svg>
         </div>
         <h3
@@ -106,7 +107,7 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Your name"
             className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] focus:shadow-[0_0_0_3px_rgba(61,244,154,0.12)] transition-[border-color,box-shadow] duration-200"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
         </div>
@@ -125,7 +126,7 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="your@email.com"
             className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors"
+                       placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] focus:shadow-[0_0_0_3px_rgba(61,244,154,0.12)] transition-[border-color,box-shadow] duration-200"
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
         </div>
@@ -144,7 +145,7 @@ export default function ContactForm() {
           value={form.subject}
           onChange={handleChange}
           className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                     focus:outline-none focus:border-[#3DF49A] transition-colors"
+                     focus:outline-none focus:border-[#3DF49A] focus:shadow-[0_0_0_3px_rgba(61,244,154,0.12)] transition-[border-color,box-shadow] duration-200"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         >
           <option value="">Select a topic</option>
@@ -171,14 +172,15 @@ export default function ContactForm() {
           onChange={handleChange}
           placeholder="Tell me about what you're building..."
           className="w-full bg-[#0F0F0F] border border-[#1F2421] rounded-lg px-4 py-3 text-sm text-[#F3F6F4]
-                     placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] transition-colors resize-none"
+                     placeholder:text-[#2B302D] focus:outline-none focus:border-[#3DF49A] focus:shadow-[0_0_0_3px_rgba(61,244,154,0.12)] transition-[border-color,box-shadow] duration-200 resize-none"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         />
       </div>
 
       {state === 'error' && (
         <p
-          className="text-red-400 text-sm"
+          role="alert"
+          className="text-red-400 text-sm blur-load"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         >
           {error}
@@ -188,12 +190,21 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={state === 'loading'}
+        aria-busy={state === 'loading'}
         className="w-full py-3.5 bg-[#3DF49A] text-[#06160E] font-semibold text-sm rounded-lg
-                   hover:bg-[#5BFBA8] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
-                   hover:scale-[1.01] active:scale-[0.99]"
+                   inline-flex items-center justify-center gap-2
+                   hover:bg-[#5BFBA8] transition-[background-color,transform,opacity] duration-200 disabled:opacity-50 disabled:cursor-not-allowed
+                   active:scale-[0.98]"
         style={{ fontFamily: 'var(--font-jakarta)' }}
       >
-        {state === 'loading' ? 'Sending...' : 'Send message →'}
+        {state === 'loading' ? (
+          <>
+            <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+            Sending...
+          </>
+        ) : (
+          'Send message →'
+        )}
       </button>
     </form>
   )

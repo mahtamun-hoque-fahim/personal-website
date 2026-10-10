@@ -159,7 +159,7 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 // Primary CTA — filled accent, rounded-full
 <button
   className="px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-             hover:bg-[#5BFBA8] transition-all duration-200 hover:scale-105 active:scale-95"
+             hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
 >
   Let's talk
@@ -168,7 +168,7 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 // Secondary — ghost border, rounded-full
 <button
   className="px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-             hover:border-[#8A938E] transition-all duration-200"
+             hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
 >
   About me
@@ -268,16 +268,18 @@ Terminal-style card used in the homepage personality section:
 </div>
 ```
 
-The `animate-marquee` keyframe runs `translateX(0% → -50%)` over 30s. Array must be doubled (`[...skills, ...skills]`) for seamless looping.
+The `animate-marquee` keyframe runs `translateX(0% → -50%)` over 30s. Array must be doubled (`[...skills, ...skills]`) for seamless looping, and the track must be `w-max`: `translateX(-50%)` is half of the track's OWN width, so a track that is only as wide as its container loops at the wrong point.
+
+`components/TechMarquee.tsx` is the reusable version (used on `/projects`, directly under the hero stats): it doubles the list itself, marks the second copy `aria-hidden`, fades both edges with a `mask-image`, pauses on hover, and scales `animationDuration` with the item count (2.5s per item) so the speed stays constant for long lists. Items on `/projects` are the unique project tags, most used first.
 
 ### Navbar
 
 - Fixed, `z-50`, transparent by default
 - On scroll (`window.scrollY > 40`): `bg-[#070807]/90 backdrop-blur-xl border-b border-[#1F2421]`
 - Logo: `fahim` + `.` in `#3DF49A`
-- Active link: `text-[#3DF49A]` + `1px` underline via absolute `<span>`
+- Active link: `text-[#3DF49A]` + `1px` underline via absolute `<span>`; other links slide the same underline in from the left on hover (`scale-x-0` to `scale-x-100`, `origin-left`)
 - Hidden on `/admin/*` routes
-- Mobile: full-screen overlay with staggered `animationDelay`
+- Mobile: full-screen overlay. Links fade, rise and de-blur in with a staggered `transitionDelay` (80ms + 50ms per link); closing is immediate. The closed menu is `invisible` so its links leave the tab order. Esc closes it, body scroll is locked while open, and the button carries `aria-expanded`.
 
 ### Footer
 
@@ -324,12 +326,54 @@ Blog post content is rendered from Markdown via a custom `renderMarkdown()` func
 
 ## 8. Animations
 
-All defined in `tailwind.config.ts`:
+### Principles
+
+- **CSS-first.** No animation library. `framer-motion` is installed but unused; adding it would cost bundle for no gain here.
+- **Animate `opacity`, `transform` and (sparingly) `filter` only.** Never `transition-all`; list the properties (`transition-[background-color,transform]`).
+- **Reveal once.** Scroll reveals play a single time per page view, then the observer is dropped.
+- **Motion never delays reading.** Headings may reveal per word; paragraphs reveal as one block. Not used on blog post bodies, nav, footer, form fields or `/admin`.
+- **Reduced motion is global.** `@media (prefers-reduced-motion: reduce)` in `globals.css` collapses every animation and transition to 0.01ms, so content simply appears. The MintGlow parallax skips itself.
+- **Hidden states only exist under `@media (scripting: enabled)`**, so visitors without JS see all content.
+
+### Tokens
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--ease-out` / `ease-ui-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | entrances, press feedback |
+| `--ease-in-out` / `ease-ui-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | on-screen movement (hamburger bars) |
+
+Durations: press 200ms, hover 150-300ms, route fade 180ms, block reveal 900ms, per-word reveal 800ms with a 70ms stagger between words. Hero delays: sub text 340ms, buttons 480ms, stats 620ms. Everything is driven by CSS variables (`--reveal-duration`, `--word-duration`, `--stagger`, `--reveal-delay`) with the defaults in `globals.css`, so retiming is a one-line change.
+
+### Blur reveal (the signature effect)
+
+Fade + 6px blur + 8px rise. The keyframes define only `from` and use `backwards` fill, so the end state is the element's normal style: no leftover blur layer or stacking context, and elements with their own opacity (dimmed cards) or hover styles keep working. Do not switch the fill to `both`/`forwards`: that pins `opacity: 1` and silently overrides those.
+
+| Piece | What it does |
+|-------|--------------|
+| `components/BlurWords.tsx` | Per-word blur-in. `mode="load"` is pure CSS (above the fold, no wait for hydration); `mode="scroll"` waits for view. Knobs: `delay`, `stagger` (ms between words), `duration` (ms per word). |
+| `components/Reveal.tsx` | Client wrapper, one IntersectionObserver, sets `data-revealed` once. Props: `as`, `delay`, `blurSelf={false}` for wrappers whose children animate. |
+| `.blur-load` | CSS-only entrance for above-the-fold blocks; delay via `--reveal-delay`. |
+| `.blur-stagger` | On a `Reveal` container of a small set of independent cards (skills, credentials grids): children reveal in turn (110ms steps, capped at 660ms). Observed once for the whole container, so do not use it on tall lists. |
+| Card in a `gap-px` grid | The cell (background, 1px lines, hover) stays visible; wrap only the card CONTENT in `<Reveal>` so each card blurs in on its own as it scrolls into view (see `ProjectCard`, home blog teaser). Hiding the cell itself would show the grid colour through it. Stagger cards that share a row with `delay={(index % columns) * 180}`. |
+| Tall list of bordered cards | Wrap each card in its own `<Reveal>` (see `/blog`); image cards use `--blur-from: 3px` to keep the reveal cheap. |
+
+### Other motion
+
+| Where | Behavior |
+|-------|----------|
+| Route change | `app/template.tsx`: 180ms opacity fade on enter, replayed every navigation, applied to `<main>` and `<footer>` only (never an ancestor of the navbar: an opacity animation on an ancestor kills the navbar's `backdrop-filter`). Enter-only (exit animations need a router-freezing hack). Skipped on `/admin`. |
+| Arrival gate | The site uses `scroll-behavior: smooth`, so after a link click from far down a page Next scrolls to the top smoothly. If the new page mounts scrolled down, `app/template.tsx` sets `data-await-top`, which pauses the hero entrance (`.blur-load`, `BlurWords mode="load"`) until `scrollY` is within 24px of the top (2s safety timeout). At the top on mount nothing is gated, so first paint never waits for JS. Scroll-triggered reveals need no gate (they fire when in view). |
+| Buttons | `active:scale-[0.97]` press. No hover grow. |
+| Keyboard focus | `:focus-visible` mint outline (2px, 3px offset) on links and buttons; form fields use a soft 3px mint ring. |
+| Contact form | Spinner while sending; success circle pops in and the check draws (`.pop-in`, `.check-draw`); error message eases in with `role="alert"`. |
+| Skills ticker | Pauses on hover. |
+
+### Tailwind keyframes (`tailwind.config.ts`)
 
 | Name            | Keyframe                             | Duration   | Usage                    |
 |-----------------|--------------------------------------|------------|--------------------------|
-| `animate-fade-up`  | opacity 0→1, translateY 24px→0    | 0.6s ease  | Page entrance elements   |
-| `animate-fade-in`  | opacity 0→1                       | 0.4s ease  | Subtle content reveals   |
+| `animate-fade-up`  | opacity 0→1, translateY 24px→0    | 0.6s ease  | Currently unused (superseded by blur reveal) |
+| `animate-fade-in`  | opacity 0→1                       | 0.4s ease  | Currently unused         |
 | `animate-marquee`  | translateX(0% → -50%)             | 30s linear | Skills ticker            |
 | `animate-spin-slow` | Full rotation                    | 8s linear  | Reserved for future use  |
 | `animate-pulse`    | Tailwind built-in                 | —          | Availability dot         |
@@ -417,5 +461,6 @@ CF_PAGES=1
 | 2026-06-29 | Full palette + typeface rebrand: adopted the academic-line system from `learnDE`'s `DESIGN_GUIDE.md` — accent green `#3DF49A`→mint, `#070807` bg, Plus Jakarta Sans replacing Syne + Onest (JetBrains Mono unchanged). Every hardcoded hex and font reference updated across `app/`, `components/`, `lib/email.ts`, and this file. Scoped to color tokens + typography only — component structure (button shapes, badge sizes, spacing scale) was left as this project's own, not migrated to match learnDE's dashboard-oriented patterns. |
 | 2026-09-28 | `small-ui-fixes` branch (off `main`): "What I do" section moved from a hardcoded array to a `skills` table, CRUD-able from `/admin/skills`. Each skill has an optional thumbnail (Cloudinary, own `skill-<id>` public_id per skill). Section layout changed from a 3-column grid to a single-column list of rows: image beside text on desktop, image above text on phones. Thumbnail slot background (`#141712`) is a shade lighter than the page so transparent PNG uploads still read as a tile. |
 | 2026-06-29 | Display font split back out from body: every heading/display element that was originally Syne (recovered from git history, not guessed) now uses Clash Display via Fontshare's CDN link; Plus Jakarta Sans stays for body/UI text. `--font-clash` added to `:root` with a Jakarta/sans-serif fallback chain. |
+| 2026-10-08 | Motion pass (`motion-polish`): CSS-only blur-fade reveal system, motion tokens, global reduced-motion guard, route fade, button press and focus states, navbar menu and contact form state animations. Section 8 rewritten; button snippets no longer use `transition-all` or hover grow. |
 
 > **Note:** Sections 9–11 (Page Structure, Supabase Schema, Environment Variables) predate the Neon/Drizzle/Better Auth migration and Next.js runtime changes — they describe an older version of this codebase and weren't in scope for this pass. Worth a dedicated audit separately.

@@ -4,6 +4,8 @@ import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
+import BlurWords from '@/components/BlurWords'
+import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -28,17 +30,13 @@ export default function ContactPage() {
             >
               Contact
             </p>
-            <h1
-              className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              Let&apos;s build
-              <br />
-              <span className="text-[#3DF49A]">something.</span>
+            <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-[#F3F6F4] leading-[0.95] mb-6" style={{ fontFamily: 'var(--font-clash)' }}>
+              <BlurWords text="Let's build" mode="load" className="block" />
+              <BlurWords text="something." mode="load" delay={140} className="block text-[#3DF49A]" />
             </h1>
             <p
-              className="text-[#8A938E] text-lg max-w-xl leading-relaxed"
-              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+              className="blur-load text-[#8A938E] text-lg max-w-xl leading-relaxed"
+              style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '220ms' } as CSSProperties}
             >
               I&apos;m open to freelance projects, collaborations, and full-time opportunities.
               Tell me what you&apos;re working on.

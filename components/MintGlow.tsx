@@ -22,6 +22,9 @@ export default function MintGlow() {
   const orbRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Parallax is pure decoration: skip it entirely for reduced-motion users.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const PARALLAX = 0.28 // glow moves at 28% of scroll speed
 
     let rafId: number

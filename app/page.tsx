@@ -5,8 +5,11 @@ export const revalidate = 60
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
+import BlurWords from '@/components/BlurWords'
+import Reveal from '@/components/Reveal'
 import { getFeaturedProjects, getSkills, getCachedSiteSettings, getCachedAboutContent } from '@/lib/db/queries'
 import { cn } from '@/lib/utils'
 
@@ -45,14 +48,14 @@ export default async function HomePage() {
               className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight mb-8"
               style={{ fontFamily: 'var(--font-clash)' }}
             >
-              <span className="block text-[#F3F6F4]">Build</span>
-              <span className="block text-[#F3F6F4]">Deploy</span>
-              <span className="block text-[#3DF49A]">Secure</span>
+              <BlurWords text="Build" mode="load" className="block text-[#F3F6F4]" />
+              <BlurWords text="Deploy" mode="load" delay={140} className="block text-[#F3F6F4]" />
+              <BlurWords text="Secure" mode="load" delay={280} className="block text-[#3DF49A]" />
             </h1>
 
             {/* Sub */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-12">
-              <div className="max-w-md">
+              <div className="max-w-md blur-load" style={{ '--reveal-delay': '340ms' } as CSSProperties}>
                 <p
                   className="text-[#8A938E] text-lg leading-relaxed"
                   style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
@@ -63,11 +66,11 @@ export default async function HomePage() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 blur-load" style={{ '--reveal-delay': '480ms' } as CSSProperties}>
                 <Link
                   href="/contact"
                   className="w-full sm:w-auto text-center px-7 py-3 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                             hover:bg-[#5BFBA8] transition-all duration-200 hover:scale-105 active:scale-95"
+                             hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   Let&apos;s talk
@@ -75,7 +78,7 @@ export default async function HomePage() {
                 <Link
                   href="/about"
                   className="w-full sm:w-auto text-center px-7 py-3 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-                             hover:border-[#8A938E] transition-all duration-200"
+                             hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
                   style={{ fontFamily: 'var(--font-jakarta)' }}
                 >
                   About me
@@ -84,7 +87,7 @@ export default async function HomePage() {
             </div>
 
             {/* Horizontal rule with stat */}
-            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12">
+            <div className="mt-16 pt-8 border-t border-[#1F2421] flex flex-wrap gap-12 blur-load" style={{ '--reveal-delay': '620ms' } as CSSProperties}>
               {[
                 { num: '9+', label: 'Years of designing' },
                 { num: '2+', label: 'Years of building' },
@@ -111,7 +114,7 @@ export default async function HomePage() {
 
         {/* ── TICKER ── */}
         <div className="overflow-hidden border-y border-[#1F2421] py-4 bg-[#090A09]">
-          <div className="flex gap-12 animate-marquee whitespace-nowrap">
+          <div className="flex gap-12 animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
             {ticker.map((skill, i) => (
               <span
                 key={i}
@@ -131,12 +134,7 @@ export default async function HomePage() {
         {/* ── I like building ── */}
         <section className="max-w-6xl mx-auto px-6 py-28">
           <div className="flex flex-col md:flex-row gap-6 md:items-end mb-16">
-            <h2
-              className="text-5xl md:text-6xl font-bold text-[#F3F6F4]"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-             I like building.
-            </h2>
+            <BlurWords as="h2" text="I like building." className="text-5xl md:text-6xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }} />
           </div>
 
           {/* Two complete arrangements, switched site-wide from
@@ -147,7 +145,7 @@ export default async function HomePage() {
                centered above left-aligned title/desc, grid up to 3 across
                on desktop. imagePosition is ignored here — it only means
                something in the row layout. */
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Reveal blurSelf={false} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 blur-stagger">
               {skills.map((s, i) => (
                 <div
                   key={s.id}
@@ -185,7 +183,7 @@ export default async function HomePage() {
                   Nothing here yet.
                 </p>
               )}
-            </div>
+            </Reveal>
           ) : (
             /* Rows: stacked full-width rows, each split into a narrower
                image side (~40%) and a wider text side (~60%). Which side
@@ -194,7 +192,7 @@ export default async function HomePage() {
                flex-row-reverse just swaps the two halves at md and up.
                Mobile always stacks image-then-text regardless of the
                setting, since "left/right" is meaningless in one column. */
-            <div className="flex flex-col gap-6">
+            <Reveal blurSelf={false} className="flex flex-col gap-6 blur-stagger">
               {skills.map((s, i) => (
                 <div
                   key={s.id}
@@ -245,7 +243,7 @@ export default async function HomePage() {
                   Nothing here yet.
                 </p>
               )}
-            </div>
+            </Reveal>
           )}
         </section>
 
@@ -253,24 +251,19 @@ export default async function HomePage() {
         <section className="max-w-6xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2
-                className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                {about.homeHeading}
-              </h2>
-              <p
+              <BlurWords as="h2" text={about.homeHeading} className="text-4xl md:text-5xl font-bold text-[#F3F6F4] mb-6 leading-tight" style={{ fontFamily: 'var(--font-clash)' }} />
+              <Reveal as="p" delay={120}
                 className="text-[#8A938E] text-base leading-relaxed mb-6"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
                 {about.homeParagraphOne}
-              </p>
-              <p
+              </Reveal>
+              <Reveal as="p" delay={210}
                 className="text-[#8A938E] text-base leading-relaxed mb-10"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
               >
                 {about.homeParagraphTwo}
-              </p>
+              </Reveal>
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 text-[#3DF49A] text-sm group"
@@ -282,9 +275,10 @@ export default async function HomePage() {
             </div>
 
             {/* Code aesthetic block */}
-            <div
+            <Reveal
               className="bg-[#0F0F0F] border border-[#1F2421] rounded-xl p-8"
               style={{ fontFamily: 'var(--font-jetbrains)' }}
+              delay={180}
             >
               <div className="flex gap-2 mb-6">
                 <span className="w-3 h-3 rounded-full bg-[#ff5f56]" />
@@ -327,7 +321,7 @@ export default async function HomePage() {
                 </span>],
               </p>
               <p className="text-[#8A938E] text-sm">{'}'}</p>
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -341,12 +335,7 @@ export default async function HomePage() {
               >
 Selected work
               </p>
-              <h2
-                className="text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                Things I've built.
-              </h2>
+              <BlurWords as="h2" text="Things I've built." className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }} />
             </div>
             <Link
               href="/projects"
@@ -358,8 +347,8 @@ Selected work
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1F2421]">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.name} project={project} />
+            {featuredProjects.map((project, i) => (
+              <ProjectCard key={project.name} project={project} index={i} />
             ))}
           </div>
         </section>
@@ -367,12 +356,7 @@ Selected work
         {/* ── RECENT BLOG TEASER ── */}
         <section className="max-w-6xl mx-auto px-6 py-16">
           <div className="flex items-center justify-between mb-12">
-            <h2
-              className="text-4xl font-bold text-[#F3F6F4]"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              Things I write.
-            </h2>
+            <BlurWords as="h2" text="Things I write." className="text-4xl font-bold text-[#F3F6F4]" style={{ fontFamily: 'var(--font-clash)' }} />
             <Link
               href="/blog"
               className="text-[#8A938E] text-sm hover:text-[#3DF49A] transition-colors"
@@ -404,8 +388,9 @@ Selected work
                 <Link
                   key={post.id}
                   href={`/blog/${post.slug}`}
-                  className="bg-[#070807] p-8 flex flex-col justify-between group hover:bg-[#0F0F0F] transition-colors duration-300 min-h-[260px]"
+                  className="bg-[#070807] p-8 flex flex-col group hover:bg-[#0F0F0F] transition-colors duration-300 min-h-[260px]"
                 >
+                  <Reveal className="flex flex-1 flex-col justify-between" delay={(i % 3) * 180}>
                   <div>
                     {post.tags?.length > 0 && (
                       <span
@@ -448,6 +433,7 @@ Selected work
                       {post.readingTime} min
                     </span>
                   </div>
+                  </Reveal>
                 </Link>
               ))}
               {/* Fill remaining slots to keep grid full when < 3 posts */}
@@ -478,24 +464,19 @@ Selected work
                   'radial-gradient(ellipse at center bottom, rgba(61,244,154,0.07) 0%, transparent 70%)',
               }}
             />
-            <h2
-              className="text-4xl md:text-6xl font-bold text-[#F3F6F4] mb-6 leading-tight"
-              style={{ fontFamily: 'var(--font-clash)' }}
-            >
-              Reach Out!
-            </h2>
-            <p
+            <BlurWords as="h2" text="Reach Out!" className="text-4xl md:text-6xl font-bold text-[#F3F6F4] mb-6 leading-tight" style={{ fontFamily: 'var(--font-clash)' }} />
+            <Reveal as="p" delay={120}
               className="text-[#8A938E] text-lg max-w-auto mx-auto mb-10"
               style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
             >
               We are in the epicenter of the AI era.
               Building polished software/SaaS is much harder nowadays.
               Let's discuss what you have in mind.
-            </p>
+            </Reveal>
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 whitespace-nowrap px-6 min-[380px]:px-8 py-4 bg-[#3DF49A] text-[#06160E] font-semibold rounded-full
-                         hover:bg-[#5BFBA8] transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
+                         hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97] text-sm"
               style={{ fontFamily: 'var(--font-jakarta)' }}
             >
               {/* One line always: full label from 380px up, shorter label below it */}

@@ -8,7 +8,7 @@ Fahim is a self-taught designer and developer who learned by reverse-engineering
 
 - [Home](https://mahtamunhoquefahim.vercel.app/): Hero, overview of disciplines (Graphic Design, UI/UX, Full-Stack Dev), selected projects, and recent blog posts.
 - [About](https://mahtamunhoquefahim.vercel.app/about): Personal backstory, philosophy, timeline from 2019 to present, and full tools & stack list.
-- [Projects](https://mahtamunhoquefahim.vercel.app/projects): All 16 shipped projects filtered by type (Web, Tool, Health, Education, Browser Extension) across 26 technologies.
+- [Projects](https://mahtamunhoquefahim.vercel.app/projects): All 16 shipped projects, with a ticker of the 26 technologies used across them.
 - [Blog](https://mahtamunhoquefahim.vercel.app/blog): 12 articles on design, development, AI, learning resources, and personal reflections.
 - [Contact](https://mahtamunhoquefahim.vercel.app/contact): Inquiry form for project collaborations.
 

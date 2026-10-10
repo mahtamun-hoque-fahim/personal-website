@@ -6,7 +6,6 @@ const EXAMPLE_JSON = `{
   "projects": [
     {
       "name": "Neura",
-      "type": "Tool",
       "tags": ["HTML", "Canvas API"],
       "tagline": "An infinite canvas for thinking out loud.",
       "description": "Whiteboard with a hand-drawn aesthetic. Multiplayer, AI sketch-to-diagram, EEE/BEE circuit library. Pure HTML + Canvas API.",
@@ -100,9 +99,6 @@ export default function JsonHelpPanel() {
                 Optional
               </p>
               <ul className="space-y-1.5 text-xs text-[#8A938E]" style={{ fontFamily: 'var(--font-jakarta)' }}>
-                <li>
-                  <code className="text-[#F3F6F4]">type</code> — default "Web"
-                </li>
                 <li>
                   <code className="text-[#F3F6F4]">tags</code> — array or comma string
                 </li>

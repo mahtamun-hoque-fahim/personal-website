@@ -21,6 +21,10 @@ const config: Config = {
         body: ['var(--font-jakarta)', 'sans-serif'],
         mono: ['var(--font-jetbrains)', 'monospace'],
       },
+      transitionTimingFunction: {
+        'ui-out': 'cubic-bezier(0.23, 1, 0.32, 1)',
+        'ui-in-out': 'cubic-bezier(0.77, 0, 0.175, 1)',
+      },
       animation: {
         'fade-up': 'fadeUp 0.6s ease forwards',
         'fade-in': 'fadeIn 0.4s ease forwards',

@@ -5,6 +5,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getCachedAboutContent } from '@/lib/db/queries'
+import BlurWords from '@/components/BlurWords'
+import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
   title: 'About',
@@ -30,17 +32,13 @@ export default async function AboutPage() {
           >
             About
           </p>
-          <h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-10"
-            style={{ fontFamily: 'var(--font-clash)' }}
-          >
-            {about.headlineTop}
-            <br />
-            <span className="text-[#3DF49A]">{about.headlineAccent}</span>
+          <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-tight text-[#F3F6F4] mb-10" style={{ fontFamily: 'var(--font-clash)' }}>
+            <BlurWords text={about.headlineTop} mode="load" className="block" />
+            <BlurWords text={about.headlineAccent} mode="load" delay={140} className="block text-[#3DF49A]" />
           </h1>
           <p
-            className="text-[#8A938E] text-xl max-w-2xl leading-relaxed"
-            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+            className="blur-load text-[#8A938E] text-xl max-w-2xl leading-relaxed"
+            style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300, '--reveal-delay': '220ms' } as CSSProperties}
           >
             {about.intro}
           </p>
@@ -50,12 +48,7 @@ export default async function AboutPage() {
         <section className="border-t border-[#1F2421]">
           <div className="max-w-6xl mx-auto px-6 py-20">
             <div className="max-w-2xl">
-              <h2
-                className="text-3xl font-bold text-[#F3F6F4] mb-6"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                {about.storyHeading}
-              </h2>
+              <BlurWords as="h2" text={about.storyHeading} className="text-3xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
               <div
                 className="text-[#8A938E] leading-relaxed space-y-4 text-base"
                 style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
@@ -89,7 +82,7 @@ export default async function AboutPage() {
               <Link
                 href="/contact"
                 className="w-full sm:w-auto text-center px-6 py-2.5 bg-[#3DF49A] text-[#06160E] text-sm font-semibold rounded-full
-                           hover:bg-[#5BFBA8] transition-all duration-200"
+                           hover:bg-[#5BFBA8] transition-[background-color,transform] duration-200 active:scale-[0.97]"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 {about.ctaPrimaryLabel}
@@ -99,7 +92,7 @@ export default async function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto text-center px-6 py-2.5 border border-[#1F2421] text-[#F3F6F4] text-sm rounded-full
-                           hover:border-[#8A938E] transition-all duration-200"
+                           hover:border-[#8A938E] transition-[border-color,color,transform] duration-200 active:scale-[0.97]"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 {about.ctaSecondaryLabel} ↗
