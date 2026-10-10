@@ -92,6 +92,13 @@
       "when": 1791647206719,
       "tag": "0012_site_marquee_speed",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1791673161719,
+      "tag": "0013_about_extra_block",
+      "breakpoints": true
     }
   ]
 }
