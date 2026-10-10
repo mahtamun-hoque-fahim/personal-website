@@ -76,7 +76,7 @@ export default function ProjectsSection() {
         {projects.map((project) => (
           <div
             key={project.name}
-            className="bg-[#000000] p-8 group hover:bg-[#222222] transition-colors duration-300 flex flex-col justify-between min-h-[280px]"
+            className="bg-[#111111] p-8 group hover:bg-[#222222] transition-colors duration-300 flex flex-col justify-between min-h-[280px]"
           >
             <div>
               <span

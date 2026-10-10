@@ -551,7 +551,7 @@ function ProjectFormModal({
             {isEdit ? 'Edit project' : 'New project'}
           </h2>
           {!isEdit && (
-            <div className="flex items-center bg-[#000000] border border-[#333333] rounded-lg p-1">
+            <div className="flex items-center bg-[#111111] border border-[#333333] rounded-lg p-1">
               <TabButton active={tab === 'form'} onClick={() => setTab('form')}>
                 Form
               </TabButton>
@@ -713,7 +713,7 @@ function ProjectFormModal({
           <>
             <div className="space-y-4">
               <div
-                className="text-xs text-[#8A938E] space-y-2 bg-[#000000] border border-[#333333] rounded-lg p-3"
+                className="text-xs text-[#8A938E] space-y-2 bg-[#111111] border border-[#333333] rounded-lg p-3"
                 style={{ fontFamily: 'var(--font-jakarta)' }}
               >
                 <p>
@@ -765,7 +765,7 @@ function ProjectFormModal({
               </Field>
 
               {bulkOutcomes && bulkOutcomes.length > 0 && (
-                <div className="bg-[#000000] border border-[#333333] rounded-lg p-3 max-h-40 overflow-y-auto">
+                <div className="bg-[#111111] border border-[#333333] rounded-lg p-3 max-h-40 overflow-y-auto">
                   <p
                     className="text-[10px] uppercase tracking-widest text-[#8A938E] mb-2"
                     style={{ fontFamily: 'var(--font-jetbrains)' }}
@@ -854,7 +854,7 @@ function TabButton({
 }
 
 const inputCls =
-  "w-full px-4 py-2.5 bg-[#000000] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors text-sm font-['Plus_Jakarta_Sans',sans-serif]"
+  "w-full px-4 py-2.5 bg-[#111111] border border-[#333333] rounded-lg text-[#F3F6F4] placeholder-[#5C615E] focus:outline-none focus:border-[#3DF49A] transition-colors text-sm font-['Plus_Jakarta_Sans',sans-serif]"
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (

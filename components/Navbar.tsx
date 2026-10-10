@@ -134,7 +134,7 @@ export default function Navbar() {
       <div
         id="mobile-menu"
         className={cn(
-          'fixed inset-0 z-40 bg-[#000000] flex flex-col justify-center items-center gap-10 transition-[opacity,visibility] duration-300',
+          'fixed inset-0 z-40 bg-[#111111] flex flex-col justify-center items-center gap-10 transition-[opacity,visibility] duration-300',
           // invisible (not just transparent) so closed links leave the tab order
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         )}

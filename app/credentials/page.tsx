@@ -435,7 +435,7 @@ export default async function CredentialsPage() {
                           className="w-3 h-3 rounded-full border-2 transition-[transform,border-color,background-color] duration-200 group-hover:scale-125"
                           style={{
                             borderColor: event.isCurrent ? '#3DF49A' : '#444444',
-                            background: event.isCurrent ? '#3DF49A' : '#000000',
+                            background: event.isCurrent ? '#3DF49A' : '#111111',
                             boxShadow: event.isCurrent ? '0 0 8px rgba(61,244,154,0.4)' : 'none',
                           }}
                         />
