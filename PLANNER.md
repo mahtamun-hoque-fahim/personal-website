@@ -82,8 +82,8 @@ components/
 ├── ProjectsSection.tsx
 ├── Reveal.tsx                   client; scroll-triggered blur-fade reveal (one IntersectionObserver, plays once)
 ├── BlurWords.tsx                per-word blur-in; mode 'load' (pure CSS) or 'scroll' (via Reveal)
-├── TechMarquee.tsx              looping name ticker (used under the /projects hero stats)
-├── HeroPortrait.tsx             homepage hero portrait (transparent WebP, stands on the stats rule)
+├── MarqueeStrip.tsx             client; the one marquee strip (homepage skills + /projects technologies), speed from site settings
+├── HeroPortrait.tsx             homepage hero portrait (transparent WebP, stands on the marquee strip)
 └── CopyCodeInit.tsx
 docs/
 └── PROJECT_JSON_SCHEMA.md       bulk-import schema reference (paste into Paste JSON tab)
@@ -129,7 +129,7 @@ scripts/
 - `blog_posts`: uuid, title, slug (unique), excerpt, content, cover_image, published, tags[], reading_time, timestamps
 - `contact_messages`: uuid, name, email, subject, message, country, read, created_at
 - `projects`: uuid, name (unique), tagline, description, tags[], live_url, repo_url, featured, featured_order, **status_badges text[]** (default `{}`), **collaborators jsonb** (default `[]`, shape `[{ name, url? }]`), timestamps
-- `site_settings`: integer id (always `1`, single row), title, description, job_title, **avatar_url** (nullable), keywords text[], og_title, og_description, updated_at — feeds `generateMetadata()` in `app/layout.tsx`, the root layout's Person JSON-LD, and the blog post JSON-LD author block. Read through `getCachedSiteSettings()` (`unstable_cache`, 1h revalidate, tag `site-settings`); written via admin `/admin/settings`.
+- `site_settings`: integer id (always `1`, single row), title, description, job_title, **avatar_url** (nullable), keywords text[], og_title, og_description, skills_layout, **marquee_speed** (px/s for both marquee strips, default 60), updated_at — feeds `generateMetadata()` in `app/layout.tsx`, the root layout's Person JSON-LD, and the blog post JSON-LD author block. Read through `getCachedSiteSettings()` (`unstable_cache`, 1h revalidate, tag `site-settings`); written via admin `/admin/settings`.
 - `about_content`: integer id (always `1`, single row), headline_top, headline_accent, intro, story_heading, story_paragraphs text[], cta_heading, cta_text, cta_primary_label, cta_secondary_label, **home_heading, home_paragraph_one, home_paragraph_two, home_link_label, home_card_role, home_card_description text[], home_card_stack text[], home_card_availability text[], home_card_obsessions text[]**, updated_at. Feeds the public `/about` page and the homepage teaser block; column defaults equal the previous hardcoded copy
 
 All Drizzle reads return camelCase fields; column mapping (snake_case in DB) handled by `casing: 'snake_case'` in the Drizzle client config.
@@ -145,6 +145,8 @@ All Drizzle reads return camelCase fields; column mapping (snake_case in DB) han
 | 0003  | `site_settings.avatar_url` (text, nullable) | `drizzle-kit generate` (clean diff — 0002_snapshot repaired the chain) |
 | 0009  | `about_content` table                 | `drizzle-kit generate` (clean diff, only the new table) |
 | 0010  | `about_content` homepage teaser columns (9) | `drizzle-kit generate` (clean diff) |
+| 0011  | `projects.type` dropped                 | `drizzle-kit generate`; run by hand in Neon (already applied to production on Oct 9) |
+| 0012  | `site_settings.marquee_speed` (integer, NOT NULL, default 60) | `drizzle-kit generate` (additive; run in Neon BEFORE deploying the code that reads it) |
 
 > **IMPORTANT:** Always run `npx tsx scripts/export-backup.ts` before any DB migration
 > or ORM change.

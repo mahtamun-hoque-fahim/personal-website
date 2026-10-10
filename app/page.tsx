@@ -9,12 +9,13 @@ import type { CSSProperties } from 'react'
 import { getBlogPosts, type BlogPost } from '@/lib/db/queries'
 import ProjectCard from '@/components/ProjectCard'
 import BlurWords from '@/components/BlurWords'
+import MarqueeStrip from '@/components/MarqueeStrip'
 import HeroPortrait from '@/components/HeroPortrait'
 import Reveal from '@/components/Reveal'
 import { getFeaturedProjects, getSkills, getCachedSiteSettings, getCachedAboutContent } from '@/lib/db/queries'
 import { cn } from '@/lib/utils'
 
-const skills = [
+const tickerSkills = [
   'Figma', 'Adobe Suite', 'Next.js', 'React', 'TypeScript', 'Tailwind CSS',
   'Neon', 'PostgreSQL', 'Node.js', 'Brand Identity', 'Motion Design', 'Framer',
 ]
@@ -22,8 +23,6 @@ const skills = [
 // Hero call-to-action buttons (Let's talk / About me). Hidden for now while the
 // portrait layout settles; flip to `true` to bring them back (nothing else to change).
 const SHOW_HERO_CTAS = false
-
-const ticker = [...skills, ...skills]
 
 // Renders ['a', 'b'] items as: 'a', 'b' (code-card style)
 const quoteList = (items: string[]) => items.map((item) => `'${item}'`).join(', ')
@@ -43,12 +42,13 @@ export default async function HomePage() {
       <Navbar />
       <main>
         {/* ── HERO ── */}
-        <section className="min-h-screen flex flex-col justify-end pb-20 px-6 pt-32 relative overflow-hidden">
+        <section className="min-h-screen flex flex-col justify-end px-6 pt-32 relative overflow-hidden">
 
 
-          <div className="max-w-6xl mx-auto w-full">
+          {/* pb-16 is the 4rem the portrait is pushed down (HeroPortrait): it ends on the strip below */}
+          <div className="max-w-6xl mx-auto w-full pb-16">
 
-            {/* Headline + intro. `relative` anchors the portrait, which stands on the stats rule below. */}
+            {/* Headline + intro. `relative` anchors the portrait, which stands on the marquee strip below. */}
             <div className="relative">
               <HeroPortrait />
 
@@ -97,52 +97,11 @@ export default async function HomePage() {
                 )}
               </div>
             </div>
-
-
-            {/* Horizontal rule with stat */}
-            <div className="mt-16 pt-8 border-t border-[#333333] flex flex-wrap gap-12 blur-load" style={{ '--reveal-delay': '620ms' } as CSSProperties}>
-              {[
-                { num: '9+', label: 'Years of designing' },
-                { num: '2+', label: 'Years of building' },
-                { num: '1+', label: 'Years of Securing' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <p
-                    className="text-3xl font-bold text-[#F3F6F4]"
-                    style={{ fontFamily: 'var(--font-clash)' }}
-                  >
-                    {stat.num}
-                  </p>
-                  <p
-                    className="text-[#8A938E] text-sm mt-1"
-                    style={{ fontFamily: 'var(--font-jakarta)' }}
-                  >
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 
-        {/* ── TICKER ── */}
-        <div className="overflow-hidden border-y border-[#333333] py-4 bg-[#222222]">
-          <div className="flex gap-12 animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
-            {ticker.map((skill, i) => (
-              <span
-                key={i}
-                className="text-sm tracking-widest uppercase shrink-0"
-                style={{
-                  fontFamily: 'var(--font-jakarta)',
-                  color: i % 3 === 0 ? '#3DF49A' : '#8A938E',
-                }}
-              >
-                {skill}
-                <span className="ml-12 text-[#333333]">◆</span>
-              </span>
-            ))}
-          </div>
-        </div>
+        {/* ── TICKER ── (the portrait stands on this strip's top border) */}
+        <MarqueeStrip items={tickerSkills} speed={siteSettings.marqueeSpeed} />
 
         {/* ── I like building ── */}
         <section className="max-w-6xl mx-auto px-6 py-28">

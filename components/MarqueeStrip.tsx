@@ -1,47 +1,75 @@
-import { cn } from '@/lib/utils'
+'use client'
 
-type TechMarqueeProps = {
+import { useLayoutEffect, useRef } from 'react'
+
+type MarqueeStripProps = {
   items: string[]
-  className?: string
+  /** Scroll speed in pixels per second (Settings > Strip speed). */
+  speed: number
 }
 
+// Used for the server-rendered first frame only, until the real width is
+// measured on the client (about the width of one item incl. separator).
+const ESTIMATED_ITEM_PX = 190
+
 /**
- * Looping ticker of names, same look as the homepage skills ticker.
+ * The one marquee strip used on every page (homepage skills, /projects
+ * technologies): same band (`#222222`, `#333333` lines), same speed.
  *
- * The list is rendered twice and the track slides by exactly half its width
- * (`animate-marquee`, 0% to -50%), so the loop is seamless. The second copy
- * is aria-hidden so screen readers hear each name once. The duration scales
- * with the item count so the scroll speed stays about the same whether there
- * are 12 items or 26. Pauses on hover; reduced motion is handled globally.
+ * - Speed is in pixels per second, so a long list and a short one move at the
+ *   same pace. The animation duration is derived from the measured width of
+ *   one copy of the list (`distance / speed`) and re-derived if the width
+ *   changes (fonts loading, window resize).
+ * - Seamless loop: the list is rendered twice and the track slides by exactly
+ *   half its width (`animate-marquee`, 0% to -50%). For that to be exact the
+ *   spacing lives INSIDE each item (no flex `gap`), and the track is `w-max`:
+ *   `translateX(-50%)` is half the track's own width.
+ * - The second copy is aria-hidden. Pauses on hover. Reduced motion is
+ *   handled globally (animation collapses, the strip rests).
  */
-export default function TechMarquee({ items, className }: TechMarqueeProps) {
+export default function MarqueeStrip({ items, speed }: MarqueeStripProps) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const pxPerSecond = Math.min(Math.max(Number(speed) || 60, 5), 400)
+
+  useLayoutEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+
+    const apply = () => {
+      const distance = track.scrollWidth / 2 // one copy of the list
+      if (distance > 0) {
+        track.style.animationDuration = `${(distance / pxPerSecond).toFixed(2)}s`
+      }
+    }
+    apply()
+    const observer = new ResizeObserver(apply)
+    observer.observe(track)
+    return () => observer.disconnect()
+  }, [pxPerSecond, items])
+
   if (items.length === 0) return null
 
   const track = [...items, ...items]
 
   return (
-    <div
-      className={cn(
-        'overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]',
-        className
-      )}
-    >
+    <div className="overflow-hidden border-y border-[#333333] bg-[#222222] py-4">
       <div
-        className="flex gap-12 animate-marquee whitespace-nowrap w-max hover:[animation-play-state:paused]"
-        style={{ animationDuration: `${items.length * 2.5}s` }}
+        ref={trackRef}
+        className="flex w-max animate-marquee whitespace-nowrap hover:[animation-play-state:paused]"
+        style={{ animationDuration: `${((items.length * ESTIMATED_ITEM_PX) / pxPerSecond).toFixed(2)}s` }}
       >
         {track.map((name, i) => (
           <span
             key={i}
             aria-hidden={i >= items.length ? true : undefined}
-            className="text-sm tracking-widest uppercase shrink-0"
+            className="shrink-0 text-sm uppercase tracking-widest"
             style={{
               fontFamily: 'var(--font-jakarta)',
               color: i % 3 === 0 ? '#3DF49A' : '#8A938E',
             }}
           >
             {name}
-            <span className="ml-12 text-[#333333]" aria-hidden="true">
+            <span className="mx-12 text-[#333333]" aria-hidden="true">
               ◆
             </span>
           </span>
