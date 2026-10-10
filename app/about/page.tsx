@@ -6,6 +6,8 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getCachedAboutContent } from '@/lib/db/queries'
 import BlurWords from '@/components/BlurWords'
+import Reveal from '@/components/Reveal'
+import { cn } from '@/lib/utils'
 import type { CSSProperties } from 'react'
 
 export const metadata: Metadata = {
@@ -16,8 +18,25 @@ export const metadata: Metadata = {
   },
 }
 
+/**
+ * Cloudinary delivers a ready-made square: 900px, smart-cropped around the
+ * subject (`g_auto`), compressed (`q_auto`) and in the best format for the
+ * browser (`f_auto`), instead of the raw upload. Other hosts pass through.
+ */
+function squareImage(url: string | null): string | null {
+  if (!url) return null
+  const marker = '/image/upload/'
+  const i = url.indexOf(marker)
+  if (i === -1) return url
+  const at = i + marker.length
+  return `${url.slice(0, at)}c_fill,g_auto,w_900,h_900,q_auto,f_auto/${url.slice(at)}`
+}
+
 export default async function AboutPage() {
   const about = await getCachedAboutContent()
+  const hasExtraBlock = Boolean(about.extraHeading) || about.extraParagraphs.length > 0
+  const extraImage = squareImage(about.extraImageUrl)
+  const storyImage = squareImage(about.storyImageUrl)
 
   return (
     <>
@@ -44,19 +63,81 @@ export default async function AboutPage() {
           </p>
         </section>
 
-        {/* ── STORY SECTION ── */}
+        {/* ── EXTRA BLOCK + STORY ── */}
+        {/* Wireframe: extra block = image left, text right; story = text left, image right.
+            Column split is 36.5% image / 63.5% text. No cell borders (they were only
+            there to explain the layout). The extra block hides while empty, and either
+            image is optional: without one the text simply takes the full width. */}
         <section className="border-t border-[#333333]">
-          <div className="max-w-6xl mx-auto px-6 py-20">
-            <div className="max-w-2xl">
-              <BlurWords as="h2" text={about.storyHeading} className="text-3xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
+          <div className="max-w-6xl mx-auto px-6 py-20 space-y-24">
+            {hasExtraBlock && (
               <div
-                className="text-[#8A938E] leading-relaxed space-y-4 text-base"
-                style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+                className={cn(
+                  'grid gap-10 md:gap-16',
+                  extraImage && 'md:grid-cols-[minmax(0,36.5fr)_minmax(0,63.5fr)] md:items-start'
+                )}
               >
-                {about.storyParagraphs.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
+                {extraImage && (
+                  <Reveal style={{ '--blur-from': '3px' } as CSSProperties}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={extraImage}
+                      alt={about.extraHeading}
+                      width={900}
+                      height={900}
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-square w-full rounded-xl object-cover"
+                    />
+                  </Reveal>
+                )}
+                <div className={extraImage ? undefined : 'max-w-2xl'}>
+                  {about.extraHeading && (
+                    <BlurWords as="h2" text={about.extraHeading} className="text-3xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
+                  )}
+                  <div
+                    className="text-[#8A938E] leading-relaxed space-y-4 text-base"
+                    style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+                  >
+                    {about.extraParagraphs.map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
               </div>
+            )}
+
+            <div
+              className={cn(
+                'grid gap-10 md:gap-16',
+                storyImage && 'md:grid-cols-[minmax(0,63.5fr)_minmax(0,36.5fr)] md:items-start'
+              )}
+            >
+              <div className={storyImage ? undefined : 'max-w-2xl'}>
+                <BlurWords as="h2" text={about.storyHeading} className="text-3xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
+                <div
+                  className="text-[#8A938E] leading-relaxed space-y-4 text-base"
+                  style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+                >
+                  {about.storyParagraphs.map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+              {storyImage && (
+                <Reveal style={{ '--blur-from': '3px' } as CSSProperties}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={storyImage}
+                    alt={about.storyHeading}
+                    width={900}
+                    height={900}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-square w-full rounded-xl object-cover"
+                  />
+                </Reveal>
+              )}
             </div>
           </div>
         </section>
