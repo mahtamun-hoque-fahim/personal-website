@@ -49,6 +49,18 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-10 (stats-and-strips): stats removed, one shared strip, speed from the dashboard, branch `stats-and-strips` (off `main`)
+- Agent: Claude Edge
+- Request (Fahim, with screenshots of the homepage and `/projects` stats): get rid of the stats on every page; make all strips share one speed and one background, with the speed adjustable from the dashboard.
+- Stats: only two pages had them, so both blocks were removed (homepage: 9+ designing / 2+ building / 1+ securing; `/projects`: 16 projects / 15 live / 26 technologies). Nothing in the dashboard fed them (the homepage numbers were hardcoded).
+- Layout consequence on the homepage: the thin line the portrait stood on belonged to the stats block, so the portrait now stands on the TOP BORDER OF THE MARQUEE STRIP instead. Hero section lost its `pb-20`, the hero container got `pb-16`, and that 4rem matches `HeroPortrait`'s `bottom-[-4rem]` (comments in both files say so). On `/projects` the strip now sits as a full-bleed band between the hero and the project grid.
+- Strips: there were exactly two (homepage skills, `/projects` technologies) and they differed in band, edge fade and speed. They are now one component, `components/MarqueeStrip.tsx` (client): `#222222` band with `#333333` top and bottom lines, no edge fade (the homepage look), speed in pixels per second, duration = measured width of one copy / speed (so a long list and a short one move at the same pace), re-measured on resize and font load. `TechMarquee.tsx` was renamed and rewritten into it. Bug fixed on the way: both old strips had a seam jump because spacing used a flex `gap`, which makes half the track half a gap shorter than one copy; spacing is now inside each item and the track is `w-max`.
+- Dashboard: `site_settings.marquee_speed` (integer, NOT NULL, default 60), "Strip speed" slider in Admin > Settings (10-200 px/s, step 5), clamped server-side in `saveSiteSettingsAction`, which now also revalidates `/projects`. The default 60 is close to the old homepage speed (about 65 px/s).
+- DATABASE (not applied by me, no DB access): migration `drizzle/0012_site_marquee_speed.sql` is `ALTER TABLE "site_settings" ADD COLUMN "marquee_speed" integer DEFAULT 60 NOT NULL;`. Additive, so safe for the code currently on `main`. ORDER: run it in Neon BEFORE merging this branch. If the code deploys first, `getSiteSettings()` fails on the missing column and silently returns its defaults (title, description, avatar and the rest of the settings would fall back to defaults on the live site until the column exists). Back up first as PLANNER.md says (`npx tsx scripts/export-backup.ts`).
+- Docs: DESIGN_GUIDE (strip section rewritten, portrait paragraph), PLANNER (components tree, `site_settings` columns, migrations 0011 and 0012).
+- Verified: `npx tsc --noEmit` clean after each commit. NOT verified in a browser or by `npm run build` here: that both strips move at the same pace and have no seam jump, how the hero looks with the portrait standing on the strip, and the `/projects` hero spacing without the stats.
+
+
 ### 2026-10-10 (merge): stacked PRs #19, #20 and #21 merged into `main`
 - Agent: Claude Edge
 - Request (Fahim): "go" to merging the branches in order, after the Neon screenshot showed `projects.type` was already dropped on production and the live site was reading a column that no longer existed.
