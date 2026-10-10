@@ -49,6 +49,14 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-10 (merge): stacked PRs #19, #20 and #21 merged into `main`
+- Agent: Claude Edge
+- Request (Fahim): "go" to merging the branches in order, after the Neon screenshot showed `projects.type` was already dropped on production and the live site was reading a column that no longer existed.
+- Done, in order, all with "Create a merge commit" (no squash, the branches were stacked): PR #19 `motion-polish` into `main` (merge commit `b1ffbbf`), then PR #20 `face-reveal` retargeted to `main` and merged (`1be0288`), then PR #21 `glow-roam` retargeted to `main` and merged (this entry ships inside it). After each merge the source branch was deleted on the remote (`motion-polish`, `face-reveal`, and `glow-roam` after #21). The first merge is the one that fixes production: `main` no longer selects `projects.type`.
+- No SQL was run or is pending: the column was already gone from production (see the entry below).
+- Repo state afterwards: `main` carries the whole motion pass, the hero portrait, the `#111111` / `#222222` / `#333333` / `#444444` palette, the single fixed glow, the `Agent: Claude Edge` rule, and migration file `0011_remove_project_type.sql` (not auto-applied; the database already matches it). Hero CTA buttons are still hidden (`SHOW_HERO_CTAS = false`); `lib/email.ts` still uses the old palette. Remaining branch not deleted: `small-fixes` (already merged into `main` earlier, 0 commits of its own), waiting on Fahim's answer.
+- Verified: Vercel built all three branch tips successfully before merging; GitHub reported each PR mergeable and clean. NOT verified here: the production deploys of `main` after each merge, and that `/projects` and the homepage show projects again.
+
 ### 2026-10-10 (database state): `projects.type` is already gone from production, merge #19 is urgent, branch `glow-roam`
 - Agent: Claude Edge
 - Trigger (Fahim, screenshot of the Neon SQL editor, production branch): `ALTER TABLE projects ALTER COLUMN type DROP NOT NULL;` failed with `column "type" of relation "projects" does not exist`. Neon's query history shows both statements were run on Oct 9 at 5:27am (the NOT NULL drop, then `remove type column from projects table`). So the production database is ALREADY in the final state the removal expects; no further SQL is needed, before or after merging.
