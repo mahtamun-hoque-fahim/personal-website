@@ -361,6 +361,14 @@ Fade + 6px blur + 8px rise. The keyframes define only `from` and use `backwards`
 | Card in a `gap-px` grid | The cell (background, 1px lines, hover) stays visible; wrap only the card CONTENT in `<Reveal>` so each card blurs in on its own as it scrolls into view (see `ProjectCard`, home blog teaser). Hiding the cell itself would show the grid colour through it. Stagger cards that share a row with `delay={(index % columns) * 180}`. |
 | Tall list of bordered cards | Wrap each card in its own `<Reveal>` (see `/blog`); image cards use `--blur-from: 3px` to keep the reveal cheap. |
 
+### Film grain
+
+A fixed full-screen layer above everything (`body::before` in `globals.css`), so text, cards and the portrait all share one texture. It is a pre-made seamless monochrome noise tile, `public/grain.png` (256px, 32 gray levels, about 48 KB), repeated at 256px, with strength in one variable: `--grain-opacity: 0.04`. Replaced the earlier runtime SVG `feTurbulence` layer (about 1.6% effective, chromatic, and slow on Safari).
+- **Why:** the glow spans only about a dozen gray levels on the near-black page, which an 8-bit display shows as concentric rings; about 4% grain (std about 2.3 levels) dithers them away. It also ties the black-and-white portrait to the page.
+- **Costs and side effects:** grain lifts dark areas, so flat `#111111` reads about `#151515` on screen (the token is deliberately not compensated). Above 5% it starts to dull small gray text (`#5C615E`).
+- **Rules:** static, no animation, no `mix-blend-mode` (a blend mode makes a full-screen layer re-composite on every scroll frame). Off in the admin (`body:has([data-admin])`, the admin layout carries `data-admin`), in print, under `forced-colors` and `prefers-contrast: more`.
+- **Regenerating the tile:** any seamless gaussian noise works (mean 128, std about 57, light blur with wrap-around so the edges tile); keep it monochrome.
+
 ### About page blocks
 
 Two text blocks above the call to action, laid out as a wireframe (the cell borders in that wireframe were only explanatory; the real page has none): the EXTRA block (new) is image on the left (36.5% of the width) and heading plus text on the right; the STORY block is text on the left (63.5%) and image on the right. Both images are square (`aspect-square`, `object-cover`, `rounded-xl`), lazy-loaded, reveal with a light blur, and stack on phones (image first for the extra block, text first for the story). Every part is optional: the extra block does not render while its heading and text are both empty, and a block without an image lets the text take the full width. Everything comes from `about_content` and is edited in Admin > About (including the two image uploads, stored in Cloudinary at `personal-website/about/about-extra` and `about-story`). `squareImage()` in `app/about/page.tsx` asks Cloudinary for a 900px smart-cropped (`g_auto`), compressed, best-format version instead of the raw upload.
