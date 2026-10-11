@@ -320,6 +320,12 @@ export const aboutContent = pgTable('about_content', {
     .default(
       sql`ARRAY['I didn''t study design in a formal school. I learned by obsessively reverse-engineering things I loved: breaking down why a logo felt trustworthy, why a website felt fast, why some interfaces made you feel calm.','I started building websites because I couldn''t communicate what I wanted to developers. I started designing seriously because I couldn''t stand ugly interfaces. Both accidents became strengths.','Being from Bangladesh sharpened me. I couldn''t rely on proximity to opportunity, so I had to be undeniably good. That''s still the standard I hold myself to.','I care about work that ships, that works, that people actually use. Beautiful for its own sake doesn''t interest me. Beautiful and functional? That''s the whole game.']::text[]`
     ),
+  // Extra block shown ABOVE the story (image left, text right). Hidden on the
+  // public page while both the heading and the text are empty.
+  extraHeading: text('extra_heading').notNull().default(''),
+  extraParagraphs: text('extra_paragraphs').array().notNull().default(sql`'{}'::text[]`),
+  extraImageUrl: text('extra_image_url'), // Cloudinary, uploaded from /admin/about
+  storyImageUrl: text('story_image_url'), // image beside the story (right), same
   ctaHeading: text('cta_heading').notNull().default('Want to work together?'),
   ctaText: text('cta_text')
     .notNull()

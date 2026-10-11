@@ -1,9 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Loader2, Upload, X } from 'lucide-react'
 import type { AboutContent } from '@/lib/db/queries'
-import { saveAboutContentAction } from '@/app/admin/actions'
+import { MAX_AVATAR_BYTES } from '@/lib/constants'
+import {
+  removeAboutImageAction,
+  saveAboutContentAction,
+  uploadAboutImageAction,
+} from '@/app/admin/actions'
 
 type Props = {
   about: AboutContent
@@ -18,6 +24,11 @@ export default function AboutForm({ about }: Props) {
   const [headlineTop, setHeadlineTop] = useState(about.headlineTop)
   const [headlineAccent, setHeadlineAccent] = useState(about.headlineAccent)
   const [intro, setIntro] = useState(about.intro)
+  const [extraHeading, setExtraHeading] = useState(about.extraHeading)
+  const [extra, setExtra] = useState(about.extraParagraphs.join('\n\n'))
+  // Images are saved the moment they are uploaded or removed (not with "Save changes").
+  const [extraImageUrl, setExtraImageUrl] = useState(about.extraImageUrl)
+  const [storyImageUrl, setStoryImageUrl] = useState(about.storyImageUrl)
   const [storyHeading, setStoryHeading] = useState(about.storyHeading)
   // One textarea, paragraphs separated by a blank line.
   const [story, setStory] = useState(about.storyParagraphs.join('\n\n'))
@@ -40,6 +51,7 @@ export default function AboutForm({ about }: Props) {
   const toList = (value: string) => value.split(',').map((v) => v.trim()).filter(Boolean)
 
   const paragraphCount = story.split(/\n\s*\n/).filter((p) => p.trim()).length
+  const extraCount = extra.split(/\n\s*\n/).filter((p) => p.trim()).length
 
   const handleSave = async () => {
     setSaving(true)
@@ -53,6 +65,8 @@ export default function AboutForm({ about }: Props) {
         intro,
         storyHeading,
         storyParagraphs: story.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
+        extraHeading,
+        extraParagraphs: extra.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
         ctaHeading,
         ctaText,
         ctaPrimaryLabel,
@@ -216,6 +230,37 @@ export default function AboutForm({ about }: Props) {
         </Field>
       </section>
 
+      {/* Extra block (above the story) */}
+      <section className="space-y-5">
+        <SectionTitle>Extra block</SectionTitle>
+        <p className="text-xs text-[#8A938E]" style={{ fontFamily: 'var(--font-jakarta)' }}>
+          Shown above the story: image on the left, heading and text on the right. Leave the heading
+          and the text empty to hide the whole block.
+        </p>
+        <Field label="Heading">
+          <input
+            type="text"
+            value={extraHeading}
+            onChange={(e) => setExtraHeading(e.target.value)}
+            className={inputClass}
+            style={{ fontFamily: 'var(--font-jakarta)' }}
+          />
+        </Field>
+        <Field label={`Paragraphs (${extraCount})`}>
+          <textarea
+            value={extra}
+            onChange={(e) => setExtra(e.target.value)}
+            rows={8}
+            className={`${inputClass} leading-relaxed`}
+            style={{ fontFamily: 'var(--font-jakarta)' }}
+          />
+          <Hint>Leave a blank line between paragraphs. Up to 12 paragraphs.</Hint>
+        </Field>
+        <Field label="Image (left)">
+          <AboutImageField slot="extra" url={extraImageUrl} onChange={setExtraImageUrl} />
+        </Field>
+      </section>
+
       {/* Story */}
       <section className="space-y-5">
         <SectionTitle>Story</SectionTitle>
@@ -237,6 +282,9 @@ export default function AboutForm({ about }: Props) {
             style={{ fontFamily: 'var(--font-jakarta)' }}
           />
           <Hint>Leave a blank line between paragraphs. Up to 12 paragraphs.</Hint>
+        </Field>
+        <Field label="Image (right)">
+          <AboutImageField slot="story" url={storyImageUrl} onChange={setStoryImageUrl} />
         </Field>
       </section>
 
@@ -352,5 +400,137 @@ function Hint({ children }: { children: React.ReactNode }) {
     <p className="text-xs text-[#5C615E] mt-1.5" style={{ fontFamily: 'var(--font-jakarta)' }}>
       {children}
     </p>
+  )
+}
+
+/**
+ * Upload / replace / remove for one About-page image slot. Uploads go straight
+ * to Cloudinary through a server action and are saved immediately; the page
+ * shows them as a square (cropped to fill), so square images work best.
+ */
+function AboutImageField({
+  slot,
+  url,
+  onChange,
+}: {
+  slot: 'extra' | 'story'
+  url: string | null
+  onChange: (url: string | null) => void
+}) {
+  const router = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const reset = () => {
+      if (inputRef.current) inputRef.current.value = ''
+    }
+    if (!file.type.startsWith('image/')) {
+      setError('File must be an image.')
+      reset()
+      return
+    }
+    if (file.size > MAX_AVATAR_BYTES) {
+      setError('Image must be under 4MB.')
+      reset()
+      return
+    }
+
+    setBusy(true)
+    setError(null)
+    const formData = new FormData()
+    formData.set('slot', slot)
+    formData.set('file', file)
+    try {
+      const updated = await uploadAboutImageAction(formData)
+      onChange(slot === 'extra' ? updated.extraImageUrl : updated.storyImageUrl)
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed.')
+    } finally {
+      setBusy(false)
+      reset()
+    }
+  }
+
+  const handleRemove = async () => {
+    setBusy(true)
+    setError(null)
+    try {
+      await removeAboutImageAction(slot)
+      onChange(null)
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Remove failed.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="flex items-start gap-5">
+      <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-lg border border-[#333333] bg-[#222222]">
+        {url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={url} alt="" className="h-full w-full object-cover" />
+        ) : (
+          <span
+            className="absolute inset-0 flex items-center justify-center text-xs text-[#5C615E]"
+            style={{ fontFamily: 'var(--font-jakarta)' }}
+          >
+            No image
+          </span>
+        )}
+        {busy && (
+          <span className="absolute inset-0 flex items-center justify-center bg-black/50">
+            <Loader2 size={18} className="animate-spin text-[#F3F6F4]" aria-hidden="true" />
+          </span>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <label
+            className={`inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[#333333] px-3 py-2 text-xs text-[#F3F6F4] transition-colors hover:border-[#8A938E] ${
+              busy ? 'pointer-events-none opacity-50' : ''
+            }`}
+            style={{ fontFamily: 'var(--font-jakarta)' }}
+          >
+            <Upload size={14} aria-hidden="true" />
+            {url ? 'Replace' : 'Upload'}
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleSelect}
+              disabled={busy}
+              className="sr-only"
+            />
+          </label>
+          {url && (
+            <button
+              type="button"
+              onClick={handleRemove}
+              disabled={busy}
+              className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs text-[#8A938E] transition-colors hover:text-red-400 disabled:opacity-50"
+              style={{ fontFamily: 'var(--font-jakarta)' }}
+            >
+              <X size={14} aria-hidden="true" />
+              Remove
+            </button>
+          )}
+        </div>
+        <Hint>Shown as a square (cropped to fill), so a square image works best. Max 4MB. Saved as soon as it uploads.</Hint>
+        {error && (
+          <p className="text-xs text-red-400" style={{ fontFamily: 'var(--font-jakarta)' }}>
+            {error}
+          </p>
+        )}
+      </div>
+    </div>
   )
 }
