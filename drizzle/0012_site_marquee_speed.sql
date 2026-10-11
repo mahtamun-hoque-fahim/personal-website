@@ -1,0 +1,1 @@
+ALTER TABLE "site_settings" ADD COLUMN "marquee_speed" integer DEFAULT 60 NOT NULL;

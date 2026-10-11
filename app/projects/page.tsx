@@ -5,9 +5,9 @@ export const revalidate = 60
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProjectCard from '@/components/ProjectCard'
-import { getAllProjects } from '@/lib/db/queries'
+import { getAllProjects, getCachedSiteSettings } from '@/lib/db/queries'
 import BlurWords from '@/components/BlurWords'
-import TechMarquee from '@/components/TechMarquee'
+import MarqueeStrip from '@/components/MarqueeStrip'
 import type { CSSProperties } from 'react'
 
 export const metadata = {
@@ -19,7 +19,7 @@ export const metadata = {
 }
 
 export default async function ProjectsPage() {
-  const allProjects = await getAllProjects()
+  const [allProjects, siteSettings] = await Promise.all([getAllProjects(), getCachedSiteSettings()])
 
   // Unique tags, most used first (ties alphabetical), for the hero ticker.
   const tagCounts = new Map<string, number>()
@@ -35,8 +35,8 @@ export default async function ProjectsPage() {
       <Navbar />
       <main>
         {/* ── HERO ── */}
-        <section className="max-w-6xl mx-auto px-6 py-24 pt-32">
-          <div className="mb-16">
+        <section className="max-w-6xl mx-auto px-6 pt-32 pb-16">
+          <div>
             <BlurWords as="h1" text="All Projects" mode="load" className="text-5xl md:text-7xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
             <p
               className="blur-load text-[#8A938E] text-lg max-w-2xl"
@@ -45,59 +45,10 @@ export default async function ProjectsPage() {
               A collection of everything I've shipped — from web apps and tools to learning platforms and browser extensions. Each project represents something I wanted to build and share with the world.
             </p>
           </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 md:gap-8 py-8 border-y border-[#333333]">
-            <div>
-              <p
-                className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                {allProjects.length}
-              </p>
-              <p
-                className="text-[#8A938E] text-sm mt-2"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
-              >
-                Projects
-              </p>
-            </div>
-            <div>
-              <p
-                className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                {allProjects.filter(p => p.liveUrl).length}
-              </p>
-              <p
-                className="text-[#8A938E] text-sm mt-2"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
-              >
-                Live
-              </p>
-            </div>
-            <div>
-              <p
-                className="text-3xl md:text-4xl font-bold text-[#F3F6F4]"
-                style={{ fontFamily: 'var(--font-clash)' }}
-              >
-                {new Set(allProjects.flatMap(p => p.tags)).size}
-              </p>
-              <p
-                className="text-[#8A938E] text-sm mt-2"
-                style={{ fontFamily: 'var(--font-jakarta)' }}
-              >
-                Technologies
-              </p>
-            </div>
-          </div>
-
-          {/* Technologies ticker, directly under the numbers. Most used first. */}
-          <TechMarquee
-            items={technologies}
-            className="blur-load border-b border-[#333333] py-4"
-          />
         </section>
+
+        {/* Technologies ticker: same strip, same speed as the homepage. Most used first. */}
+        <MarqueeStrip items={technologies} speed={siteSettings.marqueeSpeed} />
 
         {/* ── ALL PROJECTS GRID ── */}
         <section className="max-w-6xl mx-auto px-6 py-20">

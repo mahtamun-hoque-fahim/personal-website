@@ -596,6 +596,7 @@ const DEFAULT_SITE_SETTINGS: SiteSettings = {
   ogDescription:
     'Aspiring AI engineer from Bangladesh. Building secure web apps, tools, and digital products in the era of agentic AI.',
   skillsLayout: 'rows',
+  marqueeSpeed: 60,
   updatedAt: new Date(),
 }
 

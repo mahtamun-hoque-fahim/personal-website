@@ -296,6 +296,7 @@ export const siteSettings = pgTable('site_settings', {
       'Full-stack developer and AI engineer from Bangladesh. Building web apps, tools, and digital products.'
     ),
   skillsLayout: text('skills_layout').notNull().default('rows'), // 'rows' | 'columns'
+  marqueeSpeed: integer('marquee_speed').notNull().default(60), // px per second, both marquee strips
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 })
 
