@@ -49,6 +49,17 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-10 (grain): film grain, branch `grain` (off `about-blocks`)
+- Agent: Claude Edge
+- Request (Fahim): "implement grain", after the evaluation (existing grain too faint to matter; glow shows banding rings). He did not answer the strength or background-compensation questions, so the evaluated recommendation was used: 4%, monochrome, static, background NOT compensated.
+- Done: the old `body::before` runtime SVG `feTurbulence` layer (about 1.6% effective, chromatic noise, slow on Safari) is replaced by a pre-made seamless monochrome tile, `public/grain.png` (256px, 32 gray levels, about 48 KB, generated once with numpy/scipy: gaussian noise, mean 128, std about 57, light blur with wrap-around so it tiles). Strength is `--grain-opacity: 0.04` in `:root`. The layer stays fixed, full-screen, `z-index: 9999`, `pointer-events: none`, above everything, with no blend mode and no animation.
+- Measured on the tile: at 4%, flat `#111111` becomes about `#151515` (mean 21.4) with a std of about 2.3 levels, enough to dither the glow's 12 gray-level steps. Side effect to keep in mind: grain lifts dark areas, so the page reads about 4 levels lighter than its CSS `#111111`; above about 5% it starts to dull small gray text.
+- Turned off in: the admin (the admin layout got a `data-admin` attribute and CSS uses `body:has([data-admin])::before`; browsers without `:has` simply keep the grain there), print, `forced-colors`, `prefers-contrast: more`.
+- Tuning: change `--grain-opacity` (0.03 subtle, 0.04 now, 0.08 strong stylised). Optional later idea, not built: a very slow stepped shimmer using a `transform` only.
+- Docs: DESIGN_GUIDE "Film grain".
+- Verified: `npx tsc --noEmit` clean; Tailwind CLI compile keeps the new rules; the tile is seamless by measurement (wrap-edge step matches neighbouring-column steps). NOT verified in a browser: how it looks on a real screen, text legibility at 4%, and the lighter-by-4-levels background.
+
+
 ### 2026-10-10 (about-blocks): an extra text block and two images on the About page, branch `about-blocks` (off `stats-and-strips`)
 - Agent: Claude Edge
 - Request (Fahim, with a wireframe): one more text block on the About page, images uploadable from the dashboard. Wireframe: new block on top = image left, title and text right; below it the existing "honest story" = text left, image right. He clarified the borders in the wireframe were only to explain the layout, so the page has none.

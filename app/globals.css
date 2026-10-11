@@ -36,16 +36,41 @@ body {
   overflow-x: hidden;
 }
 
-/* Noise texture overlay */
+/* Film grain.
+   A fixed, full-screen layer ABOVE everything (text, cards, the portrait), so
+   the whole page shares one texture. It is a pre-made seamless monochrome
+   noise tile (public/grain.png, 256px, generated once), not a runtime SVG
+   filter: cheaper, identical in every browser (Safari renders feTurbulence
+   slowly), and neutral gray (the old SVG noise was chromatic).
+   Why it is there: the ambient glow only spans about a dozen gray levels on
+   the near-black page, which an 8-bit screen shows as rings. A few percent of
+   grain dithers those steps away. Strength is one variable (4%); note that
+   grain lifts dark areas a little, so flat #111111 reads about #151515.
+   Static on purpose (no animation, no blend mode: blend modes make a
+   full-screen layer re-composite on every scroll frame). */
+:root {
+  --grain-opacity: 0.04;
+}
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
+  background-image: url('/grain.png');
+  background-size: 256px 256px;
+  background-repeat: repeat;
+  opacity: var(--grain-opacity);
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.4;
+}
+/* Off where texture only gets in the way: the admin dashboard (forms and
+   tables), print, and users who ask for high contrast. */
+body:has([data-admin])::before {
+  display: none;
+}
+@media print, (forced-colors: active), (prefers-contrast: more) {
+  body::before {
+    display: none;
+  }
 }
 
 /* Custom scrollbar */
