@@ -10,7 +10,12 @@ import { redirect } from 'next/navigation'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { auth } from '@/lib/auth'
 import { isAuthenticated } from '@/lib/auth-utils'
-import { uploadAvatarToCloudinary, uploadSkillImageToCloudinary } from '@/lib/cloudinary'
+import {
+  uploadAboutImageToCloudinary,
+  uploadAvatarToCloudinary,
+  uploadSkillImageToCloudinary,
+  type AboutImageSlot,
+} from '@/lib/cloudinary'
 import {
   createBlogPost,
   createProject,
@@ -142,6 +147,8 @@ export type AboutContentInput = Pick<
   | 'intro'
   | 'storyHeading'
   | 'storyParagraphs'
+  | 'extraHeading'
+  | 'extraParagraphs'
   | 'ctaHeading'
   | 'ctaText'
   | 'ctaPrimaryLabel'
@@ -194,12 +201,25 @@ export async function saveAboutContentAction(input: AboutContentInput) {
     throw new Error('A story paragraph is too long (max 1500 characters).')
   }
 
+  // Extra block above the story: optional (both empty = hidden on the page).
+  const extraHeading = typeof input.extraHeading === 'string' ? input.extraHeading.trim() : ''
+  if (extraHeading.length > 120) throw new Error('Extra block heading is too long (max 120 characters).')
+  const extraParagraphs = Array.isArray(input.extraParagraphs)
+    ? input.extraParagraphs.map((p) => (typeof p === 'string' ? p.trim() : '')).filter(Boolean)
+    : []
+  if (extraParagraphs.length > 12) throw new Error('Too many extra block paragraphs (max 12).')
+  if (extraParagraphs.some((p) => p.length > 1500)) {
+    throw new Error('An extra block paragraph is too long (max 1500 characters).')
+  }
+
   const updated = await updateAboutContent({
     headlineTop: clean(input.headlineTop, 120, 'Headline'),
     headlineAccent: clean(input.headlineAccent, 120, 'Accent headline'),
     intro: clean(input.intro, 800, 'Intro'),
     storyHeading: clean(input.storyHeading, 120, 'Story heading'),
     storyParagraphs: paragraphs,
+    extraHeading,
+    extraParagraphs,
     ctaHeading: clean(input.ctaHeading, 120, 'CTA heading'),
     ctaText: clean(input.ctaText, 300, 'CTA text'),
     ctaPrimaryLabel: clean(input.ctaPrimaryLabel, 40, 'Primary button label'),
@@ -217,6 +237,53 @@ export async function saveAboutContentAction(input: AboutContentInput) {
 
   revalidateTag('about-content', 'max')
   revalidatePath('/')
+  revalidatePath('/about')
+  revalidatePath('/admin/about')
+  return updated
+}
+
+function parseAboutSlot(value: unknown): AboutImageSlot {
+  if (value === 'extra' || value === 'story') return value
+  throw new Error('Unknown image slot.')
+}
+
+export async function uploadAboutImageAction(formData: FormData) {
+  // Explicit auth check, like the avatar upload: an unauthenticated upload
+  // endpoint is a storage/bandwidth-abuse risk.
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    throw new Error('Not authenticated.')
+  }
+
+  const slot = parseAboutSlot(formData.get('slot'))
+  const file = formData.get('file')
+  if (!(file instanceof File)) {
+    throw new Error('No file provided.')
+  }
+
+  const url = await uploadAboutImageToCloudinary(file, slot)
+  const updated = await updateAboutContent(
+    slot === 'extra' ? { extraImageUrl: url } : { storyImageUrl: url }
+  )
+
+  revalidateTag('about-content', 'max')
+  revalidatePath('/about')
+  revalidatePath('/admin/about')
+  return updated
+}
+
+export async function removeAboutImageAction(slotInput: string) {
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    throw new Error('Not authenticated.')
+  }
+
+  const slot = parseAboutSlot(slotInput)
+  const updated = await updateAboutContent(
+    slot === 'extra' ? { extraImageUrl: null } : { storyImageUrl: null }
+  )
+
+  revalidateTag('about-content', 'max')
   revalidatePath('/about')
   revalidatePath('/admin/about')
   return updated
