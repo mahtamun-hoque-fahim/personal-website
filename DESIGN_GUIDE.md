@@ -73,24 +73,17 @@ The Tailwind color extensions (`accent`, `surface`, etc.) in `tailwind.config.ts
 
 ## 3. Typography
 
-> **Branch note (`design/syne-title-variant`):** this branch is a side-by-side comparison — display/heading role uses **Syne** (matching `main`) instead of Clash Display below, via `--font-clash` in `app/globals.css` repointed to `var(--font-syne)`. Everything else in this doc (palette, body font, component patterns) is unchanged from `blog/tags-bottom-placement`. Not the source of truth if this branch doesn't get merged — written from the Clash Display branch's perspective.
-
 ### Font Stack
 
 | Role        | Font               | CSS Variable            | Tailwind Class    | Weights Used      |
 |-------------|--------------------|--------------------------|-------------------|-------------------|
-| Display     | Clash Display      | `var(--font-clash)`     | `font-display`    | 400, 500, 600, 700|
+| Display     | Syne               | `var(--font-clash)` (an alias, see below) | `font-display` | 400–800 |
 | Body        | Plus Jakarta Sans  | `var(--font-jakarta)`   | `font-body`       | 400–800           |
 | Monospace   | JetBrains Mono     | `var(--font-jetbrains)` | `font-mono`       | 400, 500          |
 
-Plus Jakarta Sans and JetBrains Mono load via `next/font/google` in `app/layout.tsx` (self-hosted, zero layout shift). **Clash Display is not on Google Fonts** — it's an Indian Type Foundry / Fontshare release, loaded via a `<link>` to Fontshare's CDN in the `<head>` block of `app/layout.tsx`:
+All three load through `next/font/google` in `app/layout.tsx` (self-hosted at build time, zero layout shift; the build therefore needs network access to Google Fonts).
 
-```tsx
-<link rel="preconnect" href="https://api.fontshare.com" />
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" />
-```
-
-`--font-clash` in `app/globals.css` falls back to `var(--font-jakarta)` then `sans-serif` if the Fontshare request is slow or blocked. **Tradeoff to know about:** this is an external runtime request, not self-hosted like the other two fonts — slightly more FOUT risk and a dependency on Fontshare's uptime. If that ever becomes a problem, the fix is downloading the Clash Display files from fontshare.com (free license) and switching to `next/font/local`.
+**Naming quirk:** the display font was originally Clash Display (loaded from Fontshare). It was replaced by Syne, and `--font-clash` in `app/globals.css` was kept as an ALIAS of `var(--font-syne)` so no component had to change. New code can keep using `var(--font-clash)`; the name is historical. There is no Fontshare link or external font request any more.
 
 ### Usage Patterns
 
@@ -109,10 +102,10 @@ Plus Jakarta Sans and JetBrains Mono load via `next/font/google` in `app/layout.
 
 | Element            | Size                          | Font    | Weight |
 |--------------------|-------------------------------|---------|--------|
-| Hero heading       | `clamp(3.5rem, 10vw, 9rem)`   | Clash Display | 700 |
-| Page heading (H1)  | `clamp(2.5rem, 7vw, 6rem)`    | Clash Display | 700 |
-| Section heading    | `text-4xl` – `text-6xl`       | Clash Display | 700 |
-| Card heading       | `text-xl` – `text-2xl`        | Clash Display | 600–700|
+| Hero heading       | `clamp(3.5rem, 10vw, 9rem)`   | Syne | 700 |
+| Page heading (H1)  | `clamp(2.5rem, 7vw, 6rem)`    | Syne | 700 |
+| Section heading    | `text-4xl` – `text-6xl`       | Syne | 700 |
+| Card heading       | `text-xl` – `text-2xl`        | Syne | 600–700|
 | Body text          | `text-base` – `text-lg`       | Plus Jakarta Sans | 400 |
 | Small / meta       | `text-xs` – `text-sm`         | Plus Jakarta Sans / JetBrains Mono | 400 |
 | Eyebrow labels     | `text-xs`, tracking `0.2em+`  | JetBrains Mono | 400 |
@@ -198,7 +191,7 @@ All content is constrained to `max-w-6xl` (`72rem`) centered with `mx-auto px-6`
 
 Hover state on interactive cards: `hover:bg-[#222222]` or `hover:border-[#444444]`.
 
-### Status Badges
+### Status Badges (blog and admin)
 
 ```tsx
 // Published / active
@@ -305,7 +298,7 @@ Defined in `app/globals.css` under `@layer utilities`:
 
 ### Special Effects
 
-- **Noise texture:** `body::before` — SVG fractalNoise, `opacity: 0.4`, `pointer-events: none`, `z-index: 9999`
+- **Film grain:** `body::before` — the `public/grain.png` tile at `--grain-opacity` (4%), `pointer-events: none`, `z-index: 9999`; see section 8, Film grain
 - **Scrollbar:** 4px wide, accent-colored thumb, bg-colored track
 - **Selection:** `background: var(--accent)`, `color: #06160E`
 
@@ -317,7 +310,7 @@ Blog post content is rendered from Markdown via a custom `renderMarkdown()` func
 
 | Element      | Style                                                        |
 |--------------|--------------------------------------------------------------|
-| Headings     | Clash Display, 700, `var(--text)`, margins: `2rem` top / `0.75rem` bottom |
+| Headings     | Syne (`--font-clash`), 700, `var(--text)`, margins: `2rem` top / `0.75rem` bottom |
 | Body `<p>`   | Plus Jakarta Sans, `#C7CCCA`, `1.25rem` bottom margin                   |
 | `<a>`        | `var(--accent)`, underline, 3px offset                       |
 | Inline `<code>` | `var(--surface)` bg, `var(--border)` border, accent text, JetBrains Mono |
@@ -408,68 +401,47 @@ The hero "Let's talk" / "About me" buttons are behind `const SHOW_HERO_CTAS = fa
 
 ## 9. Page Structure Reference
 
-| Route                  | Runtime | Auth  | Data Source       |
-|------------------------|---------|-------|-------------------|
-| `/`                    | edge    | —     | Static            |
-| `/about`               | edge    | —     | Static            |
-| `/blog`                | edge    | —     | Supabase          |
-| `/blog/[slug]`         | edge    | —     | Supabase          |
-| `/contact`             | edge    | —     | Static (form is client component) |
-| `/admin`               | edge    | Cookie | Supabase          |
-| `/admin/login`         | edge    | —     | —                 |
-| `/admin/posts`         | edge    | Cookie | Supabase          |
-| `/admin/posts/new`     | edge    | Cookie | —                 |
-| `/admin/posts/[id]`    | edge    | Cookie | Supabase          |
-| `/admin/messages`      | edge    | Cookie | Supabase          |
+Everything runs on the Node.js runtime (no `runtime = 'edge'` exports; the Cloudflare build is handled by OpenNext). Public pages are statically generated and refreshed by `revalidate` or by `revalidatePath` / `revalidateTag` in the admin save actions.
 
-All pages export `export const runtime = 'edge'` — required for Cloudflare Pages compatibility.
+| Route                    | Rendering                        | Auth   | Data source |
+|--------------------------|----------------------------------|--------|-------------|
+| `/`                      | static, `revalidate = 60`        | —      | featured projects, skills, blog posts; cached About content and site settings |
+| `/about`                 | static                           | —      | `about_content` (cached 1h, tag `about-content`, revalidated on save) |
+| `/projects`              | static, `revalidate = 60`        | —      | all projects; cached site settings (strip speed) |
+| `/credentials`           | static, revalidated on save      | —      | the five `credential_*` tables |
+| `/blog`                  | static, `revalidate = 60`        | —      | `blog_posts` |
+| `/blog/[slug]`           | static, `revalidate = 60`        | —      | `blog_posts`, cached site settings (JSON-LD author) |
+| `/contact`               | static (form is a client component, server action on submit) | — | `contact_messages` (write) |
+| `/admin`                 | `force-dynamic`                  | cookie | counts, recent posts and messages |
+| `/admin/login`, `/forgot-password`, `/reset-password` | `force-dynamic` | — | Better Auth |
+| `/admin/posts`, `/posts/new`, `/posts/[id]` | `force-dynamic` | cookie | `blog_posts` |
+| `/admin/projects`        | `force-dynamic`                  | cookie | `projects` |
+| `/admin/skills`, `/footer-links`, `/credentials`, `/about`, `/settings`, `/messages` | `force-dynamic` | cookie | their own tables |
 
 ---
 
-## 10. Supabase Schema
+## 10. Database
 
-### `blog_posts`
-
-| Column         | Type        | Notes                        |
-|----------------|-------------|------------------------------|
-| `id`           | uuid        | Auto-generated primary key   |
-| `title`        | text        | Required                     |
-| `slug`         | text        | Unique, auto-generated       |
-| `excerpt`      | text        | Listing preview              |
-| `content`      | text        | Raw Markdown                 |
-| `cover_image`  | text        | Optional URL                 |
-| `published`    | boolean     | false = draft, true = live   |
-| `tags`         | text[]      | Array of strings             |
-| `reading_time` | int         | Estimated minutes            |
-| `created_at`   | timestamptz | Auto                         |
-| `updated_at`   | timestamptz | Updated on edit              |
-
-### `contact_messages`
-
-| Column      | Type        | Notes                        |
-|-------------|-------------|------------------------------|
-| `id`        | uuid        | Auto-generated primary key   |
-| `name`      | text        | From contact form            |
-| `email`     | text        | From contact form            |
-| `subject`   | text        | Selected category            |
-| `message`   | text        | Message body                 |
-| `read`      | boolean     | Toggled in admin dashboard   |
-| `created_at`| timestamptz | Auto                         |
+The database is Neon Postgres through Drizzle (the original Supabase setup is gone). The full, current schema (16 tables), column notes and the migration history live in **PLANNER.md, "Database schema"**; the source of truth is `lib/db/schema.ts`. This guide used to duplicate the `blog_posts` and `contact_messages` tables here and they drifted, so they were removed on purpose.
 
 ---
 
 ## 11. Environment Variables
 
+The authoritative list, with where to get each value, is `.env.example` (and the table in README.md). In short:
+
 ```env
-# Supabase — both are public/safe (anon key, not service key)
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-
-# Admin dashboard — set a strong value before deploying
-ADMIN_PASSWORD=your_secure_password
-
-# Cloudflare Pages only — disables Next.js image optimization
-CF_PAGES=1
+DATABASE_URL=                 # Neon pooled URL
+DATABASE_URL_UNPOOLED=        # Neon direct URL (drizzle-kit)
+BETTER_AUTH_SECRET=           # openssl rand -base64 32
+BETTER_AUTH_URL=              # app base URL, differs per deploy target
+NEXT_PUBLIC_APP_URL=          # same as BETTER_AUTH_URL
+ADMIN_EMAILS=                 # comma-separated admin allowlist (unset = nobody can sign in)
+RESEND_API_KEY=               # transactional email
+RESEND_FROM_EMAIL=
+CLOUDINARY_CLOUD_NAME=        # admin image uploads (avatar, skills, About page)
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
 ```
 
 ---
@@ -488,5 +460,6 @@ CF_PAGES=1
 | 2026-09-28 | `small-ui-fixes` branch (off `main`): "What I do" section moved from a hardcoded array to a `skills` table, CRUD-able from `/admin/skills`. Each skill has an optional thumbnail (Cloudinary, own `skill-<id>` public_id per skill). Section layout changed from a 3-column grid to a single-column list of rows: image beside text on desktop, image above text on phones. Thumbnail slot background (`#222222`) is a shade lighter than the page so transparent PNG uploads still read as a tile. |
 | 2026-06-29 | Display font split back out from body: every heading/display element that was originally Syne (recovered from git history, not guessed) now uses Clash Display via Fontshare's CDN link; Plus Jakarta Sans stays for body/UI text. `--font-clash` added to `:root` with a Jakarta/sans-serif fallback chain. |
 | 2026-10-08 | Motion pass (`motion-polish`): CSS-only blur-fade reveal system, motion tokens, global reduced-motion guard, route fade, button press and focus states, navbar menu and contact form state animations. Section 8 rewritten; button snippets no longer use `transition-all` or hover grow. |
-
-> **Note:** Sections 9–11 (Page Structure, Supabase Schema, Environment Variables) predate the Neon/Drizzle/Better Auth migration and Next.js runtime changes — they describe an older version of this codebase and weren't in scope for this pass. Worth a dedicated audit separately.
+| 2026-10-08 | Palette change: neutrals become `#111111` page, `#222222` surfaces, `#333333` lines, `#444444` glow and hover borders; hero portrait added; ambient glow reduced to one `#444444` orb. A trial of pure `#000000` was reverted to `#111111` on 2026-10-10. |
+| 2026-10-10 | Stats blocks removed from the homepage and `/projects`; one shared `MarqueeStrip` (same band, speed in px/s from Settings); the hero portrait now stands on the strip. |
+| 2026-10-11 | Film grain tile (`public/grain.png`) replaces the SVG noise; About page extra block and two image slots; docs refresh (sections 3, 6, 9, 10, 11 rewritten: Supabase-era content removed, Clash Display/Fontshare replaced by Syne). |
