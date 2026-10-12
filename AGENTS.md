@@ -13,7 +13,7 @@ git config user.email "mahtamunhoquefahim@gmail.com"
 
 ```bash
 npm install
-cp .env.example .env.local   # fill in DATABASE_URL, DATABASE_URL_UNPOOLED, BETTER_AUTH_SECRET, BETTER_AUTH_URL
+cp .env.example .env.local   # fill in DATABASE_URL, DATABASE_URL_UNPOOLED, BETTER_AUTH_SECRET, BETTER_AUTH_URL, NEXT_PUBLIC_APP_URL, ADMIN_EMAILS (nobody can sign in without it); RESEND_* and CLOUDINARY_* for email and image uploads
 npm run dev
 ```
 
@@ -27,10 +27,14 @@ npm run dev
 | `npx drizzle-kit generate` | Generate a new migration from `lib/db/schema.ts` |
 | `npx drizzle-kit migrate` | Apply pending migrations to `DATABASE_URL` |
 | `npx drizzle-kit studio` | Browse the Neon DB |
+| `npx tsx scripts/export-backup.ts` | Back up the data. Run before ANY migration |
+| `npm run admin:create -- <email> '<password>' "<name>"` | Bootstrap an admin (email must be in `ADMIN_EMAILS`) |
+
+`npm run lint` does not work (`next lint` was removed in Next.js 16 and there is no ESLint config); use `npx tsc --noEmit` plus the Vercel build.
 
 ## Conventions
 
-- Stack: Next.js 16 App Router, TypeScript, Tailwind, Neon + Drizzle ORM (neon-http driver only, no node-postgres), Better Auth, Vercel + Cloudflare Pages/Workers dual deploy.
+- Stack: Next.js 16 App Router, TypeScript, Tailwind, Neon + Drizzle ORM (neon-http driver only, no node-postgres), Better Auth, Vercel (primary) + Cloudflare Workers via OpenNext (secondary) dual deploy.
 - DB access always goes through `lib/db/queries.ts` — no raw Drizzle calls from route/component files.
 - Public-facing DB reads that feed metadata or layout should go through an `unstable_cache`-wrapped function (see `getCachedSiteSettings`) with an explicit tag, and admin save actions must `revalidateTag(tag, 'max')` — in this Next.js version `revalidateTag` requires the two-arg form.
 - Admin routes follow the server/client split established in `app/admin/posts`: a server `page.tsx` does the auth check (`isAuthenticated()` from `lib/auth-utils.ts`, redirect to `/admin/login`) and data fetch, a client component owns the form/state and calls a `'use server'` action from `app/admin/actions.ts`.
@@ -39,15 +43,36 @@ npm run dev
 - Session Log entries: the `Agent:` field is ALWAYS `Claude Edge` (Fahim's rule). It applies to every entry, past and future; never write a model name or surface name (such as `claude-sonnet (chat)`) there.
 - Motion is CSS-first (no animation library). Never `transition-all`: list the properties. Scroll reveals use `components/Reveal.tsx` / `BlurWords.tsx` (blur-fade, once per view); above-the-fold entrances use the CSS-only `.blur-load` / `BlurWords mode="load"`. Hidden states live under `@media (scripting: enabled)`, and `prefers-reduced-motion` is handled globally in `globals.css`. Full rules in DESIGN_GUIDE.md section 8. Do not use `.blur-stagger` on `gap-px` grids.
 - Migrations are generated with `drizzle-kit generate`, never hand-skipped — see the Security/Gotchas note below on why `0001` broke that rule and what that costs.
+- Migration ORDER (Vercel previews and production share one database): back up, then ADD (new column with a default, new table) BEFORE merging the code that reads it; DROP a column only AFTER the code that stops reading it is live. Give the person ONE SQL statement at a time and state the order explicitly.
+- Stacked PRs (a branch built on another branch): merge bottom-up with "Create a merge commit" and retarget the next PR to `main` (or delete the merged base branch) before merging it, otherwise GitHub merges it into the old base and the work never reaches `main`. Verify with the compare API (`ahead_by` against `main`) after merging.
+- Every change updates the docs it touches (DESIGN_GUIDE.md for visual rules, PLANNER.md for schema, routes and admin features, README.md for setup) and adds a Session Log entry in the same PR.
 
 ## Security / Gotchas
 
 - **Migration snapshot chain drift**: `drizzle/0001_credentials_tables.sql` exists with no matching `drizzle/meta/0001_snapshot.json`. This means `drizzle-kit generate` diffs against `0000_snapshot.json`, not the true post-0001 state — any future `generate` run will re-propose objects that already exist in prod (this happened with `0002`, which had to be hand-trimmed down to just the actually-new `site_settings` table; `0002_snapshot.json` was kept as generated since it's a correct full-schema snapshot, which repairs the chain going forward). If you ever regenerate `0001` properly, re-verify `0002` still applies cleanly.
+- **Reads fail soft, not loud.** The data-access functions in `lib/db/queries.ts` catch database errors and return built-in defaults (site settings, About text) or empty lists (projects, skills). A missing or dropped column therefore shows up as missing content on the live site, with no error page. After any schema change, look at the live pages, not just the build status.
+- **Coupled layout values.** The hero portrait is pushed down 4rem (`bottom-[-4rem]` in `HeroPortrait.tsx`) to stand on the marquee strip; that equals `pb-16` on the hero container in `app/page.tsx`, and its `top` offset follows the h1 `clamp(3.5rem, 10vw, 9rem)`. Change them together.
+- **Misleading names kept on purpose.** `components/MintGlow.tsx` is the ambient glow (it is `#444444` now, once mint); `--font-clash` is the display font alias (it is Syne now, once Clash Display).
 - **PATs are session-only.** Never commit a token, never write one into this file, .env files, or any doc. A fresh PAT is supplied in-chat per session.
 - **neon-http driver only** — no node-postgres, no pooled connections outside what Neon's HTTP driver handles. Edge runtime compatible everywhere.
 - Build verification (`npx tsc --noEmit` + `npm run build`) requires network access to `fonts.googleapis.com` (next/font/google) and to Neon (`DATABASE_URL`) for any DB-touching build step — both are unavailable in sandboxed dev environments without egress; run the full build locally or let Vercel's build do it.
 
 ## Session Log
+
+### 2026-10-11 (docs refresh): every doc checked against the code, branch `docs-refresh` (off `main`)
+- Agent: Claude Edge
+- Request (Fahim): check every doc and `docs/PROJECT_JSON_SCHEMA.md` (linked), find stale content and update it.
+- Method: listed every doc-like file (README.md, AGENTS.md, PLANNER.md, DESIGN_GUIDE.md, docs/PROJECT_JSON_SCHEMA.md, public/llms.txt, .env.example), then checked each claim against the code (routes, `package.json` scripts, `lib/db/schema.ts`, the migration SQL files, the import parsing in `ProjectsManager.tsx` and `actions.ts`, env vars used in code, `wrangler.jsonc`, `app/layout.tsx` fonts). The session log entries themselves were NOT rewritten (history), only the static sections above them and the other docs.
+- `docs/PROJECT_JSON_SCHEMA.md` (last touched June 1): described `type` and `statusBadges` (both removed), the beta modal, and was missing that tags feed the `/projects` strip and that `featured`/`featuredOrder` are not imported. Rewritten from the actual import code; documents what is ignored (`type`, `statusBadges`), what is cleaned, and the outcome panel.
+- `README.md` (last touched June 18): brand "fahim." and the old job title, no Cloudinary env vars, no admin map, wrong Cloudflare worker URL and secrets list, lint described as working, `db:migrate` presented as the only path, project structure missing most of the app, bundle size presented as current. Fixed all of it; added the migration ordering rules and the stacked-PR rule.
+- `PLANNER.md` (last touched June 1 in its header): rewritten overview, folder tree, a complete 16-table schema (it documented 7 and still listed `status_badges`), the full migration history 0000 to 0013 (0001, 0004 to 0008 were missing), admin features (sidebar had 6 of 9 entries; status badges and BetaModal removed), env vars (Cloudinary), Cloudflare section (it is Workers, not Pages), timeline and Next steps (done items removed, real open items added).
+- `DESIGN_GUIDE.md`: section 3 still described Clash Display via Fontshare (the code uses Syne behind the `--font-clash` alias, no Fontshare request); the noise-texture note; section 9 (page structure) listed Supabase and `runtime = 'edge'`; section 10 was a Supabase schema (replaced with a pointer to PLANNER, on purpose, to stop drift); section 11 listed Supabase env vars; added changelog rows. Also corrected two stale code comments (`app/layout.tsx`, `app/globals.css`) that still said "title-font comparison branch".
+- `public/llms.txt` (AEO text): said "Dhaka" (every other place says Chattogram), "4+ years / 50+ shipped projects" (the site lists 16 projects and its own numbers were 9+ years designing and 2+ building), the old "graphic designer" lead instead of the "Aspiring AI Engineer" positioning decision, "Fahim." as the site name, no Credentials page, About described as having a timeline (that moved to Credentials). JUDGEMENT CALL: I replaced the experience claim with "designing since 2016 and building websites for 2+ years, with 16 shipped projects listed on this site", taken from facts already on the site; if "50+ shipped projects" is true (it may count design client work), put it back.
+- `.env.example`: Cloudinary comment now says it covers skills and About images too.
+- `AGENTS.md` static sections: env list for setup (ADMIN_EMAILS), commands (backup, admin bootstrap, lint does not work), Cloudflare Workers wording, and new conventions and gotchas: migration order, stacked PRs, docs-with-every-change, reads fail soft, coupled layout values, misleading names kept on purpose.
+- Left alone on purpose: all older Session Log entries (including the 2026-10-08 black-background entry and the glow experiments), the changelog rows in DESIGN_GUIDE (history), and unverifiable items (Cloudflare bundle size, whether the Cloudflare env vars are set), which are flagged as "not re-verified" in README and PLANNER instead of guessed.
+- Verified: `npx tsc --noEmit` clean (two comment-only code edits). Docs were checked against code by reading and grep, not by running the site.
+
 
 ### 2026-10-10 (grain): film grain, branch `grain` (off `about-blocks`)
 - Agent: Claude Edge

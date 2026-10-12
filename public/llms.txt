@@ -1,13 +1,14 @@
 # Mahtamun Hoque Fahim
 
-> Graphic designer, full-stack web developer, and UI/UX designer from Dhaka, Bangladesh. With 4+ years of experience and 50+ shipped projects, Fahim bridges the gap between design and engineering — doing both without a handoff. He builds things that look good and work better.
+> Aspiring AI engineer, full-stack web developer, and UI/UX designer from Chattogram, Bangladesh. Designing since 2016 and building websites for 2+ years, with 16 shipped projects listed on this site, Fahim bridges the gap between design and engineering — doing both without a handoff. He builds things that look good and work better.
 
 Fahim is a self-taught designer and developer who learned by reverse-engineering things he loved. He started designing to understand why interfaces feel the way they do, and started coding because he couldn't communicate what he wanted to developers. Both became strengths. He is open to selective freelance projects and collaborations where design and development genuinely matter.
 
 ## Site Pages
 
-- [Home](https://mahtamunhoquefahim.vercel.app/): Hero, overview of disciplines (Graphic Design, UI/UX, Full-Stack Dev), selected projects, and recent blog posts.
-- [About](https://mahtamunhoquefahim.vercel.app/about): Personal backstory, philosophy, timeline from 2019 to present, and full tools & stack list.
+- [Home](https://mahtamunhoquefahim.vercel.app/): Hero ("Build, Deploy, Secure"), what he does, selected projects, and recent blog posts.
+- [About](https://mahtamunhoquefahim.vercel.app/about): The honest story: personal backstory, how he learned design and code, and what he cares about.
+- [Credentials](https://mahtamunhoquefahim.vercel.app/credentials): Timeline, certifications, community roles, and open-source contributions.
 - [Projects](https://mahtamunhoquefahim.vercel.app/projects): All 16 shipped projects, with a ticker of the 26 technologies used across them.
 - [Blog](https://mahtamunhoquefahim.vercel.app/blog): 12 articles on design, development, AI, learning resources, and personal reflections.
 - [Contact](https://mahtamunhoquefahim.vercel.app/contact): Inquiry form for project collaborations.
@@ -17,7 +18,7 @@ Fahim is a self-taught designer and developer who learned by reverse-engineering
 - [Bindu](https://bindu-here.vercel.app/): E2E encrypted anonymous messaging inbox. Shared links let anyone send private messages; replies use emoji vibes. Client-side WebCrypto — the server never reads messages. Stack: Next.js, TypeScript, Tailwind CSS, Neon, WebCrypto.
 - [Cleanify](https://doc-cleanify.vercel.app): Document conversion tool that turns uploaded images or scans into clean, typed PDFs. Stack: Next.js, TypeScript, Tailwind CSS.
 - [D-SHASTHO](https://github.com/Tanvir83775757676/D-SHASTHO): AI-powered diabetes management platform for Bangladesh's 84 million at-risk diabetics. Features glucose analytics, consultations with 200+ doctors, a Bengali food GI guide, medication reminders, and CGM monitoring. Built with Cox's Bazar Medical College Debating Club. Stack: Next.js, TypeScript, Drizzle ORM, Neon, Tailwind CSS.
-- [Fahim. (this site)](https://mahtamunhoquefahim.vercel.app): Personal portfolio and blog. Next.js 16 App Router with Turbopack, Drizzle ORM on Neon PostgreSQL, Better Auth with email-allowlist admin, Resend for email, and a full admin panel.
+- [Mahtamun. (this site)](https://mahtamunhoquefahim.vercel.app): Personal portfolio and blog. Next.js 16 App Router, Drizzle ORM on Neon PostgreSQL, Better Auth with email-allowlist admin, Resend for email, Cloudinary image uploads, and an admin dashboard that edits almost every page.
 - [Fontina](https://fontina-convert.vercel.app): Browser-based font converter. Turns any font file into WOFF2 using a WASM build of fonttools — no server required. Stack: Next.js, TypeScript, Tailwind CSS, WASM, fonttools.
 - [Formify](https://oneformify.vercel.app): Form-building SaaS for organizations. Create forms, collect responses, export as CSV/JSON/PDF via SheetJS and jsPDF. Stack: Next.js, TypeScript, Tailwind CSS, Neon, Clerk. (Deprecated)
 - [LearnBEE](https://github.com/mahtamun-hoque-fahim/learn-BEE): University-level Basic Electrical Engineering platform with animated theory, KaTeX formulas, interactive SVG circuit simulators, randomised quizzes, and exam-mode prep. Stack: Next.js, TypeScript, Tailwind CSS, Neon, KaTeX.
