@@ -10,7 +10,7 @@
   --border: #333333;
   --text: #F3F6F4;
   --muted: #8A938E;
-  --font-clash: var(--font-syne), sans-serif; /* title-font comparison: Syne instead of Clash Display */
+  --font-clash: var(--font-syne), sans-serif; /* legacy name: the display font is Syne (it used to be Clash Display) */
 
   /* Motion tokens (see DESIGN_GUIDE.md section 8) */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);     /* entrances, press feedback */

@@ -6,11 +6,10 @@ import MintGlow from '@/components/MintGlow'
 import { getCachedSiteSettings } from '@/lib/db/queries'
 import './globals.css'
 
-// Title-font comparison branch: display/heading role uses Syne (same as
-// main), everything else (palette, body font, grid, etc.) stays on the
-// mint rebrand from blog/tags-bottom-placement. See globals.css :root —
-// --font-clash is repointed to var(--font-syne) below rather than the
-// actual Clash Display typeface, so no component files needed touching.
+// Fonts: Syne for display/headings, Plus Jakarta Sans for body, JetBrains
+// Mono for labels. The display font used to be Clash Display; --font-clash
+// (globals.css :root) is kept as an alias of var(--font-syne) so no
+// component had to change. See DESIGN_GUIDE.md section 3.
 const syne = Syne({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
