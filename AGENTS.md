@@ -70,6 +70,16 @@ npm run dev
 - Docs: DESIGN_GUIDE "About page blocks" rewritten, PLANNER (`about_content` columns, migration 0014, admin About). Helper renamed `squareImage` to `fitImage(url, w, h)`.
 - Verified: `npx tsc --noEmit` clean; Tailwind generates the sticky, 3:4 aspect and max-height rules. NOT verified in a browser or with a real upload: that the image actually stays pinned while the text scrolls, the layout at phone width, and switching layouts in the dashboard.
 
+### 2026-10-13 (portrait higher): head above "Build", branch `portrait-higher` (off `main`)
+- Agent: Claude Edge
+- Request (Fahim, screenshot from a different laptop, about 1550px wide and tall): he wants himself "up", the head higher than the word "Build" (in the screenshot the hair top was about level with the top of "Build").
+- Change: `HeroPortrait.tsx` `top` offset from `-0.04` to `-0.3` times the h1 font size (`clamp(3.5rem, 10vw, 9rem)`). The head now sits about a third of a capital letter above the top of "Build" at every screen size, since the offset scales with the headline.
+- Trade-off he should know: the waist cut has to stay on the marquee strip, so a higher head means a taller figure, and `aspect-[571/907]` makes it wider too: about 7% bigger at 1366px (roughly 535px high before, 570px after). It cannot be moved up at the same size without lifting the cut off the strip. If he wants the same size back, the options are a smaller rise (change `-0.3`) or a different crop of the photo.
+- Navbar clearance: the extra rise needs the 128px `pt-32` the hero section has above its content. On very short windows (about 600px high) the head ends up roughly 10px below the navbar's bottom edge; if it ever touches, reduce the rise or increase `pt-32`.
+- The ambient glow follows automatically (it centres on the portrait box, 38% down).
+- Docs: `HeroPortrait.tsx` comment and DESIGN_GUIDE "Hero portrait" updated.
+- Verified: `npx tsc --noEmit` clean; Tailwind generates the arbitrary `top` value. NOT verified in a browser: the real position on his laptop, and the clearance below the navbar on short windows.
+
 
 ### 2026-10-11 (docs refresh): every doc checked against the code, branch `docs-refresh` (off `main`)
 - Agent: Claude Edge
