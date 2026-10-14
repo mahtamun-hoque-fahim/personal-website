@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Upload, X } from 'lucide-react'
 import type { AboutContent } from '@/lib/db/queries'
-import { MAX_AVATAR_BYTES } from '@/lib/constants'
+import { ABOUT_LAYOUTS, MAX_AVATAR_BYTES, type AboutLayout } from '@/lib/constants'
 import {
   removeAboutImageAction,
   saveAboutContentAction,
@@ -29,6 +29,10 @@ export default function AboutForm({ about }: Props) {
   // Images are saved the moment they are uploaded or removed (not with "Save changes").
   const [extraImageUrl, setExtraImageUrl] = useState(about.extraImageUrl)
   const [storyImageUrl, setStoryImageUrl] = useState(about.storyImageUrl)
+  const [tallImageUrl, setTallImageUrl] = useState(about.tallImageUrl)
+  const [layout, setLayout] = useState<AboutLayout>(
+    (ABOUT_LAYOUTS as readonly string[]).includes(about.layout) ? (about.layout as AboutLayout) : 'beside'
+  )
   const [storyHeading, setStoryHeading] = useState(about.storyHeading)
   // One textarea, paragraphs separated by a blank line.
   const [story, setStory] = useState(about.storyParagraphs.join('\n\n'))
@@ -65,6 +69,7 @@ export default function AboutForm({ about }: Props) {
         intro,
         storyHeading,
         storyParagraphs: story.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
+        layout,
         extraHeading,
         extraParagraphs: extra.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
         ctaHeading,
@@ -230,6 +235,55 @@ export default function AboutForm({ about }: Props) {
         </Field>
       </section>
 
+      {/* Layout */}
+      <section className="space-y-5">
+        <SectionTitle>Layout</SectionTitle>
+        <p className="text-xs text-[#8A938E]" style={{ fontFamily: 'var(--font-jakarta)' }}>
+          How the two text blocks below are arranged on the About page. Switching layout never
+          deletes an uploaded image; it only changes which ones are shown. Saved with "Save changes".
+          On phones every layout stacks (image first, nothing pinned).
+        </p>
+        <div className="grid gap-3 sm:grid-cols-3" role="radiogroup" aria-label="About page layout">
+          {LAYOUT_OPTIONS.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              role="radio"
+              aria-checked={layout === option.value}
+              onClick={() => setLayout(option.value)}
+              className={`rounded-lg border p-4 text-left transition-colors ${
+                layout === option.value
+                  ? 'border-[#3DF49A] bg-[#3DF49A]/5'
+                  : 'border-[#333333] hover:border-[#8A938E]'
+              }`}
+            >
+              <span
+                className="block text-sm font-semibold text-[#F3F6F4]"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
+              >
+                {option.label}
+              </span>
+              <span
+                className="mt-1 block text-xs text-[#8A938E]"
+                style={{ fontFamily: 'var(--font-jakarta)' }}
+              >
+                {option.description}
+              </span>
+            </button>
+          ))}
+        </div>
+        {layout === 'tall' && (
+          <Field label="Tall image (pinned on the left)">
+            <AboutImageField
+              slot="tall"
+              url={tallImageUrl}
+              onChange={setTallImageUrl}
+              hint="Portrait, 3:4 ratio (for example 1200 × 1600 px, at least 900 × 1200). Shown as a tall frame, cropped to fill; on phones it becomes 4:3. Max 4 MB. Saved as soon as it uploads. Without one, this layout falls back to text only."
+            />
+          </Field>
+        )}
+      </section>
+
       {/* Extra block (above the story) */}
       <section className="space-y-5">
         <SectionTitle>Extra block</SectionTitle>
@@ -256,9 +310,16 @@ export default function AboutForm({ about }: Props) {
           />
           <Hint>Leave a blank line between paragraphs. Up to 12 paragraphs.</Hint>
         </Field>
-        <Field label="Image (left)">
-          <AboutImageField slot="extra" url={extraImageUrl} onChange={setExtraImageUrl} />
-        </Field>
+        {layout === 'beside' && (
+          <Field label="Image (left)">
+            <AboutImageField
+              slot="extra"
+              url={extraImageUrl}
+              onChange={setExtraImageUrl}
+              hint="Square, 1:1 ratio (for example 1200 × 1200 px, at least 900 × 900). Shown as a square, cropped to fill. Max 4 MB. Saved as soon as it uploads."
+            />
+          </Field>
+        )}
       </section>
 
       {/* Story */}
@@ -283,9 +344,16 @@ export default function AboutForm({ about }: Props) {
           />
           <Hint>Leave a blank line between paragraphs. Up to 12 paragraphs.</Hint>
         </Field>
-        <Field label="Image (right)">
-          <AboutImageField slot="story" url={storyImageUrl} onChange={setStoryImageUrl} />
-        </Field>
+        {layout === 'beside' && (
+          <Field label="Image (left)">
+            <AboutImageField
+              slot="story"
+              url={storyImageUrl}
+              onChange={setStoryImageUrl}
+              hint="Square, 1:1 ratio (for example 1200 × 1200 px, at least 900 × 900). Shown as a square, cropped to fill. Max 4 MB. Saved as soon as it uploads."
+            />
+          </Field>
+        )}
       </section>
 
       {/* CTA */}
@@ -403,6 +471,24 @@ function Hint({ children }: { children: React.ReactNode }) {
   )
 }
 
+const LAYOUT_OPTIONS: { value: AboutLayout; label: string; description: string }[] = [
+  {
+    value: 'beside',
+    label: 'Images beside text',
+    description: 'Both blocks: image on the left, text on the right.',
+  },
+  {
+    value: 'text',
+    label: 'Text only',
+    description: 'No images. The two blocks stacked, one above the other.',
+  },
+  {
+    value: 'tall',
+    label: 'Tall image',
+    description: 'One tall image pinned on the left while the two text blocks scroll on the right.',
+  },
+]
+
 /**
  * Upload / replace / remove for one About-page image slot. Uploads go straight
  * to Cloudinary through a server action and are saved immediately; the page
@@ -412,10 +498,12 @@ function AboutImageField({
   slot,
   url,
   onChange,
+  hint,
 }: {
-  slot: 'extra' | 'story'
+  slot: 'extra' | 'story' | 'tall'
   url: string | null
   onChange: (url: string | null) => void
+  hint: string
 }) {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -447,7 +535,9 @@ function AboutImageField({
     formData.set('file', file)
     try {
       const updated = await uploadAboutImageAction(formData)
-      onChange(slot === 'extra' ? updated.extraImageUrl : updated.storyImageUrl)
+      onChange(
+        slot === 'extra' ? updated.extraImageUrl : slot === 'story' ? updated.storyImageUrl : updated.tallImageUrl
+      )
       router.refresh()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload failed.')
@@ -524,7 +614,7 @@ function AboutImageField({
             </button>
           )}
         </div>
-        <Hint>Shown as a square (cropped to fill), so a square image works best. Max 4MB. Saved as soon as it uploads.</Hint>
+        <Hint>{hint}</Hint>
         {error && (
           <p className="text-xs text-red-400" style={{ fontFamily: 'var(--font-jakarta)' }}>
             {error}

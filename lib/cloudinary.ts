@@ -155,12 +155,13 @@ export async function uploadSkillImageToCloudinary(file: File, skillId: string):
 }
 
 /**
- * About-page images (Admin > About): two fixed slots, `extra` (beside the new
- * text block above the story) and `story` (beside the story). Same signed
+ * About-page images (Admin > About): three fixed slots, `extra` (beside the
+ * extra text block), `story` (beside the story) and `tall` (the pinned tall
+ * image of the 'tall' layout). Same signed
  * upload as the avatar/skills; a fixed public_id per slot so re-uploading a
  * slot overwrites it instead of orphaning images. PNG transparency is kept.
  */
-export type AboutImageSlot = 'extra' | 'story'
+export type AboutImageSlot = 'extra' | 'story' | 'tall'
 
 export async function uploadAboutImageToCloudinary(
   file: File,

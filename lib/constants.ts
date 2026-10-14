@@ -8,3 +8,10 @@ export const MAX_AVATAR_BYTES = 4 * 1024 * 1024
 export const MARQUEE_SPEED_MIN = 10
 export const MARQUEE_SPEED_MAX = 200
 export const MARQUEE_SPEED_DEFAULT = 60
+
+// About page layout (Admin > About). 'beside': both blocks with the image on the
+// left and text on the right; 'text': no images, blocks stacked; 'tall': one
+// tall image pinned on the left while the two text blocks scroll on the right.
+export const ABOUT_LAYOUTS = ['beside', 'text', 'tall'] as const
+export type AboutLayout = (typeof ABOUT_LAYOUTS)[number]
+export const ABOUT_LAYOUT_DEFAULT: AboutLayout = 'beside'

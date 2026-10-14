@@ -325,7 +325,10 @@ export const aboutContent = pgTable('about_content', {
   extraHeading: text('extra_heading').notNull().default(''),
   extraParagraphs: text('extra_paragraphs').array().notNull().default(sql`'{}'::text[]`),
   extraImageUrl: text('extra_image_url'), // Cloudinary, uploaded from /admin/about
-  storyImageUrl: text('story_image_url'), // image beside the story (right), same
+  storyImageUrl: text('story_image_url'), // image beside the story, same
+  // Page layout switch: 'beside' | 'text' | 'tall' (see lib/constants.ts ABOUT_LAYOUTS).
+  layout: text('layout').notNull().default('beside'),
+  tallImageUrl: text('tall_image_url'), // the tall pinned image used by layout 'tall'
   ctaHeading: text('cta_heading').notNull().default('Want to work together?'),
   ctaText: text('cta_text')
     .notNull()

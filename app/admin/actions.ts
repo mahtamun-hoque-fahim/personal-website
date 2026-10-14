@@ -1,6 +1,7 @@
 'use server'
 
 import {
+  ABOUT_LAYOUTS,
   MARQUEE_SPEED_DEFAULT,
   MARQUEE_SPEED_MAX,
   MARQUEE_SPEED_MIN,
@@ -149,6 +150,7 @@ export type AboutContentInput = Pick<
   | 'storyParagraphs'
   | 'extraHeading'
   | 'extraParagraphs'
+  | 'layout'
   | 'ctaHeading'
   | 'ctaText'
   | 'ctaPrimaryLabel'
@@ -212,6 +214,11 @@ export async function saveAboutContentAction(input: AboutContentInput) {
     throw new Error('An extra block paragraph is too long (max 1500 characters).')
   }
 
+  const layout = input.layout
+  if (!(ABOUT_LAYOUTS as readonly string[]).includes(layout as string)) {
+    throw new Error('Unknown About page layout.')
+  }
+
   const updated = await updateAboutContent({
     headlineTop: clean(input.headlineTop, 120, 'Headline'),
     headlineAccent: clean(input.headlineAccent, 120, 'Accent headline'),
@@ -220,6 +227,7 @@ export async function saveAboutContentAction(input: AboutContentInput) {
     storyParagraphs: paragraphs,
     extraHeading,
     extraParagraphs,
+    layout,
     ctaHeading: clean(input.ctaHeading, 120, 'CTA heading'),
     ctaText: clean(input.ctaText, 300, 'CTA text'),
     ctaPrimaryLabel: clean(input.ctaPrimaryLabel, 40, 'Primary button label'),
@@ -243,8 +251,14 @@ export async function saveAboutContentAction(input: AboutContentInput) {
 }
 
 function parseAboutSlot(value: unknown): AboutImageSlot {
-  if (value === 'extra' || value === 'story') return value
+  if (value === 'extra' || value === 'story' || value === 'tall') return value
   throw new Error('Unknown image slot.')
+}
+
+function aboutImagePatch(slot: AboutImageSlot, url: string | null) {
+  if (slot === 'extra') return { extraImageUrl: url }
+  if (slot === 'story') return { storyImageUrl: url }
+  return { tallImageUrl: url }
 }
 
 export async function uploadAboutImageAction(formData: FormData) {
@@ -262,9 +276,7 @@ export async function uploadAboutImageAction(formData: FormData) {
   }
 
   const url = await uploadAboutImageToCloudinary(file, slot)
-  const updated = await updateAboutContent(
-    slot === 'extra' ? { extraImageUrl: url } : { storyImageUrl: url }
-  )
+  const updated = await updateAboutContent(aboutImagePatch(slot, url))
 
   revalidateTag('about-content', 'max')
   revalidatePath('/about')
@@ -279,9 +291,7 @@ export async function removeAboutImageAction(slotInput: string) {
   }
 
   const slot = parseAboutSlot(slotInput)
-  const updated = await updateAboutContent(
-    slot === 'extra' ? { extraImageUrl: null } : { storyImageUrl: null }
-  )
+  const updated = await updateAboutContent(aboutImagePatch(slot, null))
 
   revalidateTag('about-content', 'max')
   revalidatePath('/about')
