@@ -2,10 +2,14 @@
  * Homepage hero portrait: transparent cutout standing on the marquee strip.
  *
  * - The parent must be `relative` and contain the headline + intro row.
- * - Vertical: the top sits just above the wrapper's top edge (`top` =
- *   -0.04 x the h1 font size, so it follows the headline's
- *   `clamp(3.5rem, 10vw, 9rem)`), which puts the top of the head level with
- *   the top of the "Build" ascenders. The bottom is pushed down 4rem
+ * - Vertical: the top sits ABOVE the wrapper's top edge (`top` =
+ *   -0.3 x the h1 font size, so it follows the headline's
+ *   `clamp(3.5rem, 10vw, 9rem)`), which puts the top of the head about a
+ *   third of a capital letter's height above the top of "Build" (it was
+ *   -0.04, head level with "Build", before Oct 2026). Because the waist cut
+ *   is fixed on the strip, raising the head makes the figure taller, and so
+ *   wider (about +7% at 1366px). It needs the 128px `pt-32` of room the hero
+ *   section has above its content to stay clear of the navbar. The bottom is pushed down 4rem
  *   (`bottom-[-4rem]`) to land exactly on the top border of the marquee strip
  *   underneath. That 4rem is the `pb-16` on the hero container in app/page.tsx;
  *   the clamp must match the h1 there too. Height therefore comes from the
@@ -30,7 +34,7 @@ export default function HeroPortrait() {
   return (
     <div
       data-glow-anchor
-      className="blur-load pointer-events-none absolute right-[10.5%] top-[calc(clamp(3.5rem,10vw,9rem)*-0.04)] bottom-[-4rem] -z-10 hidden aspect-[571/907] sm:block"
+      className="blur-load pointer-events-none absolute right-[10.5%] top-[calc(clamp(3.5rem,10vw,9rem)*-0.3)] bottom-[-4rem] -z-10 hidden aspect-[571/907] sm:block"
       style={
         {
           '--reveal-delay': '220ms',
