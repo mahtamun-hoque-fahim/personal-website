@@ -663,6 +663,8 @@ export const DEFAULT_ABOUT_CONTENT: AboutContent = {
   extraParagraphs: [],
   extraImageUrl: null,
   storyImageUrl: null,
+  layout: 'beside',
+  tallImageUrl: null,
   ctaHeading: 'Want to work together?',
   ctaText: "I'm selective about what I take on, which means I care about what you're building.",
   ctaPrimaryLabel: 'Get in touch',

@@ -19,24 +19,92 @@ export const metadata: Metadata = {
 }
 
 /**
- * Cloudinary delivers a ready-made square: 900px, smart-cropped around the
- * subject (`g_auto`), compressed (`q_auto`) and in the best format for the
+ * Cloudinary delivers a ready-made crop at the size we display: smart-cropped
+ * around the subject (`g_auto`), compressed (`q_auto`), best format for the
  * browser (`f_auto`), instead of the raw upload. Other hosts pass through.
  */
-function squareImage(url: string | null): string | null {
+function fitImage(url: string | null, width: number, height: number): string | null {
   if (!url) return null
   const marker = '/image/upload/'
   const i = url.indexOf(marker)
   if (i === -1) return url
   const at = i + marker.length
-  return `${url.slice(0, at)}c_fill,g_auto,w_900,h_900,q_auto,f_auto/${url.slice(at)}`
+  return `${url.slice(0, at)}c_fill,g_auto,w_${width},h_${height},q_auto,f_auto/${url.slice(at)}`
+}
+
+/** Heading + paragraphs of one text block. */
+function TextBlock({ heading, paragraphs }: { heading: string; paragraphs: string[] }) {
+  return (
+    <div>
+      {heading && (
+        <BlurWords
+          as="h2"
+          text={heading}
+          className="text-3xl font-bold text-[#F3F6F4] mb-6"
+          style={{ fontFamily: 'var(--font-clash)' }}
+        />
+      )}
+      <div
+        className="text-[#8A938E] leading-relaxed space-y-4 text-base"
+        style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+      >
+        {paragraphs.map((paragraph, i) => (
+          <p key={i}>{paragraph}</p>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/** One block of the 'beside' and 'text' layouts: image on the left (when there is one), text on the right. */
+function BlockRow({
+  image,
+  alt,
+  heading,
+  paragraphs,
+}: {
+  image: string | null
+  alt: string
+  heading: string
+  paragraphs: string[]
+}) {
+  return (
+    <div
+      className={cn(
+        'grid gap-10 md:gap-16',
+        image && 'md:grid-cols-[minmax(0,36.5fr)_minmax(0,63.5fr)] md:items-start'
+      )}
+    >
+      {image && (
+        <Reveal style={{ '--blur-from': '3px' } as CSSProperties}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={image}
+            alt={alt}
+            width={900}
+            height={900}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl object-cover"
+          />
+        </Reveal>
+      )}
+      <div className={image ? undefined : 'max-w-2xl'}>
+        <TextBlock heading={heading} paragraphs={paragraphs} />
+      </div>
+    </div>
+  )
 }
 
 export default async function AboutPage() {
   const about = await getCachedAboutContent()
   const hasExtraBlock = Boolean(about.extraHeading) || about.extraParagraphs.length > 0
-  const extraImage = squareImage(about.extraImageUrl)
-  const storyImage = squareImage(about.storyImageUrl)
+  // 'beside' | 'text' | 'tall' (Admin > About > Layout); anything unexpected means 'beside'.
+  const layout = about.layout === 'text' || about.layout === 'tall' ? about.layout : 'beside'
+  const extraImage = layout === 'beside' ? fitImage(about.extraImageUrl, 900, 900) : null
+  const storyImage = layout === 'beside' ? fitImage(about.storyImageUrl, 900, 900) : null
+  // The tall layout needs its image; without one it falls back to text only.
+  const tallImage = layout === 'tall' ? fitImage(about.tallImageUrl, 1200, 1600) : null
 
   return (
     <>
@@ -64,81 +132,56 @@ export default async function AboutPage() {
         </section>
 
         {/* ── EXTRA BLOCK + STORY ── */}
-        {/* Wireframe: extra block = image left, text right; story = text left, image right.
-            Column split is 36.5% image / 63.5% text. No cell borders (they were only
-            there to explain the layout). The extra block hides while empty, and either
-            image is optional: without one the text simply takes the full width. */}
+        {/* Three layouts, chosen in Admin > About (column split 36.5% / 63.5%):
+            - beside (default): both blocks, image on the left, text on the right
+            - text: no images, the two blocks stacked
+            - tall: one tall image pinned on the left (sticky from md up) while the
+              two text blocks scroll on the right
+            The extra block hides while empty; images are optional in every layout. */}
         <section className="border-t border-[#333333]">
-          <div className="max-w-6xl mx-auto px-6 py-20 space-y-24">
-            {hasExtraBlock && (
-              <div
-                className={cn(
-                  'grid gap-10 md:gap-16',
-                  extraImage && 'md:grid-cols-[minmax(0,36.5fr)_minmax(0,63.5fr)] md:items-start'
-                )}
-              >
-                {extraImage && (
-                  <Reveal style={{ '--blur-from': '3px' } as CSSProperties}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={extraImage}
-                      alt={about.extraHeading}
-                      width={900}
-                      height={900}
-                      loading="lazy"
-                      decoding="async"
-                      className="aspect-square w-full rounded-xl object-cover"
-                    />
-                  </Reveal>
-                )}
-                <div className={extraImage ? undefined : 'max-w-2xl'}>
-                  {about.extraHeading && (
-                    <BlurWords as="h2" text={about.extraHeading} className="text-3xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
-                  )}
-                  <div
-                    className="text-[#8A938E] leading-relaxed space-y-4 text-base"
-                    style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
-                  >
-                    {about.extraParagraphs.map((paragraph, i) => (
-                      <p key={i}>{paragraph}</p>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div
-              className={cn(
-                'grid gap-10 md:gap-16',
-                storyImage && 'md:grid-cols-[minmax(0,63.5fr)_minmax(0,36.5fr)] md:items-start'
-              )}
-            >
-              <div className={storyImage ? undefined : 'max-w-2xl'}>
-                <BlurWords as="h2" text={about.storyHeading} className="text-3xl font-bold text-[#F3F6F4] mb-6" style={{ fontFamily: 'var(--font-clash)' }} />
-                <div
-                  className="text-[#8A938E] leading-relaxed space-y-4 text-base"
-                  style={{ fontFamily: 'var(--font-jakarta)', fontWeight: 300 }}
+          <div className="max-w-6xl mx-auto px-6 py-20">
+            {tallImage ? (
+              <div className="grid gap-10 md:gap-16 md:grid-cols-[minmax(0,36.5fr)_minmax(0,63.5fr)] md:items-start">
+                <Reveal
+                  className="md:sticky md:top-28"
+                  style={{ '--blur-from': '3px' } as CSSProperties}
                 >
-                  {about.storyParagraphs.map((paragraph, i) => (
-                    <p key={i}>{paragraph}</p>
-                  ))}
-                </div>
-              </div>
-              {storyImage && (
-                <Reveal style={{ '--blur-from': '3px' } as CSSProperties}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={storyImage}
-                    alt={about.storyHeading}
-                    width={900}
-                    height={900}
+                    src={tallImage}
+                    alt={about.extraHeading || about.storyHeading}
+                    width={1200}
+                    height={1600}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-square w-full rounded-xl object-cover"
+                    className="aspect-[4/3] w-full rounded-xl object-cover md:aspect-[3/4] md:max-h-[calc(100vh-9rem)]"
                   />
                 </Reveal>
-              )}
-            </div>
+                <div className="space-y-24">
+                  {hasExtraBlock && (
+                    <TextBlock heading={about.extraHeading} paragraphs={about.extraParagraphs} />
+                  )}
+                  <TextBlock heading={about.storyHeading} paragraphs={about.storyParagraphs} />
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-24">
+                {hasExtraBlock && (
+                  <BlockRow
+                    image={extraImage}
+                    alt={about.extraHeading}
+                    heading={about.extraHeading}
+                    paragraphs={about.extraParagraphs}
+                  />
+                )}
+                <BlockRow
+                  image={storyImage}
+                  alt={about.storyHeading}
+                  heading={about.storyHeading}
+                  paragraphs={about.storyParagraphs}
+                />
+              </div>
+            )}
           </div>
         </section>
 
