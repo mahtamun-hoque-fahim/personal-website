@@ -59,6 +59,18 @@ npm run dev
 
 ## Session Log
 
+### 2026-10-13 (about-layouts): switchable About layouts, branch `about-layouts` (off `main`)
+- Agent: Claude Edge
+- Request (Fahim, with a screenshot of the live About page): (1) the honest story gets its text on the right; (2) a switchable layout with no images, two blocks only; (3) a switchable layout with one long image on the left, fixed, and the two text blocks on the right scrolling; keep ratios and resolutions as hints in the dashboard.
+- Done: `about_content.layout` (`'beside'` default | `'text'` | `'tall'`) and `tall_image_url`; Admin > About has a "Layout" section with three cards and shows only the image fields that matter for the chosen layout; a third Cloudinary slot `tall` (`about-tall`); `saveAboutContentAction` rejects unknown layouts. Page: `beside` has both blocks image-left / text-right (this is point 1: the story used to have its image on the right), `text` stacks the two blocks with no images, `tall` pins one 3:4 image with `position: sticky` (from `md` up, `top-28`, height capped to the window) while the two text blocks scroll on the right, and falls back to `text` when no tall image is uploaded. On phones everything stacks and nothing is pinned.
+- Interpretations (his "go" accepted them): "fixed" = pinned while the page scrolls (not a scrollable box with its own scrollbar); the tall image is its own upload slot so it can be a different photo; in `text` the two blocks are stacked, not side by side; an empty extra block still hides in every layout.
+- Dashboard hints: square images 1:1 (for example 1200 x 1200, at least 900 x 900), tall image 3:4 (for example 1200 x 1600, at least 900 x 1200), 4 MB max, shown beside each upload.
+- DATABASE (not applied by me): `drizzle/0014_about_layout.sql`: `ALTER TABLE "about_content" ADD COLUMN "layout" text DEFAULT 'beside' NOT NULL;` and `ALTER TABLE "about_content" ADD COLUMN "tall_image_url" text;`. Additive, safe for the code on `main`. Run each statement on its own in Neon BEFORE merging (back up first). If the code deploys first, `getAboutContent()` fails on the missing columns and quietly falls back to the built-in default About text.
+- Sticky depends on `body { overflow-x: hidden }` propagating to the viewport, which only happens while `html` has no overflow of its own (noted in DESIGN_GUIDE). Do not add `overflow` to `html` or a wrapper around the About page.
+- Docs: DESIGN_GUIDE "About page blocks" rewritten, PLANNER (`about_content` columns, migration 0014, admin About). Helper renamed `squareImage` to `fitImage(url, w, h)`.
+- Verified: `npx tsc --noEmit` clean; Tailwind generates the sticky, 3:4 aspect and max-height rules. NOT verified in a browser or with a real upload: that the image actually stays pinned while the text scrolls, the layout at phone width, and switching layouts in the dashboard.
+
+
 ### 2026-10-11 (docs refresh): every doc checked against the code, branch `docs-refresh` (off `main`)
 - Agent: Claude Edge
 - Request (Fahim): check every doc and `docs/PROJECT_JSON_SCHEMA.md` (linked), find stale content and update it.

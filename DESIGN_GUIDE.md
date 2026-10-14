@@ -364,6 +364,26 @@ A fixed full-screen layer above everything (`body::before` in `globals.css`), so
 
 ### About page blocks
 
+Two text blocks above the call to action: the EXTRA block (heading plus text, hidden while both are empty) and the STORY block ("The honest story"). How they are arranged is a dashboard switch, `about_content.layout`, edited in Admin > About > Layout (column split 36.5% / 63.5% in every layout, no borders):
+
+| Layout | What it shows |
+|--------|---------------|
+| `beside` (default) | Both blocks with the image on the LEFT and the text on the right (the story used to have its image on the right). Two square images (`extra_image_url`, `story_image_url`). |
+| `text` | No images. The two blocks stacked, each text column `max-w-2xl`. |
+| `tall` | One tall image (`tall_image_url`, 3:4, 4:3 on phones) pinned on the left with `position: sticky` (`md:sticky md:top-28`, `md:max-h-[calc(100vh-9rem)]` so it never outgrows the window) while the two text blocks scroll on the right. Without a tall image it falls back to `text`. |
+
+Every part is optional: a block without an image lets its text take the full width, and switching layouts never deletes an uploaded image (the three slots are separate). On phones every layout stacks, image first, nothing pinned. Images are lazy-loaded, reveal with a light blur, and are `rounded-xl` with `object-cover`. `fitImage(url, w, h)` in `app/about/page.tsx` asks Cloudinary for a smart-cropped (`g_auto`), compressed, best-format version at the displayed size (900x900 for the squares, 1200x1600 for the tall one). Everything is edited in Admin > About, including the image uploads (Cloudinary, `personal-website/about/about-extra`, `about-story`, `about-tall`); the dashboard shows the recommended ratio and resolution next to each upload (square 1:1, at least 900 x 900; tall 3:4, at least 900 x 1200). `position: sticky` works because `body { overflow-x: hidden }` propagates to the viewport as long as `html` has no overflow of its own: do not add `overflow` to `html` or to any wrapper around the About page.
+
+### Film grain
+
+A fixed full-screen layer above everything (`body::before` in `globals.css`), so text, cards and the portrait all share one texture. It is a pre-made seamless monochrome noise tile, `public/grain.png` (256px, 32 gray levels, about 48 KB), repeated at 256px, with strength in one variable: `--grain-opacity: 0.04`. Replaced the earlier runtime SVG `feTurbulence` layer (about 1.6% effective, chromatic, and slow on Safari).
+- **Why:** the glow spans only about a dozen gray levels on the near-black page, which an 8-bit display shows as concentric rings; about 4% grain (std about 2.3 levels) dithers them away. It also ties the black-and-white portrait to the page.
+- **Costs and side effects:** grain lifts dark areas, so flat `#111111` reads about `#151515` on screen (the token is deliberately not compensated). Above 5% it starts to dull small gray text (`#5C615E`).
+- **Rules:** static, no animation, no `mix-blend-mode` (a blend mode makes a full-screen layer re-composite on every scroll frame). Off in the admin (`body:has([data-admin])`, the admin layout carries `data-admin`), in print, under `forced-colors` and `prefers-contrast: more`.
+- **Regenerating the tile:** any seamless gaussian noise works (mean 128, std about 57, light blur with wrap-around so the edges tile); keep it monochrome.
+
+### About page blocks
+
 Two text blocks above the call to action, laid out as a wireframe (the cell borders in that wireframe were only explanatory; the real page has none): the EXTRA block (new) is image on the left (36.5% of the width) and heading plus text on the right; the STORY block is text on the left (63.5%) and image on the right. Both images are square (`aspect-square`, `object-cover`, `rounded-xl`), lazy-loaded, reveal with a light blur, and stack on phones (image first for the extra block, text first for the story). Every part is optional: the extra block does not render while its heading and text are both empty, and a block without an image lets the text take the full width. Everything comes from `about_content` and is edited in Admin > About (including the two image uploads, stored in Cloudinary at `personal-website/about/about-extra` and `about-story`). `squareImage()` in `app/about/page.tsx` asks Cloudinary for a 900px smart-cropped (`g_auto`), compressed, best-format version instead of the raw upload.
 
 ### Hero portrait
